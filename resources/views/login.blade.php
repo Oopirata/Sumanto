@@ -10,8 +10,8 @@
     <form action="login.php" method="post">
         <input type="email" name="email" placeholder="Masukkan E-Mail" required>
         <input type="password" name="password" placeholder="Masukkan Password" required>
-        <button type="submit">Masuk</button>
     </form>
+    <button type="submit" class="button">Masuk</button>
     <a href="#">
         <span class="lupa-password">Lupa password?</span>
         <span class="reset-password"> RESET PASSWORD</span>

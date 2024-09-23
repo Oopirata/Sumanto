@@ -1,5 +1,6 @@
 body {
     font-family: poppins, sans-serif;
+    background-image: url('http://localhost/Sumanto/public/images/gambar1.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -45,7 +46,8 @@ body {
     box-sizing: border-box;
 }
 
-.login-container button {
+.button {
+    margin: 20px auto;
     width: 50%;
     padding: 15px;
     background-color: #5932EA;
@@ -55,13 +57,13 @@ body {
     cursor: pointer;
 }
 
-.login-container button:hover {
+.button:hover {
     background-color: #5e35b1;
 }
 
 .login-container a {
+    float: bottom;
     display: block;
-    margin-top: 50px;
     color: #ff4081;
     text-decoration: none;
 }
