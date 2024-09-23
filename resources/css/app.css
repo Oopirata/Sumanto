@@ -1,0 +1,79 @@
+body {
+    font-family: poppins, sans-serif;
+    background-image: url('gambar1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background-color: #C9E6FF;
+    padding: 60px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 400px;
+    padding-top: 18px;
+    padding-bottom: 30px;
+}
+
+.login-container img {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.login-container h3 {
+    margin-bottom: 20px;
+    color: #45ACFF;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.login-container button {
+    width: 50%;
+    padding: 15px;
+    background-color: #5932EA;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: #5e35b1;
+}
+
+.login-container a {
+    display: block;
+    margin-top: 50px;
+    color: #ff4081;
+    text-decoration: none;
+}
+
+.login-container a span.reset-password {
+    color: #ff4081;
+    cursor: pointer;
+}
+
+.login-container a span.lupa-password {
+    color: #000;
+}
