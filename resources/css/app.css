@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
     font-family: poppins, sans-serif;
     background-image: url('http://localhost/Sumanto/public/images/gambar1.jpg');

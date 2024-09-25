@@ -5,7 +5,7 @@
 @section('page')
 <div class="login-container">
     <img src="{{ asset('images/logo.png') }}" alt="Logo">
-    <h3>Sistem Unggulan Manajemen Akademik dan Terintegrasi Online</h3>
+    <h3 class="">Sistem Unggulan Manajemen Akademik dan Terintegrasi Online</h3>
     <h2>Log in menggunakan SSO</h2>
     <form action="login.php" method="post">
         <input type="email" name="email" placeholder="Masukkan E-Mail" required>
