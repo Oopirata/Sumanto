@@ -14,7 +14,7 @@
     <button type="submit" class="button">Masuk</button>
     <a href="#">
         <span class="lupa-password">Lupa password?</span>
-        <span class="reset-password"> RESET PASSWORD</span>
+        <span class="font reset-password"> RESET PASSWORD</span>
     </a>
 </div>
 @endsection
