@@ -11,7 +11,7 @@
         <form action="login.php" method="post" class="space-y-4">
             <input type="email" name="email" placeholder="Masukkan E-Mail" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
             <input type="password" name="password" placeholder="Masukkan Password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-            <button type="submit" class="px-16 py-2 bg-[#5932EA] text-[#ffffff] rounded-lg hover:bg-[#5932EA]">Masuk</button>
+            <button type="submit" class="px-16 py-2 bg-[#5932EA] text-white rounded-lg hover:bg-[#5932EA]">Masuk</button>
         </form>
         <a href="#" class="block mt-6 text-pink-500">
             <span class="text-black">Lupa password?</span>
