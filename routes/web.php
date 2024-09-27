@@ -25,4 +25,7 @@ Route::get('dekand', function () {
     return view('dekanDashboard');
 });
 
-// githubkontol
+
+Route::get('dekanv', function () {
+    return view('verifikasiDekan');
+});

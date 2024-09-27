@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-10 p-8 mx-8 bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="mt-10 p-8 mx-8 bg-white rounded-xl shadow-md overflow-hidden overflow-y-auto" style="max-height: 550px;">
                 <table id="tabelDekan" class ="display">
                     <thead>
                         <tr>
@@ -86,6 +86,54 @@
                             <td class="px-6 py-4">Informatika</td>
                             <td class="px-6 py-4">3.9</td>
                         </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">1</td>
+                            <td class="px-6 py-4">2022</td>
+                            <td class="px-6 py-4">S1</td>
+                            <td class="px-6 py-4">Informatika</td>
+                            <td class="px-6 py-4">3.9</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">1</td>
+                            <td class="px-6 py-4">2022</td>
+                            <td class="px-6 py-4">S1</td>
+                            <td class="px-6 py-4">Informatika</td>
+                            <td class="px-6 py-4">3.9</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">1</td>
+                            <td class="px-6 py-4">2022</td>
+                            <td class="px-6 py-4">S1</td>
+                            <td class="px-6 py-4">Informatika</td>
+                            <td class="px-6 py-4">3.9</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">1</td>
+                            <td class="px-6 py-4">2022</td>
+                            <td class="px-6 py-4">S1</td>
+                            <td class="px-6 py-4">Informatika</td>
+                            <td class="px-6 py-4">3.9</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">1</td>
+                            <td class="px-6 py-4">2022</td>
+                            <td class="px-6 py-4">S1</td>
+                            <td class="px-6 py-4">Informatika</td>
+                            <td class="px-6 py-4">3.9</td>
+                        </tr><tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">1</td>
+                            <td class="px-6 py-4">2022</td>
+                            <td class="px-6 py-4">S1</td>
+                            <td class="px-6 py-4">Informatika</td>
+                            <td class="px-6 py-4">3.9</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">1</td>
+                            <td class="px-6 py-4">2022</td>
+                            <td class="px-6 py-4">S1</td>
+                            <td class="px-6 py-4">Informatika</td>
+                            <td class="px-6 py-4">3.9</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -102,7 +150,6 @@
                             topStart: null,
                             
                             bottomStart: null,
-                            bottomEnd: null
                         },
                     columnDefs: [
                         { className: "dt-head-center", targets: [0,1,2,3,4] },
