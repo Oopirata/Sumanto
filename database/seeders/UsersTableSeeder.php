@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
@@ -47,7 +48,7 @@ class UsersTableSeeder extends Seeder
             DB::table('users')->insert([
                 'nama' => $user['nama'],
                 'email' => $email,
-                'password' => md5('password123'), // Placeholder password (hashed with MD5)
+                'password' => Hash::make('password123'), // Placeholder password (hashed with MD5)
                 'mahasiswa' => $user['role'] === 'mahasiswa' ? 1 : 0,
                 'dosen' => $user['role'] === 'dosen' ? 1 : 0,
                 'kaprodi' => $user['role'] === 'kaprodi' ? 1 : 0,
