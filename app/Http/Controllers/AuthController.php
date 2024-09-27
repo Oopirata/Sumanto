@@ -11,9 +11,9 @@ class AuthController extends Controller
     public function showLogin()
     {   
         if (Auth::check()) {
-            return redirect('sidebar');
+            return redirect('dashboard');
         }
-        
+
         return view('login');
     }
 
@@ -24,7 +24,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             //Redirect ke halaman dashboard jika berhasil login
-            return redirect()->intended('sidebar');
+            return redirect()->intended('dashboard');
         }
 
         return redirect('login')->with('error', 'Email atau passwor salah');
