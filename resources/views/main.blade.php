@@ -7,6 +7,7 @@
     <title>@yield('title') - Sumanto</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&family=Poppins:wght@200;400&display=swap" rel="stylesheet">
 </head>
 <body>
     @yield('page')
