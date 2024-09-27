@@ -10,3 +10,7 @@ Route::get('/', function () {
 Route::get('/tes', function () {
     return view('tes');
 });
+
+Route::get('/dekand', function () {
+    return view('dekanDashboard');
+});
