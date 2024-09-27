@@ -6,14 +6,18 @@
 
 
 <div class="bg-gray-100 min-h-screen flex flex-col ">
-    <div class="flex pt-12 overflow-hidden">
+    <div class="flex overflow-hidden">
         {{-- sidebar --}}
+        <x-side-bar>
+
+        </x-side-bar>
         {{-- end sidebar --}}
 
-        <div id="main-content" class="mt-8 relative text-black font-poppins w-full h-full overflow-y-auto lg:pl-52">
+        <div id="main-content" class="my-8 relative text-black font-poppins w-full h-full overflow-y-auto">
             <h1 class="mx-8 mb-4 font-semibold text-lg">Hello Ahmad Douglas</h1>
+            <div class=" border-b-4"></div>
             <div
-                class="p-10 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm 2xl:col-span-2 sm:p-6 dark:bg-white">
+                class="p-10 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm 2xl:col-span-2 sm:p-6 dark:bg-white">
                 <div class="grid grid-cols-3 text-center">
                     <div class="justify-center px-48">
                         <h1 class="font-bold pb-4">Pengajuan IRS</h1>
