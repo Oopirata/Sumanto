@@ -20,3 +20,6 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('sidebar', function () {
     return view('sidebar');
 })->middleware('auth');
+
+
+// githubkontol
