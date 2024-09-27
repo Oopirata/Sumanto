@@ -21,5 +21,8 @@ Route::get('sidebar', function () {
     return view('sidebar');
 })->middleware('auth');
 
+Route::get('dekand', function () {
+    return view('dekanDashboard');
+});
 
 // githubkontol
