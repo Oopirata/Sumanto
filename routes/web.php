@@ -21,3 +21,11 @@ Route::get('dashboard', function () {
     return view('dashboard');
 })->middleware('auth');
 
+Route::get('dekand', function () {
+    return view('dekanDashboard');
+});
+
+
+Route::get('dekanv', function () {
+    return view('verifikasiDekan');
+});
