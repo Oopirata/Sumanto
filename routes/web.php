@@ -29,3 +29,7 @@ Route::get('dekand', function () {
 Route::get('dekanv', function () {
     return view('verifikasiDekan');
 });
+
+Route::get('dekanj', function () {
+    return view('dekanJadwal');
+});
