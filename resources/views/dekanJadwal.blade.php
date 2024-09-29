@@ -43,33 +43,58 @@
                         </div>
 
                         @for ($time = 7; $time <= 21; $time++)
-                            <div class="grid grid-cols-8">
-                                <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">{{ $time }}:00</div>
-                                @for ($day = 1; $day <= 7; $day++)
-                                    <div class="h-32 lg:h-28 p-0.5 md:p-3.5 border-t border-r border-gray-200 transition-all hover:bg-stone-100">
-                                        <!-- Contoh data jadwal statis -->
-                                        @php
-                                            $schedules = [
-                                                ['day' => 1, 'start' => 7, 'end' => 9, 'title' => 'PBP (A)', 'time' => '06:00 - 07:55'],
-                                                ['day' => 2, 'start' => 8, 'end' => 10, 'title' => 'Pemrograman Web', 'time' => '08:00 - 09:55'],
-                                                // Tambahkan jadwal lainnya sesuai kebutuhan
-                                            ];
-                                        @endphp
+                                <div class="grid grid-cols-8 border-t border-gray-200"> <!-- Tambahkan border-t di sini -->
+                                    <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">{{ $time }}:00</div>
+                                    @for ($day = 1; $day <= 7; $day++)
+                                        <div class="flex flex-col h-auto p-0.5 md:p-3.5 border-r border-gray-200 transition-all hover:bg-stone-100"> <!-- Atur tinggi auto -->
+                                            @php
+                                                $schedules = [
+                                                    ['day' => 1, 'start' => 7, 'end' => 9, 'title' => 'PBP (A)', 'time' => '06:00 - 07:55', 'kelas' => 'A'],
+                                                    ['day' => 1, 'start' => 7, 'end' => 9, 'title' => 'PBP (B)', 'time' => '06:00 - 07:55', 'kelas' => 'B'],
+                                                    ['day' => 1, 'start' => 7, 'end' => 9, 'title' => 'PBP (C)', 'time' => '06:00 - 07:55', 'kelas' => 'C'],
+                                                    ['day' => 2, 'start' => 8, 'end' => 10, 'title' => 'Pemrograman Web', 'time' => '08:00 - 09:55', 'kelas' => 'A'],
+                                                    // Tambahkan jadwal lainnya sesuai kebutuhan
+                                                ];
+                                            @endphp
 
-                                        @foreach ($schedules as $schedule)
-                                            @if ($schedule['day'] == $day && $time >= $schedule['start'] && $time < $schedule['end'])
-                                                <div class="rounded p-1.5 border-l-2 border-green-600 bg-green-50">
-                                                    <p class="text-xs font-normal text-gray-900 mb-px">{{ $schedule['title'] }}</p>
-                                                    <p class="text-xs font-semibold text-green-600">{{ $schedule['time'] }}</p>
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                @endfor
-                            </div>
-                        @endfor
+                                            @foreach ($schedules as $schedule)
+                                                @if ($schedule['day'] == $day && $time >= $schedule['start'] && $time < $schedule['end'])
+                                                    @php
+                                                        // Tentukan warna berdasarkan kelas
+                                                        $colorClass = '';
+                                                        switch ($schedule['kelas']) {
+                                                            case 'A':
+                                                                $colorClass = 'bg-blue-50 border-blue-600 text-blue-600';
+                                                                break;
+                                                            case 'B':
+                                                                $colorClass = 'bg-red-50 border-red-600 text-red-600';
+                                                                break;
+                                                            case 'C':
+                                                                $colorClass = 'bg-green-50 border-green-600 text-green-600';
+                                                                break;
+                                                            case 'D':
+                                                                $colorClass = 'bg-purple-50 border-purple-600 text-purple-600';
+                                                                break;
+                                                            default:
+                                                                $colorClass = 'bg-gray-50 border-gray-600 text-gray-600';
+                                                                break;
+                                                        }
+                                                    @endphp
+
+                                                    <div class="rounded p-1.5 border-l-2 {{ $colorClass }}">
+                                                        <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
+                                                        <p class="text-xs font-semibold">{{ $schedule['time'] }}</p>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    @endfor
+                                </div>
+                            @endfor
+
                     </div>
                 </section>
+
             </div>
             <div class="px-6 py-4 flex justify-end space-x-3" x-data="{ status: null }">
                 <button 
