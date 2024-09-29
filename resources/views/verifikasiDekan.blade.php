@@ -9,9 +9,10 @@
         {{-- sidebar --}}
         <x-side-bar></x-side-bar>
         {{-- end sidebar --}}
-
-        <div id="main-content" class="mt-20 my-8 relative text-black font-poppins w-full h-full overflow-y-auto">
-            <div class="p-10 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm sm:p-6 dark:bg-white">
+        
+        <div id="main-content" class=" relative text-black font-poppins w-full h-full overflow-y-auto">
+            <x-nav-bar></x-nav-bar>
+            <div class="p-10 my-5 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm sm:p-6 dark:bg-white">
                 <div class="flex text-center justify-between items-center">
                     <h1 class="font-semibold">LIST DAFTAR RUANG</h1>
                     
