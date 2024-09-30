@@ -37,6 +37,18 @@ Route::get('mhssk', function () {
     return view('mhsStatuskuliah');
 });
 
+Route::get('mhsIrs', function () {
+    return view('mhsIrs');
+});
+
+Route::get('mhsKhs', function () {
+    return view('mhsKhs');
+});
+
+Route::get('mhsTranskip', function () {
+    return view('mhsTranskip');
+});
+
 Route::get('dekanv', function () {
     return view('verifikasiDekan');
 });
