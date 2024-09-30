@@ -24,7 +24,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             //Redirect ke halaman dashboard jika berhasil login
-            return redirect()->intended('dashboard');
+            return redirect()->intended('mhsDashboard');
         }
 
         return redirect('login')->with('error', 'Email atau passwor salah');

@@ -17,8 +17,8 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 //Route untuk menampilkan halaman dashboard
-Route::get('dashboard', function () {
-    return view('dashboard');
+Route::get('mhsDashboard', function () {
+    return view('mhsDashboard');
 })->middleware('auth');
 
 Route::get('dekand', function () {
@@ -37,11 +37,23 @@ Route::get('mhssk', function () {
     return view('mhsStatuskuliah');
 });
 
+Route::get('mhsIrs', function () {
+    return view('mhsIrs');
+});
+
+Route::get('mhsKhs', function () {
+    return view('mhsKhs');
+});
+
+Route::get('mhsTranskip', function () {
+    return view('mhsTranskip');
+});
+
 Route::get('dekanv', function () {
     return view('verifikasiDekan');
 });
 
 Route::get('dekanj', function () {
     return view('dekanJadwal');
-})->name('dekan.jadwal');
+});
 
