@@ -9,7 +9,6 @@
         <x-side-bar-dekan></x-side-bar-dekan>
         <div id="main-content" class=" relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar></x-nav-bar>
-            <h1 class="mx-9 my-2 font-semibold text-lg">Hello Dul Samsi</h1>
             <div class="p-10 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm 2xl:col-span-2 sm:p-6 dark:bg-white">
                 <div class="grid grid-cols-3 text-center">
                     <div class="justify-center px-20">

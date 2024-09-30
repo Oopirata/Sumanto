@@ -17,8 +17,8 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 //Route untuk menampilkan halaman dashboard
-Route::get('dashboard', function () {
-    return view('dashboard');
+Route::get('mhsDashboard', function () {
+    return view('mhsDashboard');
 })->middleware('auth');
 
 Route::get('dekand', function () {
@@ -55,5 +55,5 @@ Route::get('dekanv', function () {
 
 Route::get('dekanj', function () {
     return view('dekanJadwal');
-})->name('dekan.jadwal');
+});
 
