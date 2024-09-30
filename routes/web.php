@@ -52,3 +52,8 @@ Route::get('mhsTranskip', function () {
 Route::get('dekanv', function () {
     return view('verifikasiDekan');
 });
+
+Route::get('dekanj', function () {
+    return view('dekanJadwal');
+})->name('dekan.jadwal');
+
