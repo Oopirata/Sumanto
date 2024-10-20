@@ -48,6 +48,6 @@ Route::middleware(['auth'])->group(function () {
 // Example of other dashboard-related routes:
 Route::get('dekan/jadwal', function () {
     return view('dekanJadwal');
-})->name('dekan.jadwal');
+});
 
 // Add any other necessary routes here...
