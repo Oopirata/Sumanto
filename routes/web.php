@@ -12,13 +12,17 @@ Route::post('login', [AuthController::class, 'login']);
 // Route for logout
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
+// Routes for role selection
+Route::middleware(['auth'])->group(function () {
+    // Route to display the role selection page
+    Route::get('/select-role', [AuthController::class, 'selectRolePage'])->name('selectRole');
+
+    // Route to handle role selection submission
+    Route::post('/select-role', [AuthController::class, 'selectRole'])->name('selectRole.submit');
+});
+
 // Dashboard Routes with middleware
 Route::middleware(['auth'])->group(function () {
-    // General dashboard route (can redirect based on role)
-    Route::get('dashboard', function () {
-        return view('dashboard');
-    });
-
     // Student dashboard
     Route::get('mhs/dashboard', function () {
         return view('mhsDashboard');
@@ -45,9 +49,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('dosen.dashboard');
 });
 
-// Example of other dashboard-related routes:
 Route::get('dekan/jadwal', function () {
     return view('dekanJadwal');
 });
 
-// Add any other necessary routes here...
