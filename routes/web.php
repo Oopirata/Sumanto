@@ -43,5 +43,9 @@ Route::get('dekanv', function () {
 
 Route::get('dekanj', function () {
     return view('dekanJadwal');
-})->name('dekan.jadwal');
+});
+
+Route::get('kaprodid', function () {
+    return view('kaprodiDashboard');
+});
 
