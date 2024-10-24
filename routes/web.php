@@ -3,58 +3,62 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 Route::get('/', function () {
     return view('login');
 });
 
 //Route untuk menampilkan halaman login
+=======
+// Route for displaying the login page
+>>>>>>> main
 Route::get('login', [AuthController::class, 'showLogin'])->name('login');
 
-//Route untuk proses login
+// Route for handling login process
 Route::post('login', [AuthController::class, 'login']);
 
-//Route untuk proses logout
+// Route for logout
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
-//Route untuk menampilkan halaman dashboard
-Route::get('mhsDashboard', function () {
-    return view('mhsDashboard');
-})->middleware('auth');
+// Routes for role selection
+Route::middleware(['auth'])->group(function () {
+    // Route to display the role selection page
+    Route::get('/select-role', [AuthController::class, 'selectRolePage'])->name('selectRole');
 
-Route::get('dekand', function () {
-    return view('dekanDashboard');
+    // Route to handle role selection submission
+    Route::post('/select-role', [AuthController::class, 'selectRole'])->name('selectRole.submit');
 });
 
-Route::get('mhsd', function () {
-    return view('mhsDashboard');
+// Dashboard Routes with middleware
+Route::middleware(['auth'])->group(function () {
+    // Student dashboard
+    Route::get('mhs/dashboard', function () {
+        return view('mhsDashboard');
+    })->name('mhs.dashboard');
+
+    // Dean dashboard
+    Route::get('dekan/dashboard', function () {
+        return view('dekanDashboard');
+    })->name('dekan.dashboard');
+
+    // Program Head dashboard
+    Route::get('kaprodi/dashboard', function () {
+        return view('programHeadDashboard');
+    })->name('kaprodi.dashboard');
+
+    // Academic Staff dashboard
+    Route::get('staff/dashboard', function () {
+        return view('academicStaffDashboard');
+    })->name('staff.dashboard');
+
+    // Academic Advisor dashboard
+    Route::get('dosen/dashboard', function () {
+        return view('advisorDashboard');
+    })->name('dosen.dashboard');
 });
 
-Route::get('mhsbk', function () {
-    return view('mhsBiayakuliah');
-});
-
-Route::get('mhssk', function () {
-    return view('mhsStatuskuliah');
-});
-
-Route::get('mhsIrs', function () {
-    return view('mhsIrs');
-});
-
-Route::get('mhsKhs', function () {
-    return view('mhsKhs');
-});
-
-Route::get('mhsTranskip', function () {
-    return view('mhsTranskip');
-});
-
-Route::get('dekanv', function () {
-    return view('verifikasiDekan');
-});
-
-Route::get('dekanj', function () {
+Route::get('dekan/jadwal', function () {
     return view('dekanJadwal');
 });
 
@@ -158,4 +162,12 @@ Route::get('mhsKhs', function () {
 Route::get('mhsTranskip', function () {
     return view('mhsTranskip');
 });
->>>>>>> Stashed changes
+
+Route::get('dekanv', function () {
+    return view('verifikasiDekan');
+});
+
+Route::get('dekan/jadwal', function () {
+    return view('dekanJadwal');
+});
+
