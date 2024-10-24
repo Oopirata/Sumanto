@@ -58,6 +58,7 @@ Route::get('dekanj', function () {
     return view('dekanJadwal');
 });
 
+<<<<<<< Updated upstream
 =======
 // // Route for displaying the login page
 // Route::get('login', [AuthController::class, 'showLogin'])->name('login');
@@ -134,5 +135,27 @@ Route::get('/mhsTrnaskip', function () {
 
 Route::get('/pad', function () {
     return view('paDashboard');
+});
+>>>>>>> Stashed changes
+=======
+Route::get('mhsd', function () {
+    return view('mhsDashboard');
+});
+
+Route::get('mhssk', function () {
+    return view('mhsStatusKuliah');
+});
+
+Route::get('mhsbk', function () {
+    return view('mhsBiayaKuliah');
+});
+Route::get('mhsIrs', function () {
+    return view('mhsIrs');
+});
+Route::get('mhsKhs', function () {
+    return view('mhsKhs');
+});
+Route::get('mhsTranskip', function () {
+    return view('mhsTranskip');
 });
 >>>>>>> Stashed changes
