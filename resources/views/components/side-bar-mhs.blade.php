@@ -45,9 +45,9 @@
             <div x-data="{ open: false }" class="relative mx-5 mt-4">
                 <button @click="open = !open" class="flex items-center px-6 py-2 w-full text-gray-600 hover:bg-[#5932EA] focus:bg-[#5932EA] hover:text-white focus:text-white rounded-lg transition-all focus:outline-none mb-2">
                     <span class="material-icons"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mortarboard" viewBox="0 0 16 16">
-  <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/>
-  <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/>
-</svg></span>
+                    <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/>
+                    <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/>
+                    </svg></span>
                     <span class="ml-2 text-sm">Akademik</span>
                     <svg class="ml-auto h-5 w-5 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -60,13 +60,13 @@
                         <a href="#" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Buat IRS</a>
                     </div>
                     <div class="flex items-center my-5">
-                        <a href="#" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">IRS</a>
+                        <a href="/mhsIrs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">IRS</a>
                     </div>
                     <div class="flex items-center my-5">
-                        <a href="#" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">KHS</a>
+                        <a href="/mhsKhs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">KHS</a>
                     </div>
                     <div class="flex items-center my-5">
-                        <a href="#" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Transkrip</a>
+                        <a href="/mhsTranskip" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Transkrip</a>
                     </div>
                 </div>
             </div>
