@@ -50,8 +50,12 @@ Route::get('dekan/jadwal', function () {
     return view('dekanJadwal');
 });
 
+
 Route::get('kaprodid', function () {
     return view('kaprodiDashboard');
 });
 
+Route::get('kaprodimk', function () {
+    return view('kaprodiMatkulDosen');
+});
 // Add any other necessary routes here...

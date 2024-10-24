@@ -92,7 +92,7 @@ class AuthController extends Controller
             case 'Pembimbing Akademik':
                 return 'dosen.dashboard';
             default:
-                return 'dashboard';
+                return 'mhs.dashboard';
         }
     }
 
