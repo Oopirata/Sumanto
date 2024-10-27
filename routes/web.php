@@ -61,4 +61,8 @@ Route::get('kaprodid', function () {
 Route::get('kaprodimk', function () {
     return view('kaprodiMatkulDosen');
 });
+
+Route::get('kaprodij', function () {
+    return view('kaprodiBuatJadwal');
+});
 // Add any other necessary routes here...
