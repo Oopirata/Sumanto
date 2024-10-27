@@ -36,63 +36,66 @@ class AuthController extends Controller
                 return response()->json(['error' => 'User has no roles assigned'], 404);
             }
 
-            // Store current role in session (first role by default)
-            $currentRole = $user->roles->first();
-            Session::put('active_role', $currentRole->name);
+            // If the user has more than one role, redirect to role selection page
+            if ($user->roles->count() > 1) {
+                return redirect()->route('selectRole'); // Redirect to role selection page
+            }
 
-            // Redirect to dashboard based on the active role
-            return redirect()->intended($this->getDashboardRoute($currentRole->name));
+            // If the user has only one role, directly store it and redirect to dashboard
+            $currentRole = $user->roles->first();
+            $currentRoleName = trim($currentRole->name);  // Trim here
+            Session::put('active_role', $currentRoleName);
+
+            return redirect()->intended($this->getDashboardRoute($currentRoleName));
         }
 
         return redirect('login')->with('error', 'Invalid email or password');
     }
 
-    // Switch role functionality
-    public function switchRole(Request $request)
+    // Role selection functionality
+    public function selectRolePage()
     {
-        $newRoleId = $request->input('role_id');
+        $user = User::with('roles')->find(Auth::id());
 
-        // Find the user's role
-        $user = Auth::user();
-        $newRole = $user->roles->where('id', $newRoleId)->first();
+        // Return a view where user selects their role
+        return view('roleSelection', ['roles' => $user->roles]);
+    }
 
-        if ($newRole) {
-            // Update the current role in session
-            Session::put('active_role', $newRole->name);
+    public function selectRole(Request $request)
+    {
+        $roleId = $request->input('role_id');
 
-            // Optionally, switch the user's email to the one for that role
-            // Assuming a table role_user with role-specific emails
-            $roleEmail = DB::table('role_user')
-                ->where('user_id', $user->id)
-                ->where('role_id', $newRoleId)
-                ->value('email');
+        // Fetch the role based on the user's selection
+        $user = User::with('roles')->find(Auth::id());
+        $selectedRole = $user->roles->where('id', $roleId)->first();
 
-            // Update user's email to the role-specific email
-            $user->email = $roleEmail;
-
-            // Redirect to the new role's dashboard
-            return redirect()->intended($this->getDashboardRoute($newRole->name));
+        if ($selectedRole) {
+            // Store selected role in session
+            $selectedRole = trim($selectedRole->name);  // Trim here
+            Session::put('active_role', $selectedRole);
+        
+            // Redirect to the selected role's dashboard
+            return redirect()->intended($this->getDashboardRoute($selectedRole));
         }
 
-        return redirect('dashboard')->with('error', 'Role switch failed');
+        return redirect()->back()->with('error', 'Role selection failed');
     }
 
     // Determine the dashboard route based on role
-    protected function getDashboardRoute($roleName)
-    {
+    protected function getDashboardRoute($roleName) {
         switch ($roleName) {
             case 'Mahasiswa':
-                return 'mhs.dashboard';
+                return 'mhs/dashboard';
             case 'Dekan':
-                return 'dekan.dashboard';
+                return 'dekan/dashboard';
             case 'Ketua Program Studi':
-                return 'kaprodi.dashboard';
+                return 'kaprodi/dashboard';
             case 'Bagian Akademik':
-                return 'staff.dashboard';
+                return 'staff/dashboard';
             case 'Pembimbing Akademik':
-                return 'dosen.dashboard';
+                return 'dosen/dashboard';
             default:
-                return 'mhs.dashboard';
+                abort(403, 'Who the fuck are you');
         }
     }
 

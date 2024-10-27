@@ -51,4 +51,20 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
+
+    public function getHighestPriorityRole()
+    {
+        $priorityOrder = [
+            'Dekan' => 1,
+            'Ketua Program Studi' => 2,
+            'Bagian Akademik' => 3,
+            'Pembimbing Akademik' => 4,
+            'Mahasiswa' => 5,
+        ];
+
+        return $this->roles->sortBy(function ($role) use ($priorityOrder) {
+            return $priorityOrder[$role->name] ?? PHP_INT_MAX;
+        })->first();
+    }
+
 }
