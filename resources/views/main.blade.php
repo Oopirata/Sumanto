@@ -11,6 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.css" />
     <script src="https://cdn.datatables.net/2.1.7/js/dataTables.js"></script>
+    
 </head>
 <body>
     @yield('page')

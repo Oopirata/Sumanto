@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name');  // Role names like 'mahasiswa', 'dekan', etc.
+            $table->integer('priority');  // Priority of the role, lower number means higher priority
             $table->timestamps();
         });
     }
