@@ -43,9 +43,4 @@
             </div>
         </div>
     </aside>
-
-    <!-- Main Content -->
-    <div class="flex-grow ml-64 p-6">
-        <!-- Your main content goes here -->
-    </div>
 </div>

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -33,7 +32,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
      * @return array<string, string>
      */
@@ -44,4 +43,28 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Define a many-to-many relationship with the Role model.
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    }
+
+    public function getHighestPriorityRole()
+    {
+        $priorityOrder = [
+            'Dekan' => 1,
+            'Ketua Program Studi' => 2,
+            'Bagian Akademik' => 3,
+            'Pembimbing Akademik' => 4,
+            'Mahasiswa' => 5,
+        ];
+
+        return $this->roles->sortBy(function ($role) use ($priorityOrder) {
+            return $priorityOrder[$role->name] ?? PHP_INT_MAX;
+        })->first();
+    }
+
 }
