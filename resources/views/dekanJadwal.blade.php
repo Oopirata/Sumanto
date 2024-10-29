@@ -51,15 +51,17 @@
                                         <div class="flex flex-col h-auto p-0.5 md:p-3.5 border-r border-gray-200 transition-all hover:bg-stone-100">
                                             @php
                                                 $schedules = [
-                                                    ['day' => 1, 'start' => 7, 'end' => 9, 'title' => 'PBP (A)', 'time' => '06:00 - 07:55', 'kelas' => 'A'],
-                                                    ['day' => 1, 'start' => 7, 'end' => 9, 'title' => 'PBP (B)', 'time' => '06:00 - 07:55', 'kelas' => 'B'],
-                                                    ['day' => 1, 'start' => 7, 'end' => 9, 'title' => 'PBP (C)', 'time' => '06:00 - 07:55', 'kelas' => 'C'],
-                                                    ['day' => 2, 'start' => 8, 'end' => 10, 'title' => 'Pemrograman Web', 'time' => '08:00 - 09:55', 'kelas' => 'A'],
+                                                    ['day' => 1, 'time' => '07:30 - 09:20', 'title' => 'PBP (A)', 'kelas' => 'A', 'ruangan' => 'E101','jenis' => 'wajib'],
+                                                    ['day' => 1, 'time' => '08:30 - 10:00', 'title' => 'Pemrograman Web', 'kelas' => 'B', 'ruangan' => 'E101','jenis' => 'pilihan'],
                                                     // Tambahkan jadwal lainnya sesuai kebutuhan
                                                 ];
                                             @endphp
                                             @foreach ($schedules as $schedule)
-                                                @if ($schedule['day'] == $day && $time >= $schedule['start'] && $time < $schedule['end'])
+                                                @php
+                                                    // Ambil jam mulai dan jam selesai dari 'time'
+                                                    [$start, $end] = explode(' - ', $schedule['time']);
+                                                @endphp
+                                                @if ($schedule['day'] == $day &&  $time >= intval(substr($start, 0, 2)) && $time < intval(substr($end, 0, 2)))
                                                     @php
                                                         $colorClass = '';
                                                         switch ($schedule['kelas']) {
@@ -105,6 +107,8 @@
                                     <div class="mt-2">
                                         <p class="text-sm text-gray-500">Kelas: <span x-text="selectedSchedule.kelas"></span></p>
                                         <p class="text-sm text-gray-500">Waktu: <span x-text="selectedSchedule.time"></span></p>
+                                        <p class="text-sm text-gray-500">Ruangan: <span x-text="selectedSchedule.ruangan"></span></p>
+                                        <p class="text-sm text-gray-500">Jenis: <span x-text="selectedSchedule.jenis"></span></p>
                                     </div>
                                     <div class="mt-4">
                                         <button @click="showModal = false" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
