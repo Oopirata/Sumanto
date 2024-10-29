@@ -73,3 +73,11 @@ Route::get('/mhs/BuatIrs', function () {
 Route::get('/mhs/irs', function () {
     return view('mhsIrs');
 });
+
+Route::get('/mhs/khs', function () {
+    return view('mhsKhs');
+});
+
+Route::get('/mhs/transkip', function () {
+    return view('mhsTranskip');
+});
