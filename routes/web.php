@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('dosen.dashboard');
 });
 
-Route::get('dekan/jadwal', function () {
+Route::get('/dekan/jadwal', function () {
     return view('dekanJadwal');
 });
 
@@ -66,6 +66,10 @@ Route::get('kaprodij', function () {
     return view('kaprodiBuatJadwal');
 });
 
-Route::get('mhsIRSS', function () {
+Route::get('/mhs/BuatIrs', function () {
     return view('mhsBuatIrs');
+});
+
+Route::get('/mhs/irs', function () {
+    return view('mhsIrs');
 });
