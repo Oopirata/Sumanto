@@ -21,6 +21,11 @@ class AuthController extends Controller
         return view('login');
     }
 
+    public function dashboardMhs() {
+        $user = Auth::user();
+        return view ('mhsDashboard', compact('user'));
+    }
+
     // Process login
     public function login(Request $request)
     {
