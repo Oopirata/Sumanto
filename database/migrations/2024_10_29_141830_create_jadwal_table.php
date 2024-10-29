@@ -9,24 +9,27 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('jadwal', function (Blueprint $table) {
             $table->id();
+            $table->string('hari')->nullable();
+            $table->string('jam_mulai')->nullable();
+            $table->string('jam_selesai')->nullable();
+            $table->string('ruang')->nullable();
             $table->string('kode_mk');
             $table->string('nama_mk');
-            $table->integer('sks');
-            $table->string('ruang');
-            $table->string('kelas');
-            $table->date('hari');
-            $table->time('jam');
-            $table->date('tanggal');
-            $table->string('nama_dosen');
+            $table->string('kelas')->nullable();
+            $table->string('kapasitas')->nullable();
+            $table->string('status');
             $table->timestamps();
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::dropIfExists('jadwal');
     }

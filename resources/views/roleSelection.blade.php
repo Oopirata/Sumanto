@@ -26,8 +26,9 @@
                 </div>
             </div>
 
-            <div class="flex justify-center mt-20">
-                <button type="submit" class="bg-[#5932EA] text-white px-6 py-2 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:bg-purple-700 focus:ring-opacity-50">
+            <div class="flex justify-center mt-10">
+                <button type="submit" 
+                        class="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-200 ease-in-out">
                     Proceed
                 </button>
             </div>
