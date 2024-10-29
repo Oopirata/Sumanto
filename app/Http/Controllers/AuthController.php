@@ -83,6 +83,8 @@ class AuthController extends Controller
 
     // Determine the dashboard route based on role
     protected function getDashboardRoute($roleName) {
+        $user = Auth::user();
+
         switch ($roleName) {
             case 'Mahasiswa':
                 return 'mhs/dashboard';
