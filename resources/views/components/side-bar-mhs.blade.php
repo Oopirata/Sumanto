@@ -1,3 +1,4 @@
+@auth
 <div class="flex h-screen font-poppins">
     <!-- Sidebar Blade Template -->
     <aside class="flex flex-col w-64 bg-white shadow-lg fixed top-0 left-0 h-full z-10" style="border-top-right-radius: 20px; border-bottom-right-radius: 20px;">
@@ -57,13 +58,13 @@
                 <!-- Dropdown Items -->
                 <div x-show="open" class="mt-2 pl-6">
                     <div class="flex items-center my-5">
-                        <a href="#" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Buat IRS</a>
+                        <a href="/mhs/BuatIrs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Buat IRS</a>
                     </div>
                     <div class="flex items-center my-5">
-                        <a href="/mhsIrs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">IRS</a>
+                        <a href="/mhs/irs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">IRS</a>
                     </div>
                     <div class="flex items-center my-5">
-                        <a href="/mhsKhs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">KHS</a>
+                        <a href="/mhs/khs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">KHS</a>
                     </div>
                     <div class="flex items-center my-5">
                         <a href="/mhsTranskip" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Transkrip</a>
@@ -75,9 +76,10 @@
             <div class="px-6 py-4 flex items-center">
             <img src="https://via.placeholder.com/40" alt="Profile Image" class="rounded-full h-10 w-10">
             <div class="ml-4">
-                <p class="text-sm font-medium">Dul Samsi</p>
+                <p class="text-sm font-medium">{{ Auth::user() -> name }}</p>
                 <p class="text-xs text-gray-600">24060122120031 - Informatika S1</p>
             </div>
         </div>
     </aside>
 </div>
+@endauth
