@@ -4,10 +4,14 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 // Route for displaying the login page
-Route::get('login', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 
 // Route for handling login process
-Route::post('login', [AuthController::class, 'login']);
+Route::get('/', function () {
+    return view('login');
+})->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
 // Route for logout
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
