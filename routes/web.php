@@ -53,6 +53,9 @@ Route::get('/dekan/jadwal', function () {
     return view('dekanJadwal');
 });
 
+Route::get('dekan/ruangan', function () {
+    return view('dekanVerifikasi');
+});
 
 Route::get('kaprodid', function () {
     return view('kaprodiDashboard');
