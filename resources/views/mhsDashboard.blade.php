@@ -9,7 +9,8 @@
         <x-side-bar-mhs></x-side-bar-mhs>
         <div id="main-content" class=" relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar></x-nav-bar>
-            <div class="mx-8 bg-white py-8 px-6 rounded-2xl mt-8">
+            <h1 class="mx-9 my-2 font-semibold text-lg">Hello Dul Samsi</h1>
+            <div class="mx-8 bg-white py-8 px-6 rounded-2xl">
                 <div class="grid grid-cols-3 justify-center font-bold">
                     <div class="text-center">
                         <h1>Status Akademik</h1>
@@ -56,48 +57,46 @@
                 </div>
             </div>
             <div class="flex mx-2 mt-8 px-6 gap-10">
-    <div class="w-[75%]">
-        <h1 class="font-extrabold text-xl">Jadwal Hari ini</h1>
-        <div class="bg-white rounded-2xl py-6 my-4">
-            <table class="text-center w-[100%]">
-                <thead>
-                    <tr>
-                        <th>Mata Kuliah</th>
-                        <th>Pertemuan Ke-</th>
-                        <th>Detail Jadwal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="pt-6">Proyek Perangkat Lunak</td>
-                        <td class="pt-6">3</td>
-                        <td class="pt-6">
-                            <h1>Rabu, 2 September 2024</h1>
-                            <h1>07.00 - 09.30</h1>
-                            <h1>K202</h1>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="pt-6">Pengembangan Berbasis Platform</td>
-                        <td class="pt-6">4</td>
-                        <td class="pt-6">
-                            <h1>Senin, 31 Agustus 2024</h1>
-                            <h1>07.00 - 09.30</h1>
-                            <h1>E101</h1>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="w-[25%] h-full"> 
-        <h1 class="text-xl font-extrabold">Pengumuman</h1>
-        <div class="bg-white rounded-2xl py-6 my-4 h-full"> 
-            <img src="images/poster.jpeg" alt="Poster Pengumuman" class="max-w-[80%] h-auto mx-auto rounded-lg"> 
-        </div>
-    </div>
-</div>
-
+                <div class="w-[60%]">
+                    <h1 class="font-extrabold text-xl">Jadwal Hari ini</h1>
+                    <div class=" bg-white rounded-2xl py-6 my-4">
+                        <table class="text-center w-[100%]">
+                            <thead>
+                                <tr>
+                                    <th>Mata Kuliah</th>
+                                    <th>Pertemuan Ke-</th>
+                                    <th>Detail Jadwal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="pt-6">Proyek Perangkat Lunak</td>
+                                    <td class="pt-6">3</td>
+                                    <td class="pt-6">
+                                        <h1>Rabu, 2 September 2024</h1>
+                                        <h1>07.00 - 09.30</h1>
+                                        <h1>K202</h1>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="pt-6">Pengembangan Berbasis Platform</td>
+                                    <td class="pt-6">4</td>
+                                    <td class="pt-6">
+                                        <h1>Senin, 31 Agustus 2024</h1>
+                                        <h1>07.00 - 09.30</h1>
+                                        <h1>E101</h1>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="w-[40%]">
+                    <h1 class="text-xl font-extrabold">Pengumuman</h1>
+                    <div class=" bg-white rounded-2xl py-6 my-4 w-[100%]">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
