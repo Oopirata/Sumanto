@@ -51,15 +51,17 @@
                                         <div class="flex flex-col h-auto p-0.5 md:p-3.5 border-r border-gray-200 transition-all hover:bg-stone-100">
                                             @php
                                                 $schedules = [
-                                                    ['day' => 1, 'start' => 7, 'end' => 9, 'title' => 'PBP (A)', 'time' => '06:00 - 07:55', 'kelas' => 'A'],
-                                                    ['day' => 1, 'start' => 7, 'end' => 9, 'title' => 'PBP (B)', 'time' => '06:00 - 07:55', 'kelas' => 'B'],
-                                                    ['day' => 1, 'start' => 7, 'end' => 9, 'title' => 'PBP (C)', 'time' => '06:00 - 07:55', 'kelas' => 'C'],
-                                                    ['day' => 2, 'start' => 8, 'end' => 10, 'title' => 'Pemrograman Web', 'time' => '08:00 - 09:55', 'kelas' => 'A'],
+                                                    ['day' => 1, 'time' => '07:30 - 09:20', 'title' => 'PBP (A)', 'kelas' => 'A', 'ruangan' => 'E101','jenis' => 'wajib'],
+                                                    ['day' => 1, 'time' => '08:30 - 10:00', 'title' => 'Pemrograman Web', 'kelas' => 'B', 'ruangan' => 'E101','jenis' => 'pilihan'],
                                                     // Tambahkan jadwal lainnya sesuai kebutuhan
                                                 ];
                                             @endphp
                                             @foreach ($schedules as $schedule)
-                                                @if ($schedule['day'] == $day && $time >= $schedule['start'] && $time < $schedule['end'])
+                                                @php
+                                                    // Ambil jam mulai dan jam selesai dari 'time'
+                                                    [$start, $end] = explode(' - ', $schedule['time']);
+                                                @endphp
+                                                @if ($schedule['day'] == $day &&  $time >= intval(substr($start, 0, 2)) && $time < intval(substr($end, 0, 2)))
                                                     @php
                                                         $colorClass = '';
                                                         switch ($schedule['kelas']) {
@@ -115,7 +117,7 @@
                                     <svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                                     </svg>
-                                    Right drawer
+                                    Tambah Jadwal
                                 </h5>
                                 <button type="button" data-drawer-hide="drawer-right-example" aria-controls="drawer-right-example" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
                                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -125,35 +127,56 @@
                                 </button>
 
                                 <!-- Form for schedule input -->
+                                <!-- Form for schedule input -->
                                 <form class="mt-4">
                                     <div class="mb-4">
                                         <label for="day" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Hari</label>
-                                        <input type="number" id="day" name="day" value="1" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" required>
+                                        <select id="day" name="day" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" required>
+                                            <option value="1">Senin</option>
+                                            <option value="2">Selasa</option>
+                                            <option value="3">Rabu</option>
+                                            <option value="4">Kamis</option>
+                                            <option value="5">Jumat</option>
+                                            <option value="6">Sabtu</option>
+                                            <option value="7">Minggu</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="Jenis" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Jenis</label>
+                                        <select id="Jenis" name="Jenis" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" required>
+                                            <option value="wajib">wajib</option>
+                                            <option value="pilihan">pilihan</option>
+                                        </select>
                                     </div>
                                     <div class="mb-4">
                                         <label for="start" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Jam Mulai</label>
-                                        <input type="number" id="start" name="start" value="7" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" required>
+                                        <input type="time" id="start" name="start" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" required>
                                     </div>
                                     <div class="mb-4">
                                         <label for="end" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Jam Selesai</label>
-                                        <input type="number" id="end" name="end" value="9" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" required>
+                                        <input type="time" id="end" name="end" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" required>
                                     </div>
                                     <div class="mb-4">
                                         <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Judul</label>
-                                        <input type="text" id="title" name="title" value="PBP (A)" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" required>
+                                        <input type="text" id="title" name="title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" required>
                                     </div>
                                     <div class="mb-4">
-                                        <label for="time" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Waktu</label>
-                                        <input type="text" id="time" name="time" value="06:00 - 07:55" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" required>
+                                        <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Kelas</label>
+                                        <input type="text" id="title" name="title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" required>
                                     </div>
                                     <div class="mb-4">
-                                        <label for="kelas" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Kelas</label>
-                                        <input type="text" id="kelas" name="kelas" value="A" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" required>
+                                        <label for="ruangan" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Ruangan</label>
+                                        <select id="ruangan" name="ruangan" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" required>
+                                            <option value="E101">E101</option>
+                                            <option value="E102">E102</option>
+                                            <option value="E103">E103</option>
+                                        </select>
                                     </div>
                                     <button type="submit" class="w-full inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                         Simpan
                                     </button>
                                 </form>
+
                             </div>
 
 
@@ -171,6 +194,8 @@
                                     <div class="mt-2">
                                         <p class="text-sm text-gray-500">Kelas: <span x-text="selectedSchedule.kelas"></span></p>
                                         <p class="text-sm text-gray-500">Waktu: <span x-text="selectedSchedule.time"></span></p>
+                                        <p class="text-sm text-gray-500">Ruangan: <span x-text="selectedSchedule.ruangan"></span></p>
+                                        <p class="text-sm text-gray-500">Jenis: <span x-text="selectedSchedule.jenis"></span></p>
                                     </div>
                                     <div class="mt-4">
                                         <button @click="showModal = false" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
