@@ -1,3 +1,4 @@
+@auth
 <div class="flex h-screen font-poppins">
     <!-- Sidebar Blade Template -->
     <aside class="flex flex-col w-64 bg-white shadow-lg fixed top-0 left-0 h-full z-10" style="border-top-right-radius: 20px; border-bottom-right-radius: 20px;">
@@ -75,9 +76,10 @@
             <div class="px-6 py-4 flex items-center">
             <img src="https://via.placeholder.com/40" alt="Profile Image" class="rounded-full h-10 w-10">
             <div class="ml-4">
-                <p class="text-sm font-medium">Dul Samsi</p>
+                <p class="text-sm font-medium">{{ Auth::user() -> name }}</p>
                 <p class="text-xs text-gray-600">24060122120031 - Informatika S1</p>
             </div>
         </div>
     </aside>
 </div>
+@endauth
