@@ -1,16 +1,23 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\JadwalController;
 use Illuminate\Support\Facades\Route;
 
 // Route for displaying the login page
-Route::get('login', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 
 // Route for handling login process
-Route::post('login', [AuthController::class, 'login']);
+Route::get('/', function () {
+    return view('login');
+})->name('login');
+
+Route::get('/buat-irs', [JadwalController::class, 'createIRS'])->name('buat.irs');
+
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
 // Route for logout
-Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Routes for role selection
 Route::middleware(['auth'])->group(function () {
@@ -72,6 +79,9 @@ Route::get('kaprodij', function () {
 Route::get('/mhs/BuatIrs', function () {
     return view('mhsBuatIrs');
 });
+
+Route::get('/mhs/BuatIrs', [JadwalController::class, 'buatIRSJadwal'])->name('buat.irs');
+
 
 Route::get('/mhs/irs', function () {
     return view('mhsIrs');
