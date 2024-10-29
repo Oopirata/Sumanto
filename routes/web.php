@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('dosen.dashboard');
 });
 
-Route::get('/dekan/jadwal', function () {
+Route::get('dekan/jadwal', function () {
     return view('dekanJadwal');
 });
 
@@ -68,19 +68,4 @@ Route::get('kaprodimk', function () {
 Route::get('kaprodij', function () {
     return view('kaprodiBuatJadwal');
 });
-
-Route::get('/mhs/BuatIrs', function () {
-    return view('mhsBuatIrs');
-});
-
-Route::get('/mhs/irs', function () {
-    return view('mhsIrs');
-});
-
-Route::get('/mhs/khs', function () {
-    return view('mhsKhs');
-});
-
-Route::get('/mhs/transkip', function () {
-    return view('mhsTranskip');
-});
+// Add any other necessary routes here...
