@@ -37,7 +37,7 @@
                     <h1 class="text-green-500">Mahasiswa Aktif</h1>
                 </div>
                 <div class="text-center font-bold">
-                    <h1>Dosen Wali: Dr.Eng. Mukidi Sukidi, S.Si., M.Kom.</h1>
+                    <h1>Dosen Wali: Dr. Aegon, S.Si., M.Kom.</h1>
                     <h1>NIP : 2298976546789</h1>
                 </div>
                 <div class="grid grid-cols-3 mt-8">
@@ -72,7 +72,6 @@
                         <td class="pt-6">Proyek Perangkat Lunak</td>
                         <td class="pt-6">3</td>
                         <td class="pt-6">
-                            <h1>Rabu, 2 September 2024</h1>
                             <h1>07.00 - 09.30</h1>
                             <h1>K202</h1>
                         </td>
@@ -81,7 +80,6 @@
                         <td class="pt-6">Pengembangan Berbasis Platform</td>
                         <td class="pt-6">4</td>
                         <td class="pt-6">
-                            <h1>Senin, 31 Agustus 2024</h1>
                             <h1>07.00 - 09.30</h1>
                             <h1>E101</h1>
                         </td>

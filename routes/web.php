@@ -10,7 +10,7 @@ Route::get('login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 
 // Route for logout
-Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Routes for role selection
 Route::middleware(['auth'])->group(function () {
