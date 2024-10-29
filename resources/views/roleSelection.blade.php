@@ -1,8 +1,12 @@
 @extends('main')
 
 @section('title', 'Select Your Role')
+@section('title', 'Select Your Role')
 
 @section('page')
+<div class="flex justify-center items-start min-h-screen bg-gray-50 py-10 font-poppins">
+    <div class="bg-white p-10 rounded-xl shadow-lg w-full max-w-lg">
+        <h2 class="text-2xl text-center font-semibold mb-12">Select Your Role</h2>
 <div class="flex justify-center items-start min-h-screen bg-gray-50 py-10 font-poppins">
     <div class="bg-white p-10 rounded-xl shadow-lg w-full max-w-lg">
         <h2 class="text-2xl text-center font-semibold mb-12">Select Your Role</h2>

@@ -52,3 +52,20 @@ Route::middleware(['auth'])->group(function () {
 Route::get('dekan/jadwal', function () {
     return view('dekanJadwal');
 });
+
+
+Route::get('kaprodid', function () {
+    return view('kaprodiDashboard');
+});
+
+Route::get('kaprodimk', function () {
+    return view('kaprodiMatkulDosen');
+});
+
+Route::get('kaprodij', function () {
+    return view('kaprodiBuatJadwal');
+});
+
+Route::get('mhsBuatIrs', function () {
+    return view('mhsBuatIrs');
+});
