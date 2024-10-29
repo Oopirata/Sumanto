@@ -90,10 +90,10 @@
             </table>
         </div>
     </div>
-    <div class="w-[25%] h-full"> <!-- Tambahkan h-full di sini -->
+    <div class="w-[25%] h-full"> 
         <h1 class="text-xl font-extrabold">Pengumuman</h1>
-        <div class="bg-white rounded-2xl py-6 my-4 h-full"> <!-- Tambahkan h-full di sini -->
-            <img src="images/poster.jpeg" alt="Poster Pengumuman" class="max-w-[80%] h-auto mx-auto rounded-lg"> <!-- Ganti w-full dengan max-w-[80%] -->
+        <div class="bg-white rounded-2xl py-6 my-4 h-full"> 
+            <img src="images/poster.jpeg" alt="Poster Pengumuman" class="max-w-[80%] h-auto mx-auto rounded-lg"> 
         </div>
     </div>
 </div>
