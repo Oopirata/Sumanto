@@ -62,6 +62,10 @@ Route::get('kaprodimk', function () {
     return view('kaprodiMatkulDosen');
 });
 
+Route::get('kaprodij', function () {
+    return view('kaprodiBuatJadwal');
+});
+
 Route::get('mhsBuatIrs', function () {
     return view('mhsBuatIrs');
 });
