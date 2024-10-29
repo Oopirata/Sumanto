@@ -32,36 +32,41 @@
                         <!-- Course List -->
                         <ul id="courseList" class="space-y-2">
                             @php
-                                $courses = [
-                                    ['name' => 'Sistem Informasi', 'code' => 'PAIK6503', 'sks' => 3, 'description' => 'Belajar tentang sistem informasi.'],
-                                    ['name' => 'Kewirausahaan', 'code' => 'UNW00007', 'sks' => 2, 'description' => 'Dasar-dasar kewirausahaan.'],
-                                    ['name' => 'Proyek Perangkat Lunak', 'code' => 'PAIK6504', 'sks' => 3, 'description' => 'Manajemen proyek perangkat lunak.'],
-                                    ['name' => 'Keamanan dan Jaminan Informasi', 'code' => 'PAIK6506', 'sks' => 3, 'description' => 'Keamanan data dan informasi.'],
-                                    ['name' => 'Pengembangan Berbasis Platform', 'code' => 'PAIK6501', 'sks' => 4, 'description' => 'Pengembangan aplikasi berbasis platform.'],
-                                    ['name' => 'Komputasi Terdistribusi dan Paralel', 'code' => 'PAIK6502', 'sks' => 3, 'description' => 'Konsep komputasi terdistribusi.'],
-                                    ['name' => 'Pembelajaran Mesin', 'code' => 'PAIK6505', 'sks' => 3, 'description' => 'Pengenalan pembelajaran mesin.']
+                            $courses = $jadwals->unique('kode_mk')->map(function ($jadwal) {
+                                return [
+                                    'code' => $jadwal->kode_mk,
+                                    'name' => $jadwal->nama_mk,
                                 ];
+                            })->values()->toArray();
+
+                            $irss = $irs->unique('kode_mk')->map(function ($irs) {
+                                return [
+                                    'code' => $irs->kode_mk,
+                                    'sks' => $irs->sks,
+                                ];
+                            })->values()->toArray();
+                        @endphp
+
+                        @foreach ($courses as $course)
+                            @php
+                                // Cari data SKS di $irss yang sesuai dengan course['code']
+                                $irsItem = collect($irss)->firstWhere('code', $course['code']);
                             @endphp
-                            @foreach ($courses as $course)
-                                <li id="course-{{ $course['code'] }}"
-                                    class="course-item flex items-center p-2 border rounded-md bg-gray-50">
-                                    <button onclick="toggleCourse('{{ $course['code'] }}')"
-                                        class="mr-2 text-gray-500 hover:text-gray-700 focus:outline-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2">
-                                            <path
-                                                d="M12 2C7.03 2 2.61 5.82 1 10.5a11.9 11.9 0 0010 7.5 11.9 11.9 0 0010-7.5c-1.61-4.68-6.03-8.5-10-8.5z">
-                                            </path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
-                                    </button>
-                                    <div>
-                                        <p class="font-semibold">{{ $course['name'] }}</p>
-                                        <p class="text-xs text-gray-600">{{ $course['code'] }} (SMT 5) ({{ $course['sks'] }}
-                                            SKS)</p>
-                                    </div>
-                                </li>
-                            @endforeach
+                            <li id="course-{{ $course['code'] }}" class="course-item flex items-center p-2 border rounded-md bg-gray-50">
+                                <button onclick="toggleCourse('{{ $course['code'] }}')" class="mr-2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2C7.03 2 2.61 5.82 1 10.5a11.9 11.9 0 0010 7.5 11.9 11.9 0 0010-7.5c-1.61-4.68-6.03-8.5-10-8.5z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                                <div>
+                                    <p class="font-semibold">{{ $course['name'] }}</p>
+                                    <p class="text-xs text-gray-600">
+                                        {{ $course['code'] }} (SMT 5) ({{ $irsItem ? $irsItem['sks'] : 'N/A' }} SKS)
+                                    </p>
+                                </div>
+                            </li>
+                        @endforeach
                         </ul>
                     </div>
 
@@ -69,20 +74,13 @@
                     <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
                         <!-- Header row for days of the week and time slot -->
                         <div class="grid grid-cols-7 bg-white border-t border-gray-200 sticky top-0 left-0 w-full">
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Jam
-                            </div> <!-- Time header -->
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Senin
-                            </div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Selasa
-                            </div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Rabu
-                            </div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Kamis
-                            </div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Jumat
-                            </div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Sabtu
-                            </div>
+                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Jam</div>
+                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Senin</div>
+                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Selasa</div>
+                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Rabu</div>
+                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Kamis</div>
+                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Jumat</div>
+                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Sabtu</div>
                         </div>
 
                         <!-- Time slots and courses -->
@@ -91,19 +89,30 @@
                                 <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">
                                     {{ $time }}:00 - {{ $time + 1 }}:00</div>
 
-                                @foreach (['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu'] as $day)
+                                    @foreach (['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu'] as $day)
                                     <div class="flex items-center justify-center border-r border-gray-200 p-2">
-                                        <div class="rounded-lg bg-blue-100 text-blue-900 text-sm font-semibold p-2 course-slot"
-                                            data-code="{{ $course['code'] }}" data-day="{{ $day }}" data-time="{{ $time }}"
-                                            onclick="showCourseModal('{{ $course['name'] }}', '{{ $course['description'] }}', '{{ $course['code'] }}', '{{ $day }}', '{{ $time }}')">
-                                            {{ $course['name'] }}
-                                            <br>{{ $course['sks'] }} SKS
-                                        </div>
+                                        @php
+                                            // Filter jadwal berdasarkan hari dan jam
+                                            $course = $jadwals->where('hari', ucfirst($day))->where('jam_mulai', $time . ':00')->first();
+                                            
+                                            // Cari sks berdasarkan nama mata kuliah tanpa memperhatikan hari dan jam
+                                            $irsItem = $irs->firstWhere('nama_mk', optional($course)->nama_mk);
+                                        @endphp
+                                
+                                        @if ($course)
+                                            <div class="rounded-lg bg-blue-100 text-blue-900 text-sm font-semibold p-2 course-slot"
+                                                data-code="{{ $course->kode_mk }}" data-day="{{ $day }}" data-time="{{ $time }}"
+                                                onclick="showCourseModal('{{ $course->nama_mk }}', '{{ $course->kode_mk }}', '{{ $day }}', '{{ $time }}')">
+                                                {{ $course->nama_mk }}
+                                                <br>{{ $irsItem ? $irsItem->sks : 'N/A' }} SKS
+                                            </div>
+                                        @else
+                                            <div class="text-sm text-gray-500">Kosong</div>
+                                        @endif
                                     </div>
-                                @endforeach
+                                @endforeach                                
                             </div>
                         @endfor
-
                     </div>
                 </div>
             </div>
