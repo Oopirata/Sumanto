@@ -1,19 +1,13 @@
 @extends('main')
 
 @section('title', 'Select Your Role')
-@section('title', 'Select Your Role')
 
 @section('page')
 <div class="flex justify-center items-start min-h-screen bg-gray-50 py-10 font-poppins">
     <div class="bg-white p-10 rounded-xl shadow-lg w-full max-w-lg">
         <h2 class="text-2xl text-center font-semibold mb-12">Select Your Role</h2>
-<div class="flex justify-center items-start min-h-screen bg-gray-50 py-10 font-poppins">
-    <div class="bg-white p-10 rounded-xl shadow-lg w-full max-w-lg">
-        <h2 class="text-2xl text-center font-semibold mb-12">Select Your Role</h2>
-
         <form action="{{ route('selectRole.submit') }}" method="POST">
             @csrf
-            
             <div class="mb-6">
                 <label class="text-lg font-semibold text-black mb-2">Choose Your Role:</label>
                 <div class="relative">
@@ -32,8 +26,9 @@
                 </div>
             </div>
 
-            <div class="flex justify-center mt-20">
-                <button type="submit" class="bg-[#5932EA] text-white px-6 py-2 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:bg-purple-700 focus:ring-opacity-50">
+            <div class="flex justify-center mt-10">
+                <button type="submit" 
+                        class="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-200 ease-in-out">
                     Proceed
                 </button>
             </div>
