@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('ruang')->nullable();
             $table->string('kode_mk');
             $table->string('nama_mk');
+            $table->string('sks');
             $table->string('kelas')->nullable();
             $table->string('kapasitas')->nullable();
             $table->string('status');
