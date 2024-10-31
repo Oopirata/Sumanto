@@ -11,15 +11,22 @@ return new class extends Migration
      */
     public function up()
     {
+        // Schema::create('mahasiswa', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('NIM');
+        //     $table->string('nama');
+        //     $table->string('jurusan');
+        //     $table->integer('semester');
+        //     $table->string('alamat');
+        //     $table->string('email')->unique();
+        //     $table->float('ipk');
+        //     $table->timestamps();
+        // });
+
         Schema::create('mahasiswa', function (Blueprint $table) {
             $table->id();
-            $table->string('NIM');
-            $table->string('nama');
-            $table->string('jurusan');
-            $table->integer('semester');
-            $table->string('alamat');
-            $table->string('email')->unique();
-            $table->float('ipk');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('nim')->unique();
             $table->timestamps();
         });
     }
