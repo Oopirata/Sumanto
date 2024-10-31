@@ -29,7 +29,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Dashboard Routes with middleware
-Route::middleware(['auth'])->group(function () {
+// Route::middleware(['auth'])->group(function () {
     // Student dashboard
     Route::get('mhs/dashboard', function () {
         return view('mhsDashboard');
@@ -52,14 +52,17 @@ Route::middleware(['auth'])->group(function () {
 
     // Academic Advisor dashboard
     Route::get('dosen/dashboard', function () {
-        return view('advisorDashboard');
+        return view('paDashboard');
     })->name('dosen.dashboard');
-});
+// });
 
 Route::get('/dekan/jadwal', function () {
     return view('dekanJadwal');
 });
 
+Route::get('dekan/ruangan', function () {
+    return view('dekanVerifikasi');
+});
 
 Route::get('kaprodid', function () {
     return view('kaprodiDashboard');
