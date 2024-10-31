@@ -11,16 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::create('dosen', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('nip')->unique();
-        //     $table->string('nama');
-        //     $table->string('no_telp');
-        //     $table->string('alamat');
-        //     $table->timestamps();
-        // });
-
-        Schema::create('dosen', function (Blueprint $table) {
+        Schema::create('kaprodi', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nip')->unique();
@@ -33,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dosen');
+        Schema::dropIfExists('kaprodi');
     }
 };
