@@ -11,19 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::create('dosen', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('nip')->unique();
-        //     $table->string('nama');
-        //     $table->string('no_telp');
-        //     $table->string('alamat');
-        //     $table->timestamps();
-        // });
-
-        Schema::create('dosen', function (Blueprint $table) {
+        Schema::create('dekan', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('nip')->unique();
+            $table->string('nip')->unique(); // NIP hanya jika diperlukan
             $table->timestamps();
         });
     }
@@ -33,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dosen');
+        Schema::dropIfExists('dekan');
     }
 };
