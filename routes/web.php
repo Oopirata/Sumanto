@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Program Head dashboard
     Route::get('kaprodi/dashboard', function () {
-        return view('programHeadDashboard');
+        return view('kaprodiDashboard');
     })->name('kaprodi.dashboard');
 
     // Academic Staff dashboard
