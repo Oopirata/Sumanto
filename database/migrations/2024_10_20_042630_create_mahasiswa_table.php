@@ -25,8 +25,13 @@ return new class extends Migration
 
         Schema::create('mahasiswa', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nim')->unique();
+            $table->integer('semester');
+            $table->string('prodi');
+            $table->float('IPK', 2)->nullable();
+
+            //fk
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
