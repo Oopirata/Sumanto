@@ -27,6 +27,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nim')->unique();
+            $table->foreignId('dosen_wali_id')->constrained('dosen', 'nip')->onDelete('set null');
             $table->timestamps();
         });
     }
