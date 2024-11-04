@@ -89,20 +89,24 @@
                                     {{ $time }}:00 - {{ $time + 1 }}:00
                                 </div>
 
-                                @foreach (['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu'] as $day)
+                                @foreach (['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as $day)
                                     <div class="flex items-center justify-center p-2 border-r border-gray-200">
                                         @php
-                                            $course = $jadwals->where('hari', ucfirst($day))->where('jam_mulai', $time . ':00')->first();
-                                            $irsItem = $irs->firstWhere('nama_mk', optional($course)->nama_mk);
+                                            // Cari course pada hari dan jam yang sesuai
+                                            $courses = $jadwals->where('hari', $day)->where('jam_mulai', $time . ':00');
                                         @endphp
 
-                                        @if ($course)
-                                            <div class="rounded-lg bg-blue-100 text-blue-900 text-sm font-semibold p-2 course-slot"
-                                                data-code="{{ $course->kode_mk }}" data-day="{{ $day }}" data-time="{{ $time }}"
-                                                onclick="showCourseModal('{{ $course->nama_mk }}', '{{ $course->kode_mk }}', '{{ $day }}', '{{ $time }}')">
-                                                {{ $course->nama_mk }}<br>{{ $irsItem ? $irsItem->sks : 'N/A' }} SKS
-                                            </div>
+                                        @if ($courses->isNotEmpty())
+                                            <!-- Tampilkan semua course yang sesuai -->
+                                            @foreach ($courses as $course)
+                                                <div class="rounded-lg bg-blue-100 text-blue-900 text-sm font-semibold p-2 course-slot"
+                                                    data-code="{{ $course->kode_mk }}" data-day="{{ $day }}" data-time="{{ $time }}"
+                                                    onclick="showCourseModal('{{ $course->nama_mk }}', '{{ $course->kode_mk }}', '{{ $day }}', '{{ $time }}')">
+                                                    {{ $course->nama_mk }}<br>{{ $course->sks }} SKS
+                                                </div>
+                                            @endforeach
                                         @else
+                                            <!-- Tampilkan "Kosong" hanya jika tidak ada course yang ditemukan -->
                                             <div class="text-sm text-gray-500">Kosong</div>
                                         @endif
                                     </div>
