@@ -13,7 +13,7 @@ class IrsSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('irs')->insert([
+        DB::table('buat_irs')->insert([
             [
                 'kode_mk' => 'PAIK6102',
                 'nama_mk' => 'Dasar Pemrograman',

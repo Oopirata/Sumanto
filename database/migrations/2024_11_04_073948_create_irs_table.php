@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('irs_rekap', function (Blueprint $table) {
+        Schema::create('irs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('mhs_id');
-            $table->unsignedBigInteger('irs_id');
+            $table->unsignedBigInteger('jadwal_id');
             $table->string('semester');
             $table->integer('total_sks');
             $table->string('status');
@@ -22,8 +22,9 @@ return new class extends Migration
 
             //fk
             $table->foreign('mhs_id')->references('id')->on('mahasiswa')->onDelete('cascade');
-            $table->foreign('irs_id')->references('id')->on('irs')->onDelete('cascade');
-            $table->$table->timestamps();
+            $table->foreign('jadwal_id')->references('id')->on('jadwal')->onDelete('cascade');
+
+            $table->timestamps();
         });
     }
 
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('irs_rekap');
+        Schema::dropIfExists('irs');
     }
 };

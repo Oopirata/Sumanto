@@ -9,5 +9,15 @@ class Irs extends Model
 {
     use HasFactory;
 
-    protected $table = 'irs'; // Nama tabel
+    protected $fillable = [
+        'kode_mk',
+        'nama_mk',
+        'sks',
+        'semester',
+        'kelas',
+        'ruang',
+        'status',
+        'nama_dosen',
+        'time_date',
+    ];
 }
