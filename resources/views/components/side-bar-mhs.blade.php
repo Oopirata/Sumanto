@@ -11,7 +11,7 @@
         <!-- Menu Items -->
         <div class="flex flex-col mt-6 flex-grow margin-bottom: 50px;">
             <!-- Dashboard -->
-            <a href="/mhsd" class="inline-flex items-center mx-5 px-6 py-2 text-gray-600 hover:bg-[#5932EA] focus:bg-[#5932EA] hover:text-white focus:text-white rounded-lg transition-all mb-2">
+            <a href="/mhs/dashboard" class="inline-flex items-center mx-5 px-6 py-2 text-gray-600 hover:bg-[#5932EA] focus:bg-[#5932EA] hover:text-white focus:text-white rounded-lg transition-all mb-2">
                 <span class="material-icons"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
                     <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
                 </svg></span>
@@ -32,12 +32,12 @@
                 </button>
 
                 <div x-show="open" class="mt-2 space-y-1 pl-6">
-                    <a href="/mhsbk" class="flex items-center my-4"> <!-- Changed to anchor -->
-                        <label class="ml-2 text-sm text-gray-600">Biaya Kuliah</label>
-                    </a>
-                    <a href="/mhssk" class="flex items-center my-4 mb-4"> <!-- Changed to anchor -->
-                        <label class="ml-2 text-sm text-gray-600">Status Kuliah</label>
-                    </a>
+                    <div class="flex items-center my-5">
+                        <a href="/mhsbk" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Biaya Kuliah</a>
+                    </div>
+                    <div class="flex items-center my-5">
+                        <a href="/mhssk" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Status kuliah</a>
+                    </div>
                 </div>
             </div>
 
