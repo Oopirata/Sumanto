@@ -47,7 +47,10 @@ class UserSeeder extends Seeder
                     case 'Mahasiswa':
                         DB::table('mahasiswa')->insert([
                             'user_id' => $user->id,
-                            'nim' => 'MHS' . uniqid() . random_int(1000, 9999) // Random unique NIM
+                            'nim' => 'MHS' . uniqid() . random_int(1000, 9999), // Random unique NIM
+                            'semester' => random_int(1, 12),
+                            'prodi' => 'Informatika',
+                            'IPK' => mt_rand(100, 400) / 100,
                         ]);
                         break;
                     case 'Pembimbing Akademik':
