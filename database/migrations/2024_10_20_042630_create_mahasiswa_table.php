@@ -31,7 +31,7 @@ return new class extends Migration
             $table->integer('semester');
             $table->string('prodi');
             $table->float('IPK', 2)->nullable();
-            $table->foreignId('dosen_wali_id')->constrained('dosen', 'nip')->onDelete('set null');
+            // $table->foreignId('dosen_wali_id')->constrained('dosen', 'nip')->onDelete('set null')->nullable();
             $table->timestamps();
         });
     }
