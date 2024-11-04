@@ -11,12 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Schema::create('dosen', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('nip')->unique();
+        //     $table->string('nama');
+        //     $table->string('no_telp');
+        //     $table->string('alamat');
+        //     $table->timestamps();
+        // });
+
         Schema::create('dosen', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nip')->unique();
-            $table->string('nama');
-            $table->string('no_telp');
-            $table->string('alamat');
             $table->timestamps();
         });
     }

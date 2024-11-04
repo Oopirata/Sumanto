@@ -17,7 +17,7 @@
         <h2 class="text-[#000000] mb-6">Log in menggunakan SSO</h2>
         
         <!-- Login Form -->
-        <form action="{{ route('login') }}" method="POST" class="space-y-4">
+        <form action="{{ route('login.submit') }}" method="POST" class="space-y-4">
             @csrf
             <!-- Email Input -->
             <input type="email" name="email" placeholder="Masukkan E-Mail" required 

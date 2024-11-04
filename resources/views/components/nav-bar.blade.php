@@ -1,6 +1,7 @@
+@auth
 <nav x-data="{ mobileMenuIsOpen: false }" @click.away="mobileMenuIsOpen = false" class="flex items-center justify-between px-6 py-4">
     <!-- Welcome Message -->
-    <h1 class="font-semibold text-lg mr-auto">Hello Dul Samsi</h1>
+    <h1 class="font-semibold text-lg mr-auto">{{ Auth::user() -> name }}</h1>
     
     <!-- Desktop Menu -->
     <ul class="hidden items-center gap-4 flex-shrink-0 sm:flex">
@@ -16,8 +17,8 @@
             <ul x-cloak x-show="userDropDownIsOpen || openWithKeyboard" x-transition.opacity x-trap="openWithKeyboard" @click.outside="userDropDownIsOpen = false, openWithKeyboard = false" @keydown.down.prevent="$focus.wrap().next()" @keydown.up.prevent="$focus.wrap().previous()" id="userMenu" class="absolute right-0 top-12 flex w-full min-w-[12rem] flex-col overflow-hidden rounded-md border border-neutral-300 bg-neutral-50 py-1.5 dark:border-neutral-700 dark:bg-neutral-900 z-30">
                 <li class="border-b border-neutral-300 dark:border-neutral-700">
                     <div class="flex flex-col px-4 py-2">    
-                        <span class="text-sm font-medium text-neutral-900 dark:text-white">Alice Brown</span>
-                        <p class="text-xs text-neutral-600 dark:text-neutral-300">alice.brown@gmail.com</p>
+                        <span class="text-sm font-medium text-neutral-900 dark:text-white">{{ Auth::user() -> name }}</span>
+                        <p class="text-xs text-neutral-600 dark:text-neutral-300">{{ Auth::user() -> email }}</p>
                     </div>
                 </li>
                 <li><a href="#" class="block bg-neutral-50 px-4 py-2 text-sm text-neutral-600 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:bg-neutral-900/10 focus-visible:text-neutral-900 focus-visible:outline-none dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-50/5 dark:hover:text-white dark:focus-visible:bg-neutral-50/10 dark:focus-visible:text-white">Settings</a></li>
@@ -48,7 +49,8 @@
         <hr role="none" class="my-2 border-outline dark:border-neutral-700">
         <li class="p-2"><a href="#" class="w-full text-neutral-600 focus:underline dark:text-neutral-300">Settings</a></li>
         <!-- CTA Button -->
-        <li class="mt-4 w-full border-none"><a href="#" class="rounded-md bg-black px-4 py-2 block text-center font-medium tracking-wide text-neutral-100 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:opacity-100 active:outline-offset-0 dark:bg-white dark:text-black dark:focus-visible:outline-white">Sign Out</a></li>
+        <li class="mt-4 w-full border-none"><a href="{{ route ('logout') }}" class="rounded-md bg-black px-4 py-2 block text-center font-medium tracking-wide text-neutral-100 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:opacity-100 active:outline-offset-0 dark:bg-white dark:text-black dark:focus-visible:outline-white">Sign Out</a></li>
     </ul>
 </nav>
 <div class="border-b-4"></div>
+@endauth

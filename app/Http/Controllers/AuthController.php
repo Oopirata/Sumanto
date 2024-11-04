@@ -21,9 +21,10 @@ class AuthController extends Controller
         return view('login');
     }
 
-    public function dashboardMhs() {
+    public function dashboardMhs()
+    {
         $user = Auth::user();
-        return view ('mhsDashboard', compact('user'));
+        return view('mhsDashboard', compact('user'));
     }
 
     // Process login
@@ -78,7 +79,7 @@ class AuthController extends Controller
             // Store selected role in session
             $selectedRole = trim($selectedRole->name);  // Trim here
             Session::put('active_role', $selectedRole);
-        
+
             // Redirect to the selected role's dashboard
             return redirect()->intended($this->getDashboardRoute($selectedRole));
         }
@@ -87,7 +88,8 @@ class AuthController extends Controller
     }
 
     // Determine the dashboard route based on role
-    protected function getDashboardRoute($roleName) {
+    protected function getDashboardRoute($roleName)
+    {
         $user = Auth::user();
 
         switch ($roleName) {
@@ -110,6 +112,6 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('login');
+        return redirect('/login');
     }
 }
