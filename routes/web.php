@@ -30,30 +30,30 @@ Route::middleware(['auth'])->group(function () {
 
 // Dashboard Routes with middleware
 // Route::middleware(['auth'])->group(function () {
-    // Student dashboard
-    Route::get('mhs/dashboard', function () {
-        return view('mhsDashboard');
-    })->name('mhs.dashboard');
+// Student dashboard
+Route::get('mhs/dashboard', function () {
+    return view('mhsDashboard');
+})->name('mhs.dashboard');
 
-    // Dean dashboard
-    Route::get('dekan/dashboard', function () {
-        return view('dekanDashboard');
-    })->name('dekan.dashboard');
+// Dean dashboard
+Route::get('dekan/dashboard', function () {
+    return view('dekanDashboard');
+})->name('dekan.dashboard');
 
-    // Program Head dashboard
-    Route::get('kaprodi/dashboard', function () {
-        return view('kaprodiDashboard');
-    })->name('kaprodi.dashboard');
+// Program Head dashboard
+Route::get('kaprodi/dashboard', function () {
+    return view('kaprodiDashboard');
+})->name('kaprodi.dashboard');
 
-    // Academic Staff dashboard
-    Route::get('staff/dashboard', function () {
-        return view('academicStaffDashboard');
-    })->name('staff.dashboard');
+// Academic Staff dashboard
+Route::get('staff/dashboard', function () {
+    return view('academicStaffDashboard');
+})->name('staff.dashboard');
 
-    // Academic Advisor dashboard
-    Route::get('dosen/dashboard', function () {
-        return view('paDashboard');
-    })->name('dosen.dashboard');
+// Academic Advisor dashboard
+Route::get('dosen/dashboard', function () {
+    return view('paDashboard');
+})->name('dosen.dashboard');
 // });
 
 Route::get('/dekan/jadwal', function () {
