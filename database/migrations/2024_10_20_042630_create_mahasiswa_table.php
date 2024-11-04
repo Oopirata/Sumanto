@@ -28,7 +28,7 @@ return new class extends Migration
             //fk
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nim')->unique();
-            $table->integer('semester');
+            $table->string('semester');
             $table->string('prodi');
             $table->float('IPK', 2)->nullable();
             // $table->foreignId('dosen_wali_id')->constrained('dosen', 'nip')->onDelete('set null')->nullable();

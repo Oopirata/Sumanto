@@ -19,7 +19,7 @@ class KhsSeeder extends Seeder
                 'nama_mk' => 'Matematika Dasar',
                 'sks_mk' => 3,
                 'nilai' => 'A',
-                'semester' => 1,
+                'semester' => '1',
                 'jumlah_sks' => 21,
                 'ipk' => 3.80,
                 'ips' => 3.90,

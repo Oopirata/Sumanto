@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nama_mk');
             $table->integer('sks_mk');
             $table->char('nilai');
-            $table->integer('semester');
+            $table->string('semester');
             $table->integer('jumlah_sks');
             $table->float('ipk');
             $table->float('ips');
