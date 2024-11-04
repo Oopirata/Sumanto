@@ -17,4 +17,9 @@ class Dosen extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function matakuliah()
+    {
+        return $this->belongsToMany(Matakuliah::class, 'dosen_matakuliah');
+    }
 }

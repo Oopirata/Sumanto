@@ -20,4 +20,9 @@ class Matakuliah extends Model
         'deskripsi',
         'kapasitas'
     ];
+    
+    public function dosen()
+    {
+        return $this->belongsToMany(Dosen::class, 'dosen_matakuliah');
+    }
 }
