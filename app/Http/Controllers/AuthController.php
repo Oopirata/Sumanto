@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Dosen;
 
 class AuthController extends Controller
 {
@@ -19,12 +20,6 @@ class AuthController extends Controller
         }
 
         return view('login');
-    }
-
-    public function dashboardMhs()
-    {
-        $user = Auth::user();
-        return view('mhsDashboard', compact('user'));
     }
 
     // Process login
