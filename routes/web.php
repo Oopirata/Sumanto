@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BuatIRSController;
 use App\Http\Controllers\IRSController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\MhsDashboard;
+use App\Http\Controllers\MatakuliahController;
 use Illuminate\Support\Facades\Route;
 
 // Route for displaying the login page
@@ -31,9 +33,6 @@ Route::middleware(['auth'])->group(function () {
 // Dashboard Routes with middleware
 // Route::middleware(['auth'])->group(function () {
 // Student dashboard
-Route::get('mhs/dashboard', function () {
-    return view('mhsDashboard');
-})->name('mhs.dashboard');
 
 // Dean dashboard
 Route::get('dekan/dashboard', function () {
@@ -68,13 +67,13 @@ Route::get('kaprodid', function () {
     return view('kaprodiDashboard');
 });
 
-Route::get('kaprodimk', function () {
-    return view('kaprodiMatkulDosen');
-});
-
 Route::get('kaprodij', function () {
     return view('kaprodiBuatJadwal');
 });
+
+Route::get('kaprodimk', [MatakuliahController::class, 'index'])->name('matakuliah.index');
+
+Route::get('mhs/dashboard', [MhsDashboard::class, 'dashboardMhs'])->name('mhs.dashboard');
 
 Route::get('/mhs/BuatIrs', [BuatIRSController::class, 'tampil_jadwal'])->name('buat.irs');
 
