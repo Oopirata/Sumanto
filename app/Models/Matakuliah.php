@@ -23,6 +23,6 @@ class Matakuliah extends Model
     
     public function dosen()
     {
-        return $this->belongsToMany(Dosen::class, 'dosen_matakuliah');
+        return $this->belongsToMany(Dosen::class, 'dosen_matakuliah','kode_mk','dosen_nip');
     }
 }

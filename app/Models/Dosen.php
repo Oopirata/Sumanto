@@ -20,6 +20,11 @@ class Dosen extends Model
 
     public function matakuliah()
     {
-        return $this->belongsToMany(Matakuliah::class, 'dosen_matakuliah');
+        return $this->belongsToMany(Matakuliah::class, 'dosen_matakuliah','dosen_nip','kode_mk');
     }
+
+    public function mahasiswa()
+    {
+        return $this->hasMany(Mahasiswa::class, 'dosen_wali_id');
+    }  
 }

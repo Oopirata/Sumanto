@@ -23,7 +23,11 @@ return new class extends Migration
         Schema::create('dosen', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('nama');
             $table->string('nip')->unique();
+            $table->string('nama');
+            $table->string('no_telp') ->nullable();
+            $table->string('alamat') ->nullable();
             $table->timestamps();
         });
     }
