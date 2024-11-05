@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('bagian_akademik', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('nama');
             $table->string('nip')->unique(); // 'identifier' ini bisa berupa kode atau ID unik khusus untuk bagian akademik, jika ada
             $table->timestamps();
         });

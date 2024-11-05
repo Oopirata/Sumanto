@@ -34,9 +34,9 @@
                     <a href="/mhsbk" class="flex items-center my-4"> <!-- Changed to anchor -->
                         <label class="ml-2 text-sm text-gray-600">Mahasiswa</label>
                     </a>
-                    <a href="/mhssk" class="flex items-center my-4 mb-4"> <!-- Changed to anchor -->
-                        <label class="ml-2 text-sm text-gray-600">Ajuan IRS</label>
-                    </a>
+                    <div class="flex items-center my-5">
+                        <a href="/mhs/irs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Ajuan IRS</a>
+                    </div>
                 </div>
             </div>
 
