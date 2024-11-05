@@ -8,18 +8,19 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Str;
+use App\Models\Dosen;
 
 class UserSeeder extends Seeder
 {
     public function run()
     {
         $users = [
+            ['name' => 'Budiono Siregar', 'roles' => ['Pembimbing Akademik']],
+            ['name' => 'Don Gogo', 'roles' => ['Dekan', 'Pembimbing Akademik']],
             ['name' => 'Ahmad Douglas', 'roles' => ['Mahasiswa', 'Pembimbing Akademik']],
             ['name' => 'Aegon', 'roles' => ['Mahasiswa']],
             ['name' => 'Leassa', 'roles' => ['Mahasiswa']],
-            ['name' => 'Don Gogo', 'roles' => ['Dekan', 'Pembimbing Akademik']],
             ['name' => 'Cartein', 'roles' => ['Bagian Akademik']],
-            ['name' => 'Budiono Siregar', 'roles' => ['Pembimbing Akademik']],
             ['name' => 'Dewi Kusumawati', 'roles' => ['Bagian Akademik']],
             ['name' => 'Sarah Sriwedari', 'roles' => ['Bagian Akademik']],
             ['name' => 'Cain Chana', 'roles' => ['Ketua Program Studi']],
@@ -45,35 +46,44 @@ class UserSeeder extends Seeder
             foreach ($userData['roles'] as $roleName) {
                 switch ($roleName) {
                     case 'Mahasiswa':
+                        $dosenWali = Dosen::inRandomOrder()->first();
+                        $dosenWaliId = $dosenWali ? $dosenWali->id : null;
+
                         DB::table('mahasiswa')->insert([
                             'user_id' => $user->id,
+                            'nama' => $user->name,
                             'nim' => 'MHS' . uniqid() . random_int(1000, 9999), // Random unique NIM
                             'semester' => random_int(1, 12),
                             'prodi' => 'Informatika',
                             'IPK' => mt_rand(100, 400) / 100,
+                            'dosen_wali_id' => $dosenWaliId
                         ]);
                         break;
                     case 'Pembimbing Akademik':
                         DB::table('dosen')->insert([
                             'user_id' => $user->id,
+                            'nama' => $user->name,
                             'nip' => 'NIP' . uniqid() . random_int(1000, 9999) // Random unique NIP
                         ]);
                         break;
                     case 'Ketua Program Studi':
                         DB::table('kaprodi')->insert([
                             'user_id' => $user->id,
+                            'nama' => $user->name,
                             'nip' => 'NIP' . uniqid() . random_int(1000, 9999) // Random unique NIP
                         ]);
                         break;
                     case 'Dekan':
                         DB::table('dekan')->insert([
                             'user_id' => $user->id,
+                            'nama' => $user->name,
                             'nip' => 'NIP' . uniqid() . random_int(1000, 9999) // Random unique NIP
                         ]);
                         break;
                     case 'Bagian Akademik':
                         DB::table('bagian_akademik')->insert([
                             'user_id' => $user->id,
+                            'nama' => $user->name,
                             'nip' => 'NIP' . uniqid() . random_int(1000, 9999) // Random unique NIP
                         ]);
                         break;
