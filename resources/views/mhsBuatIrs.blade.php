@@ -9,220 +9,176 @@
         <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar></x-nav-bar>
 
-            <!-- Main container for IRS creation -->
+            <!-- Header Section -->
+            <div class="bg-white border rounded-3xl shadow-sm flex justify-between items-center p-8 mx-8 mt-6">
+                <h1 class="text-black font-bold text-2xl">Buat IRS</h1>
+            </div>
+
+            <!-- Main IRS Creation Container -->
             <div class="p-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm">
-                <div class="flex justify-between items-center">
-                    <h1 class="text-black font-bold">Buat IRS</h1>
-                    <div class="text-sm text-red-500 font-semibold">Belum Saatnya Isi IRS!</div>
-                </div>
-
-                <!-- Sidebar and Schedule Layout -->
-                <div class="flex mt-4">
-
-                    <!-- Left Sidebar for Course List and Search -->
-                    <div class="w-1/4 bg-white p-4 border-r border-gray-200">
-                        <div class="bg-purple-500 px-2 py-1 rounded-3xl">
-                            <h2 class="text-white font-semibold text-center">Semester 5</h2>
-                        </div>
-                        <!-- Search Bar for Filtering Courses -->
-                        <div class="relative mb-4 mt-5">
-                            <input type="text" id="courseSearch" placeholder="Cari Matakuliah..."
-                                class="w-full p-2 border rounded-md" onkeyup="searchCourses()">
-                        </div>
-
-                        <!-- Course List -->
-                        <ul id="courseList" class="space-y-2">
-                            @php
-                            $courses = $jadwals->unique('kode_mk')->map(function ($jadwal) {
-                                return [
-                                    'code' => $jadwal->kode_mk,
-                                    'name' => $jadwal->nama_mk,
-                                ];
-                            })->values()->toArray();
-
-                            $irss = $irs->unique('kode_mk')->map(function ($irs) {
-                                return [
-                                    'code' => $irs->kode_mk,
-                                    'sks' => $irs->sks,
-                                ];
-                            })->values()->toArray();
-                            @endphp
-
+                <!-- Course List Table -->
+                <div class="w-full p-4">
+                    <h2 class="font-semibold text-xl mb-4">Daftar Matakuliah</h2>
+                    <div class="relative my-4">
+                        <input type="text" id="courseSearch" placeholder="Cari Matakuliah..." class="w-full p-2 border rounded-md" onkeyup="searchCourses()">
+                    </div>
+                    <table class="w-full border-collapse border border-gray-200">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="p-2 text-sm font-medium text-gray-900 border">Kode MK</th>
+                                <th class="p-2 text-sm font-medium text-gray-900 border">Nama MK</th>
+                                <th class="p-2 text-sm font-medium text-gray-900 border">SKS</th>
+                                <th class="p-2 text-sm font-medium text-gray-900 border">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="courseList">
                             @foreach ($courses as $course)
                                 @php
-                                    $irsItem = collect($irss)->firstWhere('code', $course['code']);
+                                    // Get the schedule for the current course
+                                    $courseSchedules = $jadwals->where('kode_mk', $course->kode_mk);
                                 @endphp
-                                <li id="course-{{ $course['code'] }}" class="course-item flex items-center p-2 border rounded-md bg-gray-50" data-sks="{{ $irsItem ? $irsItem['sks'] : 0 }}">
-                                    <button onclick="toggleCourse('{{ $course['code'] }}')" class="mr-2 text-gray-500 hover:text-gray-700 focus:outline-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M12 2C7.03 2 2.61 5.82 1 10.5a11.9 11.9 0 0010 7.5 11.9 11.9 0 0010-7.5c-1.61-4.68-6.03-8.5-10-8.5z"></path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
-                                    </button>
-                                    <div>
-                                        <p class="font-semibold">{{ $course['name'] }}</p>
-                                        <p class="text-xs text-gray-600">
-                                            {{ $course['code'] }} (SMT 5) ({{ $irsItem ? $irsItem['sks'] : 'N/A' }} SKS)
-                                        </p>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                    <!-- Weekly Schedule Grid -->
-                    <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
-                        <div class="grid grid-cols-7 bg-white sticky top-0 left-0 w-full gap-y-0 gap-x-0 border-b border-gray-200">
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Jam</div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Senin</div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Selasa</div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Rabu</div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Kamis</div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Jumat</div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Sabtu</div>
-                        </div>
-
-                        <!-- Time slots and courses -->
-                        @for ($time = 7; $time <= 15; $time += 1)
-                            <div class="grid grid-cols-7 gap-y-0 gap-x-0 border-b border-gray-200">
-                                <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">
-                                    {{ $time }}:00 - {{ $time + 1 }}:00
-                                </div>
-
-                                @foreach (['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as $day)
-                                    <div class="flex items-center justify-center p-2 border-r border-gray-200">
-                                        @php
-                                            // Cari course pada hari dan jam yang sesuai
-                                            $courses = $jadwals->where('hari', $day)->where('jam_mulai', $time . ':00');
-                                        @endphp
-
-                                        @if ($courses->isNotEmpty())
-                                            <!-- Tampilkan semua course yang sesuai -->
-                                            @foreach ($courses as $course)
-                                                <div class="rounded-lg bg-blue-100 text-blue-900 text-sm font-semibold p-2 course-slot"
-                                                    data-code="{{ $course->kode_mk }}" data-day="{{ $day }}" data-time="{{ $time }}"
-                                                    onclick="showCourseModal('{{ $course->nama_mk }}', '{{ $course->kode_mk }}', '{{ $day }}', '{{ $time }}')">
-                                                    {{ $course->nama_mk }}<br>{{ $course->sks }} SKS
-                                                </div>
-                                            @endforeach
-                                        @else
-                                            <!-- Tampilkan "Kosong" hanya jika tidak ada course yang ditemukan -->
-                                            <div class="text-sm text-gray-500">Kosong</div>
-                                        @endif
-                                    </div>
+                                @foreach ($courseSchedules as $schedule)
+                                    <tr id="course-{{ $course->kode_mk }}" class="course-item">
+                                        <td class="p-2 border">{{ $course->kode_mk }}</td>
+                                        <td class="p-2 border">{{ $course->nama_mk }}</td>
+                                        <td class="p-2 border">{{ $course->sks }}</td>
+                                        <td class="p-2 border text-center">
+                                            <button onclick="showCourseModal('{{ $course->kode_mk }}', '{{ $course->nama_mk }}', {{ $course->sks }}, '{{ $schedule->hari }}', '{{ $schedule->jam_mulai }}', '{{ $schedule->jam_selesai }}', '{{ $schedule->ruang }}', {{ $schedule->kapasitas }})" class="bg-blue-500 text-white px-2 py-1 rounded">Pilih</button>
+                                        </td>
+                                    </tr>
                                 @endforeach
-                            </div>
-                        @endfor
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Selected Courses Table -->
+                <div class="w-full mt-6 p-4">
+                    <h2 class="font-semibold text-xl mb-4">Matakuliah yang Dipilih</h2>
+                    <table class="w-full border-t border-gray-200">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="p-2 font-normal">Kode MK</th>
+                                <th class="p-2 font-normal">Nama MK</th>
+                                <th class="p-2 font-normal">SKS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="selectedCoursesTable"></tbody>
+                    </table>
+                    <div class="p-4">
+                        <button class="bg-green-500 text-white px-4 py-2 rounded">Ajukan</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<!-- Modal for Course Description -->
-<div id="courseModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden z-50">
-    <div class="flex items-center justify-center h-full">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h2 id="modalCourseName" class="text-lg font-semibold"></h2>
-            <p id="modalCourseDescription" class="mt-2"></p>
-            <div class="mt-4">
-                <button onclick="document.getElementById('courseModal').classList.add('hidden');"
-                    class="bg-gray-200 px-4 py-2 rounded mr-2">Batal</button>
-                <button id="selectCourseButton" class="bg-blue-500 text-white px-4 py-2 rounded">Pilih</button>
+            <!-- Selected SKS Indicator -->
+            <div id="sksIndicator" class="fixed bottom-4 right-4">
+                <button class="bg-blue-500 text-white p-3 rounded-lg">0 SKS Dipilih</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- SKS Indicator -->
-<div id="sksIndicator" class="fixed bottom-4 right-4 bg-purple-500 text-white px-4 py-2 rounded-lg shadow-lg text-center">
-    <button id="toggleSelectedCourses" class="focus:outline-none">
-        0 SKS Dipilih
-    </button>
-</div>
+<!-- Modal for Course Selection -->
+<div id="courseModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded-lg w-96">
+        <h2 class="text-lg font-semibold mb-4">Detail Matakuliah</h2>
+        <p><strong>Kode MK:</strong> <span id="modalKodeMK"></span></p>
+        <p><strong>Nama MK:</strong> <span id="modalNamaMK"></span></p>
+        <p><strong>SKS:</strong> <span id="modalSKS"></span></p>
+        <p><strong>Hari:</strong> <span id="modalHari"></span></p>
+        <p><strong>Jam Mulai:</strong> <span id="modalJamMulai"></span></p>
+        <p><strong>Jam Selesai:</strong> <span id="modalJamSelesai"></span></p>
+        <p><strong>Ruang:</strong> <span id="modalRuang"></span></p>
+        <p><strong>Kapasitas:</strong> <span id="modalKapasitas"></span></p>
 
-<!-- Slide-In Container for Selected Courses -->
-<div id="selectedCoursesSlide" class="fixed inset-y-0 right-0 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50 px-20">
-    <div class="p-4">
-        <h2 class="text-lg font-semibold text-center">Mata Kuliah Dipilih</h2>
-        <ul id="selectedCoursesList" class="mt-2 space-y-2">
-            <!-- Daftar mata kuliah akan diisi melalui JavaScript -->
-        </ul>
-        <button id="closeSelectedCourses" class="mt-4 bg-gray-200 px-4 py-2 rounded">Tutup</button>
+        <div class="mt-4">
+            <label for="kelas" class="block font-medium">Pilih Kelas:</label>
+            <select id="kelas" class="w-full p-2 border rounded-md">
+                @foreach ($jadwals as $jadwal)
+                    <option value="{{ $jadwal->kelas }}">{{ $jadwal->kelas }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mt-6 flex justify-end">
+            <button onclick="selectCourse()" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Pilih</button>
+            <button onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded">Batal</button>
+        </div>
     </div>
 </div>
 
 <script>
-    // Variabel untuk menyimpan jumlah SKS yang dipilih
+    let selectedCourses = [];
     let totalSKS = 0;
-    const selectedCourses = new Set();
 
-    document.getElementById('toggleSelectedCourses').onclick = function() {
-        const slide = document.getElementById('selectedCoursesSlide');
-        if (slide.style.transform === 'translateX(0%)') {
-            slide.style.transform = 'translateX(100%)';
+    function toggleCourse(kodeMK, sks, namaMK) {
+        const index = selectedCourses.findIndex(course => course.kodeMK === kodeMK);
+
+        if (index === -1) {
+            selectedCourses.push({ kodeMK, sks, namaMK }); // Menyimpan namaMK juga
+            totalSKS += sks;
         } else {
-            slide.style.transform = 'translateX(0%)';
-        }
-    };
-
-    function toggleCourse(code) {
-        const courseElement = document.getElementById(`course-${code}`);
-        const sks = parseInt(courseElement.getAttribute("data-sks")); // Ambil SKS dari data-sks
-
-        if (selectedCourses.has(code)) {
-            // Jika sudah dipilih, maka hapus dari set dan kurangi SKS
-            selectedCourses.delete(code);
-            totalSKS -= sks; // Kurangi SKS
-            courseElement.classList.remove("bg-blue-200");
-        } else {
-            // Jika belum dipilih, maka tambahkan ke set dan tambahkan SKS
-            selectedCourses.add(code);
-            totalSKS += sks; // Tambah SKS
-            courseElement.classList.add("bg-blue-200");
+            selectedCourses.splice(index, 1);
+            totalSKS -= sks;
         }
 
-        // Update indikator SKS
-        updateSKSIndicator();
+        updateSelectedCourses();
     }
 
-    function updateSKSIndicator() {
-        const sksIndicator = document.getElementById("sksIndicator");
-        sksIndicator.querySelector("button").textContent = `${totalSKS} SKS Dipilih`;
+    function updateSelectedCourses() {
+        const selectedCoursesTable = document.getElementById('selectedCoursesTable');
+        selectedCoursesTable.innerHTML = '';
+
+        selectedCourses.forEach(course => {
+            const row = `<tr>
+                <td class="p-2 border">${course.kodeMK}</td>
+                <td class="p-2 border">${course.namaMK}</td> <!-- Pastikan namaMK ditampilkan di sini -->
+                <td class="p-2 border">${course.sks}</td>
+            </tr>`;
+            selectedCoursesTable.innerHTML += row;
+        });
+
+        document.getElementById('sksIndicator').innerHTML = `<button class="bg-blue-500 text-white p-3 rounded-lg">${totalSKS} SKS Dipilih</button>`;
     }
 
-    function showCourseModal(name, code, day, time) {
-        const modal = document.getElementById('courseModal');
-        document.getElementById('modalCourseName').textContent = name;
-        document.getElementById('modalCourseDescription').textContent = `Kode: ${code}\nHari: ${day}\nJam: ${time}:00 - ${time + 1}:00`;
-        modal.classList.remove('hidden');
-
-        document.getElementById('selectCourseButton').onclick = function() {
-            toggleCourse(code);
-            modal.classList.add('hidden');
-        };
-    }
-
-    // Fungsi untuk mencari mata kuliah
     function searchCourses() {
-        const input = document.getElementById("courseSearch").value.toLowerCase();
-        const courses = document.querySelectorAll(".course-item");
+        const input = document.getElementById('courseSearch').value.toLowerCase();
+        const courseItems = document.querySelectorAll('.course-item');
 
-        courses.forEach(course => {
-            const courseName = course.textContent.toLowerCase();
-            if (courseName.includes(input)) {
-                course.style.display = "";
-            } else {
-                course.style.display = "none";
-            }
+        courseItems.forEach(item => {
+            const courseName = item.querySelectorAll('td')[1].textContent.toLowerCase();
+            item.style.display = courseName.includes(input) ? '' : 'none';
         });
     }
 
-    // Menutup slide-in untuk mata kuliah yang dipilih
-    document.getElementById('closeSelectedCourses').onclick = function() {
-        document.getElementById('selectedCoursesSlide').style.transform = 'translateX(100%)';
-    };
-</script>
+    function showCourseModal(kodeMK, namaMK, sks, hari, jamMulai, jamSelesai, ruang, kapasitas) {
+        document.getElementById('modalKodeMK').textContent = kodeMK;
+        document.getElementById('modalNamaMK').textContent = namaMK;
+        document.getElementById('modalSKS').textContent = sks;
+        document.getElementById('modalHari').textContent = hari;
+        document.getElementById('modalJamMulai').textContent = jamMulai;
+        document.getElementById('modalJamSelesai').textContent = jamSelesai;
+        document.getElementById('modalRuang').textContent = ruang;
+        document.getElementById('modalKapasitas').textContent = kapasitas;
 
+        document.getElementById('courseModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('courseModal').classList.add('hidden');
+    }
+
+    function selectCourse() {
+        const kodeMK = document.getElementById('modalKodeMK').textContent;
+        const sks = parseInt(document.getElementById('modalSKS').textContent);
+        const namaMK = document.getElementById('modalNamaMK').textContent; // Ambil namaMK dari modal
+        
+        // Tambahkan mata kuliah ke dalam daftar yang dipilih
+        toggleCourse(kodeMK, sks, namaMK); // Sertakan namaMK di sini
+
+        // Tutup modal setelah pemilihan
+        closeModal();
+    }
+</script>
 @endsection
