@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DosenController;
+use App\Http\Controllers\DosenMatakuliahController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\MatakuliahController;
 use Illuminate\Support\Facades\Route;
 
 // Route for displaying the login page
@@ -68,9 +71,10 @@ Route::get('kaprodid', function () {
     return view('kaprodiDashboard');
 });
 
-Route::get('kaprodimk', function () {
-    return view('kaprodiMatkulDosen');
-});
+// Route::get('kaprodimk', function () {
+//     return view('kaprodiMatkulDosen');
+// });
+Route::get('kaprodimk', [MatakuliahController::class, 'index'])->name('matakuliah.index');
 
 Route::get('kaprodij', function () {
     return view('kaprodiBuatJadwal');
