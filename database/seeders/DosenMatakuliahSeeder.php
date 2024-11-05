@@ -17,7 +17,10 @@ class DosenMatakuliahSeeder extends Seeder
     {
         $assignments = [
             ['dosen_nip' => Dosen::find(1)->nip, 'kode_mk' => Matakuliah::find(1)->kode_mk],
+            ['dosen_nip' => Dosen::find(2)->nip, 'kode_mk' => Matakuliah::find(1)->kode_mk],
+            ['dosen_nip' => Dosen::find(3)->nip, 'kode_mk' => Matakuliah::find(1)->kode_mk],
             ['dosen_nip' => Dosen::find(1)->nip, 'kode_mk' => Matakuliah::find(2)->kode_mk],
+            ['dosen_nip' => Dosen::find(2)->nip, 'kode_mk' => Matakuliah::find(2)->kode_mk],
             ['dosen_nip' => Dosen::find(1)->nip, 'kode_mk' => Matakuliah::find(3)->kode_mk],
             ['dosen_nip' => Dosen::find(2)->nip, 'kode_mk' => Matakuliah::find(4)->kode_mk],
             ['dosen_nip' => Dosen::find(2)->nip, 'kode_mk' => Matakuliah::find(5)->kode_mk],

@@ -62,8 +62,9 @@ class UserSeeder extends Seeder
                     case 'Pembimbing Akademik':
                         DB::table('dosen')->insert([
                             'user_id' => $user->id,
+                            'nip' => 'NIP' . uniqid() . random_int(1000, 9999), // Random unique NIP
                             'nama' => $user->name,
-                            'nip' => 'NIP' . uniqid() . random_int(1000, 9999) // Random unique NIP
+                            
                         ]);
                         break;
                     case 'Ketua Program Studi':
