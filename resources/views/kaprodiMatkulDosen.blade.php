@@ -46,8 +46,10 @@
                                 <td class="px-6 py-4">{{ $mk->sks }}</td>
                                 <td class="px-6 py-4">
                                     <ul class="list-disc ml-5 text-left">
-                                        
-                                            <li>{{ $mk->nama}}</li>
+                                        @foreach ($mk->dosen as $dosen)
+                                            <li>{{ $dosen->nama}}</li>
+                                        @endforeach
+                                            
                                         
                                     </ul>
                                 </td>

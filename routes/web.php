@@ -76,9 +76,8 @@ Route::get('kaprodid', function () {
 // });
 Route::get('kaprodimk', [MatakuliahController::class, 'index'])->name('matakuliah.index');
 
-Route::get('kaprodij', function () {
-    return view('kaprodiBuatJadwal');
-});
+Route::get('kaprodij', [JadwalController::class, 'index'])->name('BuatIrs.index');
+
 
 Route::get('/mhs/BuatIrs', function () {
     return view('mhsBuatIrs');

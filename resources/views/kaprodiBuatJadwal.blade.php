@@ -53,10 +53,15 @@
                                         // Definisikan nama hari dalam array untuk mempermudah pencocokan
                                         $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
                                         $schedules = [
-                                            ['day' => 'Senin', 'start' => '07:30', 'end' => '09:20', 'title' => 'PBP (A)', 'kelas' => 'A', 'ruangan' => 'E101', 'jenis' => 'wajib'],
-                                            ['day' => 'Senin', 'start' => '08:30', 'end' => '10:00', 'title' => 'Pemrograman Web', 'kelas' => 'B', 'ruangan' => 'E101', 'jenis' => 'pilihan'],
                                             // Tambahkan jadwal lainnya sesuai kebutuhan
                                         ];
+
+                                        foreach ($data as $jadwal){
+                                            $j =[ 'day' => $jadwal->hari, 'start' => $jadwal->jam_mulai, 'end' => $jadwal->jam_selesai, 'title' => $jadwal->nama_mk, 'kelas' => $jadwal->kelas, 'ruangan' => $jadwal->ruang, 'jenis' => $jadwal->status];
+                                            // Tambahkan jadwal ke array $schedules
+                                            array_push($schedules, $j);
+                                            }
+                                    
                                     @endphp
                                     @foreach ($schedules as $schedule)
                                         @if ($schedule['day'] == $days[$day - 1] &&  $time >= intval(substr($schedule['start'], 0, 2)) && $time < intval(substr($schedule['end'], 0, 2)))
