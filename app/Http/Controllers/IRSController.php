@@ -17,7 +17,7 @@ class IRSController extends Controller
         // dd($email);
         // Join the mahasiswa table to group by semester in matakuliah and sum SKS
         $data = Irs::select('matakuliah.semester as semester', DB::raw('SUM(matakuliah.sks) as total_sks'))
-            ->join('matakuliah', 'irs.kode_mk', '=', 'matakuliah.kodemk')
+            ->join('matakuliah', 'irs.kode_mk', '=', 'matakuliah.kode_mk')
             ->where('irs.status', 'Disetujui')
             ->where('email', $email)
             ->groupBy('matakuliah.semester')
