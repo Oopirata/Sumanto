@@ -6,7 +6,7 @@
 
 <div class="bg-gray-100 min-h-screen flex flex-col ">
     <div class="flex overflow-hidden">
-        <x-side-bar-mhs></x-side-bar-mhs>
+        <x-side-bar-mhs :mahasiswa="$mahasiswa"></x-side-bar-mhs>
         <div id="main-content" class=" relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar></x-nav-bar>
             <h1 class="mx-9 my-2 font-semibold text-lg">Hello {{ Auth::user()->name }}</h1>
@@ -21,7 +21,7 @@
                     <div class="text-center">
                         <h1>IP Kumulatif</h1>
                         <div class="bg-[#000CB0] text-white py-2 rounded-3xl mx-[35%] mt-2 ">
-                            <h1>3.90</h1>
+                            <h1>{{ $mahasiswa->IPK }}</h1>
                         </div>
                     </div>
                     <div class="text-center">
@@ -38,8 +38,8 @@
                     <h1 class="text-green-500">Mahasiswa Aktif</h1>
                 </div>
                 <div class="text-center font-bold">
-                    <h1>Dosen Wali: Dr. Aegon, S.Si., M.Kom.</h1>
-                    <h1>NIP : 2298976546789</h1>
+                    <h1>Dosen Wali: {{ $dosenWali->nama }}</h1>
+                    <h1>NIP : {{ $dosenWali->nip }}</h1>
                 </div>
                 <div class="grid grid-cols-3 mt-8">
                     <div class="text-center">
@@ -48,7 +48,7 @@
                     </div>
                     <div class="text-center border-x-black border-x-2">
                         <h1>Semester Studi</h1>
-                        <h1 class="font-extrabold text-xl">5</h1>
+                        <h1 class="font-extrabold text-xl">{{ $mahasiswa->semester }}</h1>
                     </div>
                     <div class="text-center">
                         <h1>IP Semester</h1>
