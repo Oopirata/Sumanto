@@ -13,7 +13,7 @@ class IRSController extends Controller
     public function all()
     {
         $email = Auth::user()->email;
-        dd($email);
+        // dd($email);
         // Join the mahasiswa table to group by semester in matakuliah and sum SKS
         $data = Irs::select('mata_kuliah.plotsemester as semester', DB::raw('SUM(mata_kuliah.sks) as total_sks'))
             ->join('mata_kuliah', 'irs_test.kodemk', '=', 'mata_kuliah.kodemk')
