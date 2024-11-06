@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BuatIRSController;
+use App\Http\Controllers\DosenController;
 use App\Http\Controllers\IRSController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MhsDashboard;
@@ -35,9 +36,7 @@ Route::middleware(['auth'])->group(function () {
 // Student dashboard
 
 // Dean dashboard
-Route::get('dekan/dashboard', function () {
-    return view('dekanDashboard');
-})->name('dekan.dashboard');
+Route::get('dekan/dashboard', [AuthController::class, 'dekanDashboard'])->name('dekan.dashboard');
 
 // Program Head dashboard
 Route::get('kaprodi/dashboard', function () {
@@ -50,10 +49,7 @@ Route::get('staff/dashboard', function () {
 })->name('staff.dashboard');
 
 // Academic Advisor dashboard
-Route::get('dosen/dashboard', function () {
-    return view('paDashboard');
-})->name('dosen.dashboard');
-// });
+Route::get('dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');
 
 Route::get('/dekan/jadwal', function () {
     return view('dekanJadwal');
