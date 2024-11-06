@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Jadwal;
@@ -10,7 +11,8 @@ use Illuminate\Http\Request;
 
 class BuatIRSController extends Controller
 {
-    public function tampil_jadwal() {
+    public function tampil_jadwal()
+    {
         // Fetch all courses
         $courses = Matakuliah::all();
 
@@ -32,4 +34,3 @@ class BuatIRSController extends Controller
         return view('mhsBuatIrs', compact('jadwals', 'courses', 'mahasiswa'));
     }
 }
-
