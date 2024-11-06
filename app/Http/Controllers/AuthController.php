@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Dosen;
+use App\Models\Dekan;
 
 class AuthController extends Controller
 {
@@ -20,6 +21,16 @@ class AuthController extends Controller
         }
 
         return view('login');
+    }
+
+    public function dekanDashboard()
+    {
+
+        $user = Auth::user();
+
+        $dekan = \App\Models\Dekan::where('user_id', $user->id)->first();
+
+        return view('dekanDashboard', compact('dekan', 'user'));
     }
 
     // Process login

@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('mhs_id');
             $table->unsignedBigInteger('jadwal_id');
+            $table->string('kode_mk');
             $table->string('semester');
-            $table->integer('total_sks');
             $table->string('status');
-            $table->float('ips', 2)->nullable;
 
             //fk
             $table->foreign('mhs_id')->references('id')->on('mahasiswa')->onDelete('cascade');
             $table->foreign('jadwal_id')->references('id')->on('jadwal')->onDelete('cascade');
+            $table->foreign('kode_mk')->references('kode_mk')->on('matakuliah')->onDelete('cascade');
 
             $table->timestamps();
         });

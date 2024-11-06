@@ -38,8 +38,9 @@
         <div class="px-6 py-4 flex items-center">
             <img src="https://via.placeholder.com/40" alt="Profile Image" class="rounded-full h-10 w-10">
             <div class="ml-4">
-                <p class="text-sm font-medium">Dul Samsi</p>
-                <p class="text-xs text-gray-600">24060122120031 - Informatika S1</p>
+                <p class="text-sm font-medium">{{ $dekan->nama }}</p>
+                {{-- {{ dd($dekan) }} --}}
+                <p class="text-xs text-gray-600">{{ $dekan->nip }} - Informatika S1</p>
             </div>
         </div>
     </aside>
