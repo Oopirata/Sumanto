@@ -1,184 +1,177 @@
 @extends('main')
 
-@section('title', 'Buat IRS')
+@section('title', 'Buat Jadwal')
 
 @section('page')
-<div class="bg-gray-100 min-h-screen flex flex-col">
+<div class="bg-gray-100 min-h-screen flex flex-col ">
     <div class="flex overflow-hidden">
         <x-side-bar-mhs :mahasiswa="$mahasiswa"></x-side-bar-mhs>
         <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar></x-nav-bar>
-
-            <!-- Header Section -->
-            <div class="bg-white border rounded-3xl shadow-sm flex justify-between items-center p-8 mx-8 mt-6">
-                <h1 class="text-black font-bold text-2xl">Buat IRS</h1>
-            </div>
-
-            <!-- Main IRS Creation Container -->
+            <div class="border-b-4"></div>
             <div class="p-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm">
-                <!-- Course List Table -->
-                <div class="w-full p-4">
-                    <h2 class="font-semibold text-xl mb-4">Daftar Matakuliah</h2>
-                    <div class="relative my-4">
-                        <input type="text" id="courseSearch" placeholder="Cari Matakuliah..." class="w-full p-2 border rounded-md" onkeyup="searchCourses()">
-                    </div>
-                    <table class="w-full border-collapse border border-gray-200">
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th class="p-2 text-sm font-medium text-gray-900 border">Kode MK</th>
-                                <th class="p-2 text-sm font-medium text-gray-900 border">Nama MK</th>
-                                <th class="p-2 text-sm font-medium text-gray-900 border">SKS</th>
-                                <th class="p-2 text-sm font-medium text-gray-900 border">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="courseList">
-                            @foreach ($courses as $course)
-                                @php
-                                    // Get the schedule for the current course
-                                    $courseSchedules = $jadwals->where('kode_mk', $course->kode_mk);
-                                @endphp
-                                @foreach ($courseSchedules as $schedule)
-                                    <tr id="course-{{ $course->kode_mk }}" class="course-item">
-                                        <td class="p-2 border">{{ $course->kode_mk }}</td>
-                                        <td class="p-2 border">{{ $course->nama_mk }}</td>
-                                        <td class="p-2 border">{{ $course->sks }}</td>
-                                        <td class="p-2 border text-center">
-                                            <button onclick="showCourseModal('{{ $course->kode_mk }}', '{{ $course->nama_mk }}', {{ $course->sks }}, '{{ $schedule->hari }}', '{{ $schedule->jam_mulai }}', '{{ $schedule->jam_selesai }}', '{{ $schedule->ruang }}', {{ $schedule->kapasitas }})" class="bg-blue-500 text-white px-2 py-1 rounded">Pilih</button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Selected Courses Table -->
-                <div class="w-full mt-6 p-4">
-                    <h2 class="font-semibold text-xl mb-4">Matakuliah yang Dipilih</h2>
-                    <table class="w-full border-t border-gray-200">
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th class="p-2 font-normal">Kode MK</th>
-                                <th class="p-2 font-normal">Nama MK</th>
-                                <th class="p-2 font-normal">SKS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="selectedCoursesTable"></tbody>
-                    </table>
-                    <div class="p-4">
-                        <button class="bg-green-500 text-white px-4 py-2 rounded">Ajukan</button>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-black font-bold items-center text-2xl">Buat IRS</h1>
                     </div>
                 </div>
             </div>
+            
+            <div x-data="{ showModal: false, selectedSchedule: null, selectedSchedules: [] }">
+                <!-- Bagian jadwal -->
+                <section class="relative mb-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm flex">
+                    <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
+                        <div class="grid grid-cols-8 border-t border-gray-200 sticky top-0 left-0 w-full">
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900"></div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Senin</div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Selasa</div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Rabu</div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Kamis</div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Jumat</div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Sabtu</div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Minggu</div>
+                        </div>
 
-            <!-- Selected SKS Indicator -->
-            <div id="sksIndicator" class="fixed bottom-4 right-4">
-                <button class="bg-blue-500 text-white p-3 rounded-lg">0 SKS Dipilih</button>
-            </div>
-        </div>
-    </div>
-</div>
+                        @for ($time = 7; $time <= 21; $time++)
+    <div class="grid grid-cols-8 border-t border-gray-200">
+        <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">{{ $time }}:00</div>
+        @for ($day = 1; $day <= 7; $day++)
+            <div class="flex flex-col h-auto p-0.5 md:p-3.5 border-r border-gray-200 transition-all hover:bg-stone-100">
+                @php
+                    $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+                    $schedules = [];
+                    foreach ($jadwals as $jadwal) {
+                        $j = [
+                            'day' => $jadwal->hari,
+                            'kode_mk' => $jadwal->kode_mk,
+                            'sks' => $jadwal->sks,
+                            'kapasitas' => $jadwal->kapasitas,
+                            'start' => $jadwal->jam_mulai,
+                            'end' => $jadwal->jam_selesai,
+                            'title' => $jadwal->nama_mk,
+                            'kelas' => $jadwal->kelas,
+                            'ruangan' => $jadwal->ruang,
+                            'jenis' => $jadwal->status
+                        ];
+                        array_push($schedules, $j);
+                    }
+                @endphp
+                @foreach ($schedules as $schedule)
+                    @if ($schedule['day'] == $days[$day - 1] && 
+                        ($time == intval(substr($schedule['start'], 0, 2)) || 
+                        ($time > intval(substr($schedule['start'], 0, 2)) && $time < intval(substr($schedule['end'], 0, 2)))))
 
-<!-- Modal for Course Selection -->
-<div id="courseModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white p-6 rounded-lg w-96">
-        <h2 class="text-lg font-semibold mb-4">Detail Matakuliah</h2>
-        <p><strong>Kode MK:</strong> <span id="modalKodeMK"></span></p>
-        <p><strong>Nama MK:</strong> <span id="modalNamaMK"></span></p>
-        <p><strong>SKS:</strong> <span id="modalSKS"></span></p>
-        <p><strong>Hari:</strong> <span id="modalHari"></span></p>
-        <p><strong>Jam Mulai:</strong> <span id="modalJamMulai"></span></p>
-        <p><strong>Jam Selesai:</strong> <span id="modalJamSelesai"></span></p>
-        <p><strong>Ruang:</strong> <span id="modalRuang"></span></p>
-        <p><strong>Kapasitas:</strong> <span id="modalKapasitas"></span></p>
+                        @php
+                            $colorClass = '';
+                            switch ($schedule['kelas']) {
+                                case 'A':
+                                    $colorClass = 'bg-blue-50 border-blue-600 text-blue-600';
+                                    break;
+                                case 'B':
+                                    $colorClass = 'bg-red-50 border-red-600 text-red-600';
+                                    break;
+                                case 'C':
+                                    $colorClass = 'bg-green-50 border-green-600 text-green-600';
+                                    break;
+                                case 'D':
+                                    $colorClass = 'bg-purple-50 border-purple-600 text-purple-600';
+                                    break;
+                                default:
+                                    $colorClass = 'bg-gray-50 border-gray-600 text-gray-600';
+                                    break;
+                            }
+                        @endphp
 
-        <div class="mt-4">
-            <label for="kelas" class="block font-medium">Pilih Kelas:</label>
-            <select id="kelas" class="w-full p-2 border rounded-md">
-                @foreach ($jadwals as $jadwal)
-                    <option value="{{ $jadwal->kelas }}">{{ $jadwal->kelas }}</option>
+                        <button class="rounded p-1.5 border-l-2 {{ $colorClass }} w-full text-left" @click="showModal = true; selectedSchedule = {{ json_encode($schedule) }}">
+                            <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
+                            <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>
+                        </button>
+                    @endif
                 @endforeach
-            </select>
-        </div>
+            </div>
+        @endfor
+    </div>
+@endfor
 
-        <div class="mt-6 flex justify-end">
-            <button onclick="selectCourse()" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Pilih</button>
-            <button onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded">Batal</button>
+                    </div>
+                    
+                    <!-- drawer init and toggle -->
+                    <div class="fixed bottom-5 right-5 text-center">
+                        <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" 
+                                type="button" 
+                                data-drawer-target="drawer-right-example" 
+                                data-drawer-show="drawer-right-example" 
+                                data-drawer-placement="right" 
+                                aria-controls="drawer-right-example">
+                            SKS
+                        </button>
+                    </div>
+
+                    <!-- drawer component -->
+                    <div id="drawer-right-example" class="rounded-xl fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-96 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label">
+                        <h1 id="drawer-right-label" class="inline-flex items-center mb-4 text-base font-semibold text-black">LIST MATAKULIAH YANG DIPILIH</h1>
+                        <button type="button" data-drawer-hide="drawer-right-example" aria-controls="drawer-right-example" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1l12 12M1 13L13 1"/>
+                            </svg>
+                            <span class="sr-only">Close menu</span>
+                        </button>
+
+                        <!-- Tabel Mata Kuliah yang Dipilih -->
+                        <div class="mt-4 overflow-x-auto bg-gray-50 p-2 rounded-lg shadow-md">
+                            <table class="min-w-full table-auto border-collapse text-sm">
+                                <thead class="bg-blue-600 text-white">
+                                    <tr>
+                                        <th class="border px-4 py-2 text-left">Nama MK</th>
+                                        <th class="border px-4 py-2 text-left">Kode MK</th>
+                                        <th class="border px-4 py-2 text-left">SKS</th>
+                                        <th class="border px-4 py-2 text-left">Kelas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template x-for="schedule in selectedSchedules" :key="schedule.kode_mk">
+                                        <tr class="hover:bg-gray-100 transition-colors">
+                                            <td class="border px-4 py-2" x-text="schedule.title"></td>
+                                            <td class="border px-4 py-2" x-text="schedule.kode_mk"></td>
+                                            <td class="border px-4 py-2" x-text="schedule.sks"></td>
+                                            <td class="border px-4 py-2" x-text="schedule.kelas"></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </section>
+
+                <!-- Modal for displaying schedule details -->
+                <div x-show="showModal" class="fixed inset-0 z-50 overflow-y-auto">
+                    <div class="flex items-center justify-center min-h-screen px-4 text-center">
+                        <div class="fixed inset-0 bg-gray-500 opacity-75"></div>
+                        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+                            <div class="px-4 py-5">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" x-text="selectedSchedule.title"></h3>
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-500">Kode MK: <span x-text="selectedSchedule.kode_mk"></span></p>
+                                    <p class="text-sm text-gray-500">SKS: <span x-text="selectedSchedule.sks"></span></p>
+                                    <p class="text-sm text-gray-500">Kelas: <span x-text="selectedSchedule.kelas"></span></p>
+                                    <p class="text-sm text-gray-500">Hari: <span x-text="selectedSchedule.day"></span></p>
+                                    <p class="text-sm text-gray-500">Waktu: <span x-text="selectedSchedule.start"></span> - <span x-text="selectedSchedule.end"></span></p>
+                                    <p class="text-sm text-gray-500">Ruangan: <span x-text="selectedSchedule.ruangan"></span></p>
+                                    <p class="text-sm text-gray-500">Jenis: <span x-text="selectedSchedule.jenis"></span></p>
+                                    <p class="text-sm text-gray-500">Kapasitas: <span x-text="selectedSchedule.kapasitas"></span></p>
+                                </div>
+                                <div class="mt-4">
+                                    <button @click="selectedSchedules.push(selectedSchedule); showModal = false" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-5 rounded">Pilih</button>
+                                    <button @click="showModal = false" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-5 rounded">Tutup</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-<script>
-    let selectedCourses = [];
-    let totalSKS = 0;
-
-    function toggleCourse(kodeMK, sks, namaMK) {
-        const index = selectedCourses.findIndex(course => course.kodeMK === kodeMK);
-
-        if (index === -1) {
-            selectedCourses.push({ kodeMK, sks, namaMK }); // Menyimpan namaMK juga
-            totalSKS += sks;
-        } else {
-            selectedCourses.splice(index, 1);
-            totalSKS -= sks;
-        }
-
-        updateSelectedCourses();
-    }
-
-    function updateSelectedCourses() {
-        const selectedCoursesTable = document.getElementById('selectedCoursesTable');
-        selectedCoursesTable.innerHTML = '';
-
-        selectedCourses.forEach(course => {
-            const row = `<tr>
-                <td class="p-2 border">${course.kodeMK}</td>
-                <td class="p-2 border">${course.namaMK}</td> <!-- Pastikan namaMK ditampilkan di sini -->
-                <td class="p-2 border">${course.sks}</td>
-            </tr>`;
-            selectedCoursesTable.innerHTML += row;
-        });
-
-        document.getElementById('sksIndicator').innerHTML = `<button class="bg-blue-500 text-white p-3 rounded-lg">${totalSKS} SKS Dipilih</button>`;
-    }
-
-    function searchCourses() {
-        const input = document.getElementById('courseSearch').value.toLowerCase();
-        const courseItems = document.querySelectorAll('.course-item');
-
-        courseItems.forEach(item => {
-            const courseName = item.querySelectorAll('td')[1].textContent.toLowerCase();
-            item.style.display = courseName.includes(input) ? '' : 'none';
-        });
-    }
-
-    function showCourseModal(kodeMK, namaMK, sks, hari, jamMulai, jamSelesai, ruang, kapasitas) {
-        document.getElementById('modalKodeMK').textContent = kodeMK;
-        document.getElementById('modalNamaMK').textContent = namaMK;
-        document.getElementById('modalSKS').textContent = sks;
-        document.getElementById('modalHari').textContent = hari;
-        document.getElementById('modalJamMulai').textContent = jamMulai;
-        document.getElementById('modalJamSelesai').textContent = jamSelesai;
-        document.getElementById('modalRuang').textContent = ruang;
-        document.getElementById('modalKapasitas').textContent = kapasitas;
-
-        document.getElementById('courseModal').classList.remove('hidden');
-    }
-
-    function closeModal() {
-        document.getElementById('courseModal').classList.add('hidden');
-    }
-
-    function selectCourse() {
-        const kodeMK = document.getElementById('modalKodeMK').textContent;
-        const sks = parseInt(document.getElementById('modalSKS').textContent);
-        const namaMK = document.getElementById('modalNamaMK').textContent; // Ambil namaMK dari modal
-        
-        // Tambahkan mata kuliah ke dalam daftar yang dipilih
-        toggleCourse(kodeMK, sks, namaMK); // Sertakan namaMK di sini
-
-        // Tutup modal setelah pemilihan
-        closeModal();
-    }
-</script>
 @endsection
