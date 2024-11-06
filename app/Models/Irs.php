@@ -10,14 +10,11 @@ class Irs extends Model
     use HasFactory;
 
     protected $fillable = [
-        'kode_mk',
-        'nama_mk',
-        'sks',
+        'mhs_id',
+        'jadwal_id',
         'semester',
-        'kelas',
-        'ruang',
+        'total_sks',
         'status',
-        'nama_dosen',
-        'time_date',
+        'ips'
     ];
 }

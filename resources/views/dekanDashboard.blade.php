@@ -132,24 +132,29 @@
         </div>
     </div>
 
-</div>
+    </div>
 
 
-<script>
-    $(document).ready( function () {
-                $('#tabelDekan').DataTable({
-                    layout :{
-                            topStart: null,
-                            
-                            bottomStart: null,
-                        },
-                    columnDefs: [
-                        { className: "dt-head-center", targets: [0,1,2,3,4] },
-                        { className: "dt-body-center", targets: [0,1,2,3,4] }
-                    ]
-                    
-                });
+    <script>
+        $(document).ready(function() {
+            $('#tabelDekan').DataTable({
+                layout: {
+                    topStart: null,
+
+                    bottomStart: null,
+                },
+                columnDefs: [{
+                        className: "dt-head-center",
+                        targets: [0, 1, 2, 3, 4]
+                    },
+                    {
+                        className: "dt-body-center",
+                        targets: [0, 1, 2, 3, 4]
+                    }
+                ]
+
             });
-</script>
+        });
+    </script>
 
 @endsection
