@@ -7,6 +7,7 @@ use App\Http\Controllers\IRSController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MhsDashboard;
 use App\Http\Controllers\MatakuliahController;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Route for displaying the login page
@@ -38,6 +39,10 @@ Route::middleware(['auth'])->group(function () {
 // Dean dashboard
 Route::get('dekan/dashboard', [AuthController::class, 'dekanDashboard'])->name('dekan.dashboard');
 
+Route::get('dekan/jadwal', [AuthController::class, 'dekanJadwal'])->name('dekan.jadwal');
+
+Route::get('dekan/ruangan', [AuthController::class, 'dekanRuangan'])->name('dekan.ruangan');
+
 // Program Head dashboard
 Route::get('kaprodi/dashboard', function () {
     return view('kaprodiDashboard');
@@ -50,14 +55,6 @@ Route::get('staff/dashboard', function () {
 
 // Academic Advisor dashboard
 Route::get('dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');
-
-Route::get('/dekan/jadwal', function () {
-    return view('dekanJadwal');
-});
-
-Route::get('dekan/ruangan', function () {
-    return view('dekanVerifikasi');
-});
 
 Route::get('kaprodid', function () {
     return view('kaprodiDashboard');
