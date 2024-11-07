@@ -12,6 +12,8 @@ class JadwalController extends Controller
 
         $data = Jadwal::all();
 
+        
+
         return view('kaprodiBuatJadwal', compact('data'));
 
 
