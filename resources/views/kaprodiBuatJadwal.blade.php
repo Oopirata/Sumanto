@@ -5,8 +5,8 @@
 @section('page')
 <div class="bg-gray-100 min-h-screen flex flex-col ">
     <div class="flex overflow-hidden">
-        <x-side-bar-dekan></x-side-bar-dekan>
-        <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
+        <x-side-bar-kaprodi></x-side-bar-kaprodi>
+        <div id="main-content" class="relative text-black  font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar></x-nav-bar>
             <div class="border-b-4"></div>
             <div class="p-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm">
@@ -17,9 +17,7 @@
                     
                     <div>
                         <div class="flex justify-between">
-                            <div>
-                                <x-jurusan></x-jurusan>
-                            </div>
+                            
                             <div class="px-4 bg-white"></div>
                             <div>
                                 <x-semester></x-semester>
@@ -64,8 +62,14 @@
                                     
                                     @endphp
                                     @foreach ($schedules as $schedule)
-                                        @if ($schedule['day'] == $days[$day - 1] &&  $time >= intval(substr($schedule['start'], 0, 2)) && $time < intval(substr($schedule['end'], 0, 2)))
-                                            @php
+                                            @if ($schedule['day'] == $days[$day - 1] && 
+                                                ($time == intval(substr($schedule['start'], 0, 2))))
+                                                
+                                                @php
+                                                    // Calculate the duration of the schedule in hours
+                                                    $startHour = intval(substr($schedule['start'], 0, 2));
+                                                    $endHour = intval(substr($schedule['end'], 0, 2));
+                                                    $duration = $endHour - $startHour;
                                                 $colorClass = '';
                                                 switch ($schedule['kelas']) {
                                                     case 'A':
