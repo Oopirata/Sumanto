@@ -6,7 +6,7 @@
 
 <div class="bg-gray-100 min-h-screen flex flex-col ">
     <div class="flex overflow-hidden">
-        <x-side-bar-dekan></x-side-bar-dekan>
+        <x-side-bar-dekan :dekan="$dekan"></x-side-bar-dekan>
         <div id="main-content" class=" relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar></x-nav-bar>
             <div class="p-10 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm 2xl:col-span-2 sm:p-6 dark:bg-white">
@@ -132,24 +132,29 @@
         </div>
     </div>
 
-</div>
+    </div>
 
 
-<script>
-    $(document).ready( function () {
-                $('#tabelDekan').DataTable({
-                    layout :{
-                            topStart: null,
-                            
-                            bottomStart: null,
-                        },
-                    columnDefs: [
-                        { className: "dt-head-center", targets: [0,1,2,3,4] },
-                        { className: "dt-body-center", targets: [0,1,2,3,4] }
-                    ]
-                    
-                });
+    <script>
+        $(document).ready(function() {
+            $('#tabelDekan').DataTable({
+                layout: {
+                    topStart: null,
+
+                    bottomStart: null,
+                },
+                columnDefs: [{
+                        className: "dt-head-center",
+                        targets: [0, 1, 2, 3, 4]
+                    },
+                    {
+                        className: "dt-body-center",
+                        targets: [0, 1, 2, 3, 4]
+                    }
+                ]
+
             });
-</script>
+        });
+    </script>
 
 @endsection

@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('kelas')->nullable();
             $table->string('kapasitas')->nullable();
             $table->string('status');
+            $table->string('prodi');
+            $table->string('sifat');
             $table->timestamps();
         });
     }

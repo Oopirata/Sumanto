@@ -1,216 +1,216 @@
 @extends('main')
 
-@section('title', 'Buat IRS')
+@section('title', 'Buat Irs')
 
 @section('page')
-<div class="bg-gray-100 min-h-screen flex flex-col">
+<div class="bg-gray-100 min-h-screen flex flex-col ">
     <div class="flex overflow-hidden">
-        <x-side-bar-mhs></x-side-bar-mhs>
+        <x-side-bar-mhs :mahasiswa="$mahasiswa"></x-side-bar-mhs>
         <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar></x-nav-bar>
-
-            <!-- Main container for IRS creation -->
-            <div class="p-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm">
+            <div class="border-b-4"></div>
+            <div class="p-8 mt-6 mx-8 bg-white border border-gray-200 rounded-2xl shadow-sm">
                 <div class="flex justify-between items-center">
-                    <h1 class="text-black font-bold">Buat IRS</h1>
-                    <div class="text-sm text-red-500 font-semibold">Belum Saatnya Isi IRS!</div>
-                </div>
-
-                <!-- Sidebar and Course List -->
-                <div class="flex mt-4">
-                    <div class="w-1/4 bg-white p-4 border-r border-gray-200">
-                        <div class="bg-purple-500 px-2 py-1 rounded-3xl">
-                            <h2 class="text-white font-semibold text-center">Semester 5</h2>
-                        </div>
-                        <!-- Search Bar for Filtering Courses -->
-                        <div class="relative mb-4 mt-5">
-                            <input type="text" id="courseSearch" placeholder="Cari Matakuliah..."
-                                class="w-full p-2 border rounded-md" onkeyup="searchCourses()">
-                        </div>
-
-                        <!-- Course List -->
-                        <ul id="courseList" class="space-y-2">
-                            @php
-                            $courses = $jadwals->unique('kode_mk')->map(function ($jadwal) {
-                                return [
-                                    'code' => $jadwal->kode_mk,
-                                    'name' => $jadwal->nama_mk,
-                                ];
-                            })->values()->toArray();
-
-                            $irss = $irs->unique('kode_mk')->map(function ($irs) {
-                                return [
-                                    'code' => $irs->kode_mk,
-                                    'sks' => $irs->sks,
-                                ];
-                            })->values()->toArray();
-                            @endphp
-
-                            @foreach ($courses as $course)
-                                @php
-                                    $irsItem = collect($irss)->firstWhere('code', $course['code']);
-                                @endphp
-                                <li id="course-{{ $course['code'] }}" class="course-item flex items-center p-2 border rounded-md bg-gray-50" data-sks="{{ $irsItem ? $irsItem['sks'] : 0 }}">
-                                    <button onclick="toggleCourse('{{ $course['code'] }}')" class="mr-2 text-gray-500 hover:text-gray-700 focus:outline-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M12 2C7.03 2 2.61 5.82 1 10.5a11.9 11.9 0 0010 7.5 11.9 11.9 0 0010-7.5c-1.61-4.68-6.03-8.5-10-8.5z"></path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
-                                    </button>
-                                    <div>
-                                        <p class="font-semibold">{{ $course['name'] }}</p>
-                                        <p class="text-xs text-gray-600">
-                                            {{ $course['code'] }} (SMT 5) ({{ $irsItem ? $irsItem['sks'] : 'N/A' }} SKS)
-                                        </p>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                        
-
-                            <!-- drawer init and toggle -->
-                            <div class="text-center">
-                            <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                            List
-                            </button>
-                            </div>
-
-                            <!-- drawer component -->
-                            <div id="drawer-right-example" class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label">
-                                <h5 id="drawer-right-label" class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400"><svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                            </svg>List pelajaran</h5>
-                            <button type="button" data-drawer-hide="drawer-right-example" aria-controls="drawer-right-example" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" >
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                </svg>
-                                <span class="sr-only">Close menu</span>
-                            </button>
-                            <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">Supercharge your hiring by taking advantage of our <a href="#" class="text-blue-600 underline font-medium dark:text-blue-500 hover:no-underline">limited-time sale</a> for Flowbite Docs + Job Board. Unlimited access to over 190K top-ranked candidates and the #1 design job board.</p>
-                            <div class="grid grid-cols-2 gap-4">
-                                <a href="#" class="px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Learn more</a>
-                                <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Get access <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                            </svg></a>
-                            </div>
-                            </div>
-
+                    <div class="flex items-center space-x-10"> 
+                        <h1 class="text-black font-bold text-2xl">Buat IRS</h1>
+                        <div id="real-time-clock" class="text-xl font-semibold text-black"></div>
+                        <div class="text-green-600 text-xl font-semibold">Saatnya Isi IRS!!!</div> 
                     </div>
-
-                    <!-- Weekly Schedule Grid -->
+                    <div class="flex items-center space-x-10">
+                        <h1 class="bg-[#000CB0] px-8 py-2 text-white rounded-3xl">Semester 1</h1>
+                    </div>
+                </div>
+            </div>
+            
+            <div x-data="{ showModal: false, selectedSchedule: null, selectedSchedules: [] }">
+                <!-- Bagian jadwal -->
+                <section class="relative mb-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm flex">
                     <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
-                        <!-- Header row for days of the week and time slot -->
-                        <div class="grid grid-cols-7 bg-white border-t border-gray-200 sticky top-0 left-0 w-full">
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Jam
-                            </div> <!-- Time header -->
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Senin
-                            </div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Selasa
-                            </div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Rabu
-                            </div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Kamis
-                            </div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Jumat
-                            </div>
-                            <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">Sabtu
-                            </div>
+                        <div class="grid grid-cols-8 border-t border-gray-200 sticky top-0 left-0 w-full">
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900"></div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Senin</div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Selasa</div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Rabu</div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Kamis</div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Jumat</div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Sabtu</div>
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Minggu</div>
                         </div>
-
-                        <!-- Time slots and courses -->
-                        @for ($time = 7; $time <= 15; $time += 1) <!-- Adjust times as needed -->
-                            <div class="grid grid-cols-7 border-t border-gray-200">
-                                <div class="p-4 flex items-center justify-center text-sm font-medium text-gray-900">
-                                    {{ $time }}:00 - {{ $time + 1 }}:00</div>
-
-                                @foreach (['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as $day)
-                                    <div class="flex items-center justify-center p-2 border-r border-gray-200">
+                            @for ($time = 7; $time <= 21; $time++)
+                            <div class="grid grid-cols-8 border-t border-gray-200">
+                                <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">{{ $time }}:00</div>
+                                @for ($day = 1; $day <= 7; $day++)
+                                    <div class="flex flex-col h-auto p-0.5 md:p-3.5 border-r border-gray-200 transition-all hover:bg-stone-100">
                                         @php
-                                            // Cari course pada hari dan jam yang sesuai
-                                            $courses = $jadwals->where('hari', $day)->where('jam_mulai', $time . ':00');
+                                            $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+                                            $schedules = [];
+                                            foreach ($jadwals as $jadwal) {
+                                                $j = [
+                                                    'day' => $jadwal->hari,
+                                                    'kode_mk' => $jadwal->kode_mk,
+                                                    'sks' => $jadwal->sks,
+                                                    'kapasitas' => $jadwal->kapasitas,
+                                                    'start' => $jadwal->jam_mulai,
+                                                    'end' => $jadwal->jam_selesai,
+                                                    'title' => $jadwal->nama_mk,
+                                                    'kelas' => $jadwal->kelas,
+                                                    'ruangan' => $jadwal->ruang,
+                                                    'jenis' => $jadwal->status
+                                                ];
+                                                array_push($schedules, $j);
+                                            }
                                         @endphp
-
-                                        @if ($courses->isNotEmpty())
-                                            <!-- Tampilkan semua course yang sesuai -->
-                                            @foreach ($courses as $course)
-                                                <div class="rounded-lg bg-blue-100 text-blue-900 text-sm font-semibold p-2 course-slot"
-                                                    data-code="{{ $course->kode_mk }}" data-day="{{ $day }}" data-time="{{ $time }}"
-                                                    onclick="showCourseModal('{{ $course->nama_mk }}', '{{ $course->kode_mk }}', '{{ $day }}', '{{ $time }}')">
-                                                    {{ $course->nama_mk }}<br>{{ $course->sks }} SKS
-                                                </div>
-                                            @endforeach
-                                        @else
-                                            <!-- Tampilkan "Kosong" hanya jika tidak ada course yang ditemukan -->
-                                            <div class="text-sm text-gray-500">Kosong</div>
-                                        @endif
+                                        @foreach ($schedules as $schedule)
+                                            @if ($schedule['day'] == $days[$day - 1] && 
+                                                ($time == intval(substr($schedule['start'], 0, 2))))
+                                                
+                                                @php
+                                                    // Calculate the duration of the schedule in hours
+                                                    $startHour = intval(substr($schedule['start'], 0, 2));
+                                                    $endHour = intval(substr($schedule['end'], 0, 2));
+                                                    $duration = $endHour - $startHour;
+                                        
+                                                    // Define color class based on the class
+                                                    $colorClass = match ($schedule['kelas']) {
+                                                        'A' => 'bg-blue-50 border-blue-600 text-blue-600',
+                                                        'B' => 'bg-red-50 border-red-600 text-red-600',
+                                                        'C' => 'bg-green-50 border-green-600 text-green-600',
+                                                        'D' => 'bg-purple-50 border-purple-600 text-purple-600',
+                                                        default => 'bg-gray-50 border-gray-600 text-gray-600',
+                                                    };
+                                                @endphp
+                                        
+                                                <button class="rounded p-1.5 border-l-2 {{ $colorClass }} w-full text-left my-2"
+                                                    style="grid-row: span {{ $duration }};" @click="showModal = true; selectedSchedule = {{ json_encode($schedule) }}">
+                                                    <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
+                                                    <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>
+                                                </button>
+                                            @endif
+                                        @endforeach
+                                    
                                     </div>
                                 @endfor
                             </div>
                         @endfor
                     </div>
-                </div>
+                    
+                    <!-- drawer init and toggle -->
+                    <div class="fixed bottom-5 right-5 text-center">
+                        <button class="text-white bg-blue-800 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" 
+                                type="button" 
+                                data-drawer-target="drawer-right-example" 
+                                data-drawer-show="drawer-right-example" 
+                                data-drawer-placement="right" 
+                                aria-controls="drawer-right-example">
+                            IRS
+                        </button>
+                    </div>
+
+                    <!-- drawer component -->
+                    <div id="drawer-right-example" class="rounded-xl fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-96 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label">
+                        <h1 id="drawer-right-label" class="inline-flex items-center mb-4 ml-2 text-base font-bold text-black">Matakuliah Yang Dipilih</h1>
+                        <button type="button" data-drawer-hide="drawer-right-example" aria-controls="drawer-right-example" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1l12 12M1 13L13 1"/>
+                            </svg>
+                            <span class="sr-only">Close menu</span>
+                        </button>
+
+                        <!-- Tabel Mata Kuliah yang Dipilih -->
+                        <div class="mt-4 overflow-x-auto p-2 rounded-lg font-poppins">
+                            <table class="min-w-full table-auto border-collapse text-sm">
+                                <thead class="bg-[#5932EA] text-white">
+                                    <tr>
+                                        <th class="border px-4 py-2 text-left">Nama MK</th>
+                                        <th class="border px-4 py-2 text-left">Kode MK</th>
+                                        <th class="border px-4 py-2 text-left">SKS</th>
+                                        <th class="border px-4 py-2 text-left">Kelas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template x-for="schedule in selectedSchedules" :key="schedule.kode_mk">
+                                        <tr class="hover:bg-gray-100 transition-colors">
+                                            <td class="border px-4 py-2" x-text="schedule.title"></td>
+                                            <td class="border px-4 py-2" x-text="schedule.kode_mk"></td>
+                                            <td class="border px-4 py-2" x-text="schedule.sks"></td>
+                                            <td class="border px-4 py-2" x-text="schedule.kelas"></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="px-5 py-2 ml-2 bg-[#000CB0] mt-6 rounded-xl text-white font-poppins font-semibold">Ajukan</button>
+                    </div>
+
+
+                </section>
+                    <!-- Modal for displaying schedule details -->
+                    <div x-show="showModal" class="fixed inset-0 z-50 flex items-center justify-center min-h-screen px-4 text-center">
+                        <!-- Overlay -->
+                        <div class="fixed inset-0 bg-gray-900 opacity-60"></div>
+                        
+                        <!-- Modal Content -->
+                        <div class="bg-white rounded-xl shadow-lg max-w-md w-full p-6 relative transform transition-all">
+                            <!-- Close Button -->
+                            <button @click="showModal = false" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+
+                            <!-- Modal Header -->
+                            <div class="mb-4">
+                                <h3 class="text-xl font-semibold text-gray-800" x-text="selectedSchedule.title"></h3>
+                                <p class="text-gray-500">Detail informasi mengenai mata kuliah yang dipilih</p>
+                            </div>
+
+                            <!-- Modal Body -->
+                            <div class="space-y-2 text-gray-600">
+                                <p><span class="font-semibold">Kode MK:</span> <span x-text="selectedSchedule.kode_mk"></span></p>
+                                <p><span class="font-semibold">SKS:</span> <span x-text="selectedSchedule.sks"></span></p>
+                                <p><span class="font-semibold">Kelas:</span> <span x-text="selectedSchedule.kelas"></span></p>
+                                <p><span class="font-semibold">Hari:</span> <span x-text="selectedSchedule.day"></span></p>
+                                <p><span class="font-semibold">Waktu:</span> <span x-text="selectedSchedule.start"></span> - <span x-text="selectedSchedule.end"></span></p>
+                                <p><span class="font-semibold">Ruangan:</span> <span x-text="selectedSchedule.ruangan"></span></p>
+                                <p><span class="font-semibold">Jenis:</span> <span x-text="selectedSchedule.jenis"></span></p>
+                                <p><span class="font-semibold">Kapasitas:</span> <span x-text="selectedSchedule.kapasitas"></span></p>
+                            </div>
+
+                            <!-- Modal Footer -->
+                            <div class="mt-6 flex justify-center">
+                                <button @click="selectedSchedules.push(selectedSchedule); showModal = false" class="bg-blue-600 text-white px-8 rounded-lg py-4 hover:bg-blue-700 transition-colors">
+                                    Pilih
+                                </button>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
-</div>
-
-<!-- Modal for Course Description -->
-<div id="courseModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden z-50">
-    <div class="flex items-center justify-center h-full">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h2 id="modalCourseName" class="text-lg font-semibold"></h2>
-            <p id="modalCourseDescription" class="mt-2"></p>
-            <div class="mt-4">
-                <button onclick="document.getElementById('courseModal').classList.add('hidden');"
-                    class="bg-gray-200 px-4 py-2 rounded mr-2">Batal</button>
-                <button id="selectCourseButton" class="bg-blue-500 text-white px-4 py-2 rounded">Pilih</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    const selectedCourses = {};
-
-    // Toggle visibility of course items and search
-    function toggleCourse(code) {
-        const courseItem = document.getElementById('course-' + code);
-        courseItem.classList.toggle('hidden');
-        searchCourses(); // Re-check visibility on search
-    }
-
-    // Function to show course modal with additional parameters
-    function showCourseModal(name, description, code, day, time) {
-        document.getElementById('modalCourseName').innerText = name;
-        document.getElementById('modalCourseDescription').innerText = description;
-        document.getElementById('selectCourseButton').onclick = function () {
-            selectCourse(code, day, time);
-            document.getElementById('courseModal').classList.add('hidden');
-        };
-        document.getElementById('courseModal').classList.remove('hidden');
-    }
-
-    // Select course and manage schedule for specific day and time
-    function selectCourse(code, day, time) {
-        // Mark the course as selected
-        selectedCourses[code] = selectedCourses[code] || [];
-
-        // Add the selected time and day to the array
-        if (!selectedCourses[code].some(slot => slot.day === day && slot.time === time)) {
-            selectedCourses[code].push({ day: day, time: time });
-
-            // Hide the course in the schedule only for that specific day and time
-            const courseElement = document.querySelector(`.course-slot[data-code='${code}'][data-day='${day}'][data-time='${time}']`);
-            if (courseElement) {
-                courseElement.style.display = 'none'; // Hide the selected slot
-            }
-
-            alert("Course " + code + " selected for " + day + " at " + time + ":00!");
-        } else {
-            alert("Course " + code + " is already selected for " + day + " at " + time + ":00.");
+    <script>
+        function updateClock() {
+            const clockElement = document.getElementById('real-time-clock');
+            const now = new Date();
+            const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+            const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            
+            const dayName = days[now.getDay()];
+            const monthName = months[now.getMonth()];
+            const day = String(now.getDate()).padStart(2, '0');
+            const year = now.getFullYear();
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            clockElement.innerText = `${dayName}, ${day} ${monthName} ${year} | ${hours}:${minutes}:${seconds}`;
         }
-    }
-
-
-</script>
+    
+        setInterval(updateClock, 1000);
+        updateClock();
+        
+        
+    </script>
+    
+</div>
 @endsection

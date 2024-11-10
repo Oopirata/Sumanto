@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BuatIRSController;
 use App\Http\Controllers\DosenController;
-use App\Http\Controllers\DosenMatakuliahController;
+use App\Http\Controllers\IRSController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\MhsDashboard;
 use App\Http\Controllers\MatakuliahController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,8 +16,6 @@ Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 Route::get('/', function () {
     return view('login');
 })->name('login');
-
-Route::get('/buat-irs', [JadwalController::class, 'createIRS'])->name('buat.irs');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
@@ -34,14 +34,9 @@ Route::middleware(['auth'])->group(function () {
 // Dashboard Routes with middleware
 // Route::middleware(['auth'])->group(function () {
 // Student dashboard
-Route::get('mhs/dashboard', function () {
-    return view('mhsDashboard');
-})->name('mhs.dashboard');
 
 // Dean dashboard
-Route::get('dekan/dashboard', function () {
-    return view('dekanDashboard');
-})->name('dekan.dashboard');
+Route::get('dekan/dashboard', [AuthController::class, 'dekanDashboard'])->name('dekan.dashboard');
 
 // Program Head dashboard
 Route::get('kaprodi/dashboard', function () {
@@ -54,12 +49,9 @@ Route::get('staff/dashboard', function () {
 })->name('staff.dashboard');
 
 // Academic Advisor dashboard
-Route::get('dosen/dashboard', function () {
-    return view('paDashboard');
-})->name('dosen.dashboard');
-// });
+Route::get('dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');
 
-Route::get('dekan/jadwal', function () {
+Route::get('/dekan/jadwal', function () {
     return view('dekanJadwal');
 });
 
@@ -71,23 +63,23 @@ Route::get('kaprodid', function () {
     return view('kaprodiDashboard');
 });
 
-// Route::get('kaprodimk', function () {
-//     return view('kaprodiMatkulDosen');
-// });
+Route::get('kaprodij', [JadwalController::class, 'index'])->name('BuatIrs.index');
+
+
 Route::get('kaprodimk', [MatakuliahController::class, 'index'])->name('matakuliah.index');
 
-Route::get('kaprodij', function () {
-    return view('kaprodiBuatJadwal');
-});
+Route::post('kaprodimk', [MatakuliahController::class, 'store'])->name('store.jadwal');
 
-Route::get('/mhs/BuatIrs', function () {
-    return view('mhsBuatIrs');
-});
+Route::post('kaprodimk/delete', [MatakuliahController::class, 'deleteJadwal'])->name('delete.jadwal');
 
 
-Route::get('/mhs/irs', function () {
-    return view('mhsIrs');
-});
+Route::get('mhs/dashboard', [MhsDashboard::class, 'dashboardMhs'])->name('mhs.dashboard');
+
+Route::get('/mhs/BuatIrs', [BuatIRSController::class, 'tampil_jadwal'])->name('buat.irs');
+
+
+Route::get('/mhs/irs', [IRSController::class, 'tampil_jadwal'])->name('mhs.irs');
+
 
 Route::get('/mhs/khs', function () {
     return view('mhsKhs');
