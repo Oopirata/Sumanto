@@ -92,3 +92,7 @@ Route::get('/mhs/transkip', function () {
 Route::get('/dosen/PengajuanIrs', function () {
     return view('paPengajuanIrs');
 });
+
+Route::get('/dosen/DetailIrs', function () {
+    return view('paDetailIrs');
+});
