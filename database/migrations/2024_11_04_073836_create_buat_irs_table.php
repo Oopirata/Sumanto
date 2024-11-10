@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kode_mk');
             $table->string('nama_mk');
-            $table->string('sks');
+            $table->integer('sks');
             $table->string('semester');
             $table->string('kelas');
             $table->string('ruang');
