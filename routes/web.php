@@ -88,3 +88,7 @@ Route::get('/mhs/khs', function () {
 Route::get('/mhs/transkip', function () {
     return view('mhsTranskip');
 });
+
+Route::get('/dosen/PengajuanIrs', function () {
+    return view('paPengajuanIrs');
+});
