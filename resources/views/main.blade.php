@@ -13,6 +13,7 @@
     <script src="https://cdn.datatables.net/2.1.7/js/dataTables.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"  rel="stylesheet" />
     <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body>
     @yield('page')
