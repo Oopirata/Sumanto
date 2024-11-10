@@ -60,21 +60,23 @@ Route::get('kaprodid', function () {
     return view('kaprodiDashboard');
 });
 
-Route::get('kaprodij', function () {
-    return view('kaprodiBuatJadwal');
-});
+Route::get('kaprodij', [JadwalController::class, 'index'])->name('BuatIrs.index');
+
 
 Route::get('kaprodimk', [MatakuliahController::class, 'index'])->name('matakuliah.index');
+
+Route::post('kaprodimk', [MatakuliahController::class, 'store'])->name('store.jadwal');
+
+Route::post('kaprodimk/delete', [MatakuliahController::class, 'deleteJadwal'])->name('delete.jadwal');
+
 
 Route::get('mhs/dashboard', [MhsDashboard::class, 'dashboardMhs'])->name('mhs.dashboard');
 
 Route::get('/mhs/BuatIrs', [BuatIRSController::class, 'tampil_jadwal'])->name('buat.irs');
 
+
 Route::get('/mhs/irs', [IRSController::class, 'tampil_jadwal'])->name('mhs.irs');
 
-// Route::get('/mhs/irs', function () {
-//     return view('mhsIrs');
-// });
 
 Route::get('/mhs/khs', function () {
     return view('mhsKhs');

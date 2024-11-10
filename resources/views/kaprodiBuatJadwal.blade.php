@@ -5,8 +5,8 @@
 @section('page')
 <div class="bg-gray-100 min-h-screen flex flex-col ">
     <div class="flex overflow-hidden">
-        <x-side-bar-dekan></x-side-bar-dekan>
-        <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
+        <x-side-bar-kaprodi></x-side-bar-kaprodi>
+        <div id="main-content" class="relative text-black  font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar></x-nav-bar>
             <div class="border-b-4"></div>
             <div class="p-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm">
@@ -17,9 +17,7 @@
                     
                     <div>
                         <div class="flex justify-between">
-                            <div>
-                                <x-jurusan></x-jurusan>
-                            </div>
+                            
                             <div class="px-4 bg-white"></div>
                             <div>
                                 <x-semester></x-semester>
@@ -53,14 +51,25 @@
                                         // Definisikan nama hari dalam array untuk mempermudah pencocokan
                                         $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
                                         $schedules = [
-                                            ['day' => 'Senin', 'start' => '07:30', 'end' => '09:20', 'title' => 'PBP (A)', 'kelas' => 'A', 'ruangan' => 'E101', 'jenis' => 'wajib'],
-                                            ['day' => 'Senin', 'start' => '08:30', 'end' => '10:00', 'title' => 'Pemrograman Web', 'kelas' => 'B', 'ruangan' => 'E101', 'jenis' => 'pilihan'],
                                             // Tambahkan jadwal lainnya sesuai kebutuhan
                                         ];
+
+                                        foreach ($data as $jadwal){
+                                            $j =[ 'day' => $jadwal->hari, 'start' => $jadwal->jam_mulai, 'end' => $jadwal->jam_selesai, 'title' => $jadwal->nama_mk, 'kelas' => $jadwal->kelas, 'ruangan' => $jadwal->ruang, 'jenis' => $jadwal->status];
+                                            // Tambahkan jadwal ke array $schedules
+                                            array_push($schedules, $j);
+                                            }
+                                    
                                     @endphp
                                     @foreach ($schedules as $schedule)
-                                        @if ($schedule['day'] == $days[$day - 1] &&  $time >= intval(substr($schedule['start'], 0, 2)) && $time < intval(substr($schedule['end'], 0, 2)))
-                                            @php
+                                            @if ($schedule['day'] == $days[$day - 1] && 
+                                                ($time == intval(substr($schedule['start'], 0, 2))))
+                                                
+                                                @php
+                                                    // Calculate the duration of the schedule in hours
+                                                    $startHour = intval(substr($schedule['start'], 0, 2));
+                                                    $endHour = intval(substr($schedule['end'], 0, 2));
+                                                    $duration = $endHour - $startHour;
                                                 $colorClass = '';
                                                 switch ($schedule['kelas']) {
                                                     case 'A':
