@@ -47,7 +47,7 @@ Route::get('dekan/ruangan', [AuthController::class, 'dekanRuangan'])->name('deka
 
 // Academic Staff dashboard
 Route::get('staff/dashboard', function () {
-    return view('academicStaffDashboard');
+    return view('baDashboard');
 })->name('staff.dashboard');
 
 // Academic Advisor dashboard
@@ -90,8 +90,4 @@ Route::get('/mhs/transkip', function () {
 
 Route::get('/dosen/PengajuanIrs', function () {
     return view('paPengajuanIrs');
-});
-
-Route::get('/dosen/DetailIrs', function () {
-    return view('paDetailIrs');
 });

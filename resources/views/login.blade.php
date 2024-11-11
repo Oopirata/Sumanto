@@ -28,7 +28,7 @@
                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
             
             <!-- Submit Button -->
-            <button type="submit" class="px-16 py-2 bg-[#5932EA] text-white rounded-lg hover:bg-[#5932EA]">
+            <button type="submit" class="px-16 py-2 bg-blue-700 text-white rounded-lg hover:bg-[#5932EA]">
                 Masuk
             </button>
         </form>
