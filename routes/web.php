@@ -92,3 +92,5 @@ Route::get('/dosen/PengajuanIrs', function () {
 Route::get('staff/irs', function () {
     return view('baIrs');
 });
+
+Route::get('pa/dashboard', [DosenController::class, 'dashboardPA']);
