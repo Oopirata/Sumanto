@@ -60,6 +60,7 @@ Route::get('kaprodid', function () {
 
 Route::get('kaprodij', [JadwalController::class, 'index'])->name('BuatIrs.index');
 
+Route::get('/kaprodi/mk/{mataKuliahId}', [MatakuliahController::class, 'dosenHapusOption']);
 
 Route::get('/kaprodi/mk', [MatakuliahController::class, 'index'])->name('matakuliah.index');
 

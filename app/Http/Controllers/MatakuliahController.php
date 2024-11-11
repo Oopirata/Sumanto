@@ -8,6 +8,8 @@ use App\Models\Kaprodi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
+use function Laravel\Prompts\select;
+
 class MatakuliahController extends Controller
 {
     public function index()
@@ -59,7 +61,7 @@ class MatakuliahController extends Controller
 
     // Redirect dengan pesan sukses
     return redirect()->route('matakuliah.index')->with('success', 'Dosen berhasil dihapus dari Mata Kuliah.');
-}
+    }
 
     public function store(Request $request)
     {
@@ -99,7 +101,18 @@ class MatakuliahController extends Controller
 
         // Redirect dengan pesan sukses
         return redirect()->route('matakuliah.index')->with('success', 'Dosen berhasil ditambahkan ke Mata Kuliah.');
-    }
+        }
+
+        public function dosenHapusOption($mataKuliahId)
+        {
+            $dosen = DB::table('dosen')
+                ->join('dosen_matakuliah', 'dosen.nip', '=', 'dosen_matakuliah.dosen_nip')
+                ->where('dosen_matakuliah.kode_mk', $mataKuliahId)
+                ->select('dosen.nip', 'dosen.nama')
+                ->get();
+
+            return response()->json(['dosen' => $dosen]);
+        }
 
 
 }

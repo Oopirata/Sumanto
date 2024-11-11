@@ -20,7 +20,7 @@ class MhsDashboard extends Controller
             $dosenWali = null; // Atau tangani kasus di mana mahasiswa tidak ditemukan
         }
 
-        dd(compact('user','mahasiswa', 'dosenWali'));
+        // dd(compact('user','mahasiswa', 'dosenWali'));
         return view('mhsDashboard', compact('user','mahasiswa', 'dosenWali'));
     }
 }
