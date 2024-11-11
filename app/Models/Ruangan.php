@@ -12,14 +12,15 @@ class Ruangan extends Model
     protected $table = 'ruangan';
 
     protected $fillable = [
-        'nama_ruang',
+        'id_ruang',
+        'nama',
         'kapasitas',
+        'lokasi',
         'status',
     ];
 
-    public function jadwal(){
+    public function jadwal()
+    {
         return $this->hasMany(Jadwal::class);
     }
-
-    
 }
