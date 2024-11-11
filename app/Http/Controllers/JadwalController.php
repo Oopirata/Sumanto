@@ -18,4 +18,22 @@ class JadwalController extends Controller
 
 
     }
+
+    public function store(Request $request){
+        $request->validate([
+            'nama_mk' => 'required',
+            'ruang' => 'required',
+            'status' => 'required',
+            'hari' => 'required',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required',
+            'kelas' => 'required',
+            'semester' => 'required',
+            'tahun_ajaran' => 'required',
+        ]);
+
+        Jadwal::create($request->all());
+
+        return redirect()->route('kaprodiBuatJadwal')->with('success', 'Jadwal berhasil dibuat');
+    }
 }
