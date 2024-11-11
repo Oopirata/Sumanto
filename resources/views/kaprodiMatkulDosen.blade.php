@@ -185,6 +185,8 @@
                                         </select>
                                     </div>
                                     {{-- {{ dd($matakuliah) }} --}}
+                                    <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-blue-300">Hapus Dosen</button>
                                 </form>
                             </div>
                         </div>

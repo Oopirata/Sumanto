@@ -12,6 +12,13 @@ use function Laravel\Prompts\select;
 
 class MatakuliahController extends Controller
 {
+
+    public function showKaprodiDashboard()
+    {
+        $userr = Auth::user();
+        $user = Kaprodi::where('user_id', $userr->id)->first();
+        return view('kaprodiDashboard', compact('user'));
+    }
     public function index()
     {
         $userr = Auth::user();
