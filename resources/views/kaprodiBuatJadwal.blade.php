@@ -5,7 +5,7 @@
 @section('page')
 <div class="bg-gray-100 min-h-screen flex flex-col ">
     <div class="flex overflow-hidden">
-        <x-side-bar-kaprodi></x-side-bar-kaprodi>
+        <x-side-bar-kaprodi :user="$user"></x-side-bar-kaprodi>
         <div id="main-content" class="relative text-black  font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar></x-nav-bar>
             <div class="border-b-4"></div>

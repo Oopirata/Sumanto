@@ -12,6 +12,7 @@ class sideBarDekan extends Component
      * Create a new component instance.
      */
     public $dekan;
+    
     public function __construct($dekan)
     {
         $this->dekan = $dekan;

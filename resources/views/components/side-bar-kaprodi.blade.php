@@ -35,10 +35,10 @@
                 </a>
                 <!-- Dropdown items -->
                 <div x-show="open" class="mt-2 space-y-1 pl-6">
-                    <a href="kaprodimk" class="flex items-center my-4 hover:bg-gray-100 rounded-lg px-2 transition-colors">
+                    <a href="/kaprodi/mk" class="flex items-center my-4 hover:bg-gray-100 rounded-lg px-2 transition-colors">
                         <label class="ml-2 text-sm text-gray-600">Pengajar Mata Kuliah</label> 
                     </a>
-                    <a href="kaprodij" class="flex items-center my-4 mb-4 hover:bg-gray-100 rounded-lg px-2 transition-colors">
+                    <a href="/kaprodi/jadwal" class="flex items-center my-4 mb-4 hover:bg-gray-100 rounded-lg px-2 transition-colors">
                         <label class="ml-2 text-sm text-gray-600">Jadwal</label> 
                     </a>
                 </div>
@@ -48,8 +48,8 @@
         <div class="px-6 py-4 flex items-center">
             <img src="https://via.placeholder.com/40" alt="Profile Image" class="rounded-full h-10 w-10">
             <div class="ml-4">
-                <p class="text-sm font-medium">Dul Samsi</p>
-                <p class="text-xs text-gray-600">24060122120031 - Informatika S1</p>
+                <p class="text-sm font-medium">{{ $user -> nama }}</p>
+                <p class="text-xs text-gray-600">{{ $user-> nip }} - Informatika S1</p>
             </div>
         </div>
     </div>
