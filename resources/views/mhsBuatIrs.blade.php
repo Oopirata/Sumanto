@@ -125,20 +125,31 @@
                                         <th class="border px-4 py-2 text-left">Kode MK</th>
                                         <th class="border px-4 py-2 text-left">SKS</th>
                                         <th class="border px-4 py-2 text-left">Kelas</th>
+                                        <th class="border px-4 py-2 text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template x-for="schedule in selectedSchedules" :key="schedule.kode_mk">
+                                    <template x-for="(schedule, index) in selectedSchedules" :key="schedule.kode_mk">
                                         <tr class="hover:bg-gray-100 transition-colors">
                                             <td class="border px-4 py-2" x-text="schedule.title"></td>
                                             <td class="border px-4 py-2" x-text="schedule.kode_mk"></td>
                                             <td class="border px-4 py-2" x-text="schedule.sks"></td>
                                             <td class="border px-4 py-2" x-text="schedule.kelas"></td>
+                                            <!-- Trash Icon -->
+                                            <td class="border px-4 py-2 text-center">
+                                                <button @click="selectedSchedules.splice(index, 1)" class="text-red-600 hover:text-red-800">
+                                                    <!-- Trash Icon SVG -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2h1v10a2 2 0 002 2h6a2 2 0 002-2V6h1a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zm1 4a1 1 0 011 1v7a1 1 0 11-2 0V7a1 1 0 011-1zM7 7a1 1 0 10-2 0v7a1 1 0 102 0V7zm8 0a1 1 0 10-2 0v7a1 1 0 102 0V7z"/>
+                                                    </svg>
+                                                </button>
+                                            </td>
                                         </tr>
                                     </template>
                                 </tbody>
                             </table>
                         </div>
+                        
                         <button class="px-5 py-2 ml-2 bg-[#000CB0] mt-6 rounded-xl text-white font-poppins font-semibold">Ajukan</button>
                     </div>
 
