@@ -40,7 +40,7 @@ class JadwalController extends Controller
             'kapasitas' => 'required|integer',
             'sifat' => 'required',
         ]);
-        dd($request->all());
+        dd($request->all());    
         // Simpan data jadwal
         Jadwal::create([
             'hari' => $request->hari,

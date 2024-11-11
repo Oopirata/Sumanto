@@ -7,6 +7,8 @@ use App\Http\Controllers\IRSController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MhsDashboard;
 use App\Http\Controllers\MatakuliahController;
+use App\Http\Controllers\RuanganController;
+use App\Models\Ruangan;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -95,5 +97,9 @@ Route::get('/dosen/PengajuanIrs', function () {
 Route::get('staff/irs', function () {
     return view('baIrs');
 });
+
+Route::get('staff/ruangan', [RuanganController::class, 'index'])->name('ba.ruangan');
+
+Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
 
 Route::get('pa/dashboard', [DosenController::class, 'dashboardPA']);
