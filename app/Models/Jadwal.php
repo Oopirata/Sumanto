@@ -12,6 +12,22 @@ class Jadwal extends Model
     protected $table = 'jadwal'; // Nama tabel
 
     protected $fillable = [
+<<<<<<< HEAD
+        'hari',
+        'jam_mulai',
+        'jam_selesai',
+        'ruang',
+        'kode_mk',
+        'nama_mk',
+        'sks',
+        'semester',
+        'kelas',
+        'kapasitas',
+        'status',
+        'prodi',
+        'sifat'
+    ];
+=======
         'id',
         'id_matakuliah',
         'id_dosen',
@@ -35,4 +51,5 @@ class Jadwal extends Model
     {
         return $this->belongsTo(Dosen::class, 'id_dosen', 'id');
     }
+>>>>>>> main
 }

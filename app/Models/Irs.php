@@ -15,6 +15,5 @@ class Irs extends Model
         'semester',
         'total_sks',
         'status',
-        'ips'
     ];
 }
