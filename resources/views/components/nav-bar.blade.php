@@ -1,7 +1,7 @@
 @auth
 <nav x-data="{ mobileMenuIsOpen: false }" @click.away="mobileMenuIsOpen = false" class="flex items-center justify-between px-6 py-4">
     <!-- Welcome Message -->
-    <h1 class="font-semibold text-lg mr-auto">{{ Auth::user() -> name }}</h1>
+    <h1 class="font-semibold text-lg mr-auto">{{ Auth::user() -> name }} 👋</h1>
     
     <!-- Desktop Menu -->
     <ul class="hidden items-center gap-4 flex-shrink-0 sm:flex">
