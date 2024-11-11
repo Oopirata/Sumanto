@@ -5,7 +5,7 @@
 @section('page')
 <div class="bg-gray-100 min-h-screen flex flex-col ">
     <div class="flex overflow-hidden">
-        <x-side-bar-kaprodi></x-side-bar-kaprodi>
+        <x-side-bar-kaprodi :user="$user"></x-side-bar-kaprodi>
         <div id="main-content" class="relative text-black  font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar></x-nav-bar>
             <div class="border-b-4"></div>
@@ -53,7 +53,7 @@
                                         $schedules = [
                                             // Tambahkan jadwal lainnya sesuai kebutuhan
                                         ];
-
+                                        
                                         foreach ($data as $jadwal){
                                             $j =[ 'day' => $jadwal->hari, 'start' => $jadwal->jam_mulai, 'end' => $jadwal->jam_selesai, 'title' => $jadwal->nama_mk, 'kelas' => $jadwal->kelas, 'ruangan' => $jadwal->ruang, 'jenis' => $jadwal->status];
                                             // Tambahkan jadwal ke array $schedules
@@ -124,7 +124,7 @@
                             <svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                             </svg>
-                            Right drawer
+                            Tambah Jadwal
                         </h5>
                         <button type="button" data-drawer-hide="drawer-right-example" aria-controls="drawer-right-example" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -134,12 +134,105 @@
                         </button>
                         <ul class="space-y-4">
                             <li>
-                                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                    <svg class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M10 2a8 8 0 1 0 8 8A8.01 8.01 0 0 0 10 2ZM5 10a5 5 0 0 1 9.24-3.58A4.979 4.979 0 0 1 16 10a5 5 0 0 1-10 0ZM9 7.5a.5.5 0 1 1 1 0v4a.5.5 0 1 1-1 0v-4Z"/>
-                                    </svg>
-                                    <span class="ml-3">Dashboard</span>
-                                </a>
+                               <form action="{{ route('store.jadwal') }}" method="POST" class="space-y-4 p-6 bg-gray-50 border border-gray-300 rounded-lg shadow-md">
+                                    @csrf
+
+                                    <!-- Nama Mata Kuliah -->
+                                    <div>
+                                        <label for="kode_mk" class="block text-sm font-medium text-gray-700">Nama Mata Kuliah</label>
+                                        <select id="kode_mk" name="kode_mk" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">Pilih Mata Kuliah</option>
+                                            @foreach($mk as $jadwal)
+                                                <option value="{{ $jadwal->kode_mk }}">{{ $jadwal->nama_mk }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Ruang -->
+                                    <div>
+                                        <label for="ruangan" class="block text-sm font-medium text-gray-700">Ruang</label>
+                                        <select id="ruangan" name="ruangan" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">Pilih Ruangan</option>
+                                            @foreach($ruangan as $ruang)
+                                                <option value="{{ $ruang->id }}">{{ $ruang->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Sifat -->
+                                    <div>
+                                        <label for="sifat" class="block text-sm font-medium text-gray-700">Sifat</label>
+                                        <select id="sifat" name="sifat" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">Pilih Sifat</option>
+                                            <option value="Wajib">Wajib</option>
+                                            <option value="Pilihan">Pilihan</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Hari -->
+                                    <div>
+                                        <label for="hari" class="block text-sm font-medium text-gray-700">Hari</label>
+                                        <select id="hari" name="hari" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">Pilih Hari</option>
+                                            <option value="Senin">Senin</option>
+                                            <option value="Selasa">Selasa</option>
+                                            <option value="Rabu">Rabu</option>
+                                            <option value="Kamis">Kamis</option>
+                                            <option value="Jumat">Jumat</option>
+                                            <option value="Sabtu">Sabtu</option>
+                                            <option value="Minggu">Minggu</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Jam Mulai -->
+                                    <div>
+                                        <label for="jam_mulai" class="block text-sm font-medium text-gray-700">Jam Mulai</label>
+                                        <input type="time" id="jam_mulai" name="jam_mulai" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+
+                                    <!-- Jam Selesai -->
+                                    <div>
+                                        <label for="jam_selesai" class="block text-sm font-medium text-gray-700">Jam Selesai</label>
+                                        <input type="time" id="jam_selesai" name="jam_selesai" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+
+                                    <!-- Kelas -->
+                                    <div>
+                                        <label for="kelas" class="block text-sm font-medium text-gray-700">Kelas</label>
+                                        <select id="kelas" name="kelas" required onchange="toggleKelasInput()" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">Pilih Kelas</option>
+                                            <option value="A">A</option>
+                                            <option value="B">B</option>
+                                            <option value="C">C</option>
+                                            <option value="D">D</option>
+                                            <option value="E">E</option>
+                                            <option value="other">Lainnya</option>
+                                        </select>
+
+                                        <input type="text" id="kelas_lainnya" name="kelas_lainnya" placeholder="Masukkan kelas lain" class="mt-2 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" style="display: none;">
+                                    </div>
+
+                                    <script>
+                                        function toggleKelasInput() {
+                                            const kelasSelect = document.getElementById("kelas");
+                                            const kelasLainnyaInput = document.getElementById("kelas_lainnya");
+
+                                            if (kelasSelect.value === "other") {
+                                                kelasLainnyaInput.style.display = "block";
+                                                kelasLainnyaInput.required = true;
+                                            } else {
+                                                kelasLainnyaInput.style.display = "none";
+                                                kelasLainnyaInput.required = false;
+                                            }
+                                        }
+                                    </script>
+
+                                    <!-- Submit Button -->
+                                    <div>
+                                        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Simpan</button>
+                                    </div>
+                                </form>
+
                             </li>
                         </ul>
                     </div>
@@ -167,8 +260,41 @@
                         </div>
                     </div>
                 </div>
+                    <!-- Tombol Ajukan -->
+                    <div class="fixed bottom-6 right-6">
+                        <button id="ajukanBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-lg">
+                            Ajukan
+                        </button>
+                    </div>
+
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    // Ketika tombol Ajukan diklik
+    document.getElementById('ajukanBtn').addEventListener('click', function() {
+        Swal.fire({
+            title: 'Konfirmasi Pengajuan',
+            text: "Apakah Anda yakin ingin mengajukan jadwal ini?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, ajukan!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Terkirim!',
+                    'Jadwal Anda telah diajukan.',
+                    'success'
+                );
+                // Tambahkan kode untuk melanjutkan pengajuan (misalnya, submit form, redirect, dll)
+            }
+        });
+    });
+</script>
+
 @endsection

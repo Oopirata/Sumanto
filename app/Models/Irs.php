@@ -9,12 +9,12 @@ class Irs extends Model
 {
     use HasFactory;
 
+    protected $table = 'irs';
     protected $fillable = [
         'mhs_id',
         'jadwal_id',
         'semester',
         'total_sks',
         'status',
-        'ips'
     ];
 }

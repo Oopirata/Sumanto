@@ -15,18 +15,47 @@ class RuanganSeeder extends Seeder
     {
         DB::table('ruangan')->insert([
             [
-                'id_ruang' => 'R101',
-                'nama' => 'Ruang Kuliah 1',
+                'id_ruang' => 'A303',
+                'nama' => 'Ruang Kuliah A303',
                 'kapasitas' => 40,
                 'lokasi' => 'Gedung A',
             ],
             [
-                'id_ruang' => 'R102',
-                'nama' => 'Ruang Kuliah 2',
-                'kapasitas' => 35,
-                'lokasi' => 'Gedung B',
+                'id_ruang' => 'E101',
+                'nama' => 'Ruang Kuliah E101',
+                'kapasitas' => 50,
+                'lokasi' => 'Gedung E',
             ],
-            // Add more records as needed
+            [
+                'id_ruang' => 'E102',
+                'nama' => 'Ruang Kuliah E102',
+                'kapasitas' => 50,
+                'lokasi' => 'Gedung E',
+            ],
+            [
+                'id_ruang' => 'E103',
+                'nama' => 'Ruang Kuliah E103',
+                'kapasitas' => 50,
+                'lokasi' => 'Gedung E',
+            ],
+            [
+                'id_ruang' => 'K101',
+                'nama' => 'Ruang Kuliah K101',
+                'kapasitas' => 45,
+                'lokasi' => 'Gedung K',
+            ],
+            [
+                'id_ruang' => 'K102',
+                'nama' => 'Ruang Kuliah K102',
+                'kapasitas' => 45,
+                'lokasi' => 'Gedung K',
+            ],
+            [
+                'id_ruang' => 'K202',
+                'nama' => 'Ruang Kuliah K202',
+                'kapasitas' => 45,
+                'lokasi' => 'Gedung K',
+            ],
         ]);
     }
 }

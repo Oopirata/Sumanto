@@ -4,12 +4,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Matakuliah;
 use App\Models\Dosen;
+use App\Models\Kaprodi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
+use function Laravel\Prompts\select;
 
 class MatakuliahController extends Controller
 {
+
+    public function showKaprodiDashboard()
+    {
+        $userr = Auth::user();
+        $user = Kaprodi::where('user_id', $userr->id)->first();
+        return view('kaprodiDashboard', compact('user'));
+    }
     public function index()
     {
+        $userr = Auth::user();
+        $user = Kaprodi::where('user_id', $userr->id)->first();
         // Mendapatkan semua mata kuliah
         $matakuliah = Matakuliah::select('matakuliah.nama_mk', 'matakuliah.sks', 'matakuliah.semester','matakuliah.kode_mk')
             ->groupBy('matakuliah.nama_mk', 'matakuliah.sks', 'matakuliah.semester', 'matakuliah.kode_mk')
@@ -29,7 +42,7 @@ class MatakuliahController extends Controller
         $dosen = Dosen::all();
 
         // Mengirim data ke view
-        return view('kaprodiMatkulDosen', compact('matakuliah', 'dosen'));
+        return view('kaprodiMatkulDosen', compact('matakuliah', 'dosen', 'user'));
     }
 
     public function deleteJadwal(Request $request)
@@ -55,7 +68,7 @@ class MatakuliahController extends Controller
 
     // Redirect dengan pesan sukses
     return redirect()->route('matakuliah.index')->with('success', 'Dosen berhasil dihapus dari Mata Kuliah.');
-}
+    }
 
     public function store(Request $request)
     {
@@ -95,7 +108,18 @@ class MatakuliahController extends Controller
 
         // Redirect dengan pesan sukses
         return redirect()->route('matakuliah.index')->with('success', 'Dosen berhasil ditambahkan ke Mata Kuliah.');
-    }
+        }
+
+        public function dosenHapusOption($mataKuliahId)
+        {
+            $dosen = DB::table('dosen')
+                ->join('dosen_matakuliah', 'dosen.nip', '=', 'dosen_matakuliah.dosen_nip')
+                ->where('dosen_matakuliah.kode_mk', $mataKuliahId)
+                ->select('dosen.nip', 'dosen.nama')
+                ->get();
+
+            return response()->json(['dosen' => $dosen]);
+        }
 
 
 }

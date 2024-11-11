@@ -53,7 +53,7 @@ class UserSeeder extends Seeder
                             'user_id' => $user->id,
                             'nama' => $user->name,
                             'nim' => 'MHS' . uniqid() . random_int(1000, 9999), // Random unique NIM
-                            'semester' => random_int(1, 12),
+                            'semester' => [1, 3, 5][array_rand([1, 3, 5])],
                             'prodi' => 'Informatika',
                             'IPK' => mt_rand(100, 400) / 100,
                             'dosen_wali_id' => $dosenWaliId
@@ -64,7 +64,7 @@ class UserSeeder extends Seeder
                             'user_id' => $user->id,
                             'nip' => 'NIP' . uniqid() . random_int(1000, 9999), // Random unique NIP
                             'nama' => $user->name,
-                            
+
                         ]);
                         break;
                     case 'Ketua Program Studi':
