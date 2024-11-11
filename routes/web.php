@@ -63,9 +63,9 @@ Route::get('kaprodid', function () {
 Route::get('kaprodij', [JadwalController::class, 'index'])->name('BuatIrs.index');
 
 
-Route::get('kaprodimk', [MatakuliahController::class, 'index'])->name('matakuliah.index');
+Route::get('/kaprodi/mk', [MatakuliahController::class, 'index'])->name('matakuliah.index');
 
-Route::post('kaprodimk', [MatakuliahController::class, 'store'])->name('store.jadwal');
+Route::post('/kaprodi/mk', [MatakuliahController::class, 'store'])->name('store.jadwal');
 
 Route::post('kaprodimk/delete', [MatakuliahController::class, 'deleteJadwal'])->name('delete.jadwal');
 

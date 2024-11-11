@@ -35,10 +35,10 @@
                 </a>
                 <!-- Dropdown items -->
                 <div x-show="open" class="mt-2 space-y-1 pl-6">
-                    <a href="/mhsbk" class="flex items-center my-4 hover:bg-gray-100 rounded-lg px-2 transition-colors">
+                    <a href="/kaprodi/mk" class="flex items-center my-4 hover:bg-gray-100 rounded-lg px-2 transition-colors">
                         <label class="ml-2 text-sm text-gray-600">Pengajar Mata Kuliah</label> 
                     </a>
-                    <a href="/mhssk" class="flex items-center my-4 mb-4 hover:bg-gray-100 rounded-lg px-2 transition-colors">
+                    <a href="/kaprodi/jadwal" class="flex items-center my-4 mb-4 hover:bg-gray-100 rounded-lg px-2 transition-colors">
                         <label class="ml-2 text-sm text-gray-600">Jadwal</label> 
                     </a>
                 </div>
