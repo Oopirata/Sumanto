@@ -63,6 +63,9 @@ Route::get('kaprodi/dashboard', [MatakuliahController::class, 'showKaprodiDashbo
 
 Route::get('kaprodij', [JadwalController::class, 'index'])->name('BuatIrs.index');
 
+Route::post('kaprodij', [JadwalController::class, 'store'])->name('store.jadwal');
+
+
 Route::get('/kaprodi/mk/{mataKuliahId}', [MatakuliahController::class, 'dosenHapusOption']);
 
 Route::get('/kaprodi/mk', [MatakuliahController::class, 'index'])->name('matakuliah.index');
