@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Matakuliah;
 use App\Models\Dosen;
+use App\Models\Kaprodi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class MatakuliahController extends Controller
 {
     public function index()
     {
+        $userr = Auth::user();
+        $user = Kaprodi::where('user_id', $userr->id)->first();
         // Mendapatkan semua mata kuliah
         $matakuliah = Matakuliah::select('matakuliah.nama_mk', 'matakuliah.sks', 'matakuliah.semester','matakuliah.kode_mk')
             ->groupBy('matakuliah.nama_mk', 'matakuliah.sks', 'matakuliah.semester', 'matakuliah.kode_mk')
@@ -29,7 +33,7 @@ class MatakuliahController extends Controller
         $dosen = Dosen::all();
 
         // Mengirim data ke view
-        return view('kaprodiMatkulDosen', compact('matakuliah', 'dosen'));
+        return view('kaprodiMatkulDosen', compact('matakuliah', 'dosen', 'user'));
     }
 
     public function deleteJadwal(Request $request)

@@ -5,7 +5,7 @@
 @section('page')
 <div class="bg-gray-100 min-h-screen flex flex-col " x-data="modal()">
     <div class="flex overflow-hidden">
-        <x-side-bar-kaprodi></x-side-bar-kaprodi>
+        <x-side-bar-kaprodi :user="$user"></x-side-bar-kaprodi>
         <div id="main-content" class="relative text-black font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar />
             <div class="border-b-4"></div>
@@ -115,7 +115,7 @@
                                         <path
                                             d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                                     </svg>
-                                    Tambah Dosen
+                                    Hapus Dosen
                                 </h5>
                                 <button type="button" data-drawer-hide="drawer-right-example"
                                     aria-controls="drawer-right-example"

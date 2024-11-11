@@ -44,9 +44,7 @@ Route::get('dekan/jadwal', [AuthController::class, 'dekanJadwal'])->name('dekan.
 Route::get('dekan/ruangan', [AuthController::class, 'dekanRuangan'])->name('dekan.ruangan');
 
 // Program Head dashboard
-Route::get('kaprodi/dashboard', function () {
-    return view('kaprodiDashboard');
-})->name('kaprodi.dashboard');
+Route::get('kaprodi/dashboard', [MatakuliahController::class, 'index'])->name('kaprodi.dashboard');
 
 // Academic Staff dashboard
 Route::get('staff/dashboard', function () {
