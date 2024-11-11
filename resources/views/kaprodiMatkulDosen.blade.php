@@ -5,7 +5,7 @@
 @section('page')
 <div class="bg-gray-100 min-h-screen flex flex-col " x-data="modal()">
     <div class="flex overflow-hidden">
-        <x-side-bar-kaprodi></x-side-bar-kaprodi>
+        <x-side-bar-kaprodi :user="$user"></x-side-bar-kaprodi>
         <div id="main-content" class="relative text-black font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar />
             <div class="border-b-4"></div>
@@ -13,49 +13,222 @@
                 <div class="flex justify-between items-center">
                     <h1 class="text-black font-bold">Jadwal</h1>
                     <div class="flex justify-between">
-                        <div>
-                            <x-jurusan></x-jurusman>
-                        </div>
-                        <div class="px-4 bg-white"></div>
-                        <div>
-                            <x-semester></x-semester>
-                        </div>
-                        <div class="px-4 bg-white"></div>
-                        <div>
 
+                        <div class="text-center">
+                            <button
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                type="button" data-drawer-target="drawer-right-example"
+                                data-drawer-show="drawer-right-example" data-drawer-placement="right"
+                                aria-controls="drawer-right-example">
+                                Tambah Dosen
+                            </button>
                         </div>
+
+                        <!-- drawer component -->
+                        <div id="drawer-right-example"
+                            class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800"
+                            tabindex="-1" aria-labelledby="drawer-right-label">
+                            <h5 id="drawer-right-label"
+                                class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                <svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>Tambah Dosen
+                            </h5>
+                            <button type="button" data-drawer-hide="drawer-right-example"
+                                aria-controls="drawer-right-example"
+                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close menu</span>
+                            </button>
+                            <form action="{{ route('store.jadwal') }}" method="POST">
+                                @csrf
+                                <div class="mb-4">
+                                    <label for="mata_kuliah" class="block text-sm font-medium text-gray-700">Mata
+                                        Kuliah</label>
+                                    <select id="mata_kuliah" name="mata_kuliah_id" required
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        <option value="">Pilih Mata Kuliah</option>
+                                        @foreach ($matakuliah as $mk)
+                                            <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
+                                            <!-- Kirim kode_mk, bukan id -->
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="dosen" class="block text-sm font-medium text-gray-700">Dosen</label>
+                                    <select id="dosen" name="dosen_nip" required
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        <option value="">Pilih Dosen</option>
+                                        @foreach ($dosen as $dosens)
+                                            <option value="{{ $dosens->nip }}">{{ $dosens->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300">Tambah
+                                    dosen</button>
+                            </form>
+
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <a href="#"
+                                    class="px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Learn
+                                    more</a>
+                                <a href="#"
+                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Get
+                                    access <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                                    </svg></a>
+                            </div>
+                        </div>
+
+                        <div class="px-4 bg-white"></div>
+                        <div>
+                            <!-- drawer init and toggle -->
+                            <div class="text-center">
+                                <button
+                                    class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-red-600 dark:hover:bg-red-900 focus:outline-none dark:focus:ring-blue-800"
+                                    type="button" data-drawer-target="drawer-left-example"
+                                    data-drawer-show="drawer-left-example" data-drawer-placement="right"
+                                    aria-controls="drawer-left-example">
+                                    Hapus Dosen
+                                </button>
+                            </div>
+
+                            <!-- drawer component -->
+                            <script>
+                                $(document).ready(function () {
+                                    $('#mata_kuliah_hapus').on('change', function () {
+                                        var mataKuliahId = $(this).val();
+
+                                        if (mataKuliahId) {
+                                            $.ajax({
+                                                url: '/kaprodi/mk/' + mataKuliahId, // Pastikan URL ini sesuai dengan route Anda
+                                                type: 'GET',
+                                                success: function (response) {
+                                                    console.log(response);
+                                                    $('#dosen_hapus').empty();
+                                                    $('#dosen_hapus').append('<option value="">Pilih Dosen</option>');
+
+                                                    // Tambahkan opsi dosen ke dropdown
+                                                    $.each(response.dosen, function (key, dosen) {
+                                                        $('#dosen_hapus').append('<option value="' + dosen.nip + '">' + dosen.nama + '</option>');
+                                                    });
+                                                },
+                                                error: function () {
+                                                    alert("Gagal mengambil data dosen.");
+                                                }
+                                            });
+                                        } else {
+                                            $('#dosen_hapus').empty();
+                                            $('#dosen_hapus').append('<option value="">Pilih Dosen</option>');
+                                        }
+                                    });
+                                });
+                            </script>
+                            <!-- drawer component -->
+                            <div id="drawer-left-example"
+                                class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800"
+                                tabindex="-1" aria-labelledby="drawer-left-label">
+                                <h5 id="drawer-left-label"
+                                    class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                    <svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    Hapus Dosen
+                                </h5>
+                                <button type="button" data-drawer-hide="drawer-left-example"
+                                    aria-controls="drawer-left-example"
+                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                    </svg>
+                                    <span class="sr-only">Close menu</span>
+                                </button>
+                                <form action="{{ route('delete.jadwal') }}" method="POST">
+                                    @csrf
+                                    <div class="mb-4">
+                                        <label for="mata_kuliah" class="block text-sm font-medium text-gray-700">Mata
+                                            Kuliah</label>
+                                        <select id="mata_kuliah_hapus" name="mata_kuliah_id" required
+                                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">Pilih Mata Kuliah</option>
+                                            @foreach ($matakuliah as $mk)
+                                                <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
+                                                <!-- Kirim kode_mk, bukan id -->
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="dosen" class="block text-sm font-medium text-gray-700">Dosen</label>
+                                        <select id="dosen_hapus" name="dosen_nip" required
+                                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">Pilih Dosen</option>
+                                            @foreach ($matakuliah as $mk)
+                                            @foreach ($mk->dosen as $dosen)
+                                            <option value="{{ $dosen->nip }}">{{ $dosen->nama }}</option>
+                                            @endforeach
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    {{-- {{ dd($matakuliah) }} --}}
+                                    <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-blue-300">Hapus Dosen</button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- drawer init and toggle -->
+
                     </div>
                 </div>
+
+                
+
             </div>
             <div class="mt-10 p-8 mx-8 bg-white rounded-xl shadow-md flex-grow overflow-hidden overflow-y-auto">
-                <table id="tabelDekan" class="display">
-                    <thead>
-                        <tr>
-                            <th class="px-6 py-3">Mata Kuliah</th>
-                            <th class="px-6 py-3">Semester</th>
-                            <th class="px-6 py-3">SKS</th>
-                            <th class="px-6 py-3">Dosen</th>
-                        
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($matakuliah as $mk)
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4">{{ $mk->nama_mk }}</td>
-                                <td class="px-6 py-4">{{ $mk->semester }}</td>
-                                <td class="px-6 py-4">{{ $mk->sks }}</td>
-                                <td class="px-6 py-4">
-                                    <ul class="list-disc ml-5 text-left">
-                                        
-                                            <li>{{ $mk->nama}}</li>
-                                        
-                                    </ul>
-                                </td>
+                    <table id="tabelDekan" class="display">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3">Mata Kuliah</th>
+                                <th class="px-6 py-3">Semester</th>
+                                <th class="px-6 py-3">SKS</th>
+                                <th class="px-6 py-3">Dosen</th>
+
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach ($matakuliah as $mk)
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4">{{ $mk->nama_mk }}</td>
+                                    <td class="px-6 py-4">{{ $mk->semester }}</td>
+                                    <td class="px-6 py-4">{{ $mk->sks }}</td>
+                                    <td class="px-6 py-4">
+                                        <ul class="list-disc ml-5 text-left">
+                                            @foreach ($mk->dosen as $dosen)
+                                                <li>{{ $dosen->nama}}</li>
+                                            @endforeach
+
+
+                                        </ul>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
         </div>
     </div>
 </div>
@@ -68,8 +241,8 @@
                 bottomStart: null,
             },
             columnDefs: [
-                { className: "dt-head-center", targets: [0,1,2,3] },
-                { className: "dt-body-center", targets: [0,1,2,3] }
+                { className: "dt-head-center", targets: [0, 1, 2, 3] },
+                { className: "dt-body-center", targets: [0, 1, 2, 3] }
             ]
         });
     });

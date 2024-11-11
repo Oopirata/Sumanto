@@ -39,5 +39,3 @@ class BuatIRSController extends Controller
         return view('mhsBuatIrs', compact('jadwals', 'courses', 'mahasiswa', 'dosenWali'));
     }
 }
-
-

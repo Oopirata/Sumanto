@@ -6,17 +6,14 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class sideBarKaprodi extends Component
+class strata extends Component
 {
     /**
      * Create a new component instance.
      */
-
-    public $user;
-
-    public function __construct($user)
+    public function __construct()
     {
-        $this->user = $user;
+        //
     }
 
     /**
@@ -24,6 +21,6 @@ class sideBarKaprodi extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.side-bar-kaprodi');
+        return view('components.strata');
     }
 }
