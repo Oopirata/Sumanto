@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Kaprodi;
 use App\Models\Matakuliah;
 use App\Models\Ruangan;
+use Illuminate\Support\Facades\DB;
 
 class JadwalController extends Controller
 {
@@ -48,7 +49,7 @@ class JadwalController extends Controller
         // dd($matakuliah, $ruangan);
            
         // Simpan data jadwal
-        Jadwal::create([
+        DB::table('jadwal')->insert([
             'hari' => $request->hari,
             'jam_mulai' => $request->jam_mulai,
             'jam_selesai' => $request->jam_selesai,
@@ -64,7 +65,7 @@ class JadwalController extends Controller
             'sifat' => $request->sifat,
         ]);
     
-        // return redirect()->route('kaprodiBuatJadwal')->with('success', 'Jadwal berhasil disimpan');
+        return redirect()->back()->with('success', 'Jadwal berhasil disimpan');
     }
     
     
