@@ -8,6 +8,7 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MhsDashboard;
 use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\RuanganController;
+use App\Http\Controllers\DekanController;
 use App\Models\Ruangan;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
@@ -39,11 +40,13 @@ Route::middleware(['auth'])->group(function () {
 // Student dashboard
 
 // Dean dashboard
-Route::get('dekan/dashboard', [AuthController::class, 'dekanDashboard'])->name('dekan.dashboard');
+Route::get('dekan/dashboard', [DekanController::class, 'dekanDashboard'])->name('dekan.dashboard');
+
+Route::get('dekan/jadwal', [DekanController::class, 'dekanJadwal'])->name('dekan.jadwal');
 
 Route::get('dekan/jadwal', [dekanController::class, 'verifJadwal'])->name('dekan.jadwal');
 
-Route::get('dekan/ruangan', [AuthController::class, 'dekanRuangan'])->name('dekan.ruangan');
+Route::get('dekan/ruangan', [DekanController::class, 'dekanRuangan'])->name('dekan.ruangan');
 
 // Program Head dashboard
 

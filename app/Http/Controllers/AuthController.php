@@ -23,36 +23,6 @@ class AuthController extends Controller
         return view('login');
     }
 
-    public function dekanDashboard()
-    {
-
-        $user = Auth::user();
-
-        $dekan = Dekan::where('user_id', $user->id)->first();
-
-        return view('dekanDashboard', compact('dekan', 'user'));
-    }
-
-    public function dekanRuangan()
-    {
-
-        $user = Auth::user();
-
-        $dekan = Dekan::where('user_id', $user->id)->first();
-
-        return view('dekanVerifikasi', compact('dekan', 'user'));
-    }
-
-    public function dekanJadwal()
-    {
-
-        $user = Auth::user();
-
-        $dekan = Dekan::where('user_id', $user->id)->first();
-
-        return view('dekanJadwal', compact('dekan', 'user'));
-    }
-
     // Process login
     public function login(Request $request)
     {
