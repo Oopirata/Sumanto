@@ -35,7 +35,7 @@
                         <label class="ml-2 text-sm text-gray-600">Mahasiswa</label>
                     </a>
                     <div class="flex items-center my-5">
-                        <a href="/mhs/irs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Ajuan IRS</a>
+                        <a href="/dosen/PengajuanIrs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Ajuan IRS</a>
                     </div>
                 </div>
             </div>

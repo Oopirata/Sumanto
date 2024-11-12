@@ -88,6 +88,4 @@ Route::get('/mhs/transkip', function () {
     return view('mhsTranskip');
 });
 
-Route::get('/dosen/PengajuanIrs', function () {
-    return view('paPengajuanIrs');
-});
+Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
