@@ -48,7 +48,7 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        $dekan = \App\Models\Dekan::where('user_id', $user->id)->first();
+        $dekan = Dekan::where('user_id', $user->id)->first();
 
         return view('dekanJadwal', compact('dekan', 'user'));
     }
