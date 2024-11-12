@@ -61,11 +61,13 @@ Route::get('kaprodid', function () {
 
 Route::get('kaprodi/jadwal', [JadwalController::class, 'index'])->name('kaprodi.jadwal');
 
+Route::post('kaprodi/jadwal', [JadwalController::class, 'store'])->name('storeKaprodi.jadwal');
+
 Route::get('kaprodi/dashboard', [MatakuliahController::class, 'showKaprodiDashboard'])->name('kaprodi.dashboard');
 
-Route::get('kaprodij', [JadwalController::class, 'index'])->name('BuatIrs.index');
+// Route::get('kaprodij', [JadwalController::class, 'index'])->name('BuatIrs.index');
 
-Route::post('kaprodij', [JadwalController::class, 'store'])->name('store.jadwal');
+// Route::post('kaprodij', [JadwalController::class, 'store'])->name('store.jadwal');
 
 
 Route::get('/kaprodi/mk/{mataKuliahId}', [MatakuliahController::class, 'dosenHapusOption']);

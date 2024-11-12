@@ -28,19 +28,25 @@ class JadwalController extends Controller
 
     public function store(Request $request){
         // Validasi data
+        // dd($request->all());
         $request->validate([
             'kode_mk' => 'required|exists:matakuliah,kode_mk',
             'ruangan' => 'required|exists:ruangan,id',
+            'sifat' => 'required',
+            'hari' => 'required',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
-            'hari' => 'required',
-            'nama_mk' => 'required',
-            'sks' => 'required|integer',
             'kelas' => 'required',
-            'kapasitas' => 'required|integer',
-            'sifat' => 'required',
+            // 'nama_mk' => 'required',
+            // 'sks' => 'required|integer',
+            // 'kapasitas' => 'required|integer',
+
         ]);
-        dd($request->all());    
+
+        $matakuliah = Matakuliah::where('kode_mk', $request->kode_mk)->first();
+        $ruangan = Ruangan::where('id', $request->ruangan)->first();
+        // dd($matakuliah, $ruangan);
+           
         // Simpan data jadwal
         Jadwal::create([
             'hari' => $request->hari,
@@ -48,16 +54,17 @@ class JadwalController extends Controller
             'jam_selesai' => $request->jam_selesai,
             'ruang' => $request->ruangan,
             'kode_mk' => $request->kode_mk,
-            'nama_mk' => $request->nama_mk,
-            'sks' => $request->sks,
+            'nama_mk' => $matakuliah->nama_mk,
+            'sks' => $matakuliah->sks,
+            'semester' => $matakuliah->semester,
             'kelas' => $request->kelas,
-            'kapasitas' => $request->kapasitas,
+            'kapasitas' => $ruangan->kapasitas,
             'status' => 'Tidak Disetujui', // Nilai default
             'prodi' => 'Informatika', // Nilai default
             'sifat' => $request->sifat,
         ]);
     
-        return redirect()->route('kaprodiBuatJadwal')->with('success', 'Jadwal berhasil disimpan');
+        // return redirect()->route('kaprodiBuatJadwal')->with('success', 'Jadwal berhasil disimpan');
     }
     
     
