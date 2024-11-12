@@ -5,9 +5,9 @@
 @section('page')
     <div class="bg-gray-100 min-h-screen flex flex-col">
         <div class="flex overflow-hidden">
-            {{-- <x-side-bar-pa></x-side-bar-pa> --}}
+            <x-side-bar-pa :dosens="$dosens"></x-side-bar-pa>
             <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
-                {{-- <x-nav-bar></x-nav-bar> --}}
+                <x-nav-bar></x-nav-bar>
 
                 <div class="border-b-4"></div>
                 <div class="p-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm">
@@ -62,7 +62,7 @@
                                     <td class="px-6 py-4">{{ $student['nama'] }}</td>
                                     <td class="px-6 py-4">{{ $student['nim'] }}</td>
                                     <td class="px-6 py-4">
-                                        <button class="btn-detail bg-[#000CB0] text-white px-3 py-1 rounded-full mr-2">Detail</button>
+                                        <button href="dosen/dashboard" class="btn-detail bg-[#000CB0] text-white px-3 py-1 rounded-full mr-2">Detail</button>
                                         <button class="btn-setuju bg-[#4BD37B] text-white px-3 py-1 rounded-full mr-2" onclick="setujui(this)">Setuju</button>
                                         <button class="btn-tolak bg-red-600 text-white px-3 py-1 rounded-full" onclick="tolak(this)">Tolak</button>
                                     </td>
@@ -139,20 +139,24 @@
         }
 
         $(document).ready(function() {
-            $('#tabelVeri').DataTable({
-                paging: false,
-                searching: false,
-                info: false,
-                columnDefs: [{
-                        className: "dt-head-center",
-                        targets: [0, 1, 2, 3]
-                    },
-                    {
-                        className: "dt-body-center",
-                        targets: [0, 1, 2, 3]
-                    }
-                ]
-            });
+        $('#tabelVeri').DataTable({
+            paging: true,        // Enable pagination
+            searching: true,     // Enable search box
+            info: false,         // Disable table information display
+            pageLength: 5,       // Set default number of rows per page
+            lengthChange: false, // Hide the option to change number of rows per page
+            columnDefs: [
+                { className: "dt-head-center", targets: [0, 1, 2, 3] },
+                { className: "dt-body-center", targets: [0, 1, 2, 3] }
+            ],
+            language: {
+                paginate: {
+                    previous: "<",
+                    next: ">"
+                },
+                search: "Search:"
+            }
         });
+    });
     </script>
 @endsection

@@ -5,9 +5,9 @@
 @section('page')
     <div class="bg-gray-100 min-h-screen flex flex-col font-poppins">
         <div class="flex overflow-hidden">
-            {{-- Sidebar (if any) --}}
+            <x-side-bar-pa :dosens="$dosens"></x-side-bar-pa>
             <div id="main-content" class="relative text-black ml-64 w-full h-full overflow-y-auto">
-                {{-- Navbar (if any) --}}
+                <x-nav-bar></x-nav-bar>
 
                 <!-- Main content -->
                 <div class="mx-8 rounded-2xl mt-4">
