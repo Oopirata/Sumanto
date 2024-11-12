@@ -7,6 +7,8 @@ use App\Http\Controllers\IRSController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MhsDashboard;
 use App\Http\Controllers\MatakuliahController;
+use App\Http\Controllers\RuanganController;
+use App\Models\Ruangan;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -47,7 +49,7 @@ Route::get('dekan/ruangan', [AuthController::class, 'dekanRuangan'])->name('deka
 
 // Academic Staff dashboard
 Route::get('staff/dashboard', function () {
-    return view('academicStaffDashboard');
+    return view('baDashboard');
 })->name('staff.dashboard');
 
 // Academic Advisor dashboard
@@ -91,3 +93,13 @@ Route::get('/mhs/transkip', function () {
 Route::get('/dosen/PengajuanIrs', function () {
     return view('paPengajuanIrs');
 });
+
+Route::get('staff/irs', function () {
+    return view('baIrs');
+});
+
+Route::get('staff/ruangan', [RuanganController::class, 'index'])->name('ba.ruangan');
+
+Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
+
+Route::get('pa/dashboard', [DosenController::class, 'dashboardPA']);
