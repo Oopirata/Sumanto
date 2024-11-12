@@ -19,4 +19,12 @@ class DosenController extends Controller
         return view('paDashboard', compact('dosens', 'dosen'));
     }
 
+    public function pengajuanIrsPA()
+    {
+        $dosens = Auth::user();
+        $dosen = \App\Models\Dosen::where('user_id', $dosens->id)->first();
+        // dd($dosens, $dosen);
+        return view('paPengajuanIrs', compact('dosens', 'dosen'));
+    }
+
 }
