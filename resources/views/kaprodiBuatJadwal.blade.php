@@ -134,7 +134,7 @@
                         </button>
                         <ul class="space-y-4">
                             <li>
-                               <form action="{{ route('store.jadwal') }}" method="POST" class="space-y-4 p-6 bg-gray-50 border border-gray-300 rounded-lg shadow-md">
+                               <form action="{{ route('storeKaprodi.jadwal') }}" method="POST" class="space-y-4 p-6 bg-gray-50 border border-gray-300 rounded-lg shadow-md">
                                     @csrf
 
                                     <!-- Nama Mata Kuliah -->
