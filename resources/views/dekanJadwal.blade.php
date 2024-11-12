@@ -27,7 +27,7 @@
             <div x-data="{ showModal: false, selectedSchedule: null }">
                 <!-- Bagian jadwal -->
                 <section class="relative mb-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm">
-                    <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
+                <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
                         <div class="grid grid-cols-8 border-t border-gray-200 sticky top-0 left-0 w-full">
                             <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900"></div>
                             <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">Senin</div>
@@ -40,52 +40,63 @@
                         </div>
 
                         @for ($time = 7; $time <= 21; $time++)
-                            <div class="grid grid-cols-8 border-t border-gray-200">
-                                <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">{{ $time }}:00</div>
-                                @for ($day = 1; $day <= 7; $day++)
-                                    <div class="flex flex-col h-auto p-0.5 md:p-3.5 border-r border-gray-200 transition-all hover:bg-stone-100">
-                                        @php
-                                            // Definisikan nama hari dalam array untuk mempermudah pencocokan
-                                            $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
-                                            $schedules = [
-                                                ['day' => 'Senin', 'start' => '07:30', 'end' => '09:20', 'title' => 'PBP (A)', 'kelas' => 'A', 'ruangan' => 'E101', 'jenis' => 'wajib'],
-                                                ['day' => 'Senin', 'start' => '08:30', 'end' => '10:00', 'title' => 'Pemrograman Web', 'kelas' => 'B', 'ruangan' => 'E101', 'jenis' => 'pilihan'],
-                                                // Tambahkan jadwal lainnya sesuai kebutuhan
-                                            ];
-                                        @endphp
-                                        @foreach ($schedules as $schedule)
-                                            @if ($schedule['day'] == $days[$day - 1] &&  $time >= intval(substr($schedule['start'], 0, 2)) && $time < intval(substr($schedule['end'], 0, 2)))
+                        <div class="grid grid-cols-8 border-t border-gray-200">
+                            <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">{{ $time }}:00</div>
+                            @for ($day = 1; $day <= 7; $day++)
+                                <div class="flex flex-col h-auto p-0.5 md:p-3.5 border-r border-gray-200 transition-all hover:bg-stone-100">
+                                    @php
+                                        // Definisikan nama hari dalam array untuk mempermudah pencocokan
+                                        $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+                                        $schedules = [
+                                            // Tambahkan jadwal lainnya sesuai kebutuhan
+                                        ];
+                                        
+                                        foreach ($data as $jadwal){
+                                            $j =[ 'id' => $jadwal->id, 'day' => $jadwal->hari, 'start' => $jadwal->jam_mulai, 'end' => $jadwal->jam_selesai, 'title' => $jadwal->nama_mk, 'kelas' => $jadwal->kelas, 'ruangan' => $jadwal->ruang, 'jenis' => $jadwal->status];
+                                            // Tambahkan jadwal ke array $schedules
+                                            array_push($schedules, $j);
+                                            }
+                                    
+                                    @endphp
+                                    @foreach ($schedules as $schedule)
+                                            @if ($schedule['day'] == $days[$day - 1] && 
+                                                ($time == intval(substr($schedule['start'], 0, 2))))
+                                                
                                                 @php
-                                                    $colorClass = '';
-                                                    switch ($schedule['kelas']) {
-                                                        case 'A':
-                                                            $colorClass = 'bg-blue-50 border-blue-600 text-blue-600';
-                                                            break;
-                                                        case 'B':
-                                                            $colorClass = 'bg-red-50 border-red-600 text-red-600';
-                                                            break;
-                                                        case 'C':
-                                                            $colorClass = 'bg-green-50 border-green-600 text-green-600';
-                                                            break;
-                                                        case 'D':
-                                                            $colorClass = 'bg-purple-50 border-purple-600 text-purple-600';
-                                                            break;
-                                                        default:
-                                                            $colorClass = 'bg-gray-50 border-gray-600 text-gray-600';
-                                                            break;
-                                                    }
-                                                @endphp
+                                                    // Calculate the duration of the schedule in hours
+                                                    $startHour = intval(substr($schedule['start'], 0, 2));
+                                                    $endHour = intval(substr($schedule['end'], 0, 2));
+                                                    $duration = $endHour - $startHour;
+                                                $colorClass = '';
+                                                switch ($schedule['kelas']) {
+                                                    case 'A':
+                                                        $colorClass = 'bg-blue-50 border-blue-600 text-blue-600';
+                                                        break;
+                                                    case 'B':
+                                                        $colorClass = 'bg-red-50 border-red-600 text-red-600';
+                                                        break;
+                                                    case 'C':
+                                                        $colorClass = 'bg-green-50 border-green-600 text-green-600';
+                                                        break;
+                                                    case 'D':
+                                                        $colorClass = 'bg-purple-50 border-purple-600 text-purple-600';
+                                                        break;
+                                                    default:
+                                                        $colorClass = 'bg-gray-50 border-gray-600 text-gray-600';
+                                                        break;
+                                                }
+                                            @endphp
 
-                                                <button class="rounded p-1.5 border-l-2 {{ $colorClass }} w-full text-left" 
-                                                        @click="showModal = true; selectedSchedule = {{ json_encode($schedule) }}">
-                                                    <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
-                                                    <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>
-                                                </button>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                @endfor
-                            </div>
+                                            <button class="rounded p-1.5 border-l-2 {{ $colorClass }} w-full text-left" 
+                                                    @click="showModal = true; selectedSchedule = {{ json_encode($schedule) }}">
+                                                <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
+                                                <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>
+                                            </button>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @endfor
+                        </div>
                         @endfor
                     </div>
                 </section>

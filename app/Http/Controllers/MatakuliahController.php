@@ -110,16 +110,5 @@ class MatakuliahController extends Controller
         return redirect()->route('matakuliah.index')->with('success', 'Dosen berhasil ditambahkan ke Mata Kuliah.');
         }
 
-        public function dosenHapusOption($mataKuliahId)
-        {
-            $dosen = DB::table('dosen')
-                ->join('dosen_matakuliah', 'dosen.nip', '=', 'dosen_matakuliah.dosen_nip')
-                ->where('dosen_matakuliah.kode_mk', $mataKuliahId)
-                ->select('dosen.nip', 'dosen.nama')
-                ->get();
-
-            return response()->json(['dosen' => $dosen]);
-        }
-
 
 }

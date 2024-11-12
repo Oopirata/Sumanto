@@ -41,7 +41,7 @@ Route::middleware(['auth'])->group(function () {
 // Dean dashboard
 Route::get('dekan/dashboard', [AuthController::class, 'dekanDashboard'])->name('dekan.dashboard');
 
-Route::get('dekan/jadwal', [AuthController::class, 'dekanJadwal'])->name('dekan.jadwal');
+Route::get('dekan/jadwal', [dekanController::class, 'verifJadwal'])->name('dekan.jadwal');
 
 Route::get('dekan/ruangan', [AuthController::class, 'dekanRuangan'])->name('dekan.ruangan');
 
@@ -62,6 +62,8 @@ Route::get('kaprodid', function () {
 Route::get('kaprodi/jadwal', [JadwalController::class, 'index'])->name('kaprodi.jadwal');
 
 Route::post('kaprodi/jadwal', [JadwalController::class, 'store'])->name('storeKaprodi.jadwal');
+
+Route::post('kaprodi/jadwal/delete', [JadwalController::class, 'destroy'])->name('deleteKaprodi.jadwal');
 
 Route::get('kaprodi/dashboard', [MatakuliahController::class, 'showKaprodiDashboard'])->name('kaprodi.dashboard');
 
@@ -87,6 +89,7 @@ Route::get('/mhs/irs', [IRSController::class, 'tampil_jadwal'])->name('mhs.irs')
 Route::get('/mhs/khs', function () {
     return view('mhsKhs');
 });
+
 
 Route::get('/mhs/transkip', function () {
     return view('mhsTranskip');
