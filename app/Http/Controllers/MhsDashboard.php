@@ -21,6 +21,6 @@ class MhsDashboard extends Controller
         }
 
         // dd(compact('user','mahasiswa', 'dosenWali'));
-        return view('mhsDashboard', compact('user','mahasiswa', 'dosenWali'));
+        return view('mhsDashboard', compact('user', 'mahasiswa', 'dosenWali'));
     }
 }
