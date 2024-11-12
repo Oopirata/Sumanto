@@ -139,20 +139,24 @@
         }
 
         $(document).ready(function() {
-            $('#tabelVeri').DataTable({
-                paging: false,
-                searching: false,
-                info: false,
-                columnDefs: [{
-                        className: "dt-head-center",
-                        targets: [0, 1, 2, 3]
-                    },
-                    {
-                        className: "dt-body-center",
-                        targets: [0, 1, 2, 3]
-                    }
-                ]
-            });
+        $('#tabelVeri').DataTable({
+            paging: true,        // Enable pagination
+            searching: true,     // Enable search box
+            info: false,         // Disable table information display
+            pageLength: 5,       // Set default number of rows per page
+            lengthChange: false, // Hide the option to change number of rows per page
+            columnDefs: [
+                { className: "dt-head-center", targets: [0, 1, 2, 3] },
+                { className: "dt-body-center", targets: [0, 1, 2, 3] }
+            ],
+            language: {
+                paginate: {
+                    previous: "<",
+                    next: ">"
+                },
+                search: "Search:"
+            }
         });
+    });
     </script>
 @endsection
