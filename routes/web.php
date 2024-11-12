@@ -7,6 +7,8 @@ use App\Http\Controllers\IRSController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MhsDashboard;
 use App\Http\Controllers\MatakuliahController;
+use App\Http\Controllers\RuanganController;
+use App\Models\Ruangan;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -59,11 +61,13 @@ Route::get('kaprodid', function () {
 
 Route::get('kaprodi/jadwal', [JadwalController::class, 'index'])->name('kaprodi.jadwal');
 
+Route::post('kaprodi/jadwal', [JadwalController::class, 'store'])->name('storeKaprodi.jadwal');
+
 Route::get('kaprodi/dashboard', [MatakuliahController::class, 'showKaprodiDashboard'])->name('kaprodi.dashboard');
 
-Route::get('kaprodij', [JadwalController::class, 'index'])->name('BuatIrs.index');
+// Route::get('kaprodij', [JadwalController::class, 'index'])->name('BuatIrs.index');
 
-Route::post('kaprodij', [JadwalController::class, 'store'])->name('store.jadwal');
+// Route::post('kaprodij', [JadwalController::class, 'store'])->name('store.jadwal');
 
 
 Route::get('/kaprodi/mk/{mataKuliahId}', [MatakuliahController::class, 'dosenHapusOption']);
@@ -87,5 +91,17 @@ Route::get('/mhs/khs', function () {
 Route::get('/mhs/transkip', function () {
     return view('mhsTranskip');
 });
+
+Route::get('/dosen/PengajuanIrs', function () {
+    return view('paPengajuanIrs');
+});
+
+Route::get('staff/irs', function () {
+    return view('baIrs');
+});
+
+Route::get('staff/ruangan', [RuanganController::class, 'index'])->name('ba.ruangan');
+
+Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
 
 Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
