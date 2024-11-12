@@ -107,4 +107,12 @@ Route::get('staff/ruangan', [RuanganController::class, 'index'])->name('ba.ruang
 
 Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
 
-Route::get('pa/dashboard', [DosenController::class, 'dashboardPA']);
+Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
+
+Route::get('/dosen/Perwalian', function () {
+    return view('paPerwalian');
+});
+
+Route::get('/dosen/DetailPerwalian', function () {
+    return view('paDetailPerwalian');
+});

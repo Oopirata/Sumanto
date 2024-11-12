@@ -39,10 +39,6 @@ class JadwalController extends Controller
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
             'kelas' => 'required',
-            // 'nama_mk' => 'required',
-            // 'sks' => 'required|integer',
-            // 'kapasitas' => 'required|integer',
-
         ]);
 
         $matakuliah = Matakuliah::where('kode_mk', $request->kode_mk)->first();

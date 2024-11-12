@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nama');
             $table->integer('kapasitas');
             $table->string('lokasi');
-            $table->string('status')->default('Tersedia');
+            $table->string('status');
             $table->timestamps();
         });
     }
