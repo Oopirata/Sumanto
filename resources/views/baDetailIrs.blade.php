@@ -5,7 +5,7 @@
 @section('page')
 <div class="bg-gray-100 min-h-screen flex flex-col font-poppins">
     <div class="flex overflow-hidden">
-        <x-side-bar-ba :dosens="$dosens"></x-side-bar-ba>
+        <x-side-bar-ba :dosen="$dosen"></x-side-bar-ba>
         <div id="main-content" class="relative text-black ml-64 w-full h-full overflow-y-auto">
             <x-nav-bar></x-nav-bar>
             

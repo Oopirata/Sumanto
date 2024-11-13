@@ -6,7 +6,7 @@
 <div class="bg-gray-100 h-screen flex flex-col">
     <div class="flex overflow-hidden">
         <!-- Sidebar -->
-        <x-side-bar-ba></x-side-bar-ba>
+        <x-side-bar-ba :dosen="$dosen"></x-side-bar-ba>
 
         <!-- Konten Utama -->
         <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
@@ -22,8 +22,8 @@
                     </div>
                     <!-- Nama dan NIP di tengah -->
                     <div class="flex flex-col items-center flex-grow mr-52">
-                        <h1 class="text-2xl font-bold">Suteyo Tejo</h1>
-                        <h1 class="text-gray-500">NIP: 100184433</h1>
+                        <h1 class="text-2xl font-bold">{{ $dosen->nama }}</h1>
+                        <h1 class="text-gray-500">{{ $dosen->nip }}</h1>
                     </div>
                 </div>
 

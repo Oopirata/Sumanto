@@ -22,4 +22,9 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(Dosen::class, 'dosen_wali_id');
     }
+
+    public function irs()
+    {
+        return $this->hasMany(Irs::class);
+    }
 }

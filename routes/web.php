@@ -9,6 +9,7 @@ use App\Http\Controllers\MhsDashboard;
 use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\DekanVerifController;
+use App\Http\Controllers\BaController;
 use App\Models\Ruangan;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
@@ -53,9 +54,6 @@ Route::get('dekan/ruangan', [DekanVerifController::class, 'dekanRuangan'])->name
 // Program Head dashboard
 
 // Academic Staff dashboard
-Route::get('staff/dashboard', function () {
-    return view('baDashboard');
-})->name('staff.dashboard');
 
 // Academic Advisor dashboard
 Route::get('dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');
@@ -103,11 +101,13 @@ Route::get('/mhs/transkip', function () {
 
 Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
 
-Route::get('staff/irs', [DosenController::class, 'IrsBA']);
+Route::get('staff/irs', [BaController::class, 'IrsBA']);
 
 Route::get('staff/ruangan', [RuanganController::class, 'index'])->name('ba.ruangan');
 
 Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
+
+Route::get('staff/dashboard', [BaController::class, 'DashboardBA'])->name('staff.dashboard');
 
 Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
 

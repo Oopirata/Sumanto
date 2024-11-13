@@ -11,9 +11,12 @@ class sideBarBa extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+
+    public $dosen;
+
+    public function __construct($dosen)
     {
-        //
+        $this->dosen = $dosen;
     }
 
     /**
