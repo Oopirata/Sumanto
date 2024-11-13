@@ -92,16 +92,15 @@ Route::get('/mhs/transkip', function () {
     return view('mhsTranskip');
 });
 
-Route::get('/dosen/PengajuanIrs', function () {
-    return view('paPengajuanIrs');
-});
 
-Route::get('staff/irs', function () {
-    return view('baIrs');
-});
+Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
+
+Route::get('staff/irs', [DosenController::class, 'IrsBA']);
 
 Route::get('staff/ruangan', [RuanganController::class, 'index'])->name('ba.ruangan');
 
 Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
 
 Route::get('pa/dashboard', [DosenController::class, 'dashboardPA']);
+
+Route::get('ba/detailirs', [DosenController::class, 'DetailIrsBA']);
