@@ -24,21 +24,12 @@ class DosenController extends Controller
     {
         $dosens = Auth::user();
         $dosen = \App\Models\Dosen::where('user_id', $dosens->id)->first();
+        $mahasiswa = Mahasiswa::where('dosen_wali_id', $dosen->id);
+        // ->whereHas('irs', function ($query) {
+        //     $query->where('status', 'Pending');
+        // })
+        // ->get();
         // dd($dosens, $dosen);
-        return view('paPengajuanIrs', compact('dosens', 'dosen'));
+        return view('paPengajuanIrs', compact('dosens', 'dosen', 'mahasiswa'));
     }
-
-    public function IrsBA()
-    {
-        $dataMahasiswa = Mahasiswa::all();
-        return view('baIrs', compact('dataMahasiswa' ));
-    }
-
-    public function DetailIrsBA()
-    {
-        $dosens = Auth::user();
-        $dosen = \App\Models\Dosen::where('user_id', $dosens->id)->first();
-        return view('baDetailIrs', compact('dosens', 'dosen'));
-    }
-
 }
