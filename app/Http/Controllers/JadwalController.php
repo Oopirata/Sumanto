@@ -18,6 +18,7 @@ class JadwalController extends Controller
         $user = Kaprodi::where('user_id', $userr->id)->first();
 
         $data = Jadwal::all();
+        // dd($data);
         $mk = MataKuliah::all();
         $ruangan = Ruangan::all();
 
@@ -63,6 +64,20 @@ class JadwalController extends Controller
     
         return redirect()->back()->with('success', 'Jadwal berhasil disimpan');
     }
-    
+    public function destroy(Request $request)
+    {
+        // Validasi bahwa jadwal_id harus ada dalam request
+        $request->validate([
+            'id' => 'required|exists:jadwal,id',
+        ]);
+        // dd($request->all());
+
+        // Cari jadwal berdasarkan jadwal_id yang dikirim dari form
+        DB::table('jadwal')->where('id', $request->id)->delete();
+        
+        return redirect()->back()->with('success', 'Jadwal berhasil dihapus');
+    }
+
+
     
 }

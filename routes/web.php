@@ -8,7 +8,7 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MhsDashboard;
 use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\RuanganController;
-use App\Http\Controllers\DekanController;
+use App\Http\Controllers\DekanVerifController;
 use App\Models\Ruangan;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
@@ -40,11 +40,15 @@ Route::middleware(['auth'])->group(function () {
 // Student dashboard
 
 // Dean dashboard
-Route::get('dekan/dashboard', [DekanController::class, 'dekanDashboard'])->name('dekan.dashboard');
 
-Route::get('dekan/jadwal', [DekanController::class, 'dekanJadwal'])->name('dekan.jadwal');
+Route::get('dekan/dashboard', [DekanVerifController::class, 'dekanDashboard'])->name('dekan.dashboard');
 
-Route::get('dekan/ruangan', [DekanController::class, 'dekanRuangan'])->name('dekan.ruangan');
+
+Route::get('dekan/jadwal', [DekanVerifController::class, 'dekanJadwal'])->name('dekan.jadwal');
+
+// Route::get('dekan/jadwal', [DekanVerifController::class, 'verifJadwal'])->name('dekan.jadwal');
+
+Route::get('dekan/ruangan', [DekanVerifController::class, 'dekanRuangan'])->name('dekan.ruangan');
 
 // Program Head dashboard
 
@@ -63,6 +67,8 @@ Route::get('kaprodid', function () {
 Route::get('kaprodi/jadwal', [JadwalController::class, 'index'])->name('kaprodi.jadwal');
 
 Route::post('kaprodi/jadwal', [JadwalController::class, 'store'])->name('storeKaprodi.jadwal');
+
+Route::post('kaprodi/jadwal/delete', [JadwalController::class, 'destroy'])->name('deleteKaprodi.jadwal');
 
 Route::get('kaprodi/dashboard', [MatakuliahController::class, 'showKaprodiDashboard'])->name('kaprodi.dashboard');
 
@@ -89,17 +95,15 @@ Route::get('/mhs/khs', function () {
     return view('mhsKhs');
 });
 
+
 Route::get('/mhs/transkip', function () {
     return view('mhsTranskip');
 });
 
-Route::get('/dosen/PengajuanIrs', function () {
-    return view('paPengajuanIrs');
-});
 
-Route::get('staff/irs', function () {
-    return view('baIrs');
-});
+Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
+
+Route::get('staff/irs', [DosenController::class, 'IrsBA']);
 
 Route::get('staff/ruangan', [RuanganController::class, 'index'])->name('ba.ruangan');
 

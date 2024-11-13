@@ -1,12 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth;
 
+use App\Models\Jadwal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Kaprodi;
+use App\Models\Matakuliah;
+use App\Models\Ruangan;
+use Illuminate\Support\Facades\DB;
 
-class DekanController extends Controller
+class DekanVerifController extends Controller
 {
+    //
     public function dekanDashboard()
     {
 
@@ -33,7 +39,19 @@ class DekanController extends Controller
         $user = Auth::user();
 
         $dekan = \App\Models\Dekan::where('user_id', $user->id)->first();
+  
 
-        return view('dekanJadwal', compact('dekan', 'user'));
+        
+        $data = Jadwal::all();
+        // dd($data);
+        $mk = MataKuliah::all();
+        $ruangan = Ruangan::all();
+
+        $allApproved = $mk->every(fn($item) => $item->status == 'disetujui');
+
+        
+        return view('dekanJadwal', compact('data', 'user', 'mk', 'ruangan', 'dekan', 'allApproved'));
+
     }
+
 }
