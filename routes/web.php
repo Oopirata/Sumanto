@@ -8,6 +8,7 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MhsDashboard;
 use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\RuanganController;
+use App\Http\Controllers\DekanController;
 use App\Models\Ruangan;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
@@ -39,11 +40,11 @@ Route::middleware(['auth'])->group(function () {
 // Student dashboard
 
 // Dean dashboard
-Route::get('dekan/dashboard', [AuthController::class, 'dekanDashboard'])->name('dekan.dashboard');
+Route::get('dekan/dashboard', [DekanController::class, 'dekanDashboard'])->name('dekan.dashboard');
 
-Route::get('dekan/jadwal', [AuthController::class, 'dekanJadwal'])->name('dekan.jadwal');
+Route::get('dekan/jadwal', [DekanController::class, 'dekanJadwal'])->name('dekan.jadwal');
 
-Route::get('dekan/ruangan', [AuthController::class, 'dekanRuangan'])->name('dekan.ruangan');
+Route::get('dekan/ruangan', [DekanController::class, 'dekanRuangan'])->name('dekan.ruangan');
 
 // Program Head dashboard
 
@@ -101,6 +102,12 @@ Route::get('staff/ruangan', [RuanganController::class, 'index'])->name('ba.ruang
 
 Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
 
-Route::get('pa/dashboard', [DosenController::class, 'dashboardPA']);
+Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
 
-Route::get('ba/detailirs', [DosenController::class, 'DetailIrsBA']);
+Route::get('/dosen/Perwalian', function () {
+    return view('paPerwalian');
+});
+
+Route::get('/dosen/DetailPerwalian', function () {
+    return view('paDetailPerwalian');
+});

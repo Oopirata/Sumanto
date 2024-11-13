@@ -62,12 +62,9 @@
                                     <td class="px-6 py-4">{{ $student['nama'] }}</td>
                                     <td class="px-6 py-4">{{ $student['nim'] }}</td>
                                     <td class="px-6 py-4">
-                                        <button
-                                            class="btn-detail bg-blue-600 text-white px-3 py-1 rounded-full mr-2">Detail</button>
-                                        <button class="btn-setuju bg-green-500 text-white px-3 py-1 rounded-full mr-2"
-                                            onclick="setujui(this)">Setuju</button>
-                                        <button class="btn-tolak bg-red-600 text-white px-3 py-1 rounded-full"
-                                            onclick="tolak(this)">Tolak</button>
+                                        <button href="dosen/dashboard" class="btn-detail bg-[#000CB0] text-white px-3 py-1 rounded-full mr-2">Detail</button>
+                                        <button class="btn-setuju bg-[#4BD37B] text-white px-3 py-1 rounded-full mr-2" onclick="setujui(this)">Setuju</button>
+                                        <button class="btn-tolak bg-red-600 text-white px-3 py-1 rounded-full" onclick="tolak(this)">Tolak</button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -86,7 +83,7 @@
             tolakButton.style.display = 'none';
 
             button.innerText = "Disetujui";
-            button.classList.remove("bg-green-500");
+            button.classList.remove("bg-[#4BD37B]");
             button.classList.add("bg-green-600", "text-white");
             button.disabled = true;
 
@@ -100,48 +97,66 @@
             button.parentNode.appendChild(batalkanButton);
         }
 
-        function batalkan(setujuButton, batalkanButton, detailButton, tolakButton) {
-            setujuButton.innerText = "Setuju";
-            setujuButton.classList.remove("bg-green-600");
-            setujuButton.classList.add("bg-green-500", "text-white");
-            setujuButton.disabled = false;
-
-            detailButton.style.display = 'inline-block';
-            tolakButton.style.display = 'inline-block';
-
-            batalkanButton.remove();
-        }
-
         function tolak(button) {
             const detailButton = button.parentNode.querySelector('.btn-detail');
             const setujuButton = button.parentNode.querySelector('.btn-setuju');
-
-            // Sembunyikan tombol "Setuju" dan "Detail"
-            setujuButton.style.display = 'none';
             detailButton.style.display = 'none';
+            setujuButton.style.display = 'none';
 
-            // Ubah tampilan tombol "Tolak" menjadi "Ditolak" dengan warna merah
             button.innerText = "Ditolak";
             button.classList.remove("bg-red-600");
             button.classList.add("bg-red-800", "text-white");
             button.disabled = true;
+
+            const batalkanButton = document.createElement("button");
+            batalkanButton.classList.add("bg-red-600", "text-white", "px-3", "py-1", "rounded-full", "ml-2");
+            batalkanButton.innerText = "Pembatalan";
+            batalkanButton.onclick = function() {
+                batalkan(button, batalkanButton, detailButton, setujuButton);
+            };
+
+            button.parentNode.appendChild(batalkanButton);
+        }
+
+        function batalkan(actionButton, batalkanButton, detailButton, otherButton) {
+            if (actionButton.classList.contains('bg-green-600')) {
+                // If it was the Setuju button
+                actionButton.innerText = "Setuju";
+                actionButton.classList.remove("bg-green-600");
+                actionButton.classList.add("bg-[#4BD37B]", "text-white");
+            } else {
+                // If it was the Tolak button
+                actionButton.innerText = "Tolak";
+                actionButton.classList.remove("bg-red-800");
+                actionButton.classList.add("bg-red-600", "text-white");
+            }
+            actionButton.disabled = false;
+
+            detailButton.style.display = 'inline-block';
+            otherButton.style.display = 'inline-block';
+
+            batalkanButton.remove();
         }
 
         $(document).ready(function() {
-            $('#tabelVeri').DataTable({
-                paging: false,
-                searching: false,
-                info: false,
-                columnDefs: [{
-                        className: "dt-head-center",
-                        targets: [0, 1, 2, 3]
-                    },
-                    {
-                        className: "dt-body-center",
-                        targets: [0, 1, 2, 3]
-                    }
-                ]
-            });
+        $('#tabelVeri').DataTable({
+            paging: true,        // Enable pagination
+            searching: true,     // Enable search box
+            info: false,         // Disable table information display
+            pageLength: 5,       // Set default number of rows per page
+            lengthChange: false, // Hide the option to change number of rows per page
+            columnDefs: [
+                { className: "dt-head-center", targets: [0, 1, 2, 3] },
+                { className: "dt-body-center", targets: [0, 1, 2, 3] }
+            ],
+            language: {
+                paginate: {
+                    previous: "<",
+                    next: ">"
+                },
+                search: "Search:"
+            }
         });
+    });
     </script>
 @endsection
