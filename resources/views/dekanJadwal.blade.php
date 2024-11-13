@@ -13,14 +13,32 @@
                 <div class="flex justify-between items-center">
                     <h1 class="text-black font-bold">Jadwal</h1>
                     <div class="flex justify-between">
-                        <div>
-                            <x-jurusan></x-jurusan>
-                        </div>
-                        <div class="px-4 bg-white"></div>
-                        <div>
-                            <x-semester></x-semester>
-                        </div>
+                        @foreach ($data as $jadwal)
+                            <div class="flex items-center">
+                                @if($allApproved)
+                                    <!-- Jika semua mata kuliah sudah disetujui -->
+                                    <span class="ml-4 px-4 py-2 bg-green-500 text-white rounded-full">Disetujui</span>
+                                @else
+                                    <!-- Jika ada mata kuliah yang belum disetujui -->
+                                    <span class="ml-4 px-4 py-2 bg-red-500 text-white rounded-full">Tidak Disetujui</span>
+                                @endif
+
+                            </div>
+                        @endforeach
+
+                        
+                                <!-- Jurusan dan Semester -->
+                                <div class="px-4 bg-white"></div>
+                                <div>
+                                    <x-jurusan></x-jurusan>
+                                </div>
+                                <div class="px-4 bg-white"></div>
+                                <div>
+                                    <x-semester></x-semester>
+                                </div>
                     </div>
+
+
                 </div>
             </div>
             
