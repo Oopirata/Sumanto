@@ -13,8 +13,8 @@
                     <div class="flex justify-between items-center">
                         <div class="flex items-center space-x-10">
                             <h1 class="text-black font-bold text-2xl">Buat IRS</h1>
-                            <div id="real-time-clock" class="text-xl font-semibold text-black"></div>
-                            <div class="text-green-600 text-xl font-semibold">Saatnya Isi IRS!!!</div>
+                            <div id="real-time-clock" class="text-2xl font-semibold text-black"></div>
+                            <div class="text-green-600 text-2xl font-semibold">Saatnya Isi IRS!!!</div>
                         </div>
                         <div class="flex items-center space-x-10">
                             <h1 class="bg-[#000CB0] px-8 py-2 text-white rounded-3xl">Semester {{ $mahasiswa->semester }}
@@ -126,7 +126,7 @@
 
                         <!-- drawer component -->
                         <div id="drawer-right-example"
-                            class="rounded-xl fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-96 dark:bg-gray-800"
+                            class="rounded-xl fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white dark:bg-gray-800"
                             tabindex="-1" aria-labelledby="drawer-right-label">
                             <h1 id="drawer-right-label"
                                 class="inline-flex items-center mb-4 ml-2 text-base font-bold text-black">Matakuliah Yang
@@ -254,7 +254,7 @@
                 const minutes = String(now.getMinutes()).padStart(2, '0');
                 const seconds = String(now.getSeconds()).padStart(2, '0');
 
-                clockElement.innerText = `${dayName}, ${day} ${monthName} ${year} | ${hours}:${minutes}:${seconds}`;
+                clockElement.innerText = `${dayName}, ${day} ${monthName} ${year} | ${hours} : ${minutes} : ${seconds}`;
             }
 
             setInterval(updateClock, 1000);
