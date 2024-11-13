@@ -31,7 +31,7 @@
                 </button>
 
                 <div x-show="open" class="mt-2 space-y-1 pl-6">
-                    <a href="/mhsbk" class="flex items-center my-4"> <!-- Changed to anchor -->
+                    <a href="" class="flex items-center my-4"> <!-- Changed to anchor -->
                         <label class="ml-2 text-sm text-gray-600">Mahasiswa</label>
                     </a>
                     <div class="flex items-center my-5">
