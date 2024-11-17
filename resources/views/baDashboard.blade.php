@@ -10,7 +10,7 @@
 
         <!-- Konten Utama -->
         <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
-            <x-nav-bar></x-nav-bar>
+            <x-nav-bar :dosen="$dosen" :dosens="$dosens"></x-nav-bar>
             <div class="border-b-4"></div>
 
             <!-- Header dan Informasi Pengguna -->

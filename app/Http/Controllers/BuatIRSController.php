@@ -33,6 +33,6 @@ class BuatIRSController extends Controller
             $dosenWali = null;
         }
 
-        return view('mhsBuatIrs', compact('jadwals', 'mahasiswa', 'dosenWali'));
+        return view('mhsBuatIrs', compact('user', 'jadwals', 'mahasiswa', 'dosenWali'));
     }
 }
