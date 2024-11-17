@@ -5,9 +5,9 @@
 @section('page')
 <div class="bg-gray-100 min-h-screen flex flex-col ">
     <div class="flex overflow-hidden">
-        <x-side-bar-ba></x-side-bar-ba> <!-- Tambahkan ini -->
+        <x-side-bar-ba :dosen="$dosen"></x-side-bar-ba> <!-- Tambahkan ini -->
         <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
-            <x-nav-bar></x-nav-bar>
+            <x-nav-bar :dosen="$dosen" :dosens="$dosens"></x-nav-bar>
             
             <div class="border-b-4"></div>
             <div class="p-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm">

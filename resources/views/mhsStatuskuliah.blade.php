@@ -6,9 +6,9 @@
 
 <div class="bg-gray-100 min-h-screen flex flex-col ">
     <div class="flex overflow-hidden">
-        <x-side-bar-mhs></x-side-bar-mhs>
+        <x-side-bar-mhs :mahasiswa="$mahasiswa"></x-side-bar-mhs>
         <div id="main-content" class=" relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
-            <x-nav-bar></x-nav-bar>
+            <x-nav-bar :mahasiswa="$mahasiswa" :user="$user"></x-nav-bar>
             <div class="my-8">
                 <h1 class="my-2 font-semibold text-2xl text-center">Pilih Status Akademik</h1>
                 <h1 class="my-2 font-semibold text-lg text-center">Silakan pilih salah satu status akademik berikut untuk semester ini:</h1>

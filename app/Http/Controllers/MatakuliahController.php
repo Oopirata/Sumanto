@@ -15,14 +15,15 @@ class MatakuliahController extends Controller
 
     public function showKaprodiDashboard()
     {
-        $userr = Auth::user();
-        $user = Kaprodi::where('user_id', $userr->id)->first();
-        return view('kaprodiDashboard', compact('user'));
+        $user = Auth::user();
+        $userr= Kaprodi::where('user_id', $user->id)->first();
+        // dd($userr);
+        return view('kaprodiDashboard', compact('user', 'userr'));
     }
     public function index()
     {
-        $userr = Auth::user();
-        $user = Kaprodi::where('user_id', $userr->id)->first();
+        $user = Auth::user();
+        $userr = Kaprodi::where('user_id', $user->id)->first();
         // Mendapatkan semua mata kuliah
         $matakuliah = Matakuliah::select('matakuliah.nama_mk', 'matakuliah.sks', 'matakuliah.semester','matakuliah.kode_mk')
             ->groupBy('matakuliah.nama_mk', 'matakuliah.sks', 'matakuliah.semester', 'matakuliah.kode_mk')
@@ -40,9 +41,9 @@ class MatakuliahController extends Controller
 
         // Mendapatkan seluruh dosen tanpa tergantung mata kuliah
         $dosen = Dosen::all();
-
+        // dd($userr);
         // Mengirim data ke view
-        return view('kaprodiMatkulDosen', compact('matakuliah', 'dosen', 'user'));
+        return view('kaprodiMatkulDosen', compact('matakuliah', 'dosen', 'user', 'userr'));
     }
 
     public function deleteJadwal(Request $request)

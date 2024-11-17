@@ -3,7 +3,7 @@
     @if ($dosens)
         <h1 class="font-semibold text-lg mr-auto">{{ $dosens->name }}</h1>
     @elseif ($mahasiswa)
-        <h1 class="font-semibold text-lg mr-auto">{{ $mahasiswa->name }}</h1>
+        <h1 class="font-semibold text-lg mr-auto">{{ $mahasiswa->nama }}</h1>
     @elseif ($dekan)
         <h1 class="font-semibold text-lg mr-auto">{{ $dekan->name }}</h1>
     @elseif ($user)
@@ -30,8 +30,8 @@
                             <span class="text-sm font-medium text-neutral-900 dark:text-white">{{ $dosens->name }}</span>
                             <p class="text-xs text-neutral-600 dark:text-neutral-300">{{ $dosens->email }}</p>
                         @elseif ($mahasiswa)
-                            <span class="text-sm font-medium text-neutral-900 dark:text-white">{{ $mahasiswa->name }}</span>
-                            <p class="text-xs text-neutral-600 dark:text-neutral-300">{{ $mahasiswa->email }}</p>
+                            <span class="text-sm font-medium text-neutral-900 dark:text-white">{{ $mahasiswa->nama }}</span>
+                            <p class="text-xs text-neutral-600 dark:text-neutral-300">{{ $user->email }}</p>
                         @elseif ($dekan)
                             <span class="text-sm font-medium text-neutral-900 dark:text-white">{{ $dekan->name }}</span>
                             <p class="text-xs text-neutral-600 dark:text-neutral-300">{{ $dekan->email }}</p>
