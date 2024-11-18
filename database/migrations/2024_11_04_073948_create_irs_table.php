@@ -21,6 +21,7 @@ return new class extends Migration
             //fk
             $table->foreign('mhs_id')->references('id')->on('mahasiswa')->onDelete('cascade');
             $table->foreign('jadwal_id')->references('id')->on('jadwal')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
