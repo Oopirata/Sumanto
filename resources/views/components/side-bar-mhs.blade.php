@@ -32,10 +32,10 @@
 
                 <div x-show="open" class="mt-2 space-y-1 pl-6">
                     <div class="flex items-center my-5">
-                        <a href="/mhsbk" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Biaya Kuliah</a>
+                        <a href="/mhs/bayar" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Biaya Kuliah</a>
                     </div>
                     <div class="flex items-center my-5">
-                        <a href="/mhssk" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Status kuliah</a>
+                        <a href="/mhs/status" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Status kuliah</a>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                         <a href="/mhs/khs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">KHS</a>
                     </div>
                     <div class="flex items-center my-5">
-                        <a href="/mhsTranskip" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Transkrip</a>
+                        <a href="/mhs/transkrip" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Transkrip</a>
                     </div>
                 </div>
             </div>

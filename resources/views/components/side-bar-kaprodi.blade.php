@@ -7,7 +7,7 @@
         </div>
         <div class="flex flex-col mt-6 flex-grow mb-8">
             <!-- Link Sidebar -->
-            <a href="kaprodi/Dashboard" class="inline-flex items-center mx-5 px-6 py-2 text-gray-600 hover:bg-[#5932EA] focus:bg-[#5932EA] hover:text-white focus:text-white rounded-lg transition-all mb-2">
+            <a href="/kaprodi/dashboard" class="inline-flex items-center mx-5 px-6 py-2 text-gray-600 hover:bg-[#5932EA] focus:bg-[#5932EA] hover:text-white focus:text-white rounded-lg transition-all mb-2">
                 <span class="material-icons">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
                         <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
@@ -48,8 +48,8 @@
         <div class="px-6 py-4 flex items-center">
             <img src="https://via.placeholder.com/40" alt="Profile Image" class="rounded-full h-10 w-10">
             <div class="ml-4">
-                <p class="text-sm font-medium">{{ $user -> nama }}</p>
-                <p class="text-xs text-gray-600">{{ $user-> nip }} - Informatika S1</p>
+                <p class="text-sm font-medium">{{ $userr->nama }}</p>
+                <p class="text-xs text-gray-600">{{ $userr->nip }} - Informatika S1</p>
             </div>
         </div>
     </div>

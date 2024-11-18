@@ -14,8 +14,8 @@ class JadwalController extends Controller
 {
     //
     public function index(){
-        $userr = Auth::user();
-        $user = Kaprodi::where('user_id', $userr->id)->first();
+        $user = Auth::user();
+        $userr = Kaprodi::where('user_id', $user->id)->first();
 
         $data = Jadwal::all();
         // dd($data);
@@ -23,7 +23,7 @@ class JadwalController extends Controller
         $ruangan = Ruangan::all();
 
         
-        return view('kaprodiBuatJadwal', compact('data', 'user', 'mk', 'ruangan'));
+        return view('kaprodiBuatJadwal', compact('data', 'user', 'mk', 'ruangan', 'userr'));
 
 
     }
