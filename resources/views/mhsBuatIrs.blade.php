@@ -64,6 +64,7 @@
                                                 $schedules = [];
                                                 foreach ($jadwals as $jadwal) {
                                                     $j = [
+                                                        'id' => $jadwal->id,
                                                         'day' => $jadwal->hari,
                                                         'kode_mk' => $jadwal->kode_mk,
                                                         'sks' => $jadwal->sks,
@@ -143,51 +144,69 @@
                             </button>
 
                             <!-- Tabel Mata Kuliah yang Dipilih -->
-                            <div class="mt-4 overflow-x-auto p-2 rounded-lg font-poppins">
-                                <table class="min-w-full table-auto border-collapse text-sm">
-                                    <thead class="bg-[#5932EA] text-white">
-                                        <tr>
-                                            <th class="border px-4 py-2 text-left">Nama MK</th>
-                                            <th class="border px-4 py-2 text-left">Kode MK</th>
-                                            <th class="border px-4 py-2 text-left">SKS</th>
-                                            <th class="border px-4 py-2 text-left">Kelas</th>
-                                            <th class="border px-4 py-2 text-center">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <template x-for="(schedule, index) in selectedSchedules" :key="schedule.kode_mk">
-                                            <tr class="hover:bg-gray-100 transition-colors">
-                                                <td class="border px-4 py-2" x-text="schedule.title"></td>
-                                                <td class="border px-4 py-2" x-text="schedule.kode_mk"></td>
-                                                <td class="border px-4 py-2" x-text="schedule.sks"></td>
-                                                <td class="border px-4 py-2" x-text="schedule.kelas"></td>
-                                                <!-- Trash Icon -->
-                                                <td class="border px-4 py-2 text-center">
-                                                    <button @click="selectedSchedules.splice(index, 1)"
-                                                        class="text-red-600 hover:text-red-800">
-                                                        <!-- Trash Icon SVG -->
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
-                                                            viewBox="0 0 20 20" fill="currentColor">
-                                                            <path
-                                                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2h1v10a2 2 0 002 2h6a2 2 0 002-2V6h1a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zm1 4a1 1 0 011 1v7a1 1 0 11-2 0V7a1 1 0 011-1zM7 7a1 1 0 10-2 0v7a1 1 0 102 0V7zm8 0a1 1 0 10-2 0v7a1 1 0 102 0V7z" />
-                                                        </svg>
-                                                    </button>
-                                                </td>
+                            <form action="{{ route('store.irs') }}" method="POST">
+                                @csrf
+                                <div class="mt-4 overflow-x-auto p-2 rounded-lg font-poppins">
+                                    <table class="min-w-full table-auto border-collapse text-sm">
+                                        <thead class="bg-[#5932EA] text-white">
+                                            <tr>
+                                                <th class="border px-4 py-2 text-left">Nama MK</th>
+                                                <th class="border px-4 py-2 text-left">Kode MK</th>
+                                                <th class="border px-4 py-2 text-left">SKS</th>
+                                                <th class="border px-4 py-2 text-left">Kelas</th>
+                                                <th class="border px-4 py-2 text-center">Aksi</th>
                                             </tr>
-                                        </template>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="flex items-center justify-between px-2 mt-4">
-                                <div class="text-lg font-semibold">
-                                    Total SKS: <span
+                                        </thead>
+                                        <tbody>
+                                            <template x-for="(schedule, index) in selectedSchedules" :key="schedule.id">
+                                                <tr class="hover:bg-gray-100 transition-colors">
+                                                    <td class="border px-4 py-2" x-text="schedule.title"></td>
+                                                    <td class="border px-4 py-2" x-text="schedule.kode_mk"></td>
+                                                    <td class="border px-4 py-2" x-text="schedule.sks"></td>
+                                                    <td class="border px-4 py-2" x-text="schedule.kelas"></td>
+                                                    <td class="border px-4 py-2 text-center">
+                                                        <button @click="selectedSchedules.splice(index, 1)" class="text-red-600 hover:text-red-800">
+                                                            <!-- Trash Icon SVG -->
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                                <path
+                                                                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2h1v10a2 2 0 002 2h6a2 2 0 002-2V6h1a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zm1 4a1 1 0 011 1v7a1 1 0 11-2 0V7a1 1 0 011-1zM7 7a1 1 0 10-2 0v7a1 1 0 102 0V7zm8 0a1 1 0 10-2 0v7a1 1 0 102 0V7z" />
+                                                            </svg>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            
+                                <!-- Hidden inputs to bind the selected schedules -->
+                                <div>
+                                    <template x-for="(schedule, index) in selectedSchedules" :key="schedule.id">
+                                        <input type="hidden" :name="'selectedSchedules[' + index + '][id]'" :value="schedule.id">
+                                        <input type="hidden" :name="'day[' + index + ']' " :value="schedule.day">
+                                        <input type="hidden" :name="'kode_mk[' + index + ']' " :value="schedule.kode_mk">
+                                        <input type="hidden" :name="'sks[' + index + ']' " :value="schedule.sks">
+                                        <input type="hidden" :name="'kapasitas[' + index + ']' " :value="schedule.kapasitas">
+                                        <input type="hidden" :name="'start[' + index + ']' " :value="schedule.start">
+                                        <input type="hidden" :name="'end[' + index + ']' " :value="schedule.end">
+                                        <input type="hidden" :name="'title[' + index + ']' " :value="schedule.title">
+                                        <input type="hidden" :name="'kelas[' + index + ']' " :value="schedule.kelas">
+                                        <input type="hidden" :name="'ruangan[' + index + ']' " :value="schedule.ruangan">
+                                        <input type="hidden" :name="'jenis[' + index + ']' " :value="schedule.jenis">
+                                    </template>                                                                        
+                                </div>
+                            
+                                <div class="flex items-center justify-between px-2 mt-4">
+                                    <div class="text-lg font-semibold">
+                                        Total SKS: <span
                                         x-text="selectedSchedules.reduce((total, schedule) => total + schedule.sks, 0)"
                                         class="text-blue-600"></span>
+                                    </div>
+                                    <button type="submit" class="px-5 py-2 bg-[#000CB0] rounded-xl text-white font-poppins font-semibold">
+                                        Ajukan
+                                    </button>
                                 </div>
-                                <button class="px-5 py-2 bg-[#000CB0] rounded-xl text-white font-poppins font-semibold">
-                                    Ajukan
-                                </button>
-                            </div>
+                            </form>                                                                                   
                         </div>
 
 
@@ -237,8 +256,18 @@
 
                             <!-- Modal Footer -->
                             <div class="mt-6 flex justify-center">
-                                <button @click="selectedSchedules.push(selectedSchedule); showModal = false"
-                                    class="bg-blue-600 text-white px-8 rounded-lg py-4 hover:bg-blue-700 transition-colors">
+                                <button 
+                                    @click="
+                                        if (!selectedSchedules.some(schedule => schedule.kode_mk === selectedSchedule.kode_mk)) {
+                                            selectedSchedules.push(selectedSchedule);
+                                            console.log(selectedSchedules);
+                                            showModal = false; 
+                                        } else {
+                                            alert('Anda sudah memilih kelas untuk mata kuliah ini.');
+                                        }
+                                    "
+                                    class="bg-blue-600 text-white px-8 rounded-lg py-4 hover:bg-blue-700 transition-colors"
+                                >
                                     Pilih
                                 </button>
                             </div>
