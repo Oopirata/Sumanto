@@ -71,6 +71,8 @@ Route::get('mhs/dashboard', [MhsDashboard::class, 'dashboardMhs'])->name('mhs.da
 
 Route::get('/mhs/BuatIrs', [BuatIRSController::class, 'tampil_jadwal'])->name('buat.irs');
 
+Route::post('/mhs/BuatIrs', [BuatIRSController::class, 'store'])->name('store.irs');
+
 Route::get('/mhs/irs', [IRSController::class, 'tampil_jadwal'])->name('mhs.irs');
 
 Route::get('/mhs/khs', [MhsDashboard::class, 'KhsMhs'])->name('mhs.khs');
