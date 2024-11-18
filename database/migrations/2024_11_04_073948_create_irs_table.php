@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('mhs_id');
             $table->unsignedBigInteger('jadwal_id');
             $table->string('semester');
-            $table->string('status');
+            $table->string('status')->default('pending');
 
             //fk
             $table->foreign('mhs_id')->references('id')->on('mahasiswa')->onDelete('cascade');
