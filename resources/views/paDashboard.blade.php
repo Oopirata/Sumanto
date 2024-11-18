@@ -21,17 +21,13 @@
                         </div>
                         <!-- Name and NIP -->
                         <div class="flex flex-col items-center">
-                            <h1 class="text-2xl font-bold">Dr.Eng. Mukidi Sukidi, S.Si., M.Kom.</h1>
-                            <h1 class="text-gray-500">NIP: 2298976546789</h1>
+                            <h1 class="text-2xl font-bold">{{ $dosen->nama ?? 'Nama Tidak Ditemukan' }}</h1>
+                            <h1 class="text-gray-500">{{ $dosen->nip ?? 'NIP Tidak Tersedia' }}</h1>
                         </div>
                     </div>
 
                     <!-- Functional Position, Faculty, Study Program in a Grid aligned with Schedule -->
-                    <div class="grid grid-cols-3 divide-x divide-black text-center font-bold py-2">
-                        <div class="px-4">
-                            <h1 class="text-gray-500 mb-1">Jabatan Fungsional</h1>
-                            <h1 class="font-bold">Sekretaris</h1>
-                        </div>
+                    <div class="grid grid-cols-2 divide-x divide-black text-center font-bold py-2">
                         <div class="px-4">
                             <h1 class="text-gray-500 mb-1">Fakultas</h1>
                             <h1 class="font-bold">Sains dan Matematika</h1>
