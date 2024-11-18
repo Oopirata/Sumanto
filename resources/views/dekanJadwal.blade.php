@@ -13,32 +13,26 @@
                 <div class="flex justify-between items-center">
                     <h1 class="text-black font-bold">Jadwal</h1>
                     <div class="flex justify-between">
-                        @foreach ($data as $jadwal)
-                            <div class="flex items-center">
-                                @if($allApproved)
-                                    <!-- Jika semua mata kuliah sudah disetujui -->
-                                    <span class="ml-4 px-4 py-2 bg-green-500 text-white rounded-full">Disetujui</span>
-                                @else
-                                    <!-- Jika ada mata kuliah yang belum disetujui -->
-                                    <span class="ml-4 px-4 py-2 bg-red-500 text-white rounded-full">Tidak Disetujui</span>
-                                @endif
+                        <div class="flex items-center">
+                            @if($allApproved)
+                                <!-- Jika semua mata kuliah sudah disetujui -->
+                                <span class="ml-4 px-4 py-2 bg-green-500 text-white rounded-full">Disetujui</span>
+                            @else
+                                <!-- Jika ada mata kuliah yang belum disetujui -->
+                                <span class="ml-4 px-4 py-2 bg-red-500 text-white rounded-full">Tidak Disetujui</span>
+                            @endif
+                        </div>
 
-                            </div>
-                        @endforeach
-
-                        
-                                <!-- Jurusan dan Semester -->
-                                <div class="px-4 bg-white"></div>
-                                <div>
-                                    <x-jurusan></x-jurusan>
-                                </div>
-                                <div class="px-4 bg-white"></div>
-                                <div>
-                                    <x-semester></x-semester>
-                                </div>
+                        <!-- Jurusan dan Semester -->
+                        <div class="px-4 bg-white"></div>
+                        <div>
+                            <x-jurusan></x-jurusan>
+                        </div>
+                        <div class="px-4 bg-white"></div>
+                        <div>
+                            <x-semester></x-semester>
+                        </div>
                     </div>
-
-
                 </div>
             </div>
             
@@ -65,16 +59,21 @@
                                     @php
                                         // Definisikan nama hari dalam array untuk mempermudah pencocokan
                                         $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
-                                        $schedules = [
-                                            // Tambahkan jadwal lainnya sesuai kebutuhan
-                                        ];
+                                        $schedules = [];
                                         
-                                        foreach ($data as $jadwal){
-                                            $j =[ 'id' => $jadwal->id, 'day' => $jadwal->hari, 'start' => $jadwal->jam_mulai, 'end' => $jadwal->jam_selesai, 'title' => $jadwal->nama_mk, 'kelas' => $jadwal->kelas, 'ruangan' => $jadwal->ruang, 'jenis' => $jadwal->status];
-                                            // Tambahkan jadwal ke array $schedules
+                                        foreach ($data as $jadwal) {
+                                            $j = [
+                                                'id' => $jadwal->id, 
+                                                'day' => $jadwal->hari, 
+                                                'start' => $jadwal->jam_mulai, 
+                                                'end' => $jadwal->jam_selesai, 
+                                                'title' => $jadwal->nama_mk, 
+                                                'kelas' => $jadwal->kelas, 
+                                                'ruangan' => $jadwal->ruang, 
+                                                'jenis' => $jadwal->status
+                                            ];
                                             array_push($schedules, $j);
-                                            }
-                                    
+                                        }
                                     @endphp
                                     @foreach ($schedules as $schedule)
                                             @if ($schedule['day'] == $days[$day - 1] && 
@@ -143,22 +142,28 @@
                 </div>
             </div>
 
-            <div class="px-6 py-4 flex justify-end space-x-3" x-data="{ status: null }">
-                <button 
-                    class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded" 
-                    @click="status = 'Tidak Setuju'">
-                    <span x-show="status !== 'Tidak Setuju'">Tidak Setuju</span>
-                    <span x-show="status === 'Tidak Setuju'">Tidak Disetujui</span>
-                </button>
+                <!-- Tombol untuk Mengubah Status Semua Matakuliah -->
+                <div class="fixed bottom-4 right-4 px-6 py-4 flex justify-end space-x-3">
+                    <!-- Form untuk Disetujui Semua -->
+                    <form action="{{ route('updateAllStatus') }}" method="POST" class="inline">
+                        @csrf
+                        <input type="hidden" name="status" value="Disetujui">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-all">
+                            Setuju
+                        </button>
+                    </form>
 
-                <button 
-                    :class="status === 'Setuju' ? 'bg-green-700' : 'bg-green-500 hover:bg-green-600'" 
-                    class="text-white py-2 px-4 rounded transition-all" 
-                    @click="status = 'Setuju'">
-                    <span x-show="status !== 'Setuju'">Setuju</span>
-                    <span x-show="status === 'Setuju'">Disetujui</span>
-                </button>
-            </div>
+                    <!-- Form untuk Tidak Disetujui Semua -->
+                    <form action="{{ route('updateAllStatus') }}" method="POST" class="inline">
+                        @csrf
+                        <input type="hidden" name="status" value="Tidak Disetujui">
+                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-all">
+                            Tidak Disetui
+                        </button>
+                    </form>
+                </div>
+
+
         </div>
     </div>
 </div>

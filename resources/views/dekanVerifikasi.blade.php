@@ -32,27 +32,50 @@
 
             <!-- Tabel Verifikasi -->
             <div class="mt-10 p-8 mx-8 bg-white rounded-xl shadow-md overflow-hidden overflow-y-auto" style="max-height: 550px;">
-                @php
-                     $ruangan = [
-                        ['koderuangan' => '1', 'namaruang' => 'E101','gedung'=>'E', 'kapasitas' => '60'],
-                        ['koderuangan' => '2', 'namaruang' => 'E102','gedung'=>'E' ,'kapasitas' => '40'],
-                        // Tambahkan jadwal dan dosen lainnya sesuai kebutuhan
-                    ];
-                @endphp
                 <table id="tabelVeri" class="text-center w-full">
-                    <thead>
+                <thead>
                         <tr>
                             <th>Kode Ruang</th>
                             <th>Nama Ruang</th>
                             <th>Kapasitas</th>
+                            <th>Lokasi</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($ruangan as $ruang)
+                        @foreach ($ruang as $ruangan)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4">{{ $ruang['koderuangan'] }}</td>
-                                <td class="px-6 py-4">{{ $ruang['namaruang'] }}</td>
-                                <td class="px-6 py-4">{{ $ruang['kapasitas'] }}</td>
+                                <td class="px-6 py-4">{{ $ruangan->id_ruang }}</td>
+                                <td class="px-6 py-4">{{ $ruangan->nama }}</td>
+                                <td class="px-6 py-4">{{ $ruangan->kapasitas }}</td>
+                                <td class="px-6 py-4">{{ $ruangan->lokasi}}</td>
+                                <td class="px-6 py-4">{{ $ruangan->status}}</td>
+                                <td class="px-6 py-4">
+                                    <form action="{{ route('ruangan.update', $ruangan->id_ruang) }}" method="POST">
+                                        @csrf
+                                        @method('PUT') <!-- Pastikan ini -->
+                                        <div class="flex items-center">
+                                            <!-- Tombol Setuju -->
+                                            <button 
+                                                type="submit" 
+                                                name="status" 
+                                                value="Tersedia" 
+                                                class="px-4 py-2 bg-green-500 text-white rounded-md mr-2">
+                                                Setuju
+                                            </button>
+
+                                            <!-- Tombol Tidak Setuju -->
+                                            <button 
+                                                type="submit" 
+                                                name="status" 
+                                                value="Tidak Tersedia" 
+                                                class="px-4 py-2 bg-red-500 text-white rounded-md">
+                                                Tidak Setuju
+                                            </button>
+                                        </div>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -91,8 +114,8 @@
                 bottomStart: null,
             },
             columnDefs: [
-                { className: "dt-head-center", targets: [0,1,2] },
-                { className: "dt-body-center", targets: [0,1,2] }
+                { className: "dt-head-center", targets: [0,1,2,3,4,5] },
+                { className: "dt-body-center", targets: [0,1,2,3,4,5] }
             ]
         });
     });

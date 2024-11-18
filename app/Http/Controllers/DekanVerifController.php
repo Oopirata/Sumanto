@@ -29,8 +29,10 @@ class DekanVerifController extends Controller
         $user = Auth::user();
 
         $dekan = \App\Models\Dekan::where('user_id', $user->id)->first();
-
-        return view('dekanVerifikasi', compact('dekan', 'user'));
+        
+        $ruang = Ruangan::all();
+        
+        return view('dekanVerifikasi', compact('dekan', 'user', 'ruang'));
     }
 
     public function dekanJadwal()
@@ -47,11 +49,40 @@ class DekanVerifController extends Controller
         $mk = MataKuliah::all();
         $ruangan = Ruangan::all();
 
-        $allApproved = $mk->every(fn($item) => $item->status == 'disetujui');
-
-        
+        $allApproved = $data->every(fn($item) => $item->status == 'Disetujui');
+    
         return view('dekanJadwal', compact('data', 'user', 'mk', 'ruangan', 'dekan', 'allApproved'));
 
     }
+
+    public function updateStatus(Request $request)
+    {
+        // Validasi status yang dikirim
+        $request->validate([
+            'status' => 'required|in:Setuju,Tidak Setuju,Disetujui,Tidak Disetujui', // Sesuaikan dengan nilai status yang diinginkan
+            'id' => 'required|exists:jadwals,id', // Pastikan id jadwal ada di database
+        ]);
+
+        $jadwal = Jadwal::findOrFail($request->id);
+        $jadwal->status = $request->status;  // Update status
+        $jadwal->save();
+
+        return response()->json(['status' => $jadwal->status]);
+    }
+
+    public function updateAllStatus(Request $request)
+    {
+        // Validasi status yang dikirim
+        $request->validate([
+            'status' => 'required|in:Disetujui,Tidak Disetujui', // Status yang valid
+        ]);
+
+        // Update status untuk semua jadwal
+        Jadwal::query()->update(['status' => $request->status]);
+
+        // Redirect kembali ke halaman jadwal
+        return redirect()->route('dekan.jadwal')->with('success', 'Status semua matakuliah berhasil diubah!');
+    }
+
 
 }
