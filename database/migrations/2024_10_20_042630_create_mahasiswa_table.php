@@ -31,6 +31,9 @@ return new class extends Migration
             $table->string('nim')->unique();
             $table->string('semester');
             $table->string('prodi');
+            $table->string('fakultas');
+            $table->string('angkatan');
+            $table->string('no_hp');
             $table->float('IPK', 2)->nullable();
             $table->float('IPS', 2)->nullable();
             $table->unsignedBigInteger('dosen_wali_id');
