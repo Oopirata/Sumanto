@@ -23,7 +23,7 @@
                     </div>
                 </div>
 
-                <div x-data="{ showModal: false, selectedSchedule: null, selectedSchedules: []">
+                <div x-data="{ showModal: false, selectedSchedule: null, selectedSchedules: [] }">
                     <!-- Bagian jadwal -->
                     <section class="relative mb-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm flex">
                         <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
