@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('kapasitas');
             $table->string('lokasi');
             $table->string('status');
+            $table->string('keterangan');
             $table->timestamps();
         });
     }

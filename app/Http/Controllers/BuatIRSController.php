@@ -7,6 +7,8 @@ use App\Models\Jadwal;
 use App\Models\Matakuliah;
 use App\Models\Mahasiswa;
 use App\Models\Dosen;
+use App\Models\BuatIRS;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -14,7 +16,6 @@ class BuatIRSController extends Controller
 {
     public function tampil_jadwal()
     {
-        // Fetch the authenticated user
         $user = Auth::user();
 
         // Get Mahasiswa (Student) details
