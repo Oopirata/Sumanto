@@ -68,6 +68,6 @@ class IRSController extends Controller
         }
 
         // Return the view with courses and schedules
-        return view('mhsIrs', compact('jadwals', 'courses', 'mahasiswa'));
+        return view('mhsIrs', compact('user', 'jadwals', 'courses', 'mahasiswa'));
     }
 }

@@ -5,9 +5,9 @@
 @section('page')
 <div class="bg-gray-100 min-h-screen flex flex-col ">
     <div class="flex overflow-hidden">
-        <x-side-bar-kaprodi :user="$user"></x-side-bar-kaprodi>
+        <x-side-bar-kaprodi :userr="$userr"></x-side-bar-kaprodi>
         <div id="main-content" class="relative text-black  font-poppins w-full h-full overflow-y-auto">
-            <x-nav-bar></x-nav-bar>
+            <x-nav-bar :user="$user"></x-nav-bar>
             <div class="border-b-4"></div>
             <div class="p-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm">
                 <div class="flex justify-between items-center">
@@ -55,7 +55,7 @@
                                         ];
                                         
                                         foreach ($data as $jadwal){
-                                            $j =[ 'day' => $jadwal->hari, 'start' => $jadwal->jam_mulai, 'end' => $jadwal->jam_selesai, 'title' => $jadwal->nama_mk, 'kelas' => $jadwal->kelas, 'ruangan' => $jadwal->ruang, 'jenis' => $jadwal->status];
+                                            $j =[ 'id' => $jadwal->id, 'day' => $jadwal->hari, 'start' => $jadwal->jam_mulai, 'end' => $jadwal->jam_selesai, 'title' => $jadwal->nama_mk, 'kelas' => $jadwal->kelas, 'ruangan' => $jadwal->ruang, 'jenis' => $jadwal->status];
                                             // Tambahkan jadwal ke array $schedules
                                             array_push($schedules, $j);
                                             }
@@ -239,27 +239,60 @@
                 </section>
 
                 <!-- Modal for displaying schedule details -->
-                <div x-show="showModal" class="fixed inset-0 z-50 overflow-y-auto">
-                    <div class="flex items-center justify-center min-h-screen px-4 text-center">
-                        <div class="fixed inset-0 bg-gray-500 opacity-75"></div>
-                        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
-                            <div class="px-4 py-5">
-                                <h3 class="text-lg leading-6 font-medium text-gray-900" x-text="selectedSchedule.title"></h3>
-                                <div class="mt-2">
-                                    <p class="text-sm text-gray-500">Kelas: <span x-text="selectedSchedule.kelas"></span></p>
-                                    <p class="text-sm text-gray-500">Waktu: <span x-text="selectedSchedule.start"></span> - <span x-text="selectedSchedule.end"></span></p>
-                                    <p class="text-sm text-gray-500">Ruangan: <span x-text="selectedSchedule.ruangan"></span></p>
-                                    <p class="text-sm text-gray-500">Jenis: <span x-text="selectedSchedule.jenis"></span></p>
-                                </div>
-                                <div class="mt-4">
-                                    <button @click="showModal = false" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-                                        Tutup
-                                    </button>
+                    <div x-show="showModal" class="fixed inset-0 z-50 overflow-y-auto">
+                        <div class="flex items-center justify-center min-h-screen px-4 text-center">
+                            <div class="fixed inset-0 bg-gray-500 opacity-75"></div>
+                            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+                                <div class="px-4 py-5">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900" x-text="selectedSchedule.title"></h3>
+                                    <div class="mt-2">
+                                        <p class="text-sm text-gray-500">Kelas: <span x-text="selectedSchedule.kelas"></span></p>
+                                        <p class="text-sm text-gray-500">Waktu: <span x-text="selectedSchedule.start"></span> - <span x-text="selectedSchedule.end"></span></p>
+                                        <p class="text-sm text-gray-500">Ruangan: <span x-text="selectedSchedule.ruangan"></span></p>
+                                        <p class="text-sm text-gray-500">Jenis: <span x-text="selectedSchedule.jenis"></span></p>
+                                    </div>
+                                    <div class="mt-4 flex justify-end space-x-2">
+                                        <button @click="showModal = false" class="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded">
+                                            Tutup
+                                        </button>
+                                        <form action="{{ route('deleteKaprodi.jadwal') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="id" :value="selectedSchedule.id">
+                                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+
+                    <script>
+                        function confirmDelete() {
+                            Swal.fire({
+                                title: 'Konfirmasi Penghapusan',
+                                text: "Apakah Anda yakin ingin menghapus jadwal ini?",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#d33',
+                                cancelButtonColor: '#3085d6',
+                                confirmButtonText: 'Ya, hapus!',
+                                cancelButtonText: 'Batal'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Tambahkan kode untuk menghapus jadwal di sini
+                                    Swal.fire(
+                                        'Terhapus!',
+                                        'Jadwal Anda telah dihapus.',
+                                        'success'
+                                    );
+                                    showModal = false; // Tutup modal setelah dihapus
+                                }
+                            });
+                        }
+                    </script>
+
                     <!-- Tombol Ajukan -->
                     <div class="fixed bottom-6 right-6">
                         <button id="ajukanBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-lg">

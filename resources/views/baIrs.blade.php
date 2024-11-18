@@ -5,9 +5,9 @@
 @section('page')
 <div class="bg-gray-100 h-screen flex flex-col">
     <div class="flex overflow-hidden">
-        <x-side-bar-ba></x-side-bar-ba>
+        <x-side-bar-ba :dosen="$dosen" :dosens="$dosens"></x-side-bar-ba>
         <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
-            <x-nav-bar></x-nav-bar>
+            <x-nav-bar :dosens="$dosens" :dosen="$dosen"></x-nav-bar>
             <div class="border-b-4"></div>
             <div class="mx-8 mt-8 space-y-8">
                 <!-- Dropdown Filters -->
@@ -97,7 +97,7 @@
                                     <td class="py-4 px-6 text-sm">{{ $mhs['nama'] }}</td>
                                     <td class="py-4 px-6 text-sm">{{ $mhs['nim'] }}</td>
                                     <td class="py-4 px-6 text-center">
-                                        <button onclick="window.location.href='{{ url('ba/detailirs') }}'" class="bg-gray-200 text-gray-600 py-1 px-4 rounded-lg hover:bg-gray-300">Detail</button>
+                                        <button onclick="window.location.href='{{ url('staff/detailirs') }}'" class="bg-gray-200 text-gray-600 py-1 px-4 rounded-lg hover:bg-gray-300">Detail</button>
                                     </td>
                                     <td class="py-4 px-6 text-center">
                                         @if ($mhs['status'] == 'Disetujui')

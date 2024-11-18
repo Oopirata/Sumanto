@@ -8,7 +8,7 @@
     <div class="flex overflow-hidden">
         <x-side-bar-mhs :mahasiswa="$mahasiswa"></x-side-bar-mhs>
         <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
-            <x-nav-bar></x-nav-bar>
+            <x-nav-bar :mahasiswa="$mahasiswa" :user="$user"></x-nav-bar>
             <div class="mx-8 mt-8 bg-white py-8 px-6 rounded-2xl">
                 <h1 class="font-extrabold text-xl">Kartu Hasil Studi (KHS)</h1>
                 <div x-data="{ open: false }" class="mb-4 border rounded-lg bg-[#F9FBFF] mt-12">
