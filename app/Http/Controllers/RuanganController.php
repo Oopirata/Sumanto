@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ruangan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class RuanganController extends Controller
 {
     //
     public function index(){
+        $dosens = Auth::user();
+        $dosen = DB::table('bagian_akademik')->where('user_id', $dosens->id)->first();
         $ruang = Ruangan::all();
-        // dd($ruang);
-        return view('baRuangan', compact('ruang'));
+        // dd($dosen);
+        return view('baRuangan', compact('ruang', 'dosen', 'dosens'));
     }
     public function update(Request $request, $id_ruang)
     {

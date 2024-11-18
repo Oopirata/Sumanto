@@ -13,9 +13,11 @@ class sideBarPa extends Component
      */
 
     public $dosens;
+    public $dosen;
 
-    public function __construct($dosens)
+    public function __construct($dosens = null, $dosen = null)
     {
+        $this->dosen = $dosen;
         $this->dosens = $dosens;
     }
 

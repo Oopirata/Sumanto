@@ -65,8 +65,8 @@
         <div class="px-6 py-4 flex items-center">
             <img src="https://via.placeholder.com/40" alt="Profile Image" class="rounded-full h-10 w-10">
             <div class="ml-4">
-                <p class="text-sm font-medium">Suteyo Tejo</p>
-                <p class="text-xs text-gray-600">100184433</p>
+                <p class="text-sm font-medium">{{ $dosen->nama }}</p>
+                <p class="text-xs text-gray-600">{{ $dosen->nip }}</p>
                 <p class="text-xs text-gray-600">Admin Akademik</p>
             </div>
         </div>

@@ -11,9 +11,17 @@ class navBar extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    
+    public $user;
+    public $dekan;
+    public $mahasiswa;
+    public $dosens;
+    public function __construct($dosens = null, $mahasiswa = null, $dekan = null, $user = null)
     {
-        //
+        $this->user = $user; 
+        $this->dekan = $dekan;
+        $this->mahasiswa = $mahasiswa;
+        $this->dosens = $dosens;
     }
 
     /**
