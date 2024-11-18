@@ -109,8 +109,6 @@ Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->na
 
 Route::get('staff/dashboard', [BaController::class, 'DashboardBA'])->name('staff.dashboard');
 
-Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
-
 Route::get('/dosen/Perwalian', function () {
     return view('paPerwalian');
 });
