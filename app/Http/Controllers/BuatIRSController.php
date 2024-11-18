@@ -11,6 +11,7 @@ use App\Models\BuatIRS;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\Irs;
 
 class BuatIRSController extends Controller
 {
@@ -33,7 +34,35 @@ class BuatIRSController extends Controller
             $jadwals = collect();
             $dosenWali = null;
         }
-
+        // dd($jadwals);
         return view('mhsBuatIrs', compact('user', 'jadwals', 'mahasiswa', 'dosenWali'));
+    }
+
+    public function store(Request $request)
+    {
+        $selectedSchedules = $request->input('selectedSchedules'); // Ambil data selectedSchedules dari request
+
+        $mhs = Auth::user();
+        $mhsId = Mahasiswa::where('user_id', $mhs->id)->first();
+        // dd($mhsId);
+
+        foreach ($selectedSchedules as $schedule) {
+            // Pastikan jadwal ada
+            $jadwal = Jadwal::find($schedule['id']); // Temukan jadwal berdasarkan id
+            
+            if ($jadwal) {
+                // Buat entri baru di tabel irs
+                Irs::create([
+                    'mhs_id' => $mhsId->id,        // ID mahasiswa
+                    'jadwal_id' => $jadwal->id, // ID jadwal
+                    'semester' => $mhsId->semester,  // Masukkan semester yang sesuai
+                    'status' => 'pending',      // Masukkan status yang sesuai
+                ]);
+            }
+        }
+
+        
+
+        return redirect()->back();
     }
 }
