@@ -7,7 +7,7 @@
     <div class="flex overflow-hidden">
         <x-side-bar-dekan :dekan="$dekan"></x-side-bar-dekan>
         <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
-            <x-nav-bar></x-nav-bar>
+            <x-nav-bar :user="$user"></x-nav-bar>
             <div class="border-b-4"></div>
             <div class="p-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm">
                 <div class="flex justify-between items-center">

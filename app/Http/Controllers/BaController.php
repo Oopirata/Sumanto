@@ -14,7 +14,7 @@ class BaController extends Controller
         $dosens = Auth::user();
         $dosen = DB::table('bagian_akademik')->where('user_id', $dosens->id)->first();
         $dataMahasiswa = Mahasiswa::all();
-        return view('baIrs', compact('dataMahasiswa', 'dosen'));
+        return view('baIrs', compact('dataMahasiswa', 'dosen', 'dosens'));
     }
 
     public function DetailIrsBA()
@@ -28,6 +28,7 @@ class BaController extends Controller
     {
         $dosens = Auth::user();
         $dosen = DB::table('bagian_akademik')->where('user_id', $dosens->id)->first();
+        // dd($dosen, $dosens);
         return view('baDashboard', compact('dosens', 'dosen'));
     }
 }

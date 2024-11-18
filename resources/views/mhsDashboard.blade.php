@@ -8,7 +8,7 @@
     <div class="flex overflow-hidden">
         <x-side-bar-mhs :mahasiswa="$mahasiswa"></x-side-bar-mhs>
         <div id="main-content" class=" relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
-            <x-nav-bar></x-nav-bar>
+            <x-nav-bar :mahasiswa="$mahasiswa" :user="$user"></x-nav-bar>
             <h1 class="mx-9 my-2 font-semibold text-lg">Hello {{ Auth::user()->name }}</h1>
             <div class="mx-8 bg-white py-8 px-6 rounded-2xl">
                 <div class="grid grid-cols-3 justify-center font-bold">

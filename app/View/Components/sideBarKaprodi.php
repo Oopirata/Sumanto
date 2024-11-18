@@ -13,10 +13,12 @@ class sideBarKaprodi extends Component
      */
 
     public $user;
+    public $userr;
 
-    public function __construct($user)
+    public function __construct($user=null, $userr=null)
     {
         $this->user = $user;
+        $this->userr = $userr;
     }
 
     /**
