@@ -23,6 +23,8 @@ class BuatIRSController extends Controller
         $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
         // dd($mahasiswa);
         if ($mahasiswa) {
+            $sksLimit = $this->calculateSksLimit($mahasiswa->IPS);
+
             $currentSemester = $mahasiswa->semester;
             $currentSemesterCourses = Matakuliah::where('semester', $currentSemester)
                 ->pluck('semester')
@@ -33,9 +35,10 @@ class BuatIRSController extends Controller
         } else {
             $jadwals = collect();
             $dosenWali = null;
+            $sksLimit = 0;
         }
         // dd($jadwals);
-        return view('mhsBuatIrs', compact('user', 'jadwals', 'mahasiswa', 'dosenWali'));
+        return view('mhsBuatIrs', compact('user', 'jadwals', 'mahasiswa', 'dosenWali', 'sksLimit'));
     }
 
     public function store(Request $request)
@@ -49,7 +52,7 @@ class BuatIRSController extends Controller
         foreach ($selectedSchedules as $schedule) {
             // Pastikan jadwal ada
             $jadwal = Jadwal::find($schedule['id']); // Temukan jadwal berdasarkan id
-            
+
             if ($jadwal) {
                 // Buat entri baru di tabel irs
                 Irs::create([
@@ -61,8 +64,17 @@ class BuatIRSController extends Controller
             }
         }
 
-        
+
 
         return redirect()->back();
+    }
+
+    private function calculateSksLimit($ips)
+    {
+        if ($ips >= 3.00) return 24;
+        if ($ips >= 2.50) return 21;
+        if ($ips >= 2.00) return 18;
+        if ($ips >= 1.50) return 15;
+        return 12;
     }
 }
