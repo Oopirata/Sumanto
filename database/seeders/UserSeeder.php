@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Mahasiswa;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -15,6 +16,15 @@ class UserSeeder extends Seeder
     public function run()
     {
         $users = [
+            //Pembimbing Akademik atau Dosen
+            ['name' => 'Dr. Aris Puji Widodo, S.Si., M.T.', 'roles' => ['Pembimbing Akademik']],
+            ['name' => 'Drs. Eko Adi Sarwoko, M.Komp.', 'roles' => ['Pembimbing Akademik']],
+            ['name' => 'Sandy Kurniawan, S.Kom., M.Kom.', 'roles' => ['Pembimbing Akademik']],
+            ['name' => 'Adhe Setya Pramayoga, M.T.', 'roles' => ['Pembimbing Akademik']],
+            ['name' => 'Priyo Sidik Sasongko, S.Si., M.Kom.', 'roles' => ['Pembimbing Akademik']],
+            ['name' => 'Dr. Retno Kusumaningrum, S.Si., M.Kom.', 'roles' => ['Pembimbing Akademik']],
+            ['name' => 'Guruh Aryotejo, S.Kom., M.Sc.', 'roles' => ['Pembimbing Akademik']],
+
             ['name' => 'Budiono Siregar', 'roles' => ['Pembimbing Akademik']],
             ['name' => 'Don Gogo', 'roles' => ['Dekan', 'Pembimbing Akademik']],
             ['name' => 'Ahmad Douglas', 'roles' => ['Mahasiswa', 'Pembimbing Akademik']],
@@ -24,6 +34,11 @@ class UserSeeder extends Seeder
             ['name' => 'Dewi Kusumawati', 'roles' => ['Bagian Akademik']],
             ['name' => 'Sarah Sriwedari', 'roles' => ['Bagian Akademik']],
             ['name' => 'Cain Chana', 'roles' => ['Ketua Program Studi']],
+
+            //Mahasiswa
+            ['name' => 'Bintang Syafrian Rizal', 'roles' => ['Mahasiswa']],
+            ['name' => 'Muhammad Mirza Faiz Rabbani', 'roles' => ['Mahasiswa']],
+            ['name' => 'Hanif Herofa', 'roles' => ['Mahasiswa']],
         ];
 
         foreach ($users as $userData) {
@@ -53,18 +68,27 @@ class UserSeeder extends Seeder
                             'user_id' => $user->id,
                             'nama' => $user->name,
                             'nim' => 'MHS' . uniqid() . random_int(1000, 9999), // Random unique NIM
-                            'semester' => [1, 3, 5][array_rand([1, 3, 5])],
+                            'semester' => 5,
+                            'fakultas' => 'Fakultas Sains dan Matematika',
                             'prodi' => 'Informatika',
+                            'angkatan' => '2022',
+                            'no_hp' => '08' . random_int(100000000, 999999999),
                             'IPK' => mt_rand(100, 400) / 100,
+                            'IPS' => mt_rand(100, 400) / 100,
                             'dosen_wali_id' => $dosenWaliId
                         ]);
                         break;
                     case 'Pembimbing Akademik':
                         DB::table('dosen')->insert([
                             'user_id' => $user->id,
-                            'nip' => 'NIP' . uniqid() . random_int(1000, 9999), // Random unique NIP
                             'nama' => $user->name,
-
+                            'nip' => 'NIP' . uniqid() . random_int(1000, 9999),
+                            'no_hp' => '08' . random_int(100000000, 999999999),
+                            'alamat' => 'Jl. ' . Str::random(10),
+                            'fakultas' => 'Fakultas Sains dan Matematika', // Add the fakultas field
+                            'prodi' => 'Informatika', // Add the prodi field if required
+                            'created_at' => now(),
+                            'updated_at' => now(),
                         ]);
                         break;
                     case 'Ketua Program Studi':

@@ -47,6 +47,12 @@ Route::get('dekan/dashboard', [DekanVerifController::class, 'dekanDashboard'])->
 
 Route::get('dekan/jadwal', [DekanVerifController::class, 'dekanJadwal'])->name('dekan.jadwal');
 
+Route::post('dekan/jadwal', [DekanVerifController::class, 'updateStatus'])->name('updateStatus');
+
+Route::post('/dekan/jadwal/update-all-status', [DekanVerifController::class, 'updateAllStatus'])->name('updateAllStatus');
+
+
+
 // Route::get('dekan/jadwal', [DekanVerifController::class, 'verifJadwal'])->name('dekan.jadwal');
 
 Route::get('dekan/ruangan', [DekanVerifController::class, 'dekanRuangan'])->name('dekan.ruangan');
@@ -70,6 +76,8 @@ Route::post('kaprodimk/delete', [MatakuliahController::class, 'deleteJadwal'])->
 Route::get('mhs/dashboard', [MhsDashboard::class, 'dashboardMhs'])->name('mhs.dashboard');
 
 Route::get('/mhs/BuatIrs', [BuatIRSController::class, 'tampil_jadwal'])->name('buat.irs');
+
+Route::post('/mhs/BuatIrs', [BuatIRSController::class, 'store'])->name('store.irs');
 
 Route::get('/mhs/irs', [IRSController::class, 'tampil_jadwal'])->name('mhs.irs');
 

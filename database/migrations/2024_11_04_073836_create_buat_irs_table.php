@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('buat_irs', function (Blueprint $table) {
             $table->id();
+            // $table->foreignId('mhs_id')->constrained('mahasiswa')->onDelete('cascade');
             $table->string('kode_mk');
             $table->string('nama_mk');
             $table->integer('sks');
@@ -31,6 +32,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('buat_irs');
+        Schema::table('buat_irs', function (Blueprint $table) {
+            $table->dropForeign(['mhs_id']);
+            $table->dropColumn('mhs_id');
+        });
     }
 };

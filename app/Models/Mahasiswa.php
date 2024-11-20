@@ -11,7 +11,19 @@ class Mahasiswa extends Model
 
     protected $table = 'mahasiswa'; // Nama tabel
 
-    protected $fillable = ['user_id', 'nim'];
+    protected $fillable = [
+        'user_id',
+        'nama',
+        'nim',
+        'semester',
+        'prodi',
+        'fakultas',
+        'angkatan',
+        'no_hp',
+        'IPK',
+        'IPS',
+        'dosen_wali_id',
+    ];
 
     public function user()
     {
