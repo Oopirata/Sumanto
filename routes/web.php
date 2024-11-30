@@ -89,15 +89,24 @@ Route::get('/mhs/status', [MhsDashboard::class, 'StatusMhs'])->name('mhs.status'
 
 Route::get('/mhs/transkrip', [MhsDashboard::class, 'TranskripMhs'])->name('mhs.transkrip');
 
+//BA
+
 Route::get('staff/irs', [BaController::class, 'IrsBA']);
 
 Route::get('staff/ruangan', [RuanganController::class, 'index'])->name('ba.ruangan');
 
+Route::delete('staff/ruangan/{id_ruang}', [RuanganController::class, 'destroy'])->name('ruangan.destroy');
+
+Route::post('staff/ruangan/store', [RuanganController::class, 'store'])->name('store.ruangan');
+
 Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
+
+Route::post('staff/ruangan/kapasitas/{id_ruang}', [RuanganController::class, 'updateKapasitas'])->name('ruangan.updateKapasitas');
 
 Route::get('staff/dashboard', [BaController::class, 'DashboardBA'])->name('staff.dashboard');
 
 Route::get('staff/detailirs', [BaController::class, 'DetailIrsBA'])->name('staff.irs.detail');
+
 
 // Dosen
 Route::get('dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');
