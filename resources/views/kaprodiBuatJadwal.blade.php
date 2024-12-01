@@ -3,7 +3,7 @@
 @section('title', 'Buat Jadwal')
 
 @section('page')
-<div class="bg-gray-100 min-h-screen flex flex-col ">
+<div class="bg-gray-100 min-h-screen flex flex-col ml-64 ">
     <div class="flex overflow-hidden">
         <x-side-bar-kaprodi :userr="$userr"></x-side-bar-kaprodi>
         <div id="main-content" class="relative text-black  font-poppins w-full h-full overflow-y-auto">
