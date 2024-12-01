@@ -10,6 +10,7 @@ use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\DekanVerifController;
 use App\Http\Controllers\BaController;
+use App\Http\Controllers\KhsController;
 use App\Models\Ruangan;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,12 @@ Route::get('dekan/dashboard', [DekanVerifController::class, 'dekanDashboard'])->
 
 Route::get('dekan/jadwal', [DekanVerifController::class, 'dekanJadwal'])->name('dekan.jadwal');
 
+Route::post('dekan/jadwal', [DekanVerifController::class, 'updateStatus'])->name('updateStatus');
+
+Route::post('/dekan/jadwal/update-all-status', [DekanVerifController::class, 'updateAllStatus'])->name('updateAllStatus');
+
+
+
 // Route::get('dekan/jadwal', [DekanVerifController::class, 'verifJadwal'])->name('dekan.jadwal');
 
 Route::get('dekan/ruangan', [DekanVerifController::class, 'dekanRuangan'])->name('dekan.ruangan');
@@ -71,9 +78,12 @@ Route::get('mhs/dashboard', [MhsDashboard::class, 'dashboardMhs'])->name('mhs.da
 
 Route::get('/mhs/BuatIrs', [BuatIRSController::class, 'tampil_jadwal'])->name('buat.irs');
 
+Route::post('/mhs/BuatIrs', [BuatIRSController::class, 'store'])->name('store.irs');
+
 Route::get('/mhs/irs', [IRSController::class, 'tampil_jadwal'])->name('mhs.irs');
 
-Route::get('/mhs/khs', [MhsDashboard::class, 'KhsMhs'])->name('mhs.khs');
+Route::get('/mhs/khs', [KhsController::class, 'all'])->name('mhs.khs');
+Route::get('/khs/download/{semester}', [KhsController::class, 'download'])->name('khs.download');
 
 Route::get('/mhs/bayar', [MhsDashboard::class, 'BayarMhs'])->name('mhs.bayar');
 
@@ -81,15 +91,24 @@ Route::get('/mhs/status', [MhsDashboard::class, 'StatusMhs'])->name('mhs.status'
 
 Route::get('/mhs/transkrip', [MhsDashboard::class, 'TranskripMhs'])->name('mhs.transkrip');
 
+//BA
+
 Route::get('staff/irs', [BaController::class, 'IrsBA']);
 
 Route::get('staff/ruangan', [RuanganController::class, 'index'])->name('ba.ruangan');
 
+Route::delete('staff/ruangan/{id_ruang}', [RuanganController::class, 'destroy'])->name('ruangan.destroy');
+
+Route::post('staff/ruangan/store', [RuanganController::class, 'store'])->name('store.ruangan');
+
 Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
+
+Route::post('staff/ruangan/kapasitas/{id_ruang}', [RuanganController::class, 'updateKapasitas'])->name('ruangan.updateKapasitas');
 
 Route::get('staff/dashboard', [BaController::class, 'DashboardBA'])->name('staff.dashboard');
 
 Route::get('staff/detailirs', [BaController::class, 'DetailIrsBA'])->name('staff.irs.detail');
+
 
 // Dosen
 Route::get('/dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');

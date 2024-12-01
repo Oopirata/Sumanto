@@ -32,51 +32,64 @@
 
             <!-- Tabel Verifikasi -->
             <div class="mt-10 p-8 mx-8 bg-white rounded-xl shadow-md overflow-hidden overflow-y-auto" style="max-height: 550px;">
-                @php
-                     $ruangan = [
-                        ['koderuangan' => '1', 'namaruang' => 'E101','gedung'=>'E', 'kapasitas' => '60'],
-                        ['koderuangan' => '2', 'namaruang' => 'E102','gedung'=>'E' ,'kapasitas' => '40'],
-                        // Tambahkan jadwal dan dosen lainnya sesuai kebutuhan
-                    ];
-                @endphp
                 <table id="tabelVeri" class="text-center w-full">
-                    <thead>
+                <thead>
                         <tr>
                             <th>Kode Ruang</th>
                             <th>Nama Ruang</th>
                             <th>Kapasitas</th>
+                            <th>Lokasi</th>
+                            <th>Keterangan</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($ruangan as $ruang)
+                        @foreach ($ruang as $ruangan)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4">{{ $ruang['koderuangan'] }}</td>
-                                <td class="px-6 py-4">{{ $ruang['namaruang'] }}</td>
-                                <td class="px-6 py-4">{{ $ruang['kapasitas'] }}</td>
+                                <td class="px-6 py-4">{{ $ruangan->id_ruang }}</td>
+                                <td class="px-6 py-4">{{ $ruangan->nama }}</td>
+                                <td class="px-6 py-4">{{ $ruangan->kapasitas }}</td>
+                                <td class="px-6 py-4">{{ $ruangan->lokasi}}</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 rounded {{ $ruangan->keterangan == 'Tersedia' ? 'bg-green-100 text-green-500' : 'bg-red-100 text-red-500' }}">
+                                        {{ $ruangan->keterangan }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 rounded {{ $ruangan->status == 'Disetujui' ? 'bg-green-100 text-green-500' : ($ruangan->status == 'Diproses' ? 'bg-yellow-100 text-yellow-500' : 'bg-red-100 text-red-500') }}">
+                                        {{ $ruangan->status }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <form action="{{ route('ruangan.update', $ruangan->id_ruang) }}" method="POST">
+                                        @csrf
+                                        @method('PUT') <!-- Pastikan ini -->
+                                        <div class="flex items-center">
+                                            <!-- Tombol Setuju -->
+                                            <button 
+                                                type="submit" 
+                                                name="status" 
+                                                value="Disetujui" 
+                                                class="px-4 py-2 bg-green-500 text-white rounded-md mr-2">
+                                                Setuju
+                                            </button>
+
+                                            <!-- Tombol Tidak Setuju -->
+                                            <button 
+                                                type="submit" 
+                                                name="status" 
+                                                value="Tidak Disetujui" 
+                                                class="px-4 py-2 bg-red-500 text-white rounded-md">
+                                                Tidak Setuju
+                                            </button>
+                                        </div>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-
-            <!-- Buttons -->
-            <div class="px-6 py-4 flex justify-end space-x-3" x-data="{ status: null }">
-                <!-- Tombol Tidak Setuju -->
-                <button 
-                    class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded" 
-                    @click="status = 'Tidak Setuju'">
-                    <span x-show="status !== 'Tidak Setuju'">Tidak Setuju</span>
-                    <span x-show="status === 'Tidak Setuju'">Tidak Disetujui</span>
-                </button>
-
-                <!-- Tombol Setuju -->
-                <button 
-                    :class="status === 'Setuju' ? 'bg-green-700' : 'bg-green-500 hover:bg-green-600'" 
-                    class="text-white py-2 px-4 rounded transition-all" 
-                    @click="status = 'Setuju'">
-                    <span x-show="status !== 'Setuju'">Setuju</span>
-                    <span x-show="status === 'Setuju'">Disetujui</span>
-                </button>
             </div>
         </div>
     </div>
@@ -91,8 +104,8 @@
                 bottomStart: null,
             },
             columnDefs: [
-                { className: "dt-head-center", targets: [0,1,2] },
-                { className: "dt-body-center", targets: [0,1,2] }
+                { className: "dt-head-center", targets: [0,1,2,3,4,5,6] },
+                { className: "dt-body-center", targets: [0,1,2,3,4,5,6] }
             ]
         });
     });
