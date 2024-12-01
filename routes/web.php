@@ -10,6 +10,7 @@ use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\DekanVerifController;
 use App\Http\Controllers\BaController;
+use App\Http\Controllers\KhsController;
 use App\Models\Ruangan;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
@@ -81,7 +82,8 @@ Route::post('/mhs/BuatIrs', [BuatIRSController::class, 'store'])->name('store.ir
 
 Route::get('/mhs/irs', [IRSController::class, 'tampil_jadwal'])->name('mhs.irs');
 
-Route::get('/mhs/khs', [MhsDashboard::class, 'KhsMhs'])->name('mhs.khs');
+Route::get('/mhs/khs', [KhsController::class, 'all'])->name('mhs.khs');
+Route::get('/khs/download/{semester}', [KhsController::class, 'download'])->name('khs.download');
 
 Route::get('/mhs/bayar', [MhsDashboard::class, 'BayarMhs'])->name('mhs.bayar');
 

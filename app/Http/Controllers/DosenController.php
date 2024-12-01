@@ -12,15 +12,21 @@ class DosenController extends Controller
     public function dashboardPA()
     {
         $dosens = Auth::user();
-        $dosen = Dosen::where('user_id', $dosens->id)->first(); // Ambil data dosen berdasarkan user_id
-        return view('paDashboard', compact('dosens', 'dosen')); // Kirim data dosen ke view
+        $dosen = \App\Models\Dosen::where('user_id', $dosens->id)->first();
+        // dd($dosens, $dosen);
+        return view('paDashboard', compact('dosens', 'dosen'));
     }
 
     public function pengajuanIrsPA()
     {
         $dosens = Auth::user();
-        $dosen = Dosen::where('user_id', $dosens->id)->first();
-        $mahasiswa = Mahasiswa::where('dosen_wali_id', $dosen->id)->get(); // Ambil mahasiswa yang dibimbing dosen ini
+        $dosen = \App\Models\Dosen::where('user_id', $dosens->id)->first();
+        $mahasiswa = Mahasiswa::where('dosen_wali_id', $dosen->id);
+        // ->whereHas('irs', function ($query) {
+        //     $query->where('status', 'Pending');
+        // })
+        // ->get();
+        // dd($dosens, $dosen);
         return view('paPengajuanIrs', compact('dosens', 'dosen', 'mahasiswa'));
     }
 
