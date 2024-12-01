@@ -32,14 +32,14 @@ class UserSeeder extends Seeder
                 'roles' => ['Pembimbing Akademik'],
                 'nip' => '197304011998021001',
                 'no_hp' => '081234567890',
-                'alamat' => 'Jl. Profesor Sudarto SH No. 1'
+                'alamat' => 'Jl. Profesor Ngakak MH No. 1'
             ],
             [
                 'name' => 'Drs. Eko Adi Sarwoko, M.Komp.',
                 'roles' => ['Pembimbing Akademik'],
                 'nip' => '196511071992031003',
                 'no_hp' => '081234567891',
-                'alamat' => 'Jl. Profesor Sudarto SH No. 2'
+                'alamat' => 'Jl. Raja Mongolia No. 2'
             ],
             [
                 'name' => 'Sandy Kurniawan, S.Kom., M.Kom.',
@@ -48,19 +48,44 @@ class UserSeeder extends Seeder
                 'no_hp' => '081234567892',
                 'alamat' => 'Jl. Profesor Sudarto SH No. 3'
             ],
+            //Dekan
+            [
+                'name' => 'Don Gogo',
+                'roles' => ['Dekan', 'Pembimbing Akademik'],
+                'nip' => '198607232019099999',
+                'no_hp' => '085555555555',
+                'alamat' => 'Jl. Kocak Geming No. 88'
+            ],
             // Khusus ahmad douglas
             [
                 'name' => 'Ahmad Douglas',
                 'roles' => ['Mahasiswa', 'Pembimbing Akademik'],
-                'nip' => '199001012020031001',
+                'nip' => '199001012020055555',
                 'nim' => '24060122199999',
                 'semester' => 1,
                 'angkatan' => '2024',
                 'no_hp' => '081234567896',
                 'ipk' => 3.90,
                 'ips' => 3.95,
-                'alamat' => 'Jl. Profesor Sudarto SH No. 4',
+                'alamat' => 'Jl. Madasel No. 4',
                 'dosen_wali_nip' => '197304011998021001'  // Reference to Dr. Aris's NIP
+            ],
+
+            // Bagian Akademik
+            [
+                'name' => 'Sarah Sriwedari',
+                'roles' => ['Bagian Akademik'],
+                'nip' => '199001012020066666',
+                'no_hp' => '081111111111',
+                'alamat' => 'Jl. Banjarsari Selatan No. 5'
+            ],
+            // Ketua Program Studi
+            [
+                'name' => 'Cain Chana',
+                'roles' => ['Ketua Program Studi'],
+                'nip' => '199001012020077777',
+                'no_hp' => '082222222222',
+                'alamat' => 'Jl. Kaliurang No. 6'
             ],
             // Mahasiswa
             [
