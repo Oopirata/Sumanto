@@ -23,10 +23,12 @@
                     </div>
                 </div>
 
-                <div class="mt-4 p-4 bg-blue-50 rounded-lg">
-                    <p class="text-blue-800">
-                        IPK Anda: <span class="font-semibold">{{ number_format($mahasiswa->IPS, 2) }}</span> |
-                        Batas SKS: <span class="font-semibold">{{ $sksLimit }}</span> SKS
+                <div class="mt-4 p-4 mx-8 bg-white rounded-lg">
+                    <p class="text-blue-800 ml-4">
+                        IPS Anda Semester Lalu : <span class="font-semibold">{{ number_format($mahasiswa->IPS, 2) }}</span>
+                    </p>
+                    <p class="text-blue-800 ml-4">
+                        Batas SKS Yang Dapat Diambil : <span class="font-semibold">{{ $sksLimit }}</span> SKS
                     </p>
                 </div>
 
@@ -36,6 +38,7 @@
                     selectedSchedules: [],
                     sksLimit: {{ $sksLimit }},
                     currentTotalSks: 0,
+                    notification: { show: false, type: '', message: '' },
                 
                     checkSksLimit() {
                         this.currentTotalSks = this.selectedSchedules.reduce((total, schedule) => total + parseInt(schedule.sks), 0);
@@ -44,8 +47,56 @@
                 
                     canAddCourse(newSks) {
                         return (this.currentTotalSks + parseInt(newSks)) <= this.sksLimit;
+                    },
+                
+                    showNotification(type, message) {
+                        this.notification.show = true;
+                        this.notification.type = type;
+                        this.notification.message = message;
+                        setTimeout(() => {
+                            this.notification.show = false;
+                        }, 2000);
+                    },
+                
+                    handleDelete(index) {
+                        if (confirm('Are you sure?')) {
+                            this.selectedSchedules.splice(index, 1);
+                            this.showNotification('success', 'Your file has been deleted!');
+                        } else {
+                            this.showNotification('error', 'Your file is safe :)');
+                        }
                     }
                 }">
+                <!-- Notifications -->
+                <div x-show="notification.show" 
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 transform scale-90"
+                x-transition:enter-end="opacity-100 transform scale-100"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100 transform scale-100"
+                x-transition:leave-end="opacity-0 transform scale-90"
+                :class="notification.type === 'success' ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700'"
+                class="fixed top-4 right-4 px-4 py-3 rounded border z-50 flex items-center"
+                role="alert">
+                <div class="flex">
+                <div class="py-1">
+                    <template x-if="notification.type === 'success'">
+                        <svg class="fill-current h-6 w-6 text-green-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+                        </svg>
+                    </template>
+                    <template x-if="notification.type === 'error'">
+                        <svg class="fill-current h-6 w-6 text-red-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/>
+                        </svg>
+                    </template>
+                </div>
+                <div>
+                    <p class="font-bold" x-text="notification.type === 'success' ? 'Success!' : 'Operation Cancelled'"></p>
+                    <p class="text-sm" x-text="notification.message"></p>
+                </div>
+                </div>
+                </div>
                     <!-- Bagian jadwal -->
                     <section class="relative mb-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm flex">
                         <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
@@ -69,20 +120,12 @@
                             @for ($time = 7; $time <= 21; $time++)
                                 <div class="grid grid-cols-8 border-t border-gray-200">
                                     <div class="p-3.5 flex items-center justify-center text-sm font-medium text-gray-900">
-                                        {{ $time }}:00</div>
+                                        {{ $time }}:00
+                                    </div>
                                     @for ($day = 1; $day <= 7; $day++)
-                                        <div
-                                            class="flex flex-col h-auto p-0.5 md:p-3.5 border-r border-gray-200 transition-all hover:bg-stone-100">
+                                        <div class="flex flex-col h-auto p-0.5 md:p-3.5 border-r border-gray-200 transition-all hover:bg-stone-100">
                                             @php
-                                                $days = [
-                                                    'Senin',
-                                                    'Selasa',
-                                                    'Rabu',
-                                                    'Kamis',
-                                                    'Jumat',
-                                                    'Sabtu',
-                                                    'Minggu',
-                                                ];
+                                                $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
                                                 $schedules = [];
                                                 foreach ($jadwals as $jadwal) {
                                                     $j = [
@@ -104,12 +147,9 @@
                                             @foreach ($schedules as $schedule)
                                                 @if ($schedule['day'] == $days[$day - 1] && $time == intval(substr($schedule['start'], 0, 2)))
                                                     @php
-                                                        // Calculate the duration of the schedule in hours
                                                         $startHour = intval(substr($schedule['start'], 0, 2));
                                                         $endHour = intval(substr($schedule['end'], 0, 2));
                                                         $duration = $endHour - $startHour;
-
-                                                        // Define color class based on the class
                                                         $colorClass = match ($schedule['kelas']) {
                                                             'A' => 'bg-blue-50 border-blue-600 text-blue-600',
                                                             'B' => 'bg-red-50 border-red-600 text-red-600',
@@ -118,18 +158,114 @@
                                                             default => 'bg-gray-50 border-gray-600 text-gray-600',
                                                         };
                                                     @endphp
-
-                                                    <button
-                                                        class="rounded p-1.5 border-l-2 {{ $colorClass }} w-full text-left my-2"
+                                                    <div class="flex items-center space-x-2" 
                                                         style="grid-row: span {{ $duration }};"
-                                                        @click="showModal = true; selectedSchedule = {{ json_encode($schedule) }}">
-                                                        <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
-                                                        <p class="text-xs font-semibold">{{ $schedule['start'] }} -
-                                                            {{ $schedule['end'] }}</p>
-                                                    </button>
+                                                        :class="selectedSchedules.some(s => s.kode_mk === '{{ $schedule['kode_mk'] }}') && !selectedSchedules.some(s => s.id === {{ $schedule['id'] }}) ? 'opacity-50' : ''"
+                                                        >
+                                                        <div class="flex items-center">
+                                                            <input 
+                                                                type="checkbox" 
+                                                                class="w-4 h-4"
+                                                                :checked="selectedSchedules.some(s => s.id === {{ $schedule['id'] }})"
+                                                                @change="
+                                                                    if ($event.target.checked) {
+                                                                        {{-- // Cek jika SKS sudah mencapai atau akan melebihi batas --}}
+                                                                        if (!canAddCourse({{ $schedule['sks'] }})) {
+                                                                            $event.target.checked = false;
+                                                                            const totalSksAfterAdd = currentTotalSks + {{ $schedule['sks'] }};
+                                                                            Swal.fire({
+                                                                                title: 'Batas SKS Terlampaui',
+                                                                                html: 'Tidak dapat menambah mata kuliah ini karena akan melebihi batas SKS Anda', 
+                                                                                icon: 'error',
+                                                                                confirmButtonColor: '#3085d6',
+                                                                                confirmButtonText: 'OK'
+                                                                            });
+                                                                            return;
+                                                                        }
+
+                                                                        {{-- // Cek jika sudah memilih mata kuliah yang sama --}}
+                                                                        if (selectedSchedules.some(s => s.kode_mk === '{{ $schedule['kode_mk'] }}')) {
+                                                                            $event.target.checked = false;
+                                                                            Swal.fire({
+                                                                                title: 'Mata Kuliah Sudah Dipilih',
+                                                                                text: 'Anda sudah memilih kelas untuk mata kuliah ini.',
+                                                                                icon: 'warning',
+                                                                                confirmButtonColor: '#3085d6',
+                                                                                confirmButtonText: 'OK'
+                                                                            });
+                                                                            return;
+                                                                        }
+
+                                                                        {{-- // Cek jadwal yang bertabrakan --}}
+                                                                        const hasConflict = selectedSchedules.some(s => 
+                                                                            s.day === '{{ $schedule['day'] }}' && (
+                                                                                ({{ intval(substr($schedule['start'], 0, 2)) }} >= parseInt(s.start) && 
+                                                                                {{ intval(substr($schedule['start'], 0, 2)) }} < parseInt(s.end)) ||
+                                                                                ({{ intval(substr($schedule['end'], 0, 2)) }} > parseInt(s.start) && 
+                                                                                {{ intval(substr($schedule['end'], 0, 2)) }} <= parseInt(s.end)) ||
+                                                                                (parseInt(s.start) >= {{ intval(substr($schedule['start'], 0, 2)) }} && 
+                                                                                parseInt(s.start) < {{ intval(substr($schedule['end'], 0, 2)) }})
+                                                                            )
+                                                                        );
+
+                                                                        if (hasConflict) {
+                                                                            $event.target.checked = false;
+                                                                            Swal.fire({
+                                                                                title: 'Jadwal Bertabrakan',
+                                                                                text: 'Jadwal bertabrakan dengan mata kuliah yang sudah dipilih.',
+                                                                                icon: 'error',
+                                                                                confirmButtonColor: '#3085d6',
+                                                                                confirmButtonText: 'OK'
+                                                                            });
+                                                                            return;
+                                                                        }
+
+                                                                        // Tambahkan jadwal jika semua pengecekan berhasil
+                                                                        selectedSchedules.push({
+                                                                            id: {{ $schedule['id'] }},
+                                                                            day: '{{ $schedule['day'] }}',
+                                                                            kode_mk: '{{ $schedule['kode_mk'] }}',
+                                                                            sks: {{ $schedule['sks'] }},
+                                                                            kapasitas: {{ $schedule['kapasitas'] }},
+                                                                            start: '{{ $schedule['start'] }}',
+                                                                            end: '{{ $schedule['end'] }}',
+                                                                            title: '{{ $schedule['title'] }}',
+                                                                            kelas: '{{ $schedule['kelas'] }}',
+                                                                            ruangan: '{{ $schedule['ruangan'] }}',
+                                                                            jenis: '{{ $schedule['jenis'] }}'
+                                                                        });
+                                                                        Swal.fire({
+                                                                            title: 'Berhasil',
+                                                                            text: 'Mata kuliah berhasil ditambahkan',
+                                                                            icon: 'success',
+                                                                            showConfirmButton: false,
+                                                                            timer: 1500
+                                                                        });
+                                                                        currentTotalSks = checkSksLimit();
+                                                                    } else {
+                                                                        selectedSchedules = selectedSchedules.filter(s => s.id !== {{ $schedule['id'] }});
+                                                                        currentTotalSks = checkSksLimit();
+                                                                        Swal.fire({
+                                                                            title: 'Dihapus',
+                                                                            text: 'Mata kuliah telah dihapus dari pilihan',
+                                                                            icon: 'success',
+                                                                            showConfirmButton: false,
+                                                                            timer: 1500
+                                                                        });
+                                                                    }
+                                                                "
+                                                            >
+                                                        </div>
+                                                        <div class="rounded p-1.5 border-l-2 {{ $colorClass }} w-full text-left mt-6">
+                                                            <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
+                                                            <p class="text-xs font-normal mb-px">Kelas : {{ $schedule['kelas'] }}</p>
+                                                            <p class="text-xs font-normal mb-px">SKS : {{ $schedule['sks'] }}</p>
+                                                            <p class="text-xs font-normal mb-px">Kapasitas : {{ $schedule['kapasitas'] }}</p>
+                                                            <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>
+                                                        </div>
+                                                    </div>
                                                 @endif
                                             @endforeach
-
                                         </div>
                                     @endfor
                                 </div>
@@ -149,7 +285,7 @@
 
                         <!-- drawer component -->
                         <div id="drawer-right-example"
-                            class="rounded-xl fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white dark:bg-gray-800"
+                            class="rounded-l-3xl fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white dark:bg-gray-800"
                             tabindex="-1" aria-labelledby="drawer-right-label">
                             <h1 id="drawer-right-label"
                                 class="inline-flex items-center mb-4 ml-2 text-base font-bold text-black">Matakuliah Yang
@@ -187,7 +323,25 @@
                                                     <td class="border px-4 py-2" x-text="schedule.sks"></td>
                                                     <td class="border px-4 py-2" x-text="schedule.kelas"></td>
                                                     <td class="border px-4 py-2 text-center">
-                                                        <button @click="selectedSchedules.splice(index, 1)"
+                                                        <button @click.prevent="
+                                                            Swal.fire({
+                                                                title: 'هل ستحذفه؟',
+                                                                text: 'You won\'t be able to revert this!',
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#3085d6',
+                                                                cancelButtonColor: '#d33',
+                                                                confirmButtonText: 'نعم، احذف'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    selectedSchedules.splice(index, 1);
+                                                                    Swal.fire(
+                                                                        'Deleted!',
+                                                                        'Your file has been deleted.',
+                                                                        'success'
+                                                                    );
+                                                                }
+                                                            })"
                                                             class="text-red-600 hover:text-red-800">
                                                             <!-- Trash Icon SVG -->
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
@@ -228,107 +382,38 @@
                                             x-text="selectedSchedules.reduce((total, schedule) => total + schedule.sks, 0)"
                                             class="text-blue-600"></span>
                                     </div>
-                                    <button type="submit"
-                                        class="px-5 py-2 bg-[#000CB0] rounded-xl text-white font-poppins font-semibold">
-                                        Ajukan
-                                    </button>
                                 </div>
                             </form>
                         </div>
-
-
                     </section>
-                    <!-- Modal for displaying schedule details -->
-                    <div x-show="showModal"
-                        class="fixed inset-0 z-50 flex items-center justify-center min-h-screen px-4 text-center">
-                        <!-- Overlay -->
-                        <div class="fixed inset-0 bg-gray-900 opacity-60"></div>
-
-                        <!-- Modal Content -->
-                        <div class="bg-white rounded-xl shadow-lg max-w-md w-full p-6 relative transform transition-all">
-                            <!-- Close Button -->
-                            <button @click="showModal = false"
-                                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-
-                            <!-- Modal Header -->
-                            <div class="mb-4">
-                                <h3 class="text-xl font-semibold text-gray-800" x-text="selectedSchedule.title"></h3>
-                                <p class="text-gray-500">Detail informasi mengenai mata kuliah yang dipilih</p>
-                            </div>
-
-                            <!-- Modal Body -->
-                            <div class="space-y-2 text-gray-600">
-                                <p><span class="font-semibold">Kode MK:</span> <span
-                                        x-text="selectedSchedule.kode_mk"></span></p>
-                                <p><span class="font-semibold">SKS:</span> <span x-text="selectedSchedule.sks"></span></p>
-                                <p><span class="font-semibold">Kelas:</span> <span x-text="selectedSchedule.kelas"></span>
-                                </p>
-                                <p><span class="font-semibold">Hari:</span> <span x-text="selectedSchedule.day"></span>
-                                </p>
-                                <p><span class="font-semibold">Waktu:</span> <span x-text="selectedSchedule.start"></span>
-                                    - <span x-text="selectedSchedule.end"></span></p>
-                                <p><span class="font-semibold">Ruangan:</span> <span
-                                        x-text="selectedSchedule.ruangan"></span></p>
-                                <p><span class="font-semibold">Jenis:</span> <span x-text="selectedSchedule.jenis"></span>
-                                </p>
-                                <p><span class="font-semibold">Kapasitas:</span> <span
-                                        x-text="selectedSchedule.kapasitas"></span></p>
-                            </div>
-
-                            <!-- Modal Footer -->
-                            <div class="mt-6 flex justify-center">
-                                <button
-                                    @click="
-        if (!selectedSchedules.some(schedule => schedule.kode_mk === selectedSchedule.kode_mk)) {
-            if (canAddCourse(selectedSchedule.sks)) {
-                selectedSchedules.push(selectedSchedule);
-                currentTotalSks = checkSksLimit();
-                showModal = false;
-            } else {
-                alert('Tidak dapat menambah mata kuliah ini. Total SKS akan melebihi batas ' + sksLimit + ' SKS sesuai IPK Anda.');
-            }
-        } else {
-            alert('Anda sudah memilih kelas untuk mata kuliah ini.');
-        }
-    "
-                                    class="bg-blue-600 text-white px-8 rounded-lg py-4 hover:bg-blue-700 transition-colors">
-                                    Pilih
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
         <script>
             function updateClock() {
                 const clockElement = document.getElementById('real-time-clock');
-                const now = new Date();
-                const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-                const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
-                    "Oktober", "November", "Desember"
-                ];
+                if (clockElement) {
+                    const now = new Date();
+                    const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+                    const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
+                        "Oktober", "November", "Desember"
+                    ];
 
-                const dayName = days[now.getDay()];
-                const monthName = months[now.getMonth()];
-                const day = String(now.getDate()).padStart(2, '0');
-                const year = now.getFullYear();
+                    const dayName = days[now.getDay()];
+                    const monthName = months[now.getMonth()];
+                    const day = String(now.getDate()).padStart(2, '0');
+                    const year = now.getFullYear();
 
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const seconds = String(now.getSeconds()).padStart(2, '0');
+                    const hours = String(now.getHours()).padStart(2, '0');
+                    const minutes = String(now.getMinutes()).padStart(2, '0');
+                    const seconds = String(now.getSeconds()).padStart(2, '0');
 
-                clockElement.innerText = `${dayName}, ${day} ${monthName} ${year} | ${hours} : ${minutes} : ${seconds}`;
+                    clockElement.innerText = `${dayName}, ${day} ${monthName} ${year} | ${hours} : ${minutes} : ${seconds}`;
+                }
             }
+            updateClock();
 
             setInterval(updateClock, 1000);
-            updateClock();
         </script>
 
     </div>
