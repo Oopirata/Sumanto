@@ -93,7 +93,7 @@ Route::get('staff/irs', [BaController::class, 'IrsBA']);
 
 Route::get('staff/ruangan', [RuanganController::class, 'index'])->name('ba.ruangan');
 
-Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
+Route::post('staff/ruangan/keterangan', [RuanganController::class, 'update'])->name('ruangan.update');
 
 Route::get('staff/dashboard', [BaController::class, 'DashboardBA'])->name('staff.dashboard');
 

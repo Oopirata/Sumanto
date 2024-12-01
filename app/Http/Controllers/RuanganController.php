@@ -17,7 +17,7 @@ class RuanganController extends Controller
         // dd($dosen);
         return view('baRuangan', compact('ruang', 'dosen', 'dosens'));
     }
-    public function update(Request $request, $id_ruang)
+    public function update(Request $request)
     {
         // dd($request->all());
         // dd($id_ruang);
@@ -27,8 +27,11 @@ class RuanganController extends Controller
         // dd($ruangan);
 
         DB::table('ruangan')
-            ->where('id_ruang', $id_ruang) // pastikan ini adalah id atau kondisi yang sesuai dengan data yang ingin diupdate
-            ->update(['status' => $request->status]);
+            ->where('id_ruang') // pastikan ini adalah id atau kondisi yang sesuai dengan data yang ingin diupdate
+            ->update([
+                'keterangan' => $request->keterangan,
+                'prodi' => $request->prodi,
+            ]);
     
         return redirect()->back()->with('error', 'Ruangan tidak ditemukan');
     }
