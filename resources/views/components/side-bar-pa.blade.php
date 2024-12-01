@@ -31,9 +31,9 @@
                 </button>
 
                 <div x-show="open" class="mt-2 space-y-1 pl-6">
-                    <a href="" class="flex items-center my-4"> <!-- Changed to anchor -->
-                        <label class="ml-2 text-sm text-gray-600">Mahasiswa</label>
-                    </a>
+                    <div class="flex items-center my-5">
+                        <a href="/dosen/Perwalian" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Mahasiswa</a>
+                    </div>
                     <div class="flex items-center my-5">
                         <a href="/dosen/PengajuanIrs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Ajuan IRS</a>
                     </div>

@@ -113,12 +113,24 @@ Route::get('dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('do
 
 Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
 
-Route::get('/dosen/Perwalian', function () {
-    return view('paPerwalian');
+Route::get('/dosen/DetailIrs', function () {
+    return view('paDetailIrs');
 });
+Route::get('/dosen/Perwalian', [DosenController::class, 'perwalianPA']);
 
 Route::get('/dosen/DetailPerwalian', function () {
     return view('paDetailPerwalian');
 });
 
-Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
+Route::get('/dosen/PengajuanNilai', function () {
+    return view('paPengajuanNilai');
+});
+
+Route::get('/dosen/DetailNilai', function () {
+    return view('paDetailNilai');
+});
+
+Route::get('/dosen/InputNilai', function () {
+    return view('paInputNilai');
+});
+
