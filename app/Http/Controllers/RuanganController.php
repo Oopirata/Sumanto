@@ -9,9 +9,27 @@ use Illuminate\Support\Facades\Auth;
 
 class RuanganController extends Controller
 {
-    public function index(){
+    public function index(Request $request)
+    {
         $dosens = Auth::user();
         $dosen = DB::table('bagian_akademik')->where('user_id', $dosens->id)->first();
+    
+        if ($request->ajax()) {
+            $query = Ruangan::query();
+            
+            $selectedJurusan = $request->input('jurusan');
+            if ($selectedJurusan) {
+                $query->where(function($q) use ($selectedJurusan) {
+                    $q->where('prodi', $selectedJurusan)
+                      ->orWhereNull('prodi');
+                });
+            }
+        
+            $ruang = $query->get();
+            
+            return response()->json(['ruang' => $ruang]);
+        }
+
         $ruang = Ruangan::all();
         return view('baRuangan', compact('ruang', 'dosen', 'dosens'));
     }
@@ -24,6 +42,7 @@ class RuanganController extends Controller
             'kapasitas' => 'required|numeric|min:1',
             'lokasi' => 'required',
             'keterangan' => 'required|in:Tersedia,Terpakai',
+            'prodi' => 'nullable|string'
         ]);
 
         DB::table('ruangan')->insert([
@@ -32,6 +51,7 @@ class RuanganController extends Controller
             'kapasitas' => $request->kapasitas,
             'lokasi' => $request->lokasi,
             'keterangan' => $request->keterangan,
+            'prodi' => $request->prodi,
             'status' => 'Diproses',
             'created_at' => now(),
             'updated_at' => now()
@@ -61,17 +81,22 @@ class RuanganController extends Controller
 
     public function update(Request $request, $id_ruang)
     {
-        $request->validate([
-            'status' => 'required|in:Disetujui,Tidak Disetujui',
+        $validatedData = $request->validate([
+            'keterangan' => 'required|in:Tersedia,Terpakai',
+            'prodi' => 'nullable|string'
         ]);
 
+        // dd(request()->all());
+
+        $updateData = [
+            'keterangan' => $validatedData['keterangan'],
+            'prodi' => $validatedData['prodi']  // Set null jika prodi kosong
+        ];
+
         DB::table('ruangan')
-            ->where('id_ruang') // pastikan ini adalah id atau kondisi yang sesuai dengan data yang ingin diupdate
-            ->update([
-                'keterangan' => $request->keterangan,
-                'prodi' => $request->prodi,
-            ]);
-    
+            ->where('id_ruang', $id_ruang)
+            ->update($updateData);
+
         return redirect()->back()->with('success', 'Status ruangan berhasil diperbarui');
     }
 }

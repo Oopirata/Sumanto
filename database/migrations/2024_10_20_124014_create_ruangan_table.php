@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('lokasi');
             $table->string('status');
             $table->string('keterangan');
-            $table->string('prodi')->default('null');
+            $table->string('prodi')->nullable();
             $table->timestamps();
         });
     }
