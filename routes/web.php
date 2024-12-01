@@ -27,7 +27,7 @@ Route::get('/', function () {
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
 // Route for logout
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Routes for role selection
 Route::middleware(['auth'])->group(function () {
@@ -122,18 +122,17 @@ Route::get('staff/detailirs', [BaController::class, 'DetailIrsBA'])->name('staff
 
 
 // Dosen
-Route::get('dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');
+Route::get('/dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');
 
-Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
+Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA'])->name('DosenPengajuan.irs');
 
-Route::get('/dosen/DetailIrs', function () {
-    return view('paDetailIrs');
-});
-Route::get('/dosen/Perwalian', [DosenController::class, 'perwalianPA']);
+Route::post('dosen/irs/update/{mhs_id}', [DosenController::class, 'updateStatusIrs'])->name('updateStatusIrs');
 
-Route::get('/dosen/DetailPerwalian', function () {
-    return view('paDetailPerwalian');
-});
+Route::get('/dosen/irs/detail', [DosenController::class, 'detailIrsPA']);
+
+Route::get('/dosen/Perwalian', [DosenController::class, 'perwalianPA'])->name('Dosen.perwalian');
+
+Route::get('/dosen/Perwalian/detail', [DosenController::class, 'detailPerwalianPA']);
 
 Route::get('/dosen/PengajuanNilai', function () {
     return view('paPengajuanNilai');

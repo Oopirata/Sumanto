@@ -52,7 +52,11 @@
                                     <td class="px-6 py-4">{{ $student['nama'] }}</td>
                                     <td class="px-6 py-4">{{ $student['nim'] }}</td>
                                     <td class="px-6 py-4">
-                                        <button href="dosen/dashboard" class="btn-detail bg-[#000CB0] text-white px-3 py-1 rounded-full mr-2">Detail</button>
+                                        <!-- Tombol Detail -->
+                                        <a href="/dosen/Perwalian/detail"
+                                            class="px-4 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md">
+                                            Detail
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -66,14 +70,19 @@
     <script>
         $(document).ready(function() {
             $('#tabelVeri').DataTable({
-                paging: true,        // Enable pagination
-                searching: true,     // Enable search box
-                info: false,         // Disable table information display
-                pageLength: 5,       // Set default number of rows per page
+                paging: true, // Enable pagination
+                searching: true, // Enable search box
+                info: false, // Disable table information display
+                pageLength: 5, // Set default number of rows per page
                 lengthChange: false, // Hide the option to change number of rows per page
-                columnDefs: [
-                    { className: "dt-head-center", targets: [0, 1, 2, 3] },
-                    { className: "dt-body-center", targets: [0, 1, 2, 3] }
+                columnDefs: [{
+                        className: "dt-head-center",
+                        targets: [0, 1, 2, 3]
+                    },
+                    {
+                        className: "dt-body-center",
+                        targets: [0, 1, 2, 3]
+                    }
                 ],
                 language: {
                     paginate: {
