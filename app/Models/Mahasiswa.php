@@ -37,6 +37,7 @@ class Mahasiswa extends Model
 
     public function irs()
     {
-        return $this->hasMany(Irs::class);
+        return $this->hasMany(Irs::class, 'mhs_id'); // pastikan relasi ini sesuai dengan struktur database
     }
+
 }

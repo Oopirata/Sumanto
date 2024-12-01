@@ -17,4 +17,9 @@ class Irs extends Model
         'total_sks',
         'status',
     ];
+
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class, 'mhs_id', 'id');
+    }
 }
