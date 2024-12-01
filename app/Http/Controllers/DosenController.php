@@ -6,49 +6,121 @@ use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use App\Models\Dosen;
 use App\Models\Jadwal;
+use App\Models\Irs;
 use Illuminate\Support\Facades\Auth;
 
 class DosenController extends Controller
 {
+    /**
+     * Dashboard Pembimbing Akademik (PA)
+     */
     public function dashboardPA()
     {
-        $dosens = Auth::user();
+        $dosens = Auth::user(); // Data user yang sedang login
         $dosen = Dosen::where('user_id', $dosens->id)->first(); // Ambil data dosen berdasarkan user_id
-        // Ambil jadwal berdasarkan hari ini
-        $hariIni = now()->locale('id')->translatedFormat('l'); // Mengambil hari dalam bahasa Indonesia
 
-        // Ambil jadwal dosen untuk hari ini
-        $jadwals = Jadwal::where('hari', $hariIni) // Menyesuaikan hari ini dengan kolom 'hari' di tabel jadwals
+        if (!$dosen) {
+            return redirect()->route('login')->with('error', 'Dosen tidak ditemukan!');
+        }
+
+        // Ambil jadwal berdasarkan hari ini
+        $hariIni = now()->locale('id')->translatedFormat('l'); // Nama hari dalam bahasa Indonesia
+
+        // Jadwal hari ini untuk dosen yang login
+        $jadwals = Jadwal::where('hari', $hariIni)
             ->whereIn('kode_mk', function ($query) use ($dosen) {
                 $query->select('kode_mk')
                     ->from('dosen_matakuliah')
-                    ->where('dosen_nip', $dosen->nip); // Dosen yang sedang login
+                    ->where('dosen_nip', $dosen->nip);
             })
-            ->orderBy('jam_mulai', 'asc') // Urutkan berdasarkan jam mulai
+            ->orderBy('jam_mulai', 'asc')
             ->get();
 
-        // Mengirim data ke view
+        // Kirim data ke view
         return view('paDashboard', compact('dosens', 'dosen', 'jadwals'));
     }
 
+    /**
+     * Verifikasi Pengajuan IRS PA
+     */
     public function pengajuanIrsPA()
     {
         $dosens = Auth::user();
-        $dosen = \App\Models\Dosen::where('user_id', $dosens->id)->first();
-        $mahasiswa = Mahasiswa::where('dosen_wali_id', $dosen->id);
-        // ->whereHas('irs', function ($query) {
-        //     $query->where('status', 'Pending');
-        // })
-        // ->get();
-        // dd($dosens, $dosen);
+        $dosen = Dosen::where('user_id', $dosens->id)->first();
+
+        if (!$dosen) {
+            return redirect()->route('login')->with('error', 'Dosen tidak ditemukan!');
+        }
+
+        // Ambil mahasiswa yang diawasi dosen, dengan IRS mereka
+        $mahasiswa = Mahasiswa::with('irs') // Gunakan eager loading untuk IRS
+            ->where('dosen_wali_id', $dosen->id)
+            ->get();
+
+        // Kirim data ke view
         return view('paPengajuanIrs', compact('dosens', 'dosen', 'mahasiswa'));
     }
 
+    /**
+     * Update Status IRS
+     */
+    public function updateStatusIrs(Request $request, $mhs_id)
+    {
+        // Validasi input status
+        $request->validate([
+            'status' => 'required|in:Disetujui,Tidak Disetujui',
+        ]);
+
+        // Temukan IRS berdasarkan mahasiswa ID
+        $irs = Irs::where('mhs_id', $mhs_id)->first();
+
+        if ($irs) {
+            $irs->update(['status' => $request->status]);
+
+            return redirect()->route('DosenPengajuan.irs')->with('success', 'Status IRS berhasil diperbarui!');
+        }
+
+        return redirect()->route('DosenPengajuan.irs')->with('error', 'IRS tidak ditemukan!');
+    }
+
+    /**
+     * Halaman Perwalian PA
+     */
     public function perwalianPA()
     {
         $dosens = Auth::user();
-        $dosen = Dosen::where('user_id', $dosens->id)->first(); // Ambil data dosen berdasarkan user_id
-        $mahasiswa = Mahasiswa::where('dosen_wali_id', $dosen->id)->get(); // Ambil mahasiswa yang dibimbing dosen ini
-        return view('paPerwalian', compact('dosens', 'dosen', 'mahasiswa')); // Kirim data dosen ke view
+        $dosen = Dosen::where('user_id', $dosens->id)->first();
+
+        if (!$dosen) {
+            return redirect()->route('login')->with('error', 'Dosen tidak ditemukan!');
+        }
+
+        // Ambil mahasiswa yang diawasi dosen, dengan IRS mereka
+        $mahasiswa = Mahasiswa::with('irs') // Gunakan eager loading untuk IRS
+            ->where('dosen_wali_id', $dosen->id)
+            ->get();
+
+        // Kirim data ke view
+        return view('paPerwalian', compact('dosens', 'dosen', 'mahasiswa'));
+    }
+
+    public function detailIrsPA()
+    {
+        $dosens = Auth::user();
+        $dosen = Dosen::where('user_id', $dosens->id)->first();
+
+        // $mahasiswa = Mahasiswa::with('irs')->findOrFail($id); // Ambil data mahasiswa beserta IRS-nya
+
+        return view('paDetailIrs', compact('dosens', 'dosen')); // Kirim data ke view
+    }
+
+    public function detailPerwalianPA()
+    {
+        $dosens = Auth::user();
+        $dosen = Dosen::where('user_id', $dosens->id)->first();
+
+        // $mahasiswa = Mahasiswa::with('irs')->findOrFail($id); // Ambil data mahasiswa beserta IRS-nya
+
+        return view('paDetailPerwalian', compact('dosens', 'dosen')); // Kirim data ke view
     }
 }

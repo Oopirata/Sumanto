@@ -5,9 +5,9 @@
 @section('page')
     <div class="bg-gray-100 min-h-screen flex flex-col font-poppins">
         <div class="flex overflow-hidden">
-            <x-side-bar-pa :dosens="$dosens"></x-side-bar-pa>
+            <x-side-bar-pa :dosen="$dosen" :dosens="$dosens"></x-side-bar-pa>
             <div id="main-content" class="relative text-black ml-64 w-full h-full overflow-y-auto">
-                <x-nav-bar></x-nav-bar>
+                <x-nav-bar :dosen="$dosen" :dosens="$dosens"></x-nav-bar>
 
                 <!-- Main content -->
                 <div class="mx-8 rounded-2xl mt-4">
@@ -61,12 +61,6 @@
                         <div class="flex justify-end mt-6 space-x-4">
                             <button class="bg-red-600 text-white font-bold py-2 px-8 rounded-lg" onclick="updateStatus('Tolak')">Tolak</button>
                             <button class="bg-[#4BD37B] text-white font-bold py-2 px-8 rounded-lg" onclick="updateStatus('Setujui')">Setujui</button>
-                        </div>
-
-                        <!-- Navigation Buttons -->
-                        <div class="flex justify-between mt-8">
-                            <button class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Kembali</button>
-                            <button class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Berikutnya</button>
                         </div>
                     </div>
                 </div>

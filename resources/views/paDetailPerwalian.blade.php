@@ -5,9 +5,9 @@
 @section('page')
 
     <div class="bg-gray-100 min-h-screen flex justify-center items-center">
-
+        <x-side-bar-pa :dosen="$dosen" :dosens="$dosens"></x-side-bar-pa>
         <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
-
+            <x-nav-bar :dosen="$dosen" :dosens="$dosens"></x-nav-bar>
             <div class="mx-8 rounded-2xl mt-4 bg-white shadow p-8 mb-6">
 
                 <!-- Informasi Mahasiswa -->
