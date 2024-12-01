@@ -25,7 +25,7 @@ Route::get('/', function () {
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
 // Route for logout
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Routes for role selection
 Route::middleware(['auth'])->group(function () {
@@ -92,7 +92,7 @@ Route::get('staff/dashboard', [BaController::class, 'DashboardBA'])->name('staff
 Route::get('staff/detailirs', [BaController::class, 'DetailIrsBA'])->name('staff.irs.detail');
 
 // Dosen
-Route::get('dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');
+Route::get('/dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');
 
 Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use App\Models\Dosen;
+use App\Models\Jadwal;
 use Illuminate\Support\Facades\Auth;
 
 class DosenController extends Controller
@@ -13,7 +14,21 @@ class DosenController extends Controller
     {
         $dosens = Auth::user();
         $dosen = Dosen::where('user_id', $dosens->id)->first(); // Ambil data dosen berdasarkan user_id
-        return view('paDashboard', compact('dosens', 'dosen')); // Kirim data dosen ke view
+        // Ambil jadwal berdasarkan hari ini
+        $hariIni = now()->locale('id')->translatedFormat('l'); // Mengambil hari dalam bahasa Indonesia
+
+        // Ambil jadwal dosen untuk hari ini
+        $jadwals = Jadwal::where('hari', $hariIni) // Menyesuaikan hari ini dengan kolom 'hari' di tabel jadwals
+            ->whereIn('kode_mk', function ($query) use ($dosen) {
+                $query->select('kode_mk')
+                    ->from('dosen_matakuliah')
+                    ->where('dosen_nip', $dosen->nip); // Dosen yang sedang login
+            })
+            ->orderBy('jam_mulai', 'asc') // Urutkan berdasarkan jam mulai
+            ->get();
+
+        // Mengirim data ke view
+        return view('paDashboard', compact('dosens', 'dosen', 'jadwals'));
     }
 
     public function pengajuanIrsPA()
