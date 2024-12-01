@@ -39,6 +39,7 @@
                             <th>Nama Ruang</th>
                             <th>Kapasitas</th>
                             <th>Lokasi</th>
+                            <th>Keterangan</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -50,7 +51,16 @@
                                 <td class="px-6 py-4">{{ $ruangan->nama }}</td>
                                 <td class="px-6 py-4">{{ $ruangan->kapasitas }}</td>
                                 <td class="px-6 py-4">{{ $ruangan->lokasi}}</td>
-                                <td class="px-6 py-4">{{ $ruangan->status}}</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 rounded {{ $ruangan->keterangan == 'Tersedia' ? 'bg-green-100 text-green-500' : 'bg-red-100 text-red-500' }}">
+                                        {{ $ruangan->keterangan }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 rounded {{ $ruangan->status == 'Disetujui' ? 'bg-green-100 text-green-500' : ($ruangan->status == 'Diproses' ? 'bg-yellow-100 text-yellow-500' : 'bg-red-100 text-red-500') }}">
+                                        {{ $ruangan->status }}
+                                    </span>
+                                </td>
                                 <td class="px-6 py-4">
                                     <form action="{{ route('ruangan.update', $ruangan->id_ruang) }}" method="POST">
                                         @csrf
@@ -60,7 +70,7 @@
                                             <button 
                                                 type="submit" 
                                                 name="status" 
-                                                value="Tersedia" 
+                                                value="Disetujui" 
                                                 class="px-4 py-2 bg-green-500 text-white rounded-md mr-2">
                                                 Setuju
                                             </button>
@@ -69,7 +79,7 @@
                                             <button 
                                                 type="submit" 
                                                 name="status" 
-                                                value="Tidak Tersedia" 
+                                                value="Tidak Disetujui" 
                                                 class="px-4 py-2 bg-red-500 text-white rounded-md">
                                                 Tidak Setuju
                                             </button>
@@ -80,26 +90,6 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-
-            <!-- Buttons -->
-            <div class="px-6 py-4 flex justify-end space-x-3" x-data="{ status: null }">
-                <!-- Tombol Tidak Setuju -->
-                <button 
-                    class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded" 
-                    @click="status = 'Tidak Setuju'">
-                    <span x-show="status !== 'Tidak Setuju'">Tidak Setuju</span>
-                    <span x-show="status === 'Tidak Setuju'">Tidak Disetujui</span>
-                </button>
-
-                <!-- Tombol Setuju -->
-                <button 
-                    :class="status === 'Setuju' ? 'bg-green-700' : 'bg-green-500 hover:bg-green-600'" 
-                    class="text-white py-2 px-4 rounded transition-all" 
-                    @click="status = 'Setuju'">
-                    <span x-show="status !== 'Setuju'">Setuju</span>
-                    <span x-show="status === 'Setuju'">Disetujui</span>
-                </button>
             </div>
         </div>
     </div>
@@ -114,8 +104,8 @@
                 bottomStart: null,
             },
             columnDefs: [
-                { className: "dt-head-center", targets: [0,1,2,3,4,5] },
-                { className: "dt-body-center", targets: [0,1,2,3,4,5] }
+                { className: "dt-head-center", targets: [0,1,2,3,4,5,6] },
+                { className: "dt-body-center", targets: [0,1,2,3,4,5,6] }
             ]
         });
     });

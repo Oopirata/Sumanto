@@ -10,6 +10,7 @@ use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\DekanVerifController;
 use App\Http\Controllers\BaController;
+use App\Http\Controllers\KaprodiController;
 use App\Models\Ruangan;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +74,16 @@ Route::post('/kaprodi/mk', [MatakuliahController::class, 'store'])->name('store.
 
 Route::post('kaprodimk/delete', [MatakuliahController::class, 'deleteJadwal'])->name('delete.jadwal');
 
+
+Route::get('kaprodi/irs', [KaprodiController::class, 'verifikasiIRS'])->name('kaprodi.irs');
+
+Route::post('kaprodi/irs/update/{mhs_id}', [KaprodiController::class, 'updateAllStatus'])->name('updateAllStatus');
+
+
+
+
+// mhs
+
 Route::get('mhs/dashboard', [MhsDashboard::class, 'dashboardMhs'])->name('mhs.dashboard');
 
 Route::get('/mhs/BuatIrs', [BuatIRSController::class, 'tampil_jadwal'])->name('buat.irs');
@@ -89,15 +100,24 @@ Route::get('/mhs/status', [MhsDashboard::class, 'StatusMhs'])->name('mhs.status'
 
 Route::get('/mhs/transkrip', [MhsDashboard::class, 'TranskripMhs'])->name('mhs.transkrip');
 
+//BA
+
 Route::get('staff/irs', [BaController::class, 'IrsBA']);
 
 Route::get('staff/ruangan', [RuanganController::class, 'index'])->name('ba.ruangan');
 
+Route::delete('staff/ruangan/{id_ruang}', [RuanganController::class, 'destroy'])->name('ruangan.destroy');
+
+Route::post('staff/ruangan/store', [RuanganController::class, 'store'])->name('store.ruangan');
+
 Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
+
+Route::post('staff/ruangan/kapasitas/{id_ruang}', [RuanganController::class, 'updateKapasitas'])->name('ruangan.updateKapasitas');
 
 Route::get('staff/dashboard', [BaController::class, 'DashboardBA'])->name('staff.dashboard');
 
 Route::get('staff/detailirs', [BaController::class, 'DetailIrsBA'])->name('staff.irs.detail');
+
 
 // Dosen
 Route::get('dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');
