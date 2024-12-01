@@ -10,6 +10,7 @@ use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\DekanVerifController;
 use App\Http\Controllers\BaController;
+use App\Http\Controllers\KaprodiController;
 use App\Http\Controllers\KhsController;
 use App\Models\Ruangan;
 use Illuminate\Container\Attributes\Auth;
@@ -73,6 +74,16 @@ Route::get('/kaprodi/mk', [MatakuliahController::class, 'index'])->name('matakul
 Route::post('/kaprodi/mk', [MatakuliahController::class, 'store'])->name('store.jadwal');
 
 Route::post('kaprodimk/delete', [MatakuliahController::class, 'deleteJadwal'])->name('delete.jadwal');
+
+
+Route::get('kaprodi/irs', [KaprodiController::class, 'verifikasiIRS'])->name('kaprodi.irs');
+
+Route::post('kaprodi/irs/update/{mhs_id}', [KaprodiController::class, 'updateAllStatus'])->name('updateAllStatus');
+
+
+
+
+// mhs
 
 Route::get('mhs/dashboard', [MhsDashboard::class, 'dashboardMhs'])->name('mhs.dashboard');
 
