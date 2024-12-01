@@ -23,10 +23,12 @@
                     </div>
                 </div>
 
-                <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                <div class="mt-4 p-4 mx-8 bg-white rounded-lg">
                     <p class="text-blue-800">
-                        IPK Anda: <span class="font-semibold">{{ number_format($mahasiswa->IPS, 2) }}</span> |
-                        Batas SKS: <span class="font-semibold">{{ $sksLimit }}</span> SKS
+                        IPS Anda Semester Lalu : <span class="font-semibold">{{ number_format($mahasiswa->IPS, 2) }}</span>
+                    </p>
+                    <p class="text-blue-800">
+                        Batas SKS Yang Dapat Diambil : <span class="font-semibold">{{ $sksLimit }}</span> SKS
                     </p>
                 </div>
 
@@ -36,6 +38,7 @@
                     selectedSchedules: [],
                     sksLimit: {{ $sksLimit }},
                     currentTotalSks: 0,
+                    notification: { show: false, type: '', message: '' },
                 
                     checkSksLimit() {
                         this.currentTotalSks = this.selectedSchedules.reduce((total, schedule) => total + parseInt(schedule.sks), 0);
@@ -44,8 +47,56 @@
                 
                     canAddCourse(newSks) {
                         return (this.currentTotalSks + parseInt(newSks)) <= this.sksLimit;
+                    },
+                
+                    showNotification(type, message) {
+                        this.notification.show = true;
+                        this.notification.type = type;
+                        this.notification.message = message;
+                        setTimeout(() => {
+                            this.notification.show = false;
+                        }, 2000);
+                    },
+                
+                    handleDelete(index) {
+                        if (confirm('Are you sure?')) {
+                            this.selectedSchedules.splice(index, 1);
+                            this.showNotification('success', 'Your file has been deleted!');
+                        } else {
+                            this.showNotification('error', 'Your file is safe :)');
+                        }
                     }
                 }">
+                <!-- Notifications -->
+                <div x-show="notification.show" 
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 transform scale-90"
+                x-transition:enter-end="opacity-100 transform scale-100"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100 transform scale-100"
+                x-transition:leave-end="opacity-0 transform scale-90"
+                :class="notification.type === 'success' ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700'"
+                class="fixed top-4 right-4 px-4 py-3 rounded border z-50 flex items-center"
+                role="alert">
+                <div class="flex">
+                <div class="py-1">
+                    <template x-if="notification.type === 'success'">
+                        <svg class="fill-current h-6 w-6 text-green-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+                        </svg>
+                    </template>
+                    <template x-if="notification.type === 'error'">
+                        <svg class="fill-current h-6 w-6 text-red-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/>
+                        </svg>
+                    </template>
+                </div>
+                <div>
+                    <p class="font-bold" x-text="notification.type === 'success' ? 'Success!' : 'Operation Cancelled'"></p>
+                    <p class="text-sm" x-text="notification.message"></p>
+                </div>
+                </div>
+                </div>
                     <!-- Bagian jadwal -->
                     <section class="relative mb-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm flex">
                         <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
@@ -149,7 +200,7 @@
 
                         <!-- drawer component -->
                         <div id="drawer-right-example"
-                            class="rounded-xl fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white dark:bg-gray-800"
+                            class="rounded-l-3xl fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white dark:bg-gray-800"
                             tabindex="-1" aria-labelledby="drawer-right-label">
                             <h1 id="drawer-right-label"
                                 class="inline-flex items-center mb-4 ml-2 text-base font-bold text-black">Matakuliah Yang
@@ -187,7 +238,25 @@
                                                     <td class="border px-4 py-2" x-text="schedule.sks"></td>
                                                     <td class="border px-4 py-2" x-text="schedule.kelas"></td>
                                                     <td class="border px-4 py-2 text-center">
-                                                        <button @click="selectedSchedules.splice(index, 1)"
+                                                        <button @click.prevent="
+                                                            Swal.fire({
+                                                                title: 'هل ستحذفه؟',
+                                                                text: 'You won\'t be able to revert this!',
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#3085d6',
+                                                                cancelButtonColor: '#d33',
+                                                                confirmButtonText: 'نعم، احذف'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    selectedSchedules.splice(index, 1);
+                                                                    Swal.fire(
+                                                                        'Deleted!',
+                                                                        'Your file has been deleted.',
+                                                                        'success'
+                                                                    );
+                                                                }
+                                                            })"
                                                             class="text-red-600 hover:text-red-800">
                                                             <!-- Trash Icon SVG -->
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
