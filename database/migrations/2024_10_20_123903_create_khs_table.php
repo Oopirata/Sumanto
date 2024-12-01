@@ -6,22 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('khs', function (Blueprint $table) {
             $table->id();
+            $table->string('nim');
             $table->string('kode_mk');
-            $table->string('nama_mk');
-            $table->integer('sks_mk');
-            $table->char('nilai');
-            $table->string('semester');
-            $table->integer('jumlah_sks');
-            $table->float('ipk');
-            $table->float('ips');
+            $table->integer('semester');
+            $table->string('nilai');
             $table->timestamps();
+
+            // Add foreign key constraints if needed
+            $table->foreign('nim')->references('nim')->on('mahasiswa');
+            $table->foreign('kode_mk')->references('kode_mk')->on('matakuliah')->onDelete('cascade');
         });
     }
 
