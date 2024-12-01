@@ -19,7 +19,6 @@
                     <div>
                         <div class="flex items-center space-x-4">
                             <!-- Dropdown Jurusan -->
-                            
                             <div class="text-center">
                         
                                 <select id="jurusan" name="jurusan" class="bg-blue-700 text-white rounded-lg text-sm px-4 py-2.5 mr-9 dark:bg-gray-700 dark:text-gray-200 focus:ring-4 focus:ring-blue-300 focus:outline-none">
@@ -104,8 +103,8 @@
                                         </form>
                                     </li>
                                 </ul>
-                            </div>
-                        </>
+                            </div>     
+                        </div>
                     </div>
                 </div>
             </div>
