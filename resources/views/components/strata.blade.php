@@ -1,5 +1,5 @@
 <div x-data="{ open: false, selectedStrata: 'Strata' }" class="relative">
-    <button @click="open = !open" class="flex items-center justify-between px-6 py-2 w-55 text-white bg-blue-600 rounded-lg transition-all focus:outline-none mb-2">
+    <button @click="open = !open" class="flex items-center justify-between px-6 py-2 w-55 text-white bg-blue-600 rounded-lg transition-all focus:outline-none mb-2" name="strata">
         <span class="text-sm font-medium" x-text="selectedStrata"></span>
         <svg class="h-5 w-5 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>

@@ -91,7 +91,7 @@ Route::get('/mhs/BuatIrs', [BuatIRSController::class, 'tampil_jadwal'])->name('b
 
 Route::post('/mhs/BuatIrs', [BuatIRSController::class, 'store'])->name('store.irs');
 
-Route::get('/mhs/irs', [IRSController::class, 'tampil_jadwal'])->name('mhs.irs');
+Route::get('/mhs/irs', [IRSController::class, 'index'])->name('mhs.irs');
 
 Route::get('/mhs/khs', [KhsController::class, 'all'])->name('mhs.khs');
 Route::get('/khs/download/{semester}', [KhsController::class, 'download'])->name('khs.download');
@@ -112,7 +112,7 @@ Route::delete('staff/ruangan/{id_ruang}', [RuanganController::class, 'destroy'])
 
 Route::post('staff/ruangan/store', [RuanganController::class, 'store'])->name('store.ruangan');
 
-Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
+Route::delete('/staff/ruangan/keterangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
 
 Route::post('staff/ruangan/kapasitas/{id_ruang}', [RuanganController::class, 'updateKapasitas'])->name('ruangan.updateKapasitas');
 
@@ -145,4 +145,3 @@ Route::get('/dosen/DetailNilai', function () {
 Route::get('/dosen/InputNilai', function () {
     return view('paInputNilai');
 });
-

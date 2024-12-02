@@ -20,7 +20,7 @@ class BuatIRSController extends Controller
 
         // Get Mahasiswa (Student) details
         $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
-        // dd($mahasiswa);
+
         if ($mahasiswa) {
             $sksLimit = $this->calculateSksLimit($mahasiswa->IPS);
 
@@ -36,36 +36,74 @@ class BuatIRSController extends Controller
             $dosenWali = null;
             $sksLimit = 0;
         }
-        // dd($jadwals);
+
         return view('mhsBuatIrs', compact('user', 'jadwals', 'mahasiswa', 'dosenWali', 'sksLimit'));
     }
 
     public function store(Request $request)
     {
-        $selectedSchedules = $request->input('selectedSchedules'); // Ambil data selectedSchedules dari request
+        try {
+            DB::beginTransaction();
 
-        $mhs = Auth::user();
-        $mhsId = Mahasiswa::where('user_id', $mhs->id)->first();
-        // dd($mhsId);
+            $mhs = Auth::user();
+            $mhsId = Mahasiswa::where('user_id', $mhs->id)->first();
 
-        foreach ($selectedSchedules as $schedule) {
-            // Pastikan jadwal ada
-            $jadwal = Jadwal::find($schedule['id']); // Temukan jadwal berdasarkan id
-
-            if ($jadwal) {
-                // Buat entri baru di tabel irs
-                Irs::create([
-                    'mhs_id' => $mhsId->id,        // ID mahasiswa
-                    'jadwal_id' => $jadwal->id, // ID jadwal
-                    'semester' => $mhsId->semester,  // Masukkan semester yang sesuai
-                    'status' => 'pending',      // Masukkan status yang sesuai
-                ]);
+            if (!$mhsId) {
+                throw new \Exception('Mahasiswa tidak ditemukan');
             }
+
+            // Validate request
+            if (!$request->has('selectedSchedules')) {
+                throw new \Exception('Tidak ada mata kuliah yang dipilih');
+            }
+
+            $selectedSchedules = $request->input('selectedSchedules');
+
+            // Calculate total SKS
+            $totalSks = 0;
+            foreach ($selectedSchedules as $schedule) {
+                $jadwal = Jadwal::find($schedule['id']);
+                if ($jadwal) {
+                    $totalSks += $jadwal->sks;
+                }
+            }
+
+            // Check SKS limit
+            $sksLimit = $this->calculateSksLimit($mhsId->IPS);
+            if ($totalSks > $sksLimit) {
+                throw new \Exception("Total SKS ($totalSks) melebihi batas yang diizinkan ($sksLimit)");
+            }
+
+            // Delete existing pending IRS entries for this semester
+            Irs::where('mhs_id', $mhsId->id)
+                ->where('semester', $mhsId->semester)
+                ->where('status', 'pending')
+                ->delete();
+
+            // Create new IRS entries
+            foreach ($selectedSchedules as $schedule) {
+                $jadwal = Jadwal::find($schedule['id']);
+
+                if ($jadwal) {
+                    Irs::create([
+                        'mhs_id' => $mhsId->id,
+                        'jadwal_id' => $jadwal->id,
+                        'semester' => $mhsId->semester,
+                        'status' => 'pending'
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('mhs.irs')->with('success', 'IRS berhasil disimpan');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 422);
         }
-
-
-
-        return redirect()->back();
     }
 
     private function calculateSksLimit($ips)
