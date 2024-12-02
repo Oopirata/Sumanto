@@ -51,7 +51,7 @@ Route::get('dekan/jadwal', [DekanVerifController::class, 'dekanJadwal'])->name('
 
 Route::post('dekan/jadwal', [DekanVerifController::class, 'updateStatus'])->name('updateStatus');
 
-Route::post('/dekan/jadwal/update-all-status', [DekanVerifController::class, 'updateAllStatus'])->name('updateAllStatus');
+Route::post('/dekan/jadwal/update-all-status', [DekanVerifController::class, 'updateAllStatusDekan'])->name('updateAllStatusDekan');
 
 
 

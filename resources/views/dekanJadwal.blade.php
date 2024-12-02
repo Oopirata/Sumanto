@@ -25,13 +25,17 @@
 
                         <!-- Jurusan dan Semester -->
                         <div class="px-4 bg-white"></div>
-                        <div>
-                            <x-jurusan></x-jurusan>
-                        </div>
+                        <div class="text-center">
+                        
+                                <select id="jurusan" name="jurusan" class="bg-blue-700 text-white rounded-lg text-sm px-4 py-2.5 mr-9 dark:bg-gray-700 dark:text-gray-200 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+                                    <option value="" disabled selected>Jurusan</option>
+                                    <option value="jurusan1">Informatika</option>
+                                    <option value="jurusan2">Kimia</option>
+                                    <option value="jurusan3">Fisika</option>
+                                </select>
+                            </div>
                         <div class="px-4 bg-white"></div>
-                        <div>
-                            <x-semester></x-semester>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -145,7 +149,7 @@
                 <!-- Tombol untuk Mengubah Status Semua Matakuliah -->
                 <div class="fixed bottom-4 right-4 px-6 py-4 flex justify-end space-x-3">
                     <!-- Form untuk Disetujui Semua -->
-                    <form action="{{ route('updateAllStatus') }}" method="POST" class="inline">
+                    <form action="{{ route('updateAllStatusDekan') }}" method="POST" class="inline">
                         @csrf
                         <input type="hidden" name="status" value="Disetujui">
                         <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-all">
@@ -154,7 +158,7 @@
                     </form>
 
                     <!-- Form untuk Tidak Disetujui Semua -->
-                    <form action="{{ route('updateAllStatus') }}" method="POST" class="inline">
+                    <form action="{{ route('updateAllStatusDekan') }}" method="POST" class="inline">
                         @csrf
                         <input type="hidden" name="status" value="Tidak Disetujui">
                         <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-all">
