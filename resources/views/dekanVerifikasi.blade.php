@@ -13,17 +13,19 @@
             <div class="p-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm">
                 <div class="flex justify-between items-center">
                     <div>
-                        <h1 class="text-black font-bold items-center">Jadwal</h1>
+                        <h1 class="text-black font-bold items-center">Ruangan</h1>
                     </div>
                     
                     <div>
                         <div class="flex justify-between">
-                            <div>
-                                <x-jurusan></x-jurusan>
-                            </div>
                             <div class="px-4 bg-white"></div>
                             <div>
-                                <x-semester></x-semester>
+                                <select id="jurusan" name="jurusan" class="bg-blue-700 text-white rounded-lg text-sm px-4 py-2.5 mr-9 dark:bg-gray-700 dark:text-gray-200 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+                                    <option value="" disabled selected>Jurusan</option>
+                                    <option value="Informatika">Informatika</option>
+                                    <option value="Kimia">Kimia</option>
+                                    <option value="Fisika">Fisika</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -96,8 +98,9 @@
 </div>
 
 <script>
-    $(document).ready( function () {
-        $('#tabelVeri').DataTable({
+    $(document).ready(function() {
+        // Inisialisasi DataTable
+        var table = $('#tabelVeri').DataTable({
             layout: {
                 topStart: null,
                 topEnd: null,
@@ -108,6 +111,64 @@
                 { className: "dt-body-center", targets: [0,1,2,3,4,5,6] }
             ]
         });
+
+        // Event listener untuk dropdown jurusan
+        $('#jurusan').on('change', function() {
+            var selectedJurusan = $(this).val();
+            loadRuanganData(selectedJurusan);
+        });
+
+        function loadRuanganData(jurusan = '') {
+            $.ajax({
+                url: '{{ route("dekan.ruangan") }}',
+                type: 'GET',
+                data: {
+                    jurusan: jurusan
+                },
+                success: function(response) {
+                    // Clear existing table data
+                    table.clear();
+
+                    // Filter dan tambahkan data baru
+                    response.ruang.forEach(function(ruangan) {
+                        // Hanya tampilkan jika prodi sesuai dan status Diajukan
+                        if (ruangan.status === 'Diajukan' && (!jurusan || ruangan.prodi === jurusan)) {
+                            table.row.add([
+                                ruangan.id_ruang,
+                                ruangan.nama,
+                                ruangan.kapasitas,
+                                ruangan.lokasi,
+                                `<span class="px-2 py-1 rounded ${ruangan.keterangan === 'Tersedia' ? 'bg-green-100 text-green-500' : 'bg-red-100 text-red-500'}">${ruangan.keterangan}</span>`,
+                                `<span class="px-2 py-1 rounded bg-yellow-100 text-yellow-500">Diajukan</span>`,
+                                `<form action="{{ route('ruangan.update', '') }}/${ruangan.id_ruang}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="flex items-center">
+                                        <button type="submit" name="status" value="Disetujui" 
+                                            class="px-4 py-2 bg-green-500 text-white rounded-md mr-2">
+                                            Setuju
+                                        </button>
+                                        <button type="submit" name="status" value="Tidak Disetujui" 
+                                            class="px-4 py-2 bg-red-500 text-white rounded-md">
+                                            Tidak Setuju
+                                        </button>
+                                    </div>
+                                </form>`
+                            ]);
+                        }
+                    });
+
+                    // Redraw table
+                    table.draw();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        // Load initial data (semua ruangan dengan status Diajukan)
+        loadRuanganData();
     });
 </script>
 @endsection

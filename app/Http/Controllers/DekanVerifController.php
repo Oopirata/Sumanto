@@ -23,14 +23,24 @@ class DekanVerifController extends Controller
         return view('dekanDashboard', compact('dekan', 'user'));
     }
 
-    public function dekanRuangan()
+    public function dekanRuangan(Request $request)
     {
-
         $user = Auth::user();
-
         $dekan = \App\Models\Dekan::where('user_id', $user->id)->first();
         
-        $ruang = Ruangan::all();
+        // Base query untuk ruangan dengan status Diajukan
+        $ruang = Ruangan::where('status', 'Diajukan');
+    
+        // Jika ada jurusan yang dipilih
+        if ($request->jurusan) {
+            $ruang = $ruang->where('prodi', $request->jurusan);
+        }
+    
+        $ruang = $ruang->get();
+        
+        if ($request->ajax()) {
+            return response()->json(['ruang' => $ruang]);
+        }
         
         return view('dekanVerifikasi', compact('dekan', 'user', 'ruang'));
     }
