@@ -91,7 +91,7 @@ Route::get('/mhs/BuatIrs', [BuatIRSController::class, 'tampil_jadwal'])->name('b
 
 Route::post('/mhs/BuatIrs', [BuatIRSController::class, 'store'])->name('store.irs');
 
-Route::get('/mhs/irs', [IRSController::class, 'tampil_jadwal'])->name('mhs.irs');
+Route::get('/mhs/irs', [IRSController::class, 'index'])->name('mhs.irs');
 
 Route::get('/mhs/khs', [KhsController::class, 'all'])->name('mhs.khs');
 Route::get('/khs/download/{semester}', [KhsController::class, 'download'])->name('khs.download');
@@ -145,4 +145,3 @@ Route::get('/dosen/DetailNilai', function () {
 Route::get('/dosen/InputNilai', function () {
     return view('paInputNilai');
 });
-
