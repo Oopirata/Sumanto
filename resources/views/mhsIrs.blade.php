@@ -49,25 +49,36 @@
                                                 <td class="border px-4 py-2">{{ $entry->jadwal->kelas }}</td>
                                                 <td class="border px-4 py-2">{{ $entry->jadwal->sks }}</td>
                                                 <td class="border px-4 py-2">{{ $entry->jadwal->ruang }}</td>
-                                                <td class="border px-4 py-2">
+                                                <td class="border px-4 py-2 text-center"> <!-- Added text-center -->
                                                     @if ($entry->status == 'pending')
                                                         <span
-                                                            class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">
+                                                            class="inline-flex px-3 py-1 bg-yellow-200 text-yellow-800 rounded-full text-xs whitespace-nowrap">
+                                                            <!-- Updated classes -->
                                                             Menunggu Persetujuan
                                                         </span>
                                                     @elseif($entry->status == 'approved')
                                                         <span
-                                                            class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
+                                                            class="inline-flex px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs whitespace-nowrap">
                                                             Disetujui
+                                                        </span>
+                                                    @elseif($entry->status == 'wajib')
+                                                        <span
+                                                            class="inline-flex px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs whitespace-nowrap">
+                                                            Wajib
+                                                        </span>
+                                                    @elseif($entry->status == 'pilihan')
+                                                        <span
+                                                            class="inline-flex px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs whitespace-nowrap">
+                                                            Pilihan
                                                         </span>
                                                     @else
                                                         <span
-                                                            class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">
+                                                            class="inline-flex px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs whitespace-nowrap">
                                                             Ditolak
                                                         </span>
                                                     @endif
                                                 </td>
-                                                <td class="border px-4 py-2">{{ $entry->jadwal->nama_dosen }}</td>
+                                                <td class="border px-4 py-2">{{ $entry->nama_dosen }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -66,6 +66,7 @@
                             this.showNotification('error', 'Your file is safe :)');
                         }
                     }
+                
                 }">
                     <!-- Notifications -->
                     <div x-show="notification.show" x-transition:enter="transition ease-out duration-300"
@@ -173,14 +174,19 @@
                                                     @endphp
                                                     <div class="flex items-center space-x-2"
                                                         style="grid-row: span {{ $duration }};"
-                                                        :class="selectedSchedules.some(s => s
-                                                                .kode_mk === '{{ $schedule['kode_mk'] }}') && !
-                                                            selectedSchedules.some(s => s.id ===
-                                                                {{ $schedule['id'] }}) ? 'opacity-50' : ''">
+                                                        :class="[
+                                                            selectedSchedules.some(s => s
+                                                                .kode_mk === '{{ $schedule['kode_mk'] }}') &&
+                                                            !selectedSchedules.some(s => s.id ===
+                                                                {{ $schedule['id'] }}) ? 'opacity-50' : '',
+                                                            {{ in_array($schedule['id'], $existingIrs) ? 'true' : 'false' }} ?
+                                                            'opacity-50' : ''
+                                                        ]">
                                                         <div class="flex items-center">
                                                             <input type="checkbox" class="w-4 h-4"
                                                                 :checked="selectedSchedules.some(s => s.id ===
                                                                     {{ $schedule['id'] }})"
+                                                                :disabled="{{ in_array($schedule['id'], $existingIrs) ? 'true' : 'false' }}"
                                                                 @change="
                                                                     if ($event.target.checked) {
                                                                         {{-- // Cek jika SKS sudah mencapai atau akan melebihi batas --}}

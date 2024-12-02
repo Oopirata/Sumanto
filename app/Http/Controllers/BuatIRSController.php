@@ -18,7 +18,7 @@ class BuatIRSController extends Controller
     {
         $user = Auth::user();
 
-        // Get Mahasiswa (Student) details
+        // Get Mahasiswa details
         $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
 
         if ($mahasiswa) {
@@ -30,14 +30,22 @@ class BuatIRSController extends Controller
                 ->toArray();
 
             $jadwals = Jadwal::whereIn('semester', $currentSemesterCourses)->get();
+
+            // Fetch existing IRS entries for the current semester
+            $existingIrs = Irs::where('mhs_id', $mahasiswa->id)
+                ->where('semester', $mahasiswa->semester)
+                ->pluck('jadwal_id')
+                ->toArray();
+
             $dosenWali = Dosen::find($mahasiswa->dosen_wali_id);
         } else {
             $jadwals = collect();
             $dosenWali = null;
             $sksLimit = 0;
+            $existingIrs = [];
         }
 
-        return view('mhsBuatIrs', compact('user', 'jadwals', 'mahasiswa', 'dosenWali', 'sksLimit'));
+        return view('mhsBuatIrs', compact('user', 'jadwals', 'mahasiswa', 'dosenWali', 'sksLimit', 'existingIrs'));
     }
 
     public function store(Request $request)
