@@ -101,7 +101,8 @@ class RuanganController extends Controller
 
         $updateData = [
             'keterangan' => $validatedData['keterangan'],
-            'prodi' => $validatedData['prodi'] ?? null  // Gunakan null coalescing operator
+            'prodi' => $validatedData['prodi'] ?? null,  // Gunakan null coalescing operator
+            'status' => 'Diajukan',
         ];
 
         DB::table('ruangan')

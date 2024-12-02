@@ -133,91 +133,107 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('#prodi').on('change', function() {
-            var selectedProdi = $(this).val();
-            loadRuanganData(selectedProdi);
-        });
-
-        // Panggil fungsi loadRuanganData tanpa parameter untuk menampilkan semua ruangan saat halaman pertama kali dimuat
-        loadRuanganData();
+    $('#prodi').on('change', function() {
+        var selectedProdi = $(this).val();
+        console.log('Dropdown changed to:', selectedProdi);  // Cek event listener
+        loadRuanganData(selectedProdi);
     });
 
     function loadRuanganData(prodi = '') {
+        console.log('Loading data for prodi:', prodi);  // Cek AJAX call dimulai
         $.ajax({
             url: '{{ route("ba.ruangan") }}',
             type: 'GET',
             data: {
-                prodi: prodi  // Ubah dari jurusan menjadi prodi
+                prodi: prodi
             },
             success: function(response) {
-                updateRuanganTable(response.ruang);
+                console.log('Data received:', response);  // Cek data yang diterima
+                var filteredRuangan = prodi ? 
+                    response.ruang.filter(function(room) {
+                        return !room.prodi || room.prodi === prodi;
+                    }) : 
+                    response.ruang;
+                console.log('Filtered data:', filteredRuangan);  // Cek hasil filter
+                updateRuanganTable(filteredRuangan);
             },
             error: function(xhr, status, error) {
-                console.error('Terjadi kesalahan saat memuat data ruangan:', error);
+                console.error('Error:', error);  // Cek jika ada error
             }
         });
     }
 
     function updateRuanganTable(ruangan) {
-    var tableBody = $('#tabelVeri tbody');
-    tableBody.empty(); // Hapus baris yang ada sebelumnya
-    var currentProdi = $('#prodi').val();
+        var tableBody = $('#tabelVeri tbody');
+        tableBody.empty();
+        var currentProdi = $('#prodi').val();
 
-    ruangan.forEach(function(r) {
-        var row = `
-            <tr class="hover:bg-gray-50">
-                <td class="px-6 py-4">${r.id_ruang}</td>
-                <td class="px-6 py-4">${r.nama}</td>
-                <td class="px-6 py-4">
-                    <form action="${'{{ route("ruangan.updateKapasitas", ":id") }}'.replace(':id', r.id_ruang)}" method="POST" class="inline">
-                        @csrf
-                        <input type="number" name="kapasitas" 
-                            class="border rounded px-2 py-1 w-20" 
-                            value="${r.kapasitas}"
-                            min="1"
-                            onchange="this.form.submit()">
-                    </form>
-                </td>
-                <td class="px-6 py-4">${r.lokasi}</td>
-                <td class="px-6 py-4">
-                    <form action="${'{{ route("ruangan.update", ":id") }}'.replace(':id', r.id_ruang)}" method="POST" class="inline updateForm">
-                        @csrf
-                        @method('DELETE')
-                        <select name="keterangan" class="border rounded px-2 py-1" onchange="submitForm(this)">
-                            <option value="Tidak Tersedia" ${r.keterangan === 'Tidak Tersedia' ? 'selected' : ''}>Tidak Tersedia</option>
-                            <option value="Tersedia" ${r.keterangan === 'Tersedia' ? 'selected' : ''}>Tersedia</option>
-                        </select>
-                        <input type="hidden" name="prodi" value="${currentProdi}">
-                    </form>
-                </td>
-                <td class="px-6 py-4">
-                    <span class="px-2 py-1 rounded ${r.status == 'Disetujui' ? 'bg-green-100 text-green-500' : (r.status == 'Diproses' ? 'bg-yellow-100 text-yellow-500' : 'bg-red-100 text-red-500')}">
-                        ${r.status}
-                    </span>
-                </td>
-                <td class="px-6 py-4">
-                    <form action="${'{{ route("ruangan.destroy", ":id") }}'.replace(':id', r.id_ruang)}" method="POST" class="inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="text-red-600 hover:text-red-800" onclick="return confirm('Apakah Anda yakin ingin menghapus ruangan ini?')">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                            </svg>
-                        </button>
-                    </form>
-                </td>
-            </tr>
-        `;
-        tableBody.append(row);
-    });
-}
+        if (ruangan.length === 0) {
+            // Display a message when no rooms are found
+            tableBody.append(`
+                <tr>
+                    <td colspan="7" class="px-6 py-4 text-center text-gray-500">
+                        Tidak ada ruangan yang tersedia untuk prodi ${currentProdi || 'yang dipilih'}
+                    </td>
+                </tr>
+            `);
+            return;
+        }
 
-function submitForm(selectElement) {
-    var form = $(selectElement).closest('form');
-    var selectedProdi = $('#prodi').val();  // Get the current selected prodi value
-    form.find('input[name="prodi"]').val(selectedProdi);  // Set the prodi value in the hidden input
-    form.submit();
-}
+        ruangan.forEach(function(r) {
+            var row = `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">${r.id_ruang}</td>
+                    <td class="px-6 py-4">${r.nama}</td>
+                    <td class="px-6 py-4">
+                        <form action="${'{{ route("ruangan.updateKapasitas", ":id") }}'.replace(':id', r.id_ruang)}" method="POST" class="inline">
+                            @csrf
+                            <input type="number" name="kapasitas" 
+                                class="border rounded px-2 py-1 w-20" 
+                                value="${r.kapasitas}"
+                                min="1"
+                                onchange="this.form.submit()">
+                        </form>
+                    </td>
+                    <td class="px-6 py-4">${r.lokasi}</td>
+                    <td class="px-6 py-4">
+                        <form action="${'{{ route("ruangan.update", ":id") }}'.replace(':id', r.id_ruang)}" method="POST" class="inline updateForm">
+                            @csrf
+                            @method('DELETE')
+                            <select name="keterangan" class="border rounded px-2 py-1" onchange="submitForm(this)">
+                                <option value="Tidak Tersedia" ${r.keterangan === 'Tidak Tersedia' ? 'selected' : ''}>Tidak Tersedia</option>
+                                <option value="Tersedia" ${r.keterangan === 'Tersedia' ? 'selected' : ''}>Tersedia</option>
+                            </select>
+                            <input type="hidden" name="prodi" value="${currentProdi}">
+                        </form>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 rounded ${r.status == 'Disetujui' ? 'bg-green-100 text-green-500' : (r.status == 'Diproses' ? 'bg-yellow-100 text-yellow-500' : 'bg-red-100 text-red-500')}">
+                            ${r.status}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <form action="${'{{ route("ruangan.destroy", ":id") }}'.replace(':id', r.id_ruang)}" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-600 hover:text-red-800" onclick="return confirm('Apakah Anda yakin ingin menghapus ruangan ini?')">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            `;
+            tableBody.append(row);
+        });
+    }
+
+    function submitForm(selectElement) {
+        var form = $(selectElement).closest('form');
+        var selectedProdi = $('#prodi').val();
+        form.find('input[name="prodi"]').val(selectedProdi);
+        form.submit();
+    }
 </script>
 @endsection
