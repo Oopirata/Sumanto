@@ -24,6 +24,6 @@ class Jadwal extends Model
         'kapasitas',
         'status',
         'prodi',
-        'sifat'
+        'sifat',
     ];
 }
