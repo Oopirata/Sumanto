@@ -27,7 +27,7 @@ Route::get('/', function () {
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
 // Route for logout
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Routes for role selection
 Route::middleware(['auth'])->group(function () {
@@ -91,7 +91,7 @@ Route::get('/mhs/BuatIrs', [BuatIRSController::class, 'tampil_jadwal'])->name('b
 
 Route::post('/mhs/BuatIrs', [BuatIRSController::class, 'store'])->name('store.irs');
 
-Route::get('/mhs/irs', [IRSController::class, 'tampil_jadwal'])->name('mhs.irs');
+Route::get('/mhs/irs', [IRSController::class, 'index'])->name('mhs.irs');
 
 Route::get('/mhs/khs', [KhsController::class, 'all'])->name('mhs.khs');
 Route::get('/khs/download/{semester}', [KhsController::class, 'download'])->name('khs.download');
@@ -112,7 +112,7 @@ Route::delete('staff/ruangan/{id_ruang}', [RuanganController::class, 'destroy'])
 
 Route::post('staff/ruangan/store', [RuanganController::class, 'store'])->name('store.ruangan');
 
-Route::put('staff/ruangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
+Route::delete('/staff/ruangan/keterangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
 
 Route::post('staff/ruangan/kapasitas/{id_ruang}', [RuanganController::class, 'updateKapasitas'])->name('ruangan.updateKapasitas');
 
@@ -122,18 +122,17 @@ Route::get('staff/detailirs', [BaController::class, 'DetailIrsBA'])->name('staff
 
 
 // Dosen
-Route::get('dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');
+Route::get('/dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');
 
-Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA']);
+Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA'])->name('DosenPengajuan.irs');
 
-Route::get('/dosen/DetailIrs', function () {
-    return view('paDetailIrs');
-});
-Route::get('/dosen/Perwalian', [DosenController::class, 'perwalianPA']);
+Route::post('dosen/irs/update/{mhs_id}', [DosenController::class, 'updateStatusIrs'])->name('updateStatusIrs');
 
-Route::get('/dosen/DetailPerwalian', function () {
-    return view('paDetailPerwalian');
-});
+Route::get('/dosen/irs/detail', [DosenController::class, 'detailIrsPA']);
+
+Route::get('/dosen/Perwalian', [DosenController::class, 'perwalianPA'])->name('Dosen.perwalian');
+
+Route::get('/dosen/Perwalian/detail', [DosenController::class, 'detailPerwalianPA']);
 
 Route::get('/dosen/PengajuanNilai', function () {
     return view('paPengajuanNilai');
@@ -146,4 +145,3 @@ Route::get('/dosen/DetailNilai', function () {
 Route::get('/dosen/InputNilai', function () {
     return view('paInputNilai');
 });
-
