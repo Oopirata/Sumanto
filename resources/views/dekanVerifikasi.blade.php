@@ -64,9 +64,8 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <form action="{{ route('ruangan.update', $ruangan->id_ruang) }}" method="POST">
+                                    <form action="{{ route('DekanRuangan.update', $ruangan->id_ruang) }}" method="POST">
                                         @csrf
-                                        @method('PUT') <!-- Pastikan ini -->
                                         <div class="flex items-center">
                                             <!-- Tombol Setuju -->
                                             <button 
@@ -118,7 +117,24 @@
             loadRuanganData(selectedJurusan);
         });
 
+        $('.update-room-form').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Refresh table or update row status
+                    loadRuanganData($('#jurusan').val());
+                }
+            });
+        });
+
         function loadRuanganData(jurusan = '') {
+            if (!jurusan) {
+                table.clear().draw();
+                return;
+            }
             $.ajax({
                 url: '{{ route("dekan.ruangan") }}',
                 type: 'GET',
@@ -140,9 +156,8 @@
                                 ruangan.lokasi,
                                 `<span class="px-2 py-1 rounded ${ruangan.keterangan === 'Tersedia' ? 'bg-green-100 text-green-500' : 'bg-red-100 text-red-500'}">${ruangan.keterangan}</span>`,
                                 `<span class="px-2 py-1 rounded bg-yellow-100 text-yellow-500">Diajukan</span>`,
-                                `<form action="{{ route('ruangan.update', '') }}/${ruangan.id_ruang}" method="POST">
+                                `<form action="{{ route('DekanRuangan.update', '') }}/${ruangan.id_ruang}" method="POST">
                                     @csrf
-                                    @method('PUT')
                                     <div class="flex items-center">
                                         <button type="submit" name="status" value="Disetujui" 
                                             class="px-4 py-2 bg-green-500 text-white rounded-md mr-2">

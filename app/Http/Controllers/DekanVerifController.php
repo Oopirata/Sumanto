@@ -94,5 +94,19 @@ class DekanVerifController extends Controller
         return redirect()->route('dekan.jadwal')->with('success', 'Status semua matakuliah berhasil diubah!');
     }
 
+    public function updateRuanganStatus(Request $request, $id_ruang)
+    {
+        $status = $request->status === 'Disetujui' ? 'Disetujui' : 'Tidak Disetujui';
+        $keterangan = $request->status === 'Disetujui' ? 'Terpakai' : 'Tidak Tersedia';
+        // dd($status, $keterangan);
+        
+        DB::table('ruangan')
+            ->where('id_ruang', $id_ruang)
+            ->update([
+                'status' => $status,
+                'keterangan' => $keterangan
+            ]);
 
+        return redirect()->back()->with('success', 'Status ruangan berhasil diperbarui');
+    }
 }
