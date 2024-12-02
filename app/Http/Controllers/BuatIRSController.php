@@ -9,7 +9,6 @@ use App\Models\Mahasiswa;
 use App\Models\Dosen;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Models\Irs;
 
 class BuatIRSController extends Controller
