@@ -66,6 +66,7 @@
                             this.showNotification('error', 'Your file is safe :)');
                         }
                     }
+                
                 }">
                     <!-- Notifications -->
                     <div x-show="notification.show" x-transition:enter="transition ease-out duration-300"
