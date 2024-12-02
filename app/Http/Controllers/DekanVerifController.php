@@ -70,7 +70,7 @@ class DekanVerifController extends Controller
         return response()->json(['status' => $jadwal->status]);
     }
 
-    public function updateAllStatus(Request $request)
+    public function updateAllStatusDekan(Request $request)
     {
         // Validasi status yang dikirim
         $request->validate([
