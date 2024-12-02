@@ -22,16 +22,24 @@ class IRSController extends Controller
             return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan');
         }
 
-        // Get all IRS data for the student
+        // Update query to join with buat_irs
         $irsData = Irs::with(['jadwal'])
             ->join('jadwal', 'irs.jadwal_id', '=', 'jadwal.id')
+            ->join('buat_irs', function ($join) {
+                $join->on('jadwal.kode_mk', '=', 'buat_irs.kode_mk')
+                    ->on('jadwal.kelas', '=', 'buat_irs.kelas');
+            })
             ->where('mhs_id', $mahasiswa->id)
-            ->select('irs.*', 'jadwal.semester', 'jadwal.sks')
+            ->select(
+                'irs.*',
+                'jadwal.semester',
+                'jadwal.sks',
+                'buat_irs.nama_dosen'
+            )
             ->orderBy('jadwal.semester')
             ->get()
             ->groupBy('semester');
 
-        // Calculate total SKS for each semester
         $semesterSks = [];
         foreach ($irsData as $semester => $entries) {
             $semesterSks[$semester] = $entries->sum(function ($entry) {
@@ -39,7 +47,6 @@ class IRSController extends Controller
             });
         }
 
-        // Get dosen wali info
         $dosenWali = Dosen::find($mahasiswa->dosen_wali_id);
 
         return view('mhsIrs', compact(
