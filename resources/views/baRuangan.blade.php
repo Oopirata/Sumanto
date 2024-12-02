@@ -15,7 +15,7 @@
                     <div>
                         <h1 class="text-black font-bold items-center">List Ruangan</h1>
                     </div>
-                    
+                    {{-- {{ dd($ruang) }} --}}
                     <div>
                         <div class="flex items-center space-x-4">
                             <!-- Dropdown Jurusan -->
@@ -90,8 +90,8 @@
                                             <div>
                                                 <label for="keterangan" class="block text-sm font-medium text-gray-700">Keterangan</label>
                                                 <select id="keterangan" name="keterangan" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                                    <option value="Tersedia">Tersedia</option>
-                                                    <option value="Terpakai">Terpakai</option>
+                                                    <option value="Tidak Tersedia" {{ $defaultRuang->keterangan == 'Tidak Tersedia' ? 'selected' : '' }}>Tidak Tersedia</option>
+                                                    <option value="Tersedia" {{ $defaultRuang->keterangan == 'Tersedia' ? 'selected' : '' }}>Tersedia</option>
                                                 </select>
                                             </div>
 
@@ -134,24 +134,23 @@
 
 <script>
     $(document).ready(function() {
-        $('#jurusan').on('change', function() {
-            var selectedJurusan = $(this).val();
-            loadRuanganData(selectedJurusan);
+        $('#prodi').on('change', function() {
+            var selectedProdi = $(this).val();
+            loadRuanganData(selectedProdi);
         });
 
         // Panggil fungsi loadRuanganData tanpa parameter untuk menampilkan semua ruangan saat halaman pertama kali dimuat
         loadRuanganData();
     });
 
-    function loadRuanganData(jurusan = '') {
+    function loadRuanganData(prodi = '') {
         $.ajax({
             url: '{{ route("ba.ruangan") }}',
             type: 'GET',
             data: {
-                jurusan: jurusan
+                prodi: prodi  // Ubah dari jurusan menjadi prodi
             },
             success: function(response) {
-                // Perbarui isi tabel dengan data ruangan yang baru
                 updateRuanganTable(response.ruang);
             },
             error: function(xhr, status, error) {
@@ -163,6 +162,7 @@
     function updateRuanganTable(ruangan) {
     var tableBody = $('#tabelVeri tbody');
     tableBody.empty(); // Hapus baris yang ada sebelumnya
+    var currentProdi = $('#prodi').val();
 
     ruangan.forEach(function(r) {
         var row = `
@@ -185,10 +185,10 @@
                         @csrf
                         @method('DELETE')
                         <select name="keterangan" class="border rounded px-2 py-1" onchange="submitForm(this)">
-                            <option value="Tersedia" ${r.keterangan == 'Tersedia' ? 'selected' : ''}>Tersedia</option>
-                            <option value="Terpakai" ${r.keterangan == 'Terpakai' ? 'selected' : ''}>Terpakai</option>
+                            <option value="Tidak Tersedia" ${r.keterangan === 'Tidak Tersedia' ? 'selected' : ''}>Tidak Tersedia</option>
+                            <option value="Tersedia" ${r.keterangan === 'Tersedia' ? 'selected' : ''}>Tersedia</option>
                         </select>
-                        <input type="hidden" name="prodi" value="${$('#jurusan').val() || ''}">
+                        <input type="hidden" name="prodi" value="${currentProdi}">
                     </form>
                 </td>
                 <td class="px-6 py-4">
@@ -213,11 +213,10 @@
     });
 }
 
-// Tambahkan fungsi untuk handle submit form
 function submitForm(selectElement) {
     var form = $(selectElement).closest('form');
-    // Update hidden prodi input dengan value dari dropdown jurusan
-    form.find('input[name="prodi"]').val($('#jurusan').val());
+    var selectedProdi = $('#prodi').val();  // Get the current selected prodi value
+    form.find('input[name="prodi"]').val(selectedProdi);  // Set the prodi value in the hidden input
     form.submit();
 }
 </script>
