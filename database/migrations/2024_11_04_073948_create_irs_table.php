@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('status')->default('pending');
 
             //fk
-            $table->foreign('mhs_id')->references('id')->on('mahasiswa')->onDelete('cascade');
+            $table->foreign('mhs_id')->references('nim')->on('mahasiswa')->onDelete('cascade');
             $table->foreign('jadwal_id')->references('id')->on('jadwal')->onDelete('cascade');
 
             $table->timestamps();
