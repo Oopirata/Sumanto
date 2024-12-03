@@ -93,7 +93,7 @@ class BuatIRSController extends Controller
 
                 if ($jadwal) {
                     Irs::create([
-                        'mhs_id' => $mhsId->id,
+                        'nim' => $mhsId->nim,
                         'jadwal_id' => $jadwal->id,
                         'semester' => $mhsId->semester,
                         'status' => 'pending'
