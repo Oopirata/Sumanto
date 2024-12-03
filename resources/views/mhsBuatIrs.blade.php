@@ -60,13 +60,13 @@
                 
                     handleDelete(index) {
                         if (confirm('Are you sure?')) {
-                            this.selectedSchedules.splice(index, 1);
+                            const deletedSchedule = this.selectedSchedules.splice(index, 1)[0];
                             this.showNotification('success', 'Your file has been deleted!');
+                            this.currentTotalSks -= parseInt(deletedSchedule.sks);
                         } else {
                             this.showNotification('error', 'Your file is safe :)');
                         }
                     }
-                
                 }">
                     <!-- Notifications -->
                     <div x-show="notification.show" x-transition:enter="transition ease-out duration-300"
@@ -147,6 +147,7 @@
                                                         'day' => $jadwal->hari,
                                                         'kode_mk' => $jadwal->kode_mk,
                                                         'sks' => $jadwal->sks,
+                                                        'semester' => $jadwal->semester,
                                                         'kapasitas' => $jadwal->kapasitas,
                                                         'start' => $jadwal->jam_mulai,
                                                         'end' => $jadwal->jam_selesai,
@@ -220,8 +221,7 @@
                                                                         const hasConflict = selectedSchedules.some(s => 
                                                                             s.day === '{{ $schedule['day'] }}' && (
                                                                                 ({{ intval(substr($schedule['start'], 0, 2)) }} >= parseInt(s.start) && 
-                                                                                {{ intval(substr($schedule['start'], 0, 2)) }} < parseInt(s.end))
-||
+                                                                                {{ intval(substr($schedule['start'], 0, 2)) }} < parseInt(s.end))||
                                                                                 ({{ intval(substr($schedule['end'], 0, 2)) }} > parseInt(s.start) && 
                                                                                 {{ intval(substr($schedule['end'], 0, 2)) }} <= parseInt(s.end)) ||
                                                                                 (parseInt(s.start) >= {{ intval(substr($schedule['start'], 0, 2)) }} && 
@@ -241,12 +241,13 @@
                                                                             return;
                                                                         }
 
-                                                                        // Tambahkan jadwal jika semua pengecekan berhasil
+                                                                        {{-- // Tambahkan jadwal jika semua pengecekan berhasil --}}
                                                                         selectedSchedules.push({
                                                                             id: {{ $schedule['id'] }},
                                                                             day: '{{ $schedule['day'] }}',
                                                                             kode_mk: '{{ $schedule['kode_mk'] }}',
                                                                             sks: {{ $schedule['sks'] }},
+                                                                            semester: {{$schedule['semester']}},
                                                                             kapasitas: {{ $schedule['kapasitas'] }},
                                                                             start: '{{ $schedule['start'] }}',
                                                                             end: '{{ $schedule['end'] }}',
@@ -284,6 +285,8 @@
                                                                 {{ $schedule['kelas'] }}</p>
                                                             <p class="text-xs font-normal mb-px">SKS :
                                                                 {{ $schedule['sks'] }}</p>
+                                                            <p class="text-xs font-normal mb-px">Semester :
+                                                                    {{ $schedule['semester'] }}</p>
                                                             <p class="text-xs font-normal mb-px">Kapasitas :
                                                                 {{ $schedule['kapasitas'] }}</p>
                                                             <p class="text-xs font-semibold">{{ $schedule['start'] }} -
@@ -353,13 +356,13 @@
                                                         <button
                                                             @click.prevent="
                                                             Swal.fire({
-                                                                title: 'هل ستحذفه؟',
-                                                                text: 'You won\'t be able to revert this!',
+                                                                title: 'Apakah kamu yakin?',
+                                                                text: '',
                                                                 icon: 'warning',
                                                                 showCancelButton: true,
                                                                 confirmButtonColor: '#3085d6',
                                                                 cancelButtonColor: '#d33',
-                                                                confirmButtonText: 'نعم، احذف'
+                                                                confirmButtonText: 'Yes'
                                                             }).then((result) => {
                                                                 if (result.isConfirmed) {
                                                                     selectedSchedules.splice(index, 1);
@@ -449,3 +452,4 @@
         </script>
     </div>
 @endsection
+

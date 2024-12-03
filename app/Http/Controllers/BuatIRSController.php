@@ -14,38 +14,48 @@ use App\Models\Irs;
 class BuatIRSController extends Controller
 {
     public function tampil_jadwal()
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        // Get Mahasiswa details
-        $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
+    // Get Mahasiswa details
+    $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
 
-        if ($mahasiswa) {
-            $sksLimit = $this->calculateSksLimit($mahasiswa->IPS);
+    if ($mahasiswa) {
+        $sksLimit = $this->calculateSksLimit($mahasiswa->IPS);
 
-            $currentSemester = $mahasiswa->semester;
-            $currentSemesterCourses = Matakuliah::where('semester', $currentSemester)
-                ->pluck('semester')
-                ->toArray();
+        $currentSemester = $mahasiswa->semester;
 
-            $jadwals = Jadwal::whereIn('semester', $currentSemesterCourses)->get();
+        // Determine if the current semester is odd or even
+        $isOddSemester = $currentSemester % 2 !== 0;
 
-            // Fetch existing IRS entries for the current semester
-            $existingIrs = Irs::where('nim', $mahasiswa->nim)
-                ->where('semester', $mahasiswa->semester)
-                ->pluck('jadwal_id')
-                ->toArray();
-
-            $dosenWali = Dosen::find($mahasiswa->dosen_wali_id);
-        } else {
-            $jadwals = collect();
-            $dosenWali = null;
-            $sksLimit = 0;
-            $existingIrs = [];
+        // Get all relevant semesters (same parity as current semester)
+        $relevantSemesters = [];
+        for ($i = $currentSemester; $i > 0; $i--) {
+            if (($i % 2 !== 0) === $isOddSemester) {
+                $relevantSemesters[] = $i;
+            }
         }
 
-        return view('mhsBuatIrs', compact('user', 'jadwals', 'mahasiswa', 'dosenWali', 'sksLimit', 'existingIrs'));
+        // Fetch courses for relevant semesters
+        $jadwals = Jadwal::whereIn('semester', $relevantSemesters)->get();
+
+        // Fetch existing IRS entries for the current semester
+        $existingIrs = Irs::where('nim', $mahasiswa->nim)
+            ->where('semester', $mahasiswa->semester)
+            ->pluck('jadwal_id')
+            ->toArray();
+
+        $dosenWali = Dosen::find($mahasiswa->dosen_wali_id);
+    } else {
+        $jadwals = collect();
+        $dosenWali = null;
+        $sksLimit = 0;
+        $existingIrs = [];
     }
+
+    return view('mhsBuatIrs', compact('user', 'jadwals', 'mahasiswa', 'dosenWali', 'sksLimit', 'existingIrs'));
+}
+
 
     public function store(Request $request)
     {
