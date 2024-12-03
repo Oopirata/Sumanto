@@ -150,7 +150,7 @@
                                 <input type="hidden" name="action" value="delete_mk">
                                 <div class="mb-4">
                                     <label for="mata_kuliah_hapus" class="block text-sm font-medium text-gray-700">Mata Kuliah</label>
-                                    <select id="mata_kuliah_hapus" name="mata_kuliah_id" required
+                                    <select id="hapus_matakuliah" name="mata_kuliah_id" required
                                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                         <option value="">Pilih Mata Kuliah</option>
                                         @foreach ($matakuliah as $mk)
