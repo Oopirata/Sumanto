@@ -22,23 +22,31 @@ class IRSController extends Controller
             return redirect()->back()->with('error', 'Data mahasiswa tidak ditemukan');
         }
 
-        // Update query to join with buat_irs
         $irsData = Irs::with(['jadwal'])
             ->join('jadwal', 'irs.jadwal_id', '=', 'jadwal.id')
             ->join('buat_irs', function ($join) {
                 $join->on('jadwal.kode_mk', '=', 'buat_irs.kode_mk')
                     ->on('jadwal.kelas', '=', 'buat_irs.kelas');
             })
-            ->where('mhs_id', $mahasiswa->id)
+            ->where('irs.nim', $mahasiswa->nim)
             ->select(
-                'irs.*',
+                'irs.id',
+                'irs.nim',
+                'irs.jadwal_id',
+                'irs.status as status', // Mengambil status dari tabel irs
                 'jadwal.semester',
                 'jadwal.sks',
+                'jadwal.kode_mk',
+                'jadwal.nama_mk',
+                'jadwal.kelas',
+                'jadwal.ruang',
                 'buat_irs.nama_dosen'
             )
             ->orderBy('jadwal.semester')
             ->get()
             ->groupBy('semester');
+
+        // dd($irsData);
 
         $semesterSks = [];
         foreach ($irsData as $semester => $entries) {
@@ -70,7 +78,7 @@ class IRSController extends Controller
 
             $data = Irs::with(['jadwal'])
                 ->join('jadwal', 'irs.jadwal_id', '=', 'jadwal.id')
-                ->where('mhs_id', $mahasiswa->id)
+                ->where('nim', $mahasiswa->id)
                 ->where('jadwal.semester', $semester)
                 ->select(
                     'irs.*',

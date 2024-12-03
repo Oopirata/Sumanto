@@ -72,7 +72,7 @@ class DosenController extends Controller
         ]);
 
         // Temukan IRS berdasarkan mahasiswa ID
-        $irs = Irs::where('mhs_id', $mhs_id)->first();
+        $irs = Irs::where('nim', $mhs_id)->first();
 
         if ($irs) {
             $irs->update(['status' => $request->status]);
