@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', 'Verifikasi Jadwal')
+@section('title', 'Perwalian')
 
 @section('page')
     <div class="bg-gray-100 min-h-screen flex flex-col">
@@ -49,11 +49,11 @@
                             @foreach ($mahasiswa as $student)
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-6 py-4">{{ $loop->iteration }}</td>
-                                    <td class="px-6 py-4">{{ $student['nama'] }}</td>
-                                    <td class="px-6 py-4">{{ $student['nim'] }}</td>
+                                    <td class="px-6 py-4">{{ $student->nama }}</td>
+                                    <td class="px-6 py-4">{{ $student->nim }}</td>
                                     <td class="px-6 py-4">
                                         <!-- Tombol Detail -->
-                                        <a href="/dosen/Perwalian/detail/{{ $student['id'] }}"
+                                        <a href="/dosen/Perwalian/detail"
                                             class="px-4 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md">
                                             Detail
                                         </a>

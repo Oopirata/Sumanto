@@ -127,13 +127,13 @@ Route::get('/dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('d
 
 Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA'])->name('DosenPengajuan.irs');
 
-Route::post('dosen/irs/update/{mhs_id}', [DosenController::class, 'updateStatusIrs'])->name('updateStatusIrs');
+Route::post('dosen/irs/update/{nim}', [DosenController::class, 'updateStatusIrs'])->name('updateStatusIrs');
 
-Route::get('/dosen/irs/detail', [DosenController::class, 'detailIrsPA']);
+Route::get('/dosen/irs/detail/{nim}', [DosenController::class, 'detailIrsPA'])->name('Dosen.DetailIrs');
 
 Route::get('/dosen/Perwalian', [DosenController::class, 'perwalianPA'])->name('Dosen.perwalian');
 
-Route::get('/dosen/Perwalian/detail/{id}', [DosenController::class, 'detailPerwalianPA'])->name('DosenPerwalian.detail');
+Route::get('/dosen/Perwalian/detail', [DosenController::class, 'detailPerwalianPA'])->name('DosenPerwalian.detail');
 
 Route::get('/dosen/PengajuanNilai', [DosenController::class, 'pengajuanNilaiPA']);
 

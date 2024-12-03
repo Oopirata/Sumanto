@@ -25,4 +25,8 @@ class Matakuliah extends Model
     {
         return $this->belongsToMany(Dosen::class, 'dosen_matakuliah','kode_mk','dosen_nip');
     }
+    public function jadwal()
+    {
+        return $this->hasMany(Jadwal::class);
+    }
 }
