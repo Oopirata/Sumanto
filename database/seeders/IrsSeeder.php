@@ -15,7 +15,7 @@ class IrsSeeder extends Seeder
     {
         DB::table('irs')->insert([
             [
-                'mhs_id' => '24060122199999',
+                'nim' => '24060122199999',
                 'jadwal_id' => '2',
                 'semester' => '1',
                 'status' => 'Tidak Disetujui',
@@ -23,7 +23,7 @@ class IrsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'mhs_id' => '24060122199999',
+                'nim' => '24060122199999',
                 'jadwal_id' => '9',
                 'semester' => '1',
                 'status' => 'Tidak Disetujui',
@@ -31,7 +31,7 @@ class IrsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'mhs_id' => '24060122199999',
+                'nim' => '24060122199999',
                 'jadwal_id' => '14',
                 'semester' => '1',
                 'status' => 'Tidak Disetujui',
@@ -39,7 +39,7 @@ class IrsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'mhs_id' => '24060122199999',
+                'nim' => '24060122199999',
                 'jadwal_id' => '19',
                 'semester' => '1',
                 'status' => 'Tidak Disetujui',
@@ -47,7 +47,7 @@ class IrsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'mhs_id' => '24060122199999',
+                'nim' => '24060122199999',
                 'jadwal_id' => '24',
                 'semester' => '1',
                 'status' => 'Tidak Disetujui',
@@ -55,7 +55,7 @@ class IrsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'mhs_id' => '24060122199999',
+                'nim' => '24060122199999',
                 'jadwal_id' => '29',
                 'semester' => '1',
                 'status' => 'Tidak Disetujui',
@@ -63,7 +63,7 @@ class IrsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'mhs_id' => '24060122199999',
+                'nim' => '24060122199999',
                 'jadwal_id' => '34',
                 'semester' => '1',
                 'status' => 'Tidak Disetujui',
@@ -71,7 +71,7 @@ class IrsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'mhs_id' => '24060122199999',
+                'nim' => '24060122199999',
                 'jadwal_id' => '39',
                 'semester' => '3',
                 'status' => 'Tidak Disetujui',
@@ -79,7 +79,7 @@ class IrsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'mhs_id' => '24060122199999',
+                'nim' => '24060122199999',
                 'jadwal_id' => '44',
                 'semester' => '3',
                 'status' => 'Tidak Disetujui',
@@ -87,7 +87,7 @@ class IrsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'mhs_id' => '24060122199999',
+                'nim' => '24060122199999',
                 'jadwal_id' => '49',
                 'semester' => '3',
                 'status' => 'Tidak Disetujui',
@@ -95,7 +95,7 @@ class IrsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'mhs_id' => '24060122199999',
+                'nim' => '24060122199999',
                 'jadwal_id' => '54',
                 'semester' => '3',
                 'status' => 'Tidak Disetujui',
@@ -103,7 +103,7 @@ class IrsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'mhs_id' => '24060122199999',
+                'nim' => '24060122199999',
                 'jadwal_id' => '59',
                 'semester' => '3',
                 'status' => 'Tidak Disetujui',
@@ -111,7 +111,7 @@ class IrsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'mhs_id' => '24060122199999',
+                'nim' => '24060122199999',
                 'jadwal_id' => '64',
                 'semester' => '3',
                 'status' => 'Tidak Disetujui',
