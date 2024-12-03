@@ -47,22 +47,22 @@ class RuanganController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_ruang' => 'required|unique:ruangan,id_ruang',
-            'nama' => 'required',
-            'kapasitas' => 'required|numeric|min:1',
             'lokasi' => 'required',
-            'keterangan' => 'required|in:Tersedia,Terpakai',
-            'prodi' => 'nullable|string'
+            'id_ruang' => 'required',
+            'kapasitas' => 'required|numeric|min:1',
         ]);
+
+        if (Ruangan::where('id_ruang', $request->id_ruang)->exists()) {
+            return redirect()->back()->with('error', 'ID Ruangan sudah ada');
+        }
 
         DB::table('ruangan')->insert([
             'id_ruang' => $request->id_ruang,
-            'nama' => $request->nama,
+            'nama' => 'Ruangan Kuliah' . $request->id_ruang,
             'kapasitas' => $request->kapasitas,
             'lokasi' => $request->lokasi,
-            'keterangan' => $request->keterangan,
-            'prodi' => $request->prodi,
-            'status' => 'Diproses',
+            'status' => 'Free',
+            'keterangan' => 'Tidak Tersedia',
             'created_at' => now(),
             'updated_at' => now()
         ]);
