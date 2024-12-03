@@ -72,9 +72,9 @@ Route::get('/kaprodi/mk/{mataKuliahId}', [MatakuliahController::class, 'dosenHap
 
 Route::get('/kaprodi/mk', [MatakuliahController::class, 'index'])->name('matakuliah.index');
 
-Route::post('/kaprodi/mk', [MatakuliahController::class, 'store'])->name('store.jadwal');
+Route::post('/kaprodi/mk', [MatakuliahController::class, 'handleStore'])->name('store.jadwal');
 
-Route::post('kaprodimk/delete', [MatakuliahController::class, 'deleteJadwal'])->name('delete.jadwal');
+Route::post('kaprodimk/delete', [MatakuliahController::class, 'handleDelete'])->name('delete.jadwal');
 
 
 Route::get('kaprodi/irs', [KaprodiController::class, 'verifikasiIRS'])->name('kaprodi.irs');
