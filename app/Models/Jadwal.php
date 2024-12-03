@@ -24,6 +24,14 @@ class Jadwal extends Model
         'kapasitas',
         'status',
         'prodi',
-        'sifat'
+        'sifat',
+        'nama_dosen'
     ];
+
+
+    public function buatIrs()
+    {
+        return $this->hasOne(BuatIRS::class, 'kode_mk', 'kode_mk')
+            ->where('kelas', $this->kelas);
+    }
 }

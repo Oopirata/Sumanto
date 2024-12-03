@@ -12,6 +12,31 @@ use function Laravel\Prompts\select;
 
 class MatakuliahController extends Controller
 {
+    public function handleStore(Request $request)
+    {
+        $action = $request->input('action'); // Ambil nilai dari hidden input 'action'
+
+        if ($action === 'store_dosen') {
+            return $this->store($request); // Panggil fungsi store
+        } elseif ($action === 'store_mk') {
+            return $this->storeMk($request); // Panggil fungsi storeMk
+        }
+
+        return redirect()->back()->with('error', 'Aksi tidak valid.');
+    }
+
+    public function handleDelete(Request $request)
+    {
+        $action = $request->input('action'); // Ambil nilai dari hidden input 'action'
+
+        if ($action === 'delete_dosen') {
+            return $this->deleteJadwal($request); // Panggil fungsi deleteJadwal
+        } elseif ($action === 'delete_mk') {
+            return $this->deleteMatakuliah($request); // Panggil fungsi deleteMatakuliah
+        }
+
+        return redirect()->back()->with('error', 'Aksi tidak valid.');
+    }
 
     public function showKaprodiDashboard()
     {
@@ -41,34 +66,26 @@ class MatakuliahController extends Controller
 
         // Mendapatkan seluruh dosen tanpa tergantung mata kuliah
         $dosen = Dosen::all();
-        // dd($userr);
+        // dd($dosen);
         // Mengirim data ke view
         return view('kaprodiMatkulDosen', compact('matakuliah', 'dosen', 'user', 'userr'));
     }
 
     public function deleteJadwal(Request $request)
     {
-    // Validasi data request
-    $request->validate([
-        'mata_kuliah_id' => 'required|string|exists:matakuliah,kode_mk', // validasi untuk mata kuliah
-        'dosen_nip' => 'required|string|exists:dosen,nip', // validasi untuk dosen
-    ]);
+        dd($request->all());
+        // Menghapus dosen dari mata kuliah
+        $validated = $request->validate([
+            'dosen_nip' => 'required|exists:dosen,nip',
+            'mata_kuliah_id' => 'required|exists:matakuliah,kode_mk',
+        ]);
 
-    // Menemukan mata kuliah dan dosen
-    $mataKuliah = Matakuliah::where('kode_mk', $request->mata_kuliah_id)->first();
-    $dosen = Dosen::where('nip', $request->dosen_nip)->first();
-
-    // Memeriksa apakah data ditemukan dan hubungan dosen ada
-    if ($mataKuliah && $dosen) {
-        // Menghapus relasi dosen dan mata kuliah dari tabel pivot
         DB::table('dosen_matakuliah')
-            ->where('kode_mk', $mataKuliah->kode_mk)
-            ->where('dosen_nip', $dosen->nip)
+            ->where('dosen_nip', $validated['dosen_nip'])
+            ->where('kode_mk', $validated['mata_kuliah_id'])
             ->delete();
-    }
 
-    // Redirect dengan pesan sukses
-    return redirect()->route('matakuliah.index')->with('success', 'Dosen berhasil dihapus dari Mata Kuliah.');
+        return redirect()->route('matakuliah.index')->with('success', 'Dosen berhasil dihapus dari Mata Kuliah');
     }
 
     public function store(Request $request)
@@ -109,7 +126,55 @@ class MatakuliahController extends Controller
 
         // Redirect dengan pesan sukses
         return redirect()->route('matakuliah.index')->with('success', 'Dosen berhasil ditambahkan ke Mata Kuliah.');
+    }
+
+    public function storeMk(Request $request)
+    {
+        // Validasi data request
+        $request->validate([
+            'kode_mk' => 'required|string|unique:matakuliah,kode_mk', // validasi untuk kode mata kuliah
+            'nama_mk' => 'required|string', // validasi untuk nama mata kuliah
+            'sks' => 'required|integer', // validasi untuk sks
+            'semester' => 'required|string', // validasi untuk semester
+            'kapasitas' => 'required|integer', // validasi untuk kapasitas
+            'deskripsi' => 'nullable|string', // validasi untuk deskripsi
+            'status' => 'required|string', // validasi untuk status
+        ]);
+
+        $matakuliah = Matakuliah::all();
+        if ($matakuliah) {
+            $exist = Matakuliah::where('kode_mk', $request->kode_mk)->first();
+
+            if ($exist) {
+                return redirect()->back()->with('error', 'Mata Kuliah dengan kode ini sudah ada.');
+            }
+
+            DB::table('matakuliah')->insert([
+                'kode_mk' => $request->kode_mk,
+                'nama_mk' => $request->nama_mk,
+                'sks' => $request->sks,
+                'semester' => $request->semester,
+                'status' => $request->status,
+                'deskripsi' => $request->deskripsi,
+                'kapasitas' => $request->kapasitas,
+                'created_at' => now(), // Tambahkan jika tabel memiliki timestamps
+                'updated_at' => now()  // Tambahkan jika tabel memiliki timestamps
+            ]);
+            
         }
 
+        return redirect()->back()->with('success', 'Mata Kuliah berhasil ditambahkan.');
+    }
 
+    public function deleteMatakuliah(Request $request)
+    {
+        // Validasi request
+        $request->validate([
+            'mata_kuliah_id' => 'required|string|exists:matakuliah,kode_mk',
+        ]);
+
+        Matakuliah::where('kode_mk', $request->mata_kuliah_id)->delete();
+
+        return redirect()->back()->with('success', 'Mata Kuliah berhasil dihapus.');
+    }
 }

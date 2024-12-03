@@ -17,6 +17,159 @@
                         <div class="text-center">
                             <button
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                type="button" data-drawer-target="drawer-right-mk"
+                                data-drawer-show="drawer-right-mk" data-drawer-placement="right"
+                                aria-controls="drawer-right-mk">
+                                Tambah MK
+                            </button>
+                        </div>
+
+                        <!-- drawer component -->
+                        <div id="drawer-right-mk"
+                            class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800"
+                            tabindex="-1" aria-labelledby="drawer-right-label">
+                            <h5 id="drawer-right-label"
+                                class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                <svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>Tambah Mata Kuliah
+                            </h5>
+                            <button type="button" data-drawer-hide="drawer-right-mk" aria-controls="drawer-right-mk"
+                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close menu</span>
+                            </button>
+                            <form id="form-tambah-matakuliah" action="{{ route('store.jadwal') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="action" value="store_mk">
+                                <!-- Nama Mata Kuliah -->
+                                <div class="mb-4">
+                                    <label for="nama_mk" class="block text-sm font-medium text-gray-700">Nama Mata Kuliah</label>
+                                    <input type="text" id="nama_mk" name="nama_mk" required
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+
+                                <!-- Kode Mata Kuliah -->
+                                <div class="mb-4">
+                                    <label for="kode_mk" class="block text-sm font-medium text-gray-700">Kode Mata Kuliah</label>
+                                    <input type="text" id="kode_mk" name="kode_mk" required
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+
+                                <!-- Semester -->
+                                <div class="mb-4">
+                                    <label for="semester" class="block text-sm font-medium text-gray-700">Semester</label>
+                                    <input type="text" id="semester" name="semester" required
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+
+                                <!-- SKS -->
+                                <div class="mb-4">
+                                    <label for="sks" class="block text-sm font-medium text-gray-700">SKS</label>
+                                    <input type="number" id="sks" name="sks" min="1" max="6" required
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+
+                                <!-- Status -->
+                                <div class="mb-4">
+                                    <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                                    <select id="status" name="status" required
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        <option value="">Pilih Status</option>
+                                        <option value="Wajib">Wajib</option>
+                                        <option value="Pilihan">Pilihan</option>
+                                    </select>
+                                </div>
+
+                                <!-- Deskripsi -->
+                                <div class="mb-4">
+                                    <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+                                    <textarea id="deskripsi" name="deskripsi" rows="3"
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                </div>
+
+                                <!-- Kapasitas -->
+                                <div class="mb-4">
+                                    <label for="kapasitas" class="block text-sm font-medium text-gray-700">Kapasitas</label>
+                                    <input type="number" id="kapasitas" name="kapasitas" min="1" required
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+
+                                <!-- Submit Button -->
+                                <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300">Tambah
+                                    Mata Kuliah</button>
+                            </form>
+                        </div>
+
+                        <div class="px-4 bg-white"></div>
+
+                        <!-- Button untuk membuka drawer -->
+                        <div class="text-center">
+                            <button
+                                class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-red-600 dark:hover:bg-red-900 focus:outline-none dark:focus:ring-blue-800"
+                                type="button" data-drawer-target="drawer-delete-matkul"
+                                data-drawer-show="drawer-delete-matkul" data-drawer-placement="right"
+                                aria-controls="drawer-delete-matkul">
+                                Hapus MK
+                            </button>
+                        </div>
+
+                        <!-- Drawer untuk Hapus Mata Kuliah -->
+                        <div id="drawer-delete-matkul"
+                            class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800"
+                            tabindex="-1" aria-labelledby="drawer-delete-matkul-label">
+                            <h5 id="drawer-delete-matkul-label"
+                                class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400">
+                                <svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>
+                                Hapus Mata Kuliah
+                            </h5>
+                            <button type="button" data-drawer-hide="drawer-delete-matkul"
+                                aria-controls="drawer-delete-matkul"
+                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close menu</span>
+                            </button>
+
+                            <!-- Form Hapus Mata Kuliah -->
+                            <form action="{{ route('delete.jadwal') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="action" value="delete_mk">
+                                <div class="mb-4">
+                                    <label for="mata_kuliah_hapus" class="block text-sm font-medium text-gray-700">Mata Kuliah</label>
+                                    <select id="hapus_matakuliah" name="mata_kuliah_id" required
+                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                        <option value="">Pilih Mata Kuliah</option>
+                                        @foreach ($matakuliah as $mk)
+                                            <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-blue-300">
+                                    Hapus Mata Kuliah
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="px-4 bg-white"></div>
+
+                        <div class="text-center">
+                            <button
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                                 type="button" data-drawer-target="drawer-right-example"
                                 data-drawer-show="drawer-right-example" data-drawer-placement="right"
                                 aria-controls="drawer-right-example">
@@ -48,6 +201,7 @@
                             </button>
                             <form id="form-tambah-dosen" action="{{ route('store.jadwal') }}" method="POST">
                                 @csrf
+                                <input type="hidden" name="action" value="store_dosen">
                                 <div class="mb-4">
                                     <label for="mata_kuliah" class="block text-sm font-medium text-gray-700">Mata
                                         Kuliah</label>
@@ -109,37 +263,6 @@
                             </div>
 
                             <!-- drawer component -->
-                            <script>
-                                $(document).ready(function () {
-                                    $('#mata_kuliah_hapus').on('change', function () {
-                                        var mataKuliahId = $(this).val();
-
-                                        if (mataKuliahId) {
-                                            $.ajax({
-                                                url: '/kaprodi/mk/' + mataKuliahId, // Pastikan URL ini sesuai dengan route Anda
-                                                type: 'GET',
-                                                success: function (response) {
-                                                    console.log(response);
-                                                    $('#dosen_hapus').empty();
-                                                    $('#dosen_hapus').append('<option value="">Pilih Dosen</option>');
-
-                                                    // Tambahkan opsi dosen ke dropdown
-                                                    $.each(response.dosen, function (key, dosen) {
-                                                        $('#dosen_hapus').append('<option value="' + dosen.nip + '">' + dosen.nama + '</option>');
-                                                    });
-                                                },
-                                                error: function () {
-                                                    alert("Gagal mengambil data dosen.");
-                                                }
-                                            });
-                                        } else {
-                                            $('#dosen_hapus').empty();
-                                            $('#dosen_hapus').append('<option value="">Pilih Dosen</option>');
-                                        }
-                                    });
-                                });
-                            </script>
-                            <!-- drawer component -->
                             <div id="drawer-left-example"
                                 class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800"
                                 tabindex="-1" aria-labelledby="drawer-left-label">
@@ -162,37 +285,77 @@
                                     </svg>
                                     <span class="sr-only">Close menu</span>
                                 </button>
-                                <form action="{{ route('delete.jadwal') }}" method="POST">
+                                <form action="{{ route('delete.dosen') }}" method="POST">
                                     @csrf
                                     <div class="mb-4">
-                                        <label for="mata_kuliah" class="block text-sm font-medium text-gray-700">Mata
-                                            Kuliah</label>
-                                        <select id="mata_kuliah_hapus" name="mata_kuliah_id" required
+                                        <label for="dosen_kuliah_hapus" class="block text-sm font-medium text-gray-700">Mata Kuliah</label>
+                                        <select id="dosen_kuliah_hapus" name="dosen_kuliah_id" required
                                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                             <option value="">Pilih Mata Kuliah</option>
                                             @foreach ($matakuliah as $mk)
                                                 <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
-                                                <!-- Kirim kode_mk, bukan id -->
                                             @endforeach
                                         </select>
                                     </div>
-
                                     <div class="mb-4">
-                                        <label for="dosen" class="block text-sm font-medium text-gray-700">Dosen</label>
+                                        <label for="dosen_hapus" class="block text-sm font-medium text-gray-700">Dosen</label>
                                         <select id="dosen_hapus" name="dosen_nip" required
                                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                             <option value="">Pilih Dosen</option>
                                             @foreach ($matakuliah as $mk)
-                                            @foreach ($mk->dosen as $dosen)
-                                            <option value="{{ $dosen->nip }}">{{ $dosen->nama }}</option>
-                                            @endforeach
+                                                @foreach ($mk->dosen as $dosen)
+                                                <option value="{{ $dosen->nip }}" class="dosen-option matkul-{{ $mk->kode_mk }}" style="display:none;">
+                                                        {{ $dosen->nama }}
+                                                    </option>
+                                                @endforeach
                                             @endforeach
                                         </select>
+                                        <script>
+                                            // Store the dosen data in a JavaScript variable
+                                            var matakuliahDosenData = @json($matakuliah);
+                                            console.log(matakuliahDosenData); // Log the whole data to the console
+
+                                            // Iterate over the data to log each dosen's nip and name
+                                            matakuliahDosenData.forEach(function(mk) {
+                                                mk.dosen.forEach(function(dosen) {
+                                                    console.log('Dosen NIP:', dosen.nip, 'Dosen Name:', dosen.nama);
+                                                });
+                                            });
+                                        </script>
+
+                                        <script>
+                                            // Mengubah data PHP 'matakuliah' menjadi format JSON
+                                            var matakuliah = @json($matakuliah);
+                                            console.log(matakuliah); // Menampilkan seluruh data matakuliah di console
+                                        </script>
+
+                                        <script>
+                                            document.getElementById('dosen_kuliah_hapus').addEventListener('change', function () {
+                                                const selectedMatkul = this.value;
+                                                const dosenOptions = document.querySelectorAll('.dosen-option');
+                                                dosenOptions.forEach(option => {
+                                                    option.style.display = 'none';
+                                                    option.disabled = true;
+                                                });
+
+                                                if (selectedMatkul) {
+                                                    const relevantOptions = document.querySelectorAll('.matkul-' + selectedMatkul);
+                                                    relevantOptions.forEach(option => {
+                                                        option.style.display = 'block';
+                                                        option.disabled = false;
+                                                    });
+                                                }
+                                            });
+
+                                        </script>
                                     </div>
-                                    {{-- {{ dd($matakuliah) }} --}}
-                                    <button type="submit"
-                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-blue-300">Hapus Dosen</button>
+
+                                    <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus dosen ini?')"
+                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-blue-300">
+                                        Hapus Dosen
+                                    </button>
                                 </form>
+
                             </div>
                         </div>
                         <!-- drawer init and toggle -->

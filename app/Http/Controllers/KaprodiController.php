@@ -25,7 +25,7 @@ class KaprodiController extends Controller
         $irs = Irs::all();
     
         // Periksa apakah semua IRS memiliki status "Disetujui"
-        $allApproved = $irs->groupBy('mhs_id')->map(function ($group) {
+        $allApproved = $irs->groupBy('nim')->map(function ($group) {
             return $group->every(fn($item) => $item->status == 'Disetujui');
         });
         
@@ -44,7 +44,7 @@ class KaprodiController extends Controller
         ]);
 
         // Temukan IRS berdasarkan mhs_id
-        $irs = Irs::where('mhs_id', $mhs_id)->first();
+        $irs = Irs::where('nim', $mhs_id)->first();
 
         if ($irs) {
             // Update status IRS yang relevan

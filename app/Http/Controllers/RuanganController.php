@@ -9,30 +9,60 @@ use Illuminate\Support\Facades\Auth;
 
 class RuanganController extends Controller
 {
-    public function index(){
+    public function index(Request $request)
+    {
         $dosens = Auth::user();
         $dosen = DB::table('bagian_akademik')->where('user_id', $dosens->id)->first();
+
+        if ($request->ajax()) {
+            $query = Ruangan::query();
+            
+            $selectedJurusan = $request->input('jurusan');
+            if ($selectedJurusan) {
+                $query->where(function($q) use ($selectedJurusan) {
+                    $q->where('prodi', $selectedJurusan)
+                    ->orWhereNull('prodi');
+                });
+            }
+        
+            $ruang = $query->get();
+            
+            return response()->json(['ruang' => $ruang]);
+        }
+
+        // Ambil satu ruangan default untuk form tambah
+        $defaultRuang = (object)[
+            'keterangan' => 'Tidak Tersedia' // Set default value untuk keterangan
+        ];
+
         $ruang = Ruangan::all();
-        return view('baRuangan', compact('ruang', 'dosen', 'dosens'));
+        return view('baRuangan', [
+            'ruang' => $ruang,
+            'dosen' => $dosen, 
+            'dosens' => $dosens,
+            'defaultRuang' => $defaultRuang  // Tambahkan defaultRuang ke view
+        ]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'id_ruang' => 'required|unique:ruangan,id_ruang',
-            'nama' => 'required',
-            'kapasitas' => 'required|numeric|min:1',
             'lokasi' => 'required',
-            'keterangan' => 'required|in:Tersedia,Terpakai',
+            'id_ruang' => 'required',
+            'kapasitas' => 'required|numeric|min:1',
         ]);
+
+        if (Ruangan::where('id_ruang', $request->id_ruang)->exists()) {
+            return redirect()->back()->with('error', 'ID Ruangan sudah ada');
+        }
 
         DB::table('ruangan')->insert([
             'id_ruang' => $request->id_ruang,
-            'nama' => $request->nama,
+            'nama' => 'Ruangan Kuliah' . $request->id_ruang,
             'kapasitas' => $request->kapasitas,
             'lokasi' => $request->lokasi,
-            'keterangan' => $request->keterangan,
-            'status' => 'Diproses',
+            'status' => 'Free',
+            'keterangan' => 'Tidak Tersedia',
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -61,14 +91,24 @@ class RuanganController extends Controller
 
     public function update(Request $request, $id_ruang)
     {
-        $request->validate([
-            'status' => 'required|in:Disetujui,Tidak Disetujui',
+        $validatedData = $request->validate([
+            'keterangan' => 'required|in:Tersedia,Terpakai',
+            'prodi' => 'nullable|string'
         ]);
+
+        // Debug untuk melihat data yang diterima
+        // dd($request->all());
+
+        $updateData = [
+            'keterangan' => $validatedData['keterangan'],
+            'prodi' => $validatedData['prodi'] ?? null,  // Gunakan null coalescing operator
+            'status' => 'Diajukan',
+        ];
 
         DB::table('ruangan')
             ->where('id_ruang', $id_ruang)
-            ->update(['status' => $request->status]);
-    
+            ->update($updateData);
+
         return redirect()->back()->with('success', 'Status ruangan berhasil diperbarui');
     }
 }
