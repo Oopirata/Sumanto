@@ -64,7 +64,7 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         @if ($irs) <!-- Pastikan ada IRS -->
-                                            <form action="{{ route('updateAllStatus', $irs->mhs_id) }}" method="POST" class="inline-block">
+                                            <form action="{{ route('updateAllStatus', $irs->nim) }}" method="POST" class="inline-block">
                                                 @csrf
                                                 @method('POST')
                                                 <button 
@@ -76,7 +76,7 @@
                                                 </button>
                                             </form>
 
-                                            <form action="{{ route('updateAllStatus', $irs->mhs_id) }}" method="POST" class="inline-block">
+                                            <form action="{{ route('updateAllStatus', $irs->nim) }}" method="POST" class="inline-block">
                                                 @csrf
                                                 @method('POST')
                                                 <button 
