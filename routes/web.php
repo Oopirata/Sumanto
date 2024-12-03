@@ -133,7 +133,7 @@ Route::get('/dosen/irs/detail', [DosenController::class, 'detailIrsPA']);
 
 Route::get('/dosen/Perwalian', [DosenController::class, 'perwalianPA'])->name('Dosen.perwalian');
 
-Route::get('/dosen/Perwalian/detail', [DosenController::class, 'detailPerwalianPA']);
+Route::get('/dosen/Perwalian/detail/{id}', [DosenController::class, 'detailPerwalianPA'])->name('DosenPerwalian.detail');
 
 Route::get('/dosen/PengajuanNilai', function () {
     return view('paPengajuanNilai');

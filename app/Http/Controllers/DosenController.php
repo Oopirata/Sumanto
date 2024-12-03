@@ -114,13 +114,44 @@ class DosenController extends Controller
         return view('paDetailIrs', compact('dosens', 'dosen')); // Kirim data ke view
     }
 
-    public function detailPerwalianPA()
+    public function detailPerwalianPA($id)
     {
         $dosens = Auth::user();
         $dosen = Dosen::where('user_id', $dosens->id)->first();
 
-        // $mahasiswa = Mahasiswa::with('irs')->findOrFail($id); // Ambil data mahasiswa beserta IRS-nya
+        // Fetch the specific student with their user and IRS data
+        $mahasiswa = Mahasiswa::with(['user', 'irs' => function ($query) {
+            $query->join('jadwal', 'irs.jadwal_id', '=', 'jadwal.id')
+                ->join('buat_irs', function ($join) {
+                    $join->on('jadwal.kode_mk', '=', 'buat_irs.kode_mk')
+                        ->on('jadwal.kelas', '=', 'buat_irs.kelas');
+                })
+                ->select(
+                    'irs.*',
+                    'jadwal.kode_mk',
+                    'jadwal.nama_mk',
+                    'jadwal.semester',
+                    'jadwal.kelas',
+                    'jadwal.sks',
+                    'jadwal.ruang',
+                    'jadwal.sifat',
+                    'buat_irs.nama_dosen'
+                )
+                ->orderBy('jadwal.semester');
+        }])->findOrFail($id);
 
-        return view('paDetailPerwalian', compact('dosens', 'dosen')); // Kirim data ke view
+        // Initialize empty arrays for IRS data and semester SKS
+        $irsData = collect();
+        $semesterSks = [];
+
+        // Only process IRS data if it exists
+        if ($mahasiswa->irs->isNotEmpty()) {
+            $irsData = $mahasiswa->irs->groupBy('semester');
+            foreach ($irsData as $semester => $entries) {
+                $semesterSks[$semester] = $entries->sum('sks');
+            }
+        }
+
+        return view('paDetailPerwalian', compact('dosens', 'dosen', 'mahasiswa', 'irsData', 'semesterSks'));
     }
 }
