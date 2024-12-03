@@ -46,18 +46,19 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('dekan/dashboard', [DekanVerifController::class, 'dekanDashboard'])->name('dekan.dashboard');
 
-
 Route::get('dekan/jadwal', [DekanVerifController::class, 'dekanJadwal'])->name('dekan.jadwal');
 
 Route::post('dekan/jadwal', [DekanVerifController::class, 'updateStatus'])->name('updateStatus');
 
-Route::post('/dekan/jadwal/update-all-status', [DekanVerifController::class, 'updateAllStatus'])->name('updateAllStatus');
+Route::post('/dekan/jadwal/update-all-status', [DekanVerifController::class, 'updateAllStatusDekan'])->name('updateAllStatusDekan');
 
+Route::get('dekan/ruangan', [DekanVerifController::class, 'dekanRuangan'])->name('dekan.ruangan');
+
+Route::post('/ruangan/{id_ruang}', [DekanVerifController::class, 'updateRuanganStatus'])->name('DekanRuangan.update');
 
 
 // Route::get('dekan/jadwal', [DekanVerifController::class, 'verifJadwal'])->name('dekan.jadwal');
 
-Route::get('dekan/ruangan', [DekanVerifController::class, 'dekanRuangan'])->name('dekan.ruangan');
 
 Route::get('kaprodi/jadwal', [JadwalController::class, 'index'])->name('kaprodi.jadwal');
 
@@ -71,9 +72,9 @@ Route::get('/kaprodi/mk/{mataKuliahId}', [MatakuliahController::class, 'dosenHap
 
 Route::get('/kaprodi/mk', [MatakuliahController::class, 'index'])->name('matakuliah.index');
 
-Route::post('/kaprodi/mk', [MatakuliahController::class, 'store'])->name('store.jadwal');
+Route::post('/kaprodi/mk', [MatakuliahController::class, 'handleStore'])->name('store.jadwal');
 
-Route::post('kaprodimk/delete', [MatakuliahController::class, 'deleteJadwal'])->name('delete.jadwal');
+Route::post('kaprodimk/delete', [MatakuliahController::class, 'handleDelete'])->name('delete.jadwal');
 
 
 Route::get('kaprodi/irs', [KaprodiController::class, 'verifikasiIRS'])->name('kaprodi.irs');
@@ -132,7 +133,7 @@ Route::get('/dosen/irs/detail', [DosenController::class, 'detailIrsPA']);
 
 Route::get('/dosen/Perwalian', [DosenController::class, 'perwalianPA'])->name('Dosen.perwalian');
 
-Route::get('/dosen/Perwalian/detail', [DosenController::class, 'detailPerwalianPA']);
+Route::get('/dosen/Perwalian/detail/{id}', [DosenController::class, 'detailPerwalianPA'])->name('DosenPerwalian.detail');
 
 Route::get('/dosen/PengajuanNilai', [DosenController::class, 'pengajuanNilaiPA']);
 

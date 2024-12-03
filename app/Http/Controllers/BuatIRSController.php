@@ -9,7 +9,6 @@ use App\Models\Mahasiswa;
 use App\Models\Dosen;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Models\Irs;
 
 class BuatIRSController extends Controller
@@ -32,7 +31,7 @@ class BuatIRSController extends Controller
             $jadwals = Jadwal::whereIn('semester', $currentSemesterCourses)->get();
 
             // Fetch existing IRS entries for the current semester
-            $existingIrs = Irs::where('mhs_id', $mahasiswa->id)
+            $existingIrs = Irs::where('nim', $mahasiswa->nim)
                 ->where('semester', $mahasiswa->semester)
                 ->pluck('jadwal_id')
                 ->toArray();
@@ -52,9 +51,9 @@ class BuatIRSController extends Controller
     {
         try {
             DB::beginTransaction();
-
             $mhs = Auth::user();
             $mhsId = Mahasiswa::where('user_id', $mhs->id)->first();
+            // dd($mhsId);
 
             if (!$mhsId) {
                 throw new \Exception('Mahasiswa tidak ditemukan');
@@ -83,7 +82,7 @@ class BuatIRSController extends Controller
             }
 
             // Delete existing pending IRS entries for this semester
-            Irs::where('mhs_id', $mhsId->id)
+            Irs::where('nim', $mhsId->nim)
                 ->where('semester', $mhsId->semester)
                 ->where('status', 'pending')
                 ->delete();
@@ -94,7 +93,7 @@ class BuatIRSController extends Controller
 
                 if ($jadwal) {
                     Irs::create([
-                        'mhs_id' => $mhsId->id,
+                        'nim' => $mhsId->nim,
                         'jadwal_id' => $jadwal->id,
                         'semester' => $mhsId->semester,
                         'status' => 'pending'

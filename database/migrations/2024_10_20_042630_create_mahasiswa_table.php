@@ -28,7 +28,7 @@ return new class extends Migration
             //fk
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nama');
-            $table->string('nim')->unique();
+            $table->unsignedBigInteger('nim')->unique();
             $table->string('semester');
             $table->string('prodi');
             $table->string('fakultas');

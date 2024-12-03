@@ -23,14 +23,24 @@ class DekanVerifController extends Controller
         return view('dekanDashboard', compact('dekan', 'user'));
     }
 
-    public function dekanRuangan()
+    public function dekanRuangan(Request $request)
     {
-
         $user = Auth::user();
-
         $dekan = \App\Models\Dekan::where('user_id', $user->id)->first();
         
-        $ruang = Ruangan::all();
+        // Base query untuk ruangan dengan status Diajukan
+        $ruang = Ruangan::where('status', 'Diajukan');
+    
+        // Jika ada jurusan yang dipilih
+        if ($request->jurusan) {
+            $ruang = $ruang->where('prodi', $request->jurusan);
+        }
+    
+        $ruang = $ruang->get();
+        
+        if ($request->ajax()) {
+            return response()->json(['ruang' => $ruang]);
+        }
         
         return view('dekanVerifikasi', compact('dekan', 'user', 'ruang'));
     }
@@ -70,7 +80,7 @@ class DekanVerifController extends Controller
         return response()->json(['status' => $jadwal->status]);
     }
 
-    public function updateAllStatus(Request $request)
+    public function updateAllStatusDekan(Request $request)
     {
         // Validasi status yang dikirim
         $request->validate([
@@ -84,5 +94,19 @@ class DekanVerifController extends Controller
         return redirect()->route('dekan.jadwal')->with('success', 'Status semua matakuliah berhasil diubah!');
     }
 
+    public function updateRuanganStatus(Request $request, $id_ruang)
+    {
+        $status = $request->status === 'Disetujui' ? 'Disetujui' : 'Tidak Disetujui';
+        $keterangan = $request->status === 'Disetujui' ? 'Terpakai' : 'Tidak Tersedia';
+        // dd($status, $keterangan);
+        
+        DB::table('ruangan')
+            ->where('id_ruang', $id_ruang)
+            ->update([
+                'status' => $status,
+                'keterangan' => $keterangan
+            ]);
 
+        return redirect()->back()->with('success', 'Status ruangan berhasil diperbarui');
+    }
 }

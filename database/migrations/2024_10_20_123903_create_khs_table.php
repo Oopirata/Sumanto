@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('khs', function (Blueprint $table) {
             $table->id();
-            $table->string('nim');
+            $table->unsignedBigInteger('nim');
             $table->string('kode_mk');
             $table->integer('semester');
             $table->string('nilai');

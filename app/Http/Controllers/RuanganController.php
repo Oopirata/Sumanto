@@ -13,7 +13,7 @@ class RuanganController extends Controller
     {
         $dosens = Auth::user();
         $dosen = DB::table('bagian_akademik')->where('user_id', $dosens->id)->first();
-    
+
         if ($request->ajax()) {
             $query = Ruangan::query();
             
@@ -21,7 +21,7 @@ class RuanganController extends Controller
             if ($selectedJurusan) {
                 $query->where(function($q) use ($selectedJurusan) {
                     $q->where('prodi', $selectedJurusan)
-                      ->orWhereNull('prodi');
+                    ->orWhereNull('prodi');
                 });
             }
         
@@ -30,8 +30,18 @@ class RuanganController extends Controller
             return response()->json(['ruang' => $ruang]);
         }
 
+        // Ambil satu ruangan default untuk form tambah
+        $defaultRuang = (object)[
+            'keterangan' => 'Tidak Tersedia' // Set default value untuk keterangan
+        ];
+
         $ruang = Ruangan::all();
-        return view('baRuangan', compact('ruang', 'dosen', 'dosens'));
+        return view('baRuangan', [
+            'ruang' => $ruang,
+            'dosen' => $dosen, 
+            'dosens' => $dosens,
+            'defaultRuang' => $defaultRuang  // Tambahkan defaultRuang ke view
+        ]);
     }
 
     public function store(Request $request)
@@ -86,11 +96,13 @@ class RuanganController extends Controller
             'prodi' => 'nullable|string'
         ]);
 
-        // dd(request()->all());
+        // Debug untuk melihat data yang diterima
+        // dd($request->all());
 
         $updateData = [
             'keterangan' => $validatedData['keterangan'],
-            'prodi' => $validatedData['prodi']  // Set null jika prodi kosong
+            'prodi' => $validatedData['prodi'] ?? null,  // Gunakan null coalescing operator
+            'status' => 'Diajukan',
         ];
 
         DB::table('ruangan')
