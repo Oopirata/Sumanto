@@ -76,7 +76,8 @@ Route::post('/kaprodi/mk', [MatakuliahController::class, 'handleStore'])->name('
 
 Route::post('kaprodi/mk/delete', [MatakuliahController::class, 'handleDelete'])->name('delete.jadwal');
 
-Route::post('kaprodi/mk/delete-dosen', [MatakuliahController::class, 'deleteJadwal'])->name('delete.dosen');
+Route::post('kaprodi/mk/delete-dosen', [MatakuliahController::class, 'deleteDosen'])->name('deleteDosen');
+
 
 
 Route::get('kaprodi/irs', [KaprodiController::class, 'verifikasiIRS'])->name('kaprodi.irs');

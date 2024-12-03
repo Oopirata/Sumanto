@@ -56,7 +56,7 @@ class MatakuliahController extends Controller
 
         // Menambahkan dosen yang terkait dengan masing-masing mata kuliah
         foreach ($matakuliah as $mk) {
-            $dosen = Dosen::select('dosen.nama')
+            $dosen = Dosen::select('dosen.nama','dosen.nip')
                 ->join('dosen_matakuliah', 'dosen.nip', '=', 'dosen_matakuliah.dosen_nip')
                 ->where('dosen_matakuliah.kode_mk', $mk->kode_mk)
                 ->get();
@@ -70,23 +70,30 @@ class MatakuliahController extends Controller
         // Mengirim data ke view
         return view('kaprodiMatkulDosen', compact('matakuliah', 'dosen', 'user', 'userr'));
     }
-
-    public function deleteJadwal(Request $request)
+    public function deleteDosen(Request $request)
     {
-        dd($request->all());
-        // Menghapus dosen dari mata kuliah
+        // Validasi input
         $validated = $request->validate([
             'dosen_nip' => 'required|exists:dosen,nip',
-            'mata_kuliah_id' => 'required|exists:matakuliah,kode_mk',
+            'dosen_kuliah_id' => 'required|exists:matakuliah,kode_mk',
         ]);
-
-        DB::table('dosen_matakuliah')
+    
+        // Menggunakan query untuk menghapus data
+        $deleted = DB::table('dosen_matakuliah')
             ->where('dosen_nip', $validated['dosen_nip'])
-            ->where('kode_mk', $validated['mata_kuliah_id'])
+            ->where('kode_mk', $validated['dosen_kuliah_id'])
             ->delete();
-
-        return redirect()->route('matakuliah.index')->with('success', 'Dosen berhasil dihapus dari Mata Kuliah');
+    
+        // Cek apakah data berhasil dihapus
+        if ($deleted) {
+            return redirect()->route('matakuliah.index')->with('success', 'Dosen berhasil dihapus dari Mata Kuliah');
+        } else {
+            return redirect()->route('matakuliah.index')->with('error', 'Gagal menghapus Dosen dari Mata Kuliah');
+        }
     }
+    
+
+
 
     public function store(Request $request)
     {
