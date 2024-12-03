@@ -61,45 +61,52 @@
                                     <li>
                                         <form action="{{ route('store.ruangan') }}" method="POST" class="space-y-4 p-6 bg-gray-50 border border-gray-300 rounded-lg shadow-md">
                                             @csrf
-
+                                        
+                                            <!-- Lokasi -->
+                                            <div>
+                                                <label for="lokasi" class="block text-sm font-medium text-gray-700">Lokasi</label>
+                                                <select id="lokasi" name="lokasi" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" onchange="updateRoomFields()">
+                                                    <option value="">Pilih Gedung</option>
+                                                    <option value="Gedung A">Gedung A</option>
+                                                    <option value="Gedung B">Gedung B</option>
+                                                    <option value="Gedung C">Gedung C</option>
+                                                    <option value="Gedung D">Gedung D</option>
+                                                    <option value="Gedung E">Gedung E</option>
+                                                    <option value="Gedung F">Gedung F</option>
+                                                    <option value="Gedung G">Gedung G</option>
+                                                    <option value="Gedung H">Gedung H</option>
+                                                    <option value="Gedung I">Gedung I</option>
+                                                    <option value="Gedung J">Gedung J</option>
+                                                    <option value="Gedung K">Gedung K</option>
+                                                </select>
+                                            </div>
+                                        
                                             <!-- Kode Ruang -->
                                             <div>
                                                 <label for="id_ruang" class="block text-sm font-medium text-gray-700">Kode Ruang</label>
                                                 <input type="text" id="id_ruang" name="id_ruang" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                                             </div>
-
-                                            <!-- Nama Ruang -->
-                                            <div>
-                                                <label for="nama" class="block text-sm font-medium text-gray-700">Nama Ruang</label>
-                                                <input type="text" id="nama" name="nama" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                            </div>
-
+                                        
                                             <!-- Kapasitas -->
                                             <div>
                                                 <label for="kapasitas" class="block text-sm font-medium text-gray-700">Kapasitas</label>
                                                 <input type="number" id="kapasitas" name="kapasitas" required min="1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                                             </div>
-
-                                            <!-- Lokasi -->
-                                            <div>
-                                                <label for="lokasi" class="block text-sm font-medium text-gray-700">Lokasi</label>
-                                                <input type="text" id="lokasi" name="lokasi" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                            </div>
-
-                                            <!-- Keterangan -->
-                                            <div>
-                                                <label for="keterangan" class="block text-sm font-medium text-gray-700">Keterangan</label>
-                                                <select id="keterangan" name="keterangan" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                                    <option value="Tidak Tersedia" {{ $defaultRuang->keterangan == 'Tidak Tersedia' ? 'selected' : '' }}>Tidak Tersedia</option>
-                                                    <option value="Tersedia" {{ $defaultRuang->keterangan == 'Tersedia' ? 'selected' : '' }}>Tersedia</option>
-                                                </select>
-                                            </div>
-
+                                        
                                             <!-- Submit Button -->
                                             <div>
                                                 <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Simpan</button>
                                             </div>
                                         </form>
+                                        
+                                        <script>
+                                        function updateRoomFields() {
+                                            const locationType = document.getElementById('lokasi').value;
+                                            const codePrefix = locationType.slice(-1);
+                                        
+                                            document.getElementById('id_ruang').value = codePrefix;
+                                        }
+                                        </script>
                                     </li>
                                 </ul>
                             </div>     

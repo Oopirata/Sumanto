@@ -56,7 +56,7 @@ class MatakuliahController extends Controller
 
         // Menambahkan dosen yang terkait dengan masing-masing mata kuliah
         foreach ($matakuliah as $mk) {
-            $dosen = Dosen::select('dosen.nama')
+            $dosen = Dosen::select('dosen.nama','dosen.nip')
                 ->join('dosen_matakuliah', 'dosen.nip', '=', 'dosen_matakuliah.dosen_nip')
                 ->where('dosen_matakuliah.kode_mk', $mk->kode_mk)
                 ->get();
@@ -66,35 +66,34 @@ class MatakuliahController extends Controller
 
         // Mendapatkan seluruh dosen tanpa tergantung mata kuliah
         $dosen = Dosen::all();
-        // dd($userr);
+        // dd($dosen);
         // Mengirim data ke view
         return view('kaprodiMatkulDosen', compact('matakuliah', 'dosen', 'user', 'userr'));
     }
-
-    public function deleteJadwal(Request $request)
+    public function deleteDosen(Request $request)
     {
-    // Validasi data request
-    $request->validate([
-        'mata_kuliah_id' => 'required|string|exists:matakuliah,kode_mk', // validasi untuk mata kuliah
-        'dosen_nip' => 'required|string|exists:dosen,nip', // validasi untuk dosen
-    ]);
-
-    // Menemukan mata kuliah dan dosen
-    $mataKuliah = Matakuliah::where('kode_mk', $request->mata_kuliah_id)->first();
-    $dosen = Dosen::where('nip', $request->dosen_nip)->first();
-
-    // Memeriksa apakah data ditemukan dan hubungan dosen ada
-    if ($mataKuliah && $dosen) {
-        // Menghapus relasi dosen dan mata kuliah dari tabel pivot
-        DB::table('dosen_matakuliah')
-            ->where('kode_mk', $mataKuliah->kode_mk)
-            ->where('dosen_nip', $dosen->nip)
+        // Validasi input
+        $validated = $request->validate([
+            'dosen_nip' => 'required|exists:dosen,nip',
+            'dosen_kuliah_id' => 'required|exists:matakuliah,kode_mk',
+        ]);
+    
+        // Menggunakan query untuk menghapus data
+        $deleted = DB::table('dosen_matakuliah')
+            ->where('dosen_nip', $validated['dosen_nip'])
+            ->where('kode_mk', $validated['dosen_kuliah_id'])
             ->delete();
+    
+        // Cek apakah data berhasil dihapus
+        if ($deleted) {
+            return redirect()->route('matakuliah.index')->with('success', 'Dosen berhasil dihapus dari Mata Kuliah');
+        } else {
+            return redirect()->route('matakuliah.index')->with('error', 'Gagal menghapus Dosen dari Mata Kuliah');
+        }
     }
+    
 
-    // Redirect dengan pesan sukses
-    return redirect()->route('matakuliah.index')->with('success', 'Dosen berhasil dihapus dari Mata Kuliah.');
-    }
+
 
     public function store(Request $request)
     {
