@@ -263,37 +263,6 @@
                             </div>
 
                             <!-- drawer component -->
-                            <script>
-                                $(document).ready(function () {
-                                    $('#mata_kuliah_hapus').on('change', function () {
-                                        var mataKuliahId = $(this).val();
-
-                                        if (mataKuliahId) {
-                                            $.ajax({
-                                                url: '/kaprodi/mk/' + mataKuliahId, // Pastikan URL ini sesuai dengan route Anda
-                                                type: 'GET',
-                                                success: function (response) {
-                                                    console.log(response);
-                                                    $('#dosen_hapus').empty();
-                                                    $('#dosen_hapus').append('<option value="">Pilih Dosen</option>');
-
-                                                    // Tambahkan opsi dosen ke dropdown
-                                                    $.each(response.dosen, function (key, dosen) {
-                                                        $('#dosen_hapus').append('<option value="' + dosen.nip + '">' + dosen.nama + '</option>');
-                                                    });
-                                                },
-                                                error: function () {
-                                                    alert("Gagal mengambil data dosen.");
-                                                }
-                                            });
-                                        } else {
-                                            $('#dosen_hapus').empty();
-                                            $('#dosen_hapus').append('<option value="">Pilih Dosen</option>');
-                                        }
-                                    });
-                                });
-                            </script>
-                            <!-- drawer component -->
                             <div id="drawer-left-example"
                                 class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800"
                                 tabindex="-1" aria-labelledby="drawer-left-label">
@@ -316,38 +285,77 @@
                                     </svg>
                                     <span class="sr-only">Close menu</span>
                                 </button>
-                                <form action="{{ route('delete.jadwal') }}" method="POST">
+                                <form action="{{ route('delete.dosen') }}" method="POST">
                                     @csrf
-                                    <input type="hidden" name="action" value="delete_dosen">
                                     <div class="mb-4">
-                                        <label for="mata_kuliah" class="block text-sm font-medium text-gray-700">Mata
-                                            Kuliah</label>
-                                        <select id="mata_kuliah_hapus" name="mata_kuliah_id" required
+                                        <label for="dosen_kuliah_hapus" class="block text-sm font-medium text-gray-700">Mata Kuliah</label>
+                                        <select id="dosen_kuliah_hapus" name="dosen_kuliah_id" required
                                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                             <option value="">Pilih Mata Kuliah</option>
                                             @foreach ($matakuliah as $mk)
                                                 <option value="{{ $mk->kode_mk }}">{{ $mk->nama_mk }}</option>
-                                                <!-- Kirim kode_mk, bukan id -->
                                             @endforeach
                                         </select>
                                     </div>
-
                                     <div class="mb-4">
-                                        <label for="dosen" class="block text-sm font-medium text-gray-700">Dosen</label>
+                                        <label for="dosen_hapus" class="block text-sm font-medium text-gray-700">Dosen</label>
                                         <select id="dosen_hapus" name="dosen_nip" required
                                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                             <option value="">Pilih Dosen</option>
                                             @foreach ($matakuliah as $mk)
-                                            @foreach ($mk->dosen as $dosen)
-                                            <option value="{{ $dosen->nip }}">{{ $dosen->nama }}</option>
-                                            @endforeach
+                                                @foreach ($mk->dosen as $dosen)
+                                                <option value="{{ $dosen->nip }}" class="dosen-option matkul-{{ $mk->kode_mk }}" style="display:none;">
+                                                        {{ $dosen->nama }}
+                                                    </option>
+                                                @endforeach
                                             @endforeach
                                         </select>
+                                        <script>
+                                            // Store the dosen data in a JavaScript variable
+                                            var matakuliahDosenData = @json($matakuliah);
+                                            console.log(matakuliahDosenData); // Log the whole data to the console
+
+                                            // Iterate over the data to log each dosen's nip and name
+                                            matakuliahDosenData.forEach(function(mk) {
+                                                mk.dosen.forEach(function(dosen) {
+                                                    console.log('Dosen NIP:', dosen.nip, 'Dosen Name:', dosen.nama);
+                                                });
+                                            });
+                                        </script>
+
+                                        <script>
+                                            // Mengubah data PHP 'matakuliah' menjadi format JSON
+                                            var matakuliah = @json($matakuliah);
+                                            console.log(matakuliah); // Menampilkan seluruh data matakuliah di console
+                                        </script>
+
+                                        <script>
+                                            document.getElementById('dosen_kuliah_hapus').addEventListener('change', function () {
+                                                const selectedMatkul = this.value;
+                                                const dosenOptions = document.querySelectorAll('.dosen-option');
+                                                dosenOptions.forEach(option => {
+                                                    option.style.display = 'none';
+                                                    option.disabled = true;
+                                                });
+
+                                                if (selectedMatkul) {
+                                                    const relevantOptions = document.querySelectorAll('.matkul-' + selectedMatkul);
+                                                    relevantOptions.forEach(option => {
+                                                        option.style.display = 'block';
+                                                        option.disabled = false;
+                                                    });
+                                                }
+                                            });
+
+                                        </script>
                                     </div>
-                                    {{-- {{ dd($matakuliah) }} --}}
-                                    <button type="submit"
-                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-blue-300">Hapus Dosen</button>
+
+                                    <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus dosen ini?')"
+                                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-blue-300">
+                                        Hapus Dosen
+                                    </button>
                                 </form>
+
                             </div>
                         </div>
                         <!-- drawer init and toggle -->
