@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', 'Dashboard')
+@section('title', 'Detail IRS')
 
 @section('page')
    <div class="bg-gray-100 min-h-screen flex flex-col font-poppins">
@@ -15,7 +15,7 @@
                    <div class="bg-white rounded-lg shadow p-8 mb-6">
                        <!-- Home Button -->
                        <div class="mx-8 mt-4">
-                           <a href="{{ route('DosenPengajuan.irs') }}" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Home</a>
+                           <a href="{{ route('DosenPengajuan.irs') }}" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Kembali</a>
                        </div>
                        <div class="text-center">
                            <h2 class="text-2xl font-semibold">IRS</h2>

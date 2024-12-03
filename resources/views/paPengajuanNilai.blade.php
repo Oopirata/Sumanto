@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', 'Verifikasi Jadwal')
+@section('title', 'Pengajuan Niai')
 
 @section('page')
     <div class="bg-gray-100 min-h-screen flex flex-col">

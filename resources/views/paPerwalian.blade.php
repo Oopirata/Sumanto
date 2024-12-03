@@ -53,7 +53,7 @@
                                     <td class="px-6 py-4">{{ $student->nim }}</td>
                                     <td class="px-6 py-4">
                                         <!-- Tombol Detail -->
-                                        <a href="/dosen/Perwalian/detail"
+                                        <a href="{{ route('dosen.detailPerwalian', $student->nim) }}"
                                             class="px-4 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md">
                                             Detail
                                         </a>

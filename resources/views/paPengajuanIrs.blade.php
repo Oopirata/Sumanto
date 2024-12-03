@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', 'Verifikasi Jadwal')
+@section('title', 'Pengajuan IRS')
 
 @section('page')
     <div class="bg-gray-100 min-h-screen flex flex-col">
@@ -90,6 +90,7 @@
                                             </form>
 
                                             <!-- Tombol Detail -->
+                                            
                                             <a href="{{ route('Dosen.DetailIrs', $student->nim) }}"
                                                 class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md ml-2 inline-block">
                                                 Detail

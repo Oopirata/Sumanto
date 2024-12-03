@@ -16,28 +16,38 @@ class DosenController extends Controller
      */
     public function dashboardPA()
     {
-        $dosens = Auth::user(); // Data user yang sedang login
-        $dosen = Dosen::where('user_id', $dosens->id)->first(); // Ambil data dosen berdasarkan user_id
+        $dosens = Auth::user();
+        $dosen = Dosen::where('user_id', $dosens->id)->first();
 
-        if (!$dosen) {
-            return redirect()->route('login')->with('error', 'Dosen tidak ditemukan!');
-        }
+        // Konversi hari ke bahasa Indonesia
+        $hari = [
+            'Sunday' => 'Minggu',
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu'
+        ];
 
-        // Ambil jadwal berdasarkan hari ini
-        $hariIni = now()->locale('id')->translatedFormat('l'); // Nama hari dalam bahasa Indonesia
+        $hariIni = $hari[now()->format('l')] ?? now()->format('l');
 
-        // Jadwal hari ini untuk dosen yang login
-        $jadwals = Jadwal::where('hari', $hariIni)
-            ->whereIn('kode_mk', function ($query) use ($dosen) {
-                $query->select('kode_mk')
-                    ->from('dosen_matakuliah')
-                    ->where('dosen_nip', $dosen->nip);
-            })
-            ->orderBy('jam_mulai', 'asc')
+        // Ambil jadwal hari ini berdasarkan relasi dosen_matakuliah
+        $jadwals = Jadwal::join('dosen_matakuliah', 'jadwal.kode_mk', '=', 'dosen_matakuliah.kode_mk')
+            ->where('dosen_matakuliah.dosen_nip', $dosen->nip)
+            ->where('jadwal.hari', $hariIni)
+            ->select('jadwal.*')
+            ->orderBy('jadwal.jam_mulai')
             ->get();
 
-        // Kirim data ke view
-        return view('paDashboard', compact('dosens', 'dosen', 'jadwals'));
+        // Debug jika diperlukan
+        // dd([
+        //     'hari_ini' => $hariIni,
+        //     'nip_dosen' => $dosen->nip,
+        //     'jadwals' => $jadwals->toArray()
+        // ]);
+
+        return view('paDashboard', compact('dosen', 'dosens', 'jadwals'));
     }
 
     /**
@@ -106,24 +116,24 @@ class DosenController extends Controller
         try {
             $dosens = Auth::user();
             $dosen = Dosen::where('user_id', $dosens->id)->first();
-    
+
             // Ambil data mahasiswa
             $mahasiswa = Mahasiswa::where('nim', $nim)->firstOrFail();
-            
+
             // Ambil data IRS dengan jadwal untuk semester aktif mahasiswa
             $irsData = Irs::where('nim', $nim)
                 ->where('semester', $mahasiswa->semester)
                 ->with('jadwal') // Load jadwal relationship
                 ->get();
-    
+
             // Debug jika diperlukan
             // dd($irsData->toArray());
-    
+
             return view('paDetailIrs', compact('dosens', 'dosen', 'mahasiswa', 'irsData'));
         } catch (\Exception $e) {
             // // Log error untuk debugging
             // \Log::error($e->getMessage());
-            
+
             return redirect()
                 ->route('DosenPengajuan.irs')
                 ->with('error', 'Terjadi kesalahan saat memuat data IRS');
@@ -154,30 +164,58 @@ class DosenController extends Controller
         return view('paPerwalian', compact('dosens', 'dosen', 'mahasiswa'));
     }
 
-    public function detailPerwalianPA()
+    public function detailPerwalian($nim)
     {
-        // Get authenticated user
         $dosens = Auth::user();
-
-        // Fetch corresponding dosen record
         $dosen = Dosen::where('user_id', $dosens->id)->first();
 
-        // Fetch Mahasiswa's data (assuming each dosen is linked to a mahasiswa via user_id)
-        $mahasiswa = Mahasiswa::where('user_id', $dosens->id)->first();
+        // Ambil data mahasiswa dengan relasinya
+        $mahasiswa = Mahasiswa::with('user')
+            ->where('nim', $nim)
+            ->firstOrFail();
 
-        // Fetch IRS data for the mahasiswa
-        $irsData = Irs::where('mahasiswa_id', $mahasiswa->id)->get(); // Assuming IRS model is linked with mahasiswa_id
+        // Ambil semua IRS mahasiswa dan group berdasarkan semester
+        $irsData = Irs::where('nim', $nim)
+            ->join('jadwal', 'irs.jadwal_id', '=', 'jadwal.id')
+            ->select(
+                'irs.*',
+                'jadwal.kode_mk',
+                'jadwal.nama_mk',
+                'jadwal.kelas',
+                'jadwal.sks',
+                'jadwal.ruang',
+                'jadwal.sifat'
+            )
+            ->orderBy('irs.semester')
+            ->orderBy('jadwal.kode_mk')
+            ->get()
+            ->groupBy('semester');
 
-        // Organize IRS data by semester
-        $semesterSks = []; // To store the total SKS per semester
-        $groupedIrsData = $irsData->groupBy('semester'); // Assuming IRS has a 'semester' field
-
-        foreach ($groupedIrsData as $semester => $irs) {
-            $semesterSks[$semester] = $irs->sum('sks'); // Sum SKS for each semester
+        // Hitung total SKS per semester
+        $semesterSks = [];
+        foreach ($irsData as $semester => $matakuliahs) {
+            $semesterSks[$semester] = $matakuliahs->sum('sks');
         }
 
-        // Return the view with the data
-        return view('paDetailPerwalian', compact('dosens', 'dosen', 'mahasiswa', 'irsData', 'semesterSks'));
+        // Hitung IP dan IPK
+        $ipk = $mahasiswa->IPK ?? 0;
+        $ips = $mahasiswa->IPS ?? 0;
+
+        // Status Mahasiswa
+        $status = 'AKTIF';
+        $statusClass = 'bg-green-100 text-green-500';
+
+        return view('paDetailPerwalian', compact(
+            'dosen',
+            'dosens',
+            'mahasiswa',
+            'irsData',
+            'semesterSks',
+            'ipk',
+            'ips',
+            'status',
+            'statusClass'
+        ));
     }
 
     public function pengajuanNilaiPA()

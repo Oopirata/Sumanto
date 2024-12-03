@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', 'Form Input Nilai')
+@section('title', 'Input Nilai')
 
 @section('page')
     <div class="bg-gray-100 min-h-screen flex justify-center items-center">
