@@ -62,7 +62,7 @@ class UserSeeder extends Seeder
                 'roles' => ['Mahasiswa', 'Pembimbing Akademik'],
                 'nip' => '199001012020055555',
                 'nim' => '24060122199999',
-                'semester' => 1,
+                'semester' => 5,
                 'angkatan' => '2024',
                 'no_hp' => '081234567896',
                 'ipk' => 3.90,

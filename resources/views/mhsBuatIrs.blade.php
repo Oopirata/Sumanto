@@ -66,37 +66,42 @@
                             this.showNotification('error', 'Your file is safe :)');
                         }
                     }
+                
                 }">
-                <!-- Notifications -->
-                <div x-show="notification.show" 
-                x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 transform scale-90"
-                x-transition:enter-end="opacity-100 transform scale-100"
-                x-transition:leave="transition ease-in duration-300"
-                x-transition:leave-start="opacity-100 transform scale-100"
-                x-transition:leave-end="opacity-0 transform scale-90"
-                :class="notification.type === 'success' ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700'"
-                class="fixed top-4 right-4 px-4 py-3 rounded border z-50 flex items-center"
-                role="alert">
-                <div class="flex">
-                <div class="py-1">
-                    <template x-if="notification.type === 'success'">
-                        <svg class="fill-current h-6 w-6 text-green-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
-                        </svg>
-                    </template>
-                    <template x-if="notification.type === 'error'">
-                        <svg class="fill-current h-6 w-6 text-red-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/>
-                        </svg>
-                    </template>
-                </div>
-                <div>
-                    <p class="font-bold" x-text="notification.type === 'success' ? 'Success!' : 'Operation Cancelled'"></p>
-                    <p class="text-sm" x-text="notification.message"></p>
-                </div>
-                </div>
-                </div>
+                    <!-- Notifications -->
+                    <div x-show="notification.show" x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 transform scale-90"
+                        x-transition:enter-end="opacity-100 transform scale-100"
+                        x-transition:leave="transition ease-in duration-300"
+                        x-transition:leave-start="opacity-100 transform scale-100"
+                        x-transition:leave-end="opacity-0 transform scale-90"
+                        :class="notification.type === 'success' ? 'bg-green-100 border-green-400 text-green-700' :
+                            'bg-red-100 border-red-400 text-red-700'"
+                        class="fixed top-4 right-4 px-4 py-3 rounded border z-50 flex items-center" role="alert">
+                        <div class="flex">
+                            <div class="py-1">
+                                <template x-if="notification.type === 'success'">
+                                    <svg class="fill-current h-6 w-6 text-green-500 mr-4" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20">
+                                        <path
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+                                    </svg>
+                                </template>
+                                <template x-if="notification.type === 'error'">
+                                    <svg class="fill-current h-6 w-6 text-red-500 mr-4" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20">
+                                        <path
+                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" />
+                                    </svg>
+                                </template>
+                            </div>
+                            <div>
+                                <p class="font-bold"
+                                    x-text="notification.type === 'success' ? 'Success!' : 'Operation Cancelled'"></p>
+                                <p class="text-sm" x-text="notification.message"></p>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Bagian jadwal -->
                     <section class="relative mb-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm flex">
                         <div class="w-full max-w-7xl mx-auto px-6 lg:px-8 overflow-x-auto">
@@ -123,9 +128,18 @@
                                         {{ $time }}:00
                                     </div>
                                     @for ($day = 1; $day <= 7; $day++)
-                                        <div class="flex flex-col h-auto p-0.5 md:p-3.5 border-r border-gray-200 transition-all hover:bg-stone-100">
+                                        <div
+                                            class="flex flex-col h-auto p-0.5 md:p-3.5 border-r border-gray-200 transition-all hover:bg-stone-100">
                                             @php
-                                                $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+                                                $days = [
+                                                    'Senin',
+                                                    'Selasa',
+                                                    'Rabu',
+                                                    'Kamis',
+                                                    'Jumat',
+                                                    'Sabtu',
+                                                    'Minggu',
+                                                ];
                                                 $schedules = [];
                                                 foreach ($jadwals as $jadwal) {
                                                     $j = [
@@ -158,15 +172,21 @@
                                                             default => 'bg-gray-50 border-gray-600 text-gray-600',
                                                         };
                                                     @endphp
-                                                    <div class="flex items-center space-x-2" 
+                                                    <div class="flex items-center space-x-2"
                                                         style="grid-row: span {{ $duration }};"
-                                                        :class="selectedSchedules.some(s => s.kode_mk === '{{ $schedule['kode_mk'] }}') && !selectedSchedules.some(s => s.id === {{ $schedule['id'] }}) ? 'opacity-50' : ''"
-                                                        >
+                                                        :class="[
+                                                            selectedSchedules.some(s => s
+                                                                .kode_mk === '{{ $schedule['kode_mk'] }}') &&
+                                                            !selectedSchedules.some(s => s.id ===
+                                                                {{ $schedule['id'] }}) ? 'opacity-50' : '',
+                                                            {{ in_array($schedule['id'], $existingIrs) ? 'true' : 'false' }} ?
+                                                            'opacity-50' : ''
+                                                        ]">
                                                         <div class="flex items-center">
-                                                            <input 
-                                                                type="checkbox" 
-                                                                class="w-4 h-4"
-                                                                :checked="selectedSchedules.some(s => s.id === {{ $schedule['id'] }})"
+                                                            <input type="checkbox" class="w-4 h-4"
+                                                                :checked="selectedSchedules.some(s => s.id ===
+                                                                    {{ $schedule['id'] }})"
+                                                                :disabled="{{ in_array($schedule['id'], $existingIrs) ? 'true' : 'false' }}"
                                                                 @change="
                                                                     if ($event.target.checked) {
                                                                         {{-- // Cek jika SKS sudah mencapai atau akan melebihi batas --}}
@@ -200,7 +220,8 @@
                                                                         const hasConflict = selectedSchedules.some(s => 
                                                                             s.day === '{{ $schedule['day'] }}' && (
                                                                                 ({{ intval(substr($schedule['start'], 0, 2)) }} >= parseInt(s.start) && 
-                                                                                {{ intval(substr($schedule['start'], 0, 2)) }} < parseInt(s.end)) ||
+                                                                                {{ intval(substr($schedule['start'], 0, 2)) }} < parseInt(s.end))
+||
                                                                                 ({{ intval(substr($schedule['end'], 0, 2)) }} > parseInt(s.start) && 
                                                                                 {{ intval(substr($schedule['end'], 0, 2)) }} <= parseInt(s.end)) ||
                                                                                 (parseInt(s.start) >= {{ intval(substr($schedule['start'], 0, 2)) }} && 
@@ -253,15 +274,20 @@
                                                                             timer: 1500
                                                                         });
                                                                     }
-                                                                "
-                                                            >
+                                                                ">
                                                         </div>
-                                                        <div class="rounded p-1.5 border-l-2 {{ $colorClass }} w-full text-left mt-6">
-                                                            <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
-                                                            <p class="text-xs font-normal mb-px">Kelas : {{ $schedule['kelas'] }}</p>
-                                                            <p class="text-xs font-normal mb-px">SKS : {{ $schedule['sks'] }}</p>
-                                                            <p class="text-xs font-normal mb-px">Kapasitas : {{ $schedule['kapasitas'] }}</p>
-                                                            <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>
+                                                        <div
+                                                            class="rounded p-1.5 border-l-2 {{ $colorClass }} w-full text-left mt-6">
+                                                            <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}
+                                                            </p>
+                                                            <p class="text-xs font-normal mb-px">Kelas :
+                                                                {{ $schedule['kelas'] }}</p>
+                                                            <p class="text-xs font-normal mb-px">SKS :
+                                                                {{ $schedule['sks'] }}</p>
+                                                            <p class="text-xs font-normal mb-px">Kapasitas :
+                                                                {{ $schedule['kapasitas'] }}</p>
+                                                            <p class="text-xs font-semibold">{{ $schedule['start'] }} -
+                                                                {{ $schedule['end'] }}</p>
                                                         </div>
                                                     </div>
                                                 @endif
@@ -316,14 +342,16 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <template x-for="(schedule, index) in selectedSchedules" :key="schedule.id">
+                                            <template x-for="(schedule, index) in selectedSchedules"
+                                                :key="schedule.id">
                                                 <tr class="hover:bg-gray-100 transition-colors">
                                                     <td class="border px-4 py-2" x-text="schedule.title"></td>
                                                     <td class="border px-4 py-2" x-text="schedule.kode_mk"></td>
                                                     <td class="border px-4 py-2" x-text="schedule.sks"></td>
                                                     <td class="border px-4 py-2" x-text="schedule.kelas"></td>
                                                     <td class="border px-4 py-2 text-center">
-                                                        <button @click.prevent="
+                                                        <button
+                                                            @click.prevent="
                                                             Swal.fire({
                                                                 title: 'هل ستحذفه؟',
                                                                 text: 'You won\'t be able to revert this!',
@@ -385,6 +413,7 @@
                                     <div>
                                         <button class="bg-blue-700 text-white px-3 py-1.5 rounded-md">Simpan</button>
                                     </div>
+
                                 </div>
                             </form>
                         </div>

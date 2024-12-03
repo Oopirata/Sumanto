@@ -11,7 +11,7 @@ class Irs extends Model
 
     protected $table = 'irs';
     protected $fillable = [
-        'mhs_id',
+        'nim',
         'jadwal_id',
         'semester',
         'total_sks',
@@ -20,6 +20,11 @@ class Irs extends Model
 
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'mhs_id', 'id');
+        return $this->belongsTo(Mahasiswa::class, 'nim', 'id');
+    }
+
+    public function jadwal()
+    {
+        return $this->belongsTo(Jadwal::class, 'jadwal_id', 'id');
     }
 }
