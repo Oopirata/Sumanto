@@ -5,7 +5,10 @@
 @section('page')
     <div class="bg-gray-100 min-h-screen flex flex-col">
         <div class="flex overflow-hidden">
+            <x-side-bar-pa :dosen="$dosen" :dosens="$dosens"></x-side-bar-pa>
             <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
+                <x-nav-bar :dosen="$dosen" :dosens="$dosens"></x-nav-bar>
+            
 
                 <div class="border-b-4"></div>
         
@@ -31,7 +34,7 @@
                                 <td class="px-6 py-4">Struktur Data A</td>
                                 <td class="px-6 py-4">A</td>
                                 <td class="px-6 py-4 flex justify-center gap-2">
-                                    <button class="bg-blue-600 text-white px-4 py-2 rounded-full">Ubah</button>
+                                    <a href="/dosen/PengajuanNilai/detail/inputNilai" class="bg-blue-600 text-white px-4 py-2 rounded-full">Ubah</a>
                                     <button class="bg-red-600 text-white px-4 py-2 rounded-full">Hapus</button>
                                 </td>
                             </tr>
@@ -42,7 +45,7 @@
                                 <td class="px-6 py-4">Struktur Data A</td>
                                 <td class="px-6 py-4">A</td>
                                 <td class="px-6 py-4 flex justify-center gap-2">
-                                    <button class="bg-blue-600 text-white px-4 py-2 rounded-full">Ubah</button>
+                                    <a href="/dosen/PengajuanNilai/detail/inputNilai" class="bg-blue-600 text-white px-4 py-2 rounded-full">Ubah</a>
                                     <button class="bg-red-600 text-white px-4 py-2 rounded-full">Hapus</button>
                                 </td>
                             </tr>
@@ -53,7 +56,7 @@
                                 <td class="px-6 py-4">Struktur Data A</td>
                                 <td class="px-6 py-4">A</td>
                                 <td class="px-6 py-4 flex justify-center gap-2">
-                                    <button class="bg-blue-600 text-white px-4 py-2 rounded-full">Ubah</button>
+                                    <a href="/dosen/PengajuanNilai/detail/inputNilai" class="bg-blue-600 text-white px-4 py-2 rounded-full">Ubah</a>
                                     <button class="bg-red-600 text-white px-4 py-2 rounded-full">Hapus</button>
                                 </td>
                             </tr>
@@ -64,7 +67,7 @@
                                 <td class="px-6 py-4">Struktur Data B</td>
                                 <td class="px-6 py-4">B</td>
                                 <td class="px-6 py-4 flex justify-center gap-2">
-                                    <button class="bg-blue-600 text-white px-4 py-2 rounded-full">Ubah</button>
+                                    <a href="/dosen/PengajuanNilai/detail/inputNilai" class="bg-blue-600 text-white px-4 py-2 rounded-full">Ubah</a>
                                     <button class="bg-red-600 text-white px-4 py-2 rounded-full">Hapus</button>
                                 </td>
                             </tr>
@@ -75,7 +78,7 @@
                                 <td class="px-6 py-4">Struktur Data B</td>
                                 <td class="px-6 py-4">B</td>
                                 <td class="px-6 py-4 flex justify-center gap-2">
-                                    <button class="bg-blue-600 text-white px-4 py-2 rounded-full">Ubah</button>
+                                    <a href="/dosen/PengajuanNilai/detail/inputNilai" class="bg-blue-600 text-white px-4 py-2 rounded-full">Ubah</a>
                                     <button class="bg-red-600 text-white px-4 py-2 rounded-full">Hapus</button>
                                 </td>
                             </tr>
@@ -86,7 +89,7 @@
                                 <td class="px-6 py-4">Struktur Data C</td>
                                 <td class="px-6 py-4">C</td>
                                 <td class="px-6 py-4 flex justify-center gap-2">
-                                    <button class="bg-blue-600 text-white px-4 py-2 rounded-full">Ubah</button>
+                                    <a href="/dosen/PengajuanNilai/detail/inputNilai" class="bg-blue-600 text-white px-4 py-2 rounded-full">Ubah</a>
                                     <button class="bg-red-600 text-white px-4 py-2 rounded-full">Hapus</button>
                                 </td>
                             </tr>

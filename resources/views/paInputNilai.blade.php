@@ -4,9 +4,12 @@
 
 @section('page')
     <div class="bg-gray-100 min-h-screen flex justify-center items-center">
-        <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
-            <div class="mx-8 rounded-2xl mt-4 bg-white shadow p-8 mb-6">
+        <x-side-bar-pa :dosen="$dosen" :dosens="$dosens"></x-side-bar-pa>
+            <div id="main-content" class="relative text-black ml-64 font-poppins w-full h-full overflow-y-auto">
+                <x-nav-bar :dosen="$dosen" :dosens="$dosens"></x-nav-bar>
+                
                 <!-- Informasi Mahasiswa -->
+                <div class="mx-8 rounded-2xl mt-4 bg-white shadow p-8 mb-6">
                 <div class="flex justify-between mb-6">
                     <div>
                         <p class="text-sm font-medium text-gray-700">Nama: Raka Maulana Yusuf</p>
@@ -41,10 +44,10 @@
 
                 <!-- Tombol Simpan -->
                 <div class="mt-6 text-center">
-                    <button
+                    <a href="/dosen/PengajuanNilai/detail"
                         class="bg-blue-600 text-white font-bold py-2 px-8 rounded-full shadow-lg hover:bg-blue-700 transition">
                         Simpan
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
