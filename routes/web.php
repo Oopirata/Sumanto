@@ -120,6 +120,14 @@ Route::get('staff/dashboard', [BaController::class, 'DashboardBA'])->name('staff
 
 Route::get('staff/detailirs', [BaController::class, 'DetailIrsBA'])->name('staff.irs.detail');
 
+Route::get('staff/presensi', [BaController::class, 'PresensiBA']);
+
+Route::get('staff/sksmhs', [BaController::class, 'SksMhsBA']);
+
+Route::get('staff/nilaimhs', [BaController::class, 'NilaiMhsBA']);
+
+Route::get('staff/detailnilaimhs', [BaController::class, 'DetailNilaiBA'])->name('staff.irs.detail');
+
 
 // Dosen
 Route::get('dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('dosen.dashboard');

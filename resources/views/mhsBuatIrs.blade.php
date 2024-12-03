@@ -382,6 +382,9 @@
                                             x-text="selectedSchedules.reduce((total, schedule) => total + schedule.sks, 0)"
                                             class="text-blue-600"></span>
                                     </div>
+                                    <div>
+                                        <button class="bg-blue-700 text-white px-3 py-1.5 rounded-md">Simpan</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -415,6 +418,5 @@
 
             setInterval(updateClock, 1000);
         </script>
-
     </div>
 @endsection
