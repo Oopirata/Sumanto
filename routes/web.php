@@ -79,10 +79,12 @@ Route::post('kaprodi/mk/delete', [MatakuliahController::class, 'handleDelete'])-
 Route::post('kaprodi/mk/delete-dosen', [MatakuliahController::class, 'deleteDosen'])->name('deleteDosen');
 
 
-
 Route::get('kaprodi/irs', [KaprodiController::class, 'verifikasiIRS'])->name('kaprodi.irs');
 
-Route::post('kaprodi/irs/update/{mhs_id}', [KaprodiController::class, 'updateAllStatus'])->name('updateAllStatus');
+Route::post('kaprodi/irs/update/setuju/{nim}', [KaprodiController::class, 'updateAllStatusToDisetujui'])->name('updateAllStatusToDisetujui');
+
+Route::post('kaprodi/irs/update/tolak/{nim}', [KaprodiController::class, 'updateAllStatusToTidakDisetujui'])->name('updateAllStatusToTidakDisetujui');
+
 
 
 
