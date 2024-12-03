@@ -134,14 +134,11 @@ Route::get('/dosen/Perwalian', [DosenController::class, 'perwalianPA'])->name('D
 
 Route::get('/dosen/Perwalian/detail', [DosenController::class, 'detailPerwalianPA']);
 
-Route::get('/dosen/PengajuanNilai', function () {
-    return view('paPengajuanNilai');
-});
+Route::get('/dosen/PengajuanNilai', [DosenController::class, 'pengajuanNilaiPA']);
 
-Route::get('/dosen/DetailNilai', function () {
-    return view('paDetailNilai');
-});
+Route::get('/dosen/PengajuanNilai/detail', [DosenController::class, 'detailNilaiPA']);
 
-Route::get('/dosen/InputNilai', function () {
-    return view('paInputNilai');
-});
+Route::get('/dosen/PengajuanNilai/detail/inputNilai', [DosenController::class, 'inputNilaiPA']);
+
+
+

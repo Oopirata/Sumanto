@@ -66,21 +66,26 @@ class DosenController extends Controller
      */
     public function updateStatusIrs(Request $request, $mhs_id)
     {
-        // Validasi input status
-        $request->validate([
-            'status' => 'required|in:Disetujui,Tidak Disetujui',
-        ]);
+        // Validasi input `status` agar hanya menerima nilai "Disetujui" atau "Tidak Disetujui"
+    $request->validate([
+        'status' => 'required|in:Disetujui,Tidak Disetujui', // Status wajib diisi dan hanya bisa "Disetujui" atau "Tidak Disetujui"
+    ]);
 
-        // Temukan IRS berdasarkan mahasiswa ID
-        $irs = Irs::where('mhs_id', $mhs_id)->first();
+    // Update semua data IRS dengan `mhs_id` yang sesuai
+    $affectedRows = Irs::where('mhs_id', $mhs_id)->update(['status' => $request->status]);
 
-        if ($irs) {
-            $irs->update(['status' => $request->status]);
+    // Periksa apakah ada data yang berhasil diperbarui
+    if ($affectedRows > 0) {
+        // Jika ada data yang diperbarui, kembalikan pesan sukses
+        return redirect()
+            ->route('DosenPengajuan.irs')
+            ->with('success', 'Status IRS berhasil diperbarui untuk semua data!');
+    }
 
-            return redirect()->route('DosenPengajuan.irs')->with('success', 'Status IRS berhasil diperbarui!');
-        }
-
-        return redirect()->route('DosenPengajuan.irs')->with('error', 'IRS tidak ditemukan!');
+    // Jika tidak ada data IRS yang ditemukan untuk `mhs_id` tersebut, kembalikan pesan error
+    return redirect()
+        ->route('DosenPengajuan.irs')
+        ->with('error', 'IRS tidak ditemukan untuk mahasiswa tersebut!');
     }
 
     /**
@@ -122,5 +127,34 @@ class DosenController extends Controller
         // $mahasiswa = Mahasiswa::with('irs')->findOrFail($id); // Ambil data mahasiswa beserta IRS-nya
 
         return view('paDetailPerwalian', compact('dosens', 'dosen')); // Kirim data ke view
+    }
+    public function pengajuanNilaiPA()
+    {
+        $dosens = Auth::user();
+        $dosen = Dosen::where('user_id', $dosens->id)->first();
+
+        // $mahasiswa = Mahasiswa::with('irs')->findOrFail($id); // Ambil data mahasiswa beserta IRS-nya
+
+        return view('paPengajuanNilai', compact('dosens', 'dosen')); // Kirim data ke view
+    }
+
+    public function detailNilaiPA()
+    {
+        $dosens = Auth::user();
+        $dosen = Dosen::where('user_id', $dosens->id)->first();
+
+        // $mahasiswa = Mahasiswa::with('irs')->findOrFail($id); // Ambil data mahasiswa beserta IRS-nya
+
+        return view('paDetailNilai', compact('dosens', 'dosen')); // Kirim data ke view
+    }
+
+    public function inputNilaiPA()
+    {
+        $dosens = Auth::user();
+        $dosen = Dosen::where('user_id', $dosens->id)->first();
+
+        // $mahasiswa = Mahasiswa::with('irs')->findOrFail($id); // Ambil data mahasiswa beserta IRS-nya
+
+        return view('paInputNilai', compact('dosens', 'dosen')); // Kirim data ke view
     }
 }
