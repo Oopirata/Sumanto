@@ -17,20 +17,16 @@ use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Route for displaying the login page
-Route::get('/', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/', [AuthController::class, 'showLogin']);
 
-// Route for handling login process
-Route::get('/', function () {
-    return view('login');
-})->name('login');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
-
 // Route for logout
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 // Routes for role selection
 Route::middleware(['auth'])->group(function () {
+
     // Route to display the role selection page
     Route::get('/select-role', [AuthController::class, 'selectRolePage'])->name('selectRole');
 
