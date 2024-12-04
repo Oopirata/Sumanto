@@ -25,7 +25,7 @@ class IRSController extends Controller
 
         $irsData = Irs::with(['jadwal'])
             ->join('jadwal', 'irs.jadwal_id', '=', 'jadwal.id')
-            ->join('buat_irs', function ($join) {
+            ->leftJoin('buat_irs', function ($join) {
                 $join->on('jadwal.kode_mk', '=', 'buat_irs.kode_mk')
                     ->on('jadwal.kelas', '=', 'buat_irs.kelas');
             })
@@ -34,7 +34,7 @@ class IRSController extends Controller
                 'irs.id',
                 'irs.nim',
                 'irs.jadwal_id',
-                'irs.semester as irs_semester', // Use IRS semester, not jadwal semester
+                'irs.semester as irs_semester',
                 'irs.status',
                 'jadwal.sks',
                 'jadwal.kode_mk',
@@ -43,9 +43,9 @@ class IRSController extends Controller
                 'jadwal.ruang',
                 'buat_irs.nama_dosen'
             )
-            ->orderBy('irs.semester') // Order by IRS semester
+            ->orderBy('irs.semester')
             ->get()
-            ->groupBy('irs_semester'); // Group by IRS semester
+            ->groupBy('irs_semester');
 
         $semesterSks = [];
         foreach ($irsData as $semester => $entries) {

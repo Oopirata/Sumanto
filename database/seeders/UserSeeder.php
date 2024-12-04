@@ -23,6 +23,67 @@ class UserSeeder extends Seeder
         return strtolower($cleanName) . '@' . strtolower(str_replace(' ', '', $role)) . '.example.com';
     }
 
+    private function calculateGrades($nim)
+    {
+        // Get all KHS entries for the student
+        $khsData = DB::table('khs')
+            ->join('matakuliah', 'khs.kode_mk', '=', 'matakuliah.kode_mk')
+            ->where('khs.nim', $nim)
+            ->select(
+                'khs.semester',
+                'khs.nilai',
+                'matakuliah.sks'
+            )
+            ->get();
+
+        if ($khsData->isEmpty()) {
+            return [
+                'ipk' => 0.00,
+                'ips' => 0.00
+            ];
+        }
+
+        // Group KHS data by semester
+        $semesterData = $khsData->groupBy('semester');
+
+        $totalGradePoints = 0;
+        $totalSKS = 0;
+        $latestSemester = $khsData->max('semester');
+        $latestSemesterPoints = 0;
+        $latestSemesterSKS = 0;
+
+        foreach ($khsData as $entry) {
+            $gradePoint = match ($entry->nilai) {
+                'A' => 4.0,
+                'A-' => 3.7,
+                'B+' => 3.3,
+                'B' => 3.0,
+                'B-' => 2.7,
+                'C+' => 2.3,
+                'C' => 2.0,
+                'D' => 1.0,
+                default => 0
+            };
+
+            $weightedGrade = $gradePoint * $entry->sks;
+            $totalGradePoints += $weightedGrade;
+            $totalSKS += $entry->sks;
+
+            if ($entry->semester == $latestSemester) {
+                $latestSemesterPoints += $weightedGrade;
+                $latestSemesterSKS += $entry->sks;
+            }
+        }
+
+        $ipk = $totalSKS > 0 ? round($totalGradePoints / $totalSKS, 2) : 0.00;
+        $ips = $latestSemesterSKS > 0 ? round($latestSemesterPoints / $latestSemesterSKS, 2) : 0.00;
+
+        return [
+            'ipk' => $ipk,
+            'ips' => $ips
+        ];
+    }
+
     public function run()
     {
         $users = [
@@ -65,8 +126,6 @@ class UserSeeder extends Seeder
                 'semester' => 5,
                 'angkatan' => '2024',
                 'no_hp' => '081234567896',
-                'ipk' => 3.90,
-                'ips' => 3.95,
                 'alamat' => 'Jl. Madasel No. 4',
                 'dosen_wali_nip' => '197304011998021001'  // Reference to Dr. Aris's NIP
             ],
@@ -96,8 +155,6 @@ class UserSeeder extends Seeder
                 'semester' => 5,
                 'angkatan' => '2022',
                 'no_hp' => '081234567893',
-                'ipk' => 3.75,
-                'ips' => 3.80,
                 'dosen_wali_nip' => '197304011998021001'  // Reference to Dr. Aris's NIP
             ],
             [
@@ -107,8 +164,6 @@ class UserSeeder extends Seeder
                 'semester' => 5,
                 'angkatan' => '2022',
                 'no_hp' => '08182738291',
-                'ipk' => 3.88,
-                'ips' => 3.99,
                 'dosen_wali_nip' => '198607232019031007'  // Reference to Mr. Sandy's NIP
             ],
             [
@@ -118,8 +173,6 @@ class UserSeeder extends Seeder
                 'semester' => 5,
                 'angkatan' => '2022',
                 'no_hp' => '081234567894',
-                'ipk' => 3.85,
-                'ips' => 3.90,
                 'dosen_wali_nip' => '196511071992031003'  // Reference to Drs. Eko's NIP
             ],
             [
@@ -129,8 +182,6 @@ class UserSeeder extends Seeder
                 'semester' => 5,
                 'angkatan' => '2022',
                 'no_hp' => '081234567895',
-                'ipk' => 3.35,
-                'ips' => 3.00,
                 'dosen_wali_nip' => '198607232019031007'  // Reference to Mr. Sandy's NIP
             ],
             [
@@ -140,8 +191,6 @@ class UserSeeder extends Seeder
                 'semester' => 5,
                 'angkatan' => '2022',
                 'no_hp' => '081234567665',
-                'ipk' => 3.95,
-                'ips' => 4.00,
                 'dosen_wali_nip' => '198607232019031007'  // Reference to Mr. Sandy's NIP
             ],
         ];
@@ -168,6 +217,8 @@ class UserSeeder extends Seeder
                     case 'Mahasiswa':
                         $dosenWali = Dosen::where('nip', $userData['dosen_wali_nip'])->first();
 
+                        $grades = $this->calculateGrades($userData['nim']);
+
                         DB::table('mahasiswa')->insert([
                             'user_id' => $user->id,
                             'nama' => $user->name,
@@ -177,8 +228,8 @@ class UserSeeder extends Seeder
                             'prodi' => 'Informatika',
                             'angkatan' => $userData['angkatan'],
                             'no_hp' => $userData['no_hp'],
-                            'IPK' => $userData['ipk'],
-                            'IPS' => $userData['ips'],
+                            'IPK' => 0.00,  // Initial value
+                            'IPS' => 0.00,  // Initial value
                             'dosen_wali_id' => $dosenWali->id
                         ]);
                         break;
@@ -223,6 +274,24 @@ class UserSeeder extends Seeder
                         break;
                 }
             }
+        }
+
+        $this->updateAllStudentGrades();
+    }
+
+    private function updateAllStudentGrades()
+    {
+        $mahasiswas = DB::table('mahasiswa')->get();
+
+        foreach ($mahasiswas as $mahasiswa) {
+            $grades = $this->calculateGrades($mahasiswa->nim);
+
+            DB::table('mahasiswa')
+                ->where('nim', $mahasiswa->nim)
+                ->update([
+                    'IPK' => $grades['ipk'],
+                    'IPS' => $grades['ips']
+                ]);
         }
     }
 }
