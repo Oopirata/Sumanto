@@ -49,12 +49,16 @@
                                                 <td class="border px-4 py-2">{{ $entry->jadwal->kelas }}</td>
                                                 <td class="border px-4 py-2">{{ $entry->jadwal->sks }}</td>
                                                 <td class="border px-4 py-2">{{ $entry->jadwal->ruang }}</td>
-                                                <td class="border px-4 py-2 text-center"> <!-- Added text-center -->
+                                                <td class="border px-4 py-2 text-center">
                                                     @if ($entry->status == 'pending')
                                                         <span
                                                             class="inline-flex px-3 py-1 bg-yellow-200 text-yellow-800 rounded-full text-xs whitespace-nowrap">
-                                                            <!-- Updated classes -->
                                                             Menunggu Persetujuan
+                                                        </span>
+                                                    @elseif($entry->status == 'mengulang')
+                                                        <span
+                                                            class="inline-flex px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs whitespace-nowrap">
+                                                            Mengulang
                                                         </span>
                                                     @elseif($entry->status == 'approved')
                                                         <span
@@ -65,11 +69,6 @@
                                                         <span
                                                             class="inline-flex px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs whitespace-nowrap">
                                                             Wajib
-                                                        </span>
-                                                    @elseif($entry->status == 'pilihan')
-                                                        <span
-                                                            class="inline-flex px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs whitespace-nowrap">
-                                                            Pilihan
                                                         </span>
                                                     @else
                                                         <span
@@ -83,10 +82,18 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <a href="{{ route('mhs.downloadIrsPDF', ['nim' => $mahasiswa->nim, 'semester' => $semester]) }}"
-                                    class="ml-4 px-3 py-1 mt-10 bg-green-500 text-white rounded-md text-sm hover:bg-green-600">
-                                    Download PDF
-                                </a>
+                                @php
+                                    $allApproved = $entries->every(function ($entry) {
+                                        return $entry->status === 'approved' || $entry->status === 'wajib';
+                                    });
+                                @endphp
+
+                                @if ($allApproved)
+                                    <a href="{{ route('mhs.downloadIrsPDF', ['nim' => $mahasiswa->nim, 'semester' => $semester]) }}"
+                                        class="ml-4 px-3 py-1 mt-10 bg-green-500 text-white rounded-md text-sm hover:bg-green-600">
+                                        Download PDF
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     @empty
