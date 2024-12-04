@@ -8,7 +8,7 @@
         </div>
 
         <!-- Menu Items -->
-        <div class="flex flex-col mt-6 flex-grow margin-bottom: 50px;">
+        <div class="flex flex-col mt-6 flex-grow">
             <!-- Dashboard -->
             <a href="/kaprodi/dashboard" class="inline-flex items-center mx-5 px-6 py-2 text-gray-600 hover:bg-[#5932EA] focus:bg-[#5932EA] hover:text-white focus:text-white rounded-lg transition-all mb-2">
                 <span class="material-icons"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <a href="/kaprodi/irs" class="inline-flex items-center mt-3 mx-5 px-6 py-2 text-gray-600 hover:bg-[#5932EA] focus:bg-[#5932EA] hover:text-white focus:text-white rounded-lg transition-all mb-2">
+            <a href="/kaprodi/irs" class="inline-flex items-center mx-5 px-6 py-2 text-gray-600 hover:bg-[#5932EA] focus:bg-[#5932EA] hover:text-white focus:text-white rounded-lg transition-all mb-2 mt-4">
                 <span class="material-icons">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
                     <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
@@ -54,11 +54,12 @@
 
 
             <!-- Profile (di bagian bawah sidebar) -->
-            <div class="px-6 py-4 flex items-center">
-            <img src="https://via.placeholder.com/40" alt="Profile Image" class="rounded-full h-10 w-10">
-            <div class="ml-4">
-                <p class="text-sm font-medium">{{ $userr ->nama }}</p>
-                <p class="text-xs text-gray-600">{{ $userr -> nim }} - Informatika S1</p>
+            <div class="px-6 py-4 flex items-center mt-auto">
+                <img src="https://via.placeholder.com/40" alt="Profile Image" class="rounded-full h-10 w-10">
+                <div class="ml-4">
+                    <p class="text-sm font-medium">{{ $userr ->nama }}</p>
+                    <p class="text-xs text-gray-600">{{ $userr ->nip }} - Informatika S1</p>
+                </div>
             </div>
         </div>
     </aside>

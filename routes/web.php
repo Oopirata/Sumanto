@@ -108,6 +108,8 @@ Route::get('/mhs/status', [MhsDashboard::class, 'StatusMhs'])->name('mhs.status'
 
 Route::get('/mhs/transkrip', [MhsDashboard::class, 'TranskripMhs'])->name('mhs.transkrip');
 
+Route::get('/mhs/downloadIrsPDF/{nim}/{semester}', [IRSController::class, 'downloadIrsPDF'])->name('mhs.downloadIrsPDF');
+
 //BA
 
 Route::get('staff/irs', [BaController::class, 'IrsBA']);
@@ -125,6 +127,14 @@ Route::post('staff/ruangan/kapasitas/{id_ruang}', [RuanganController::class, 'up
 Route::get('staff/dashboard', [BaController::class, 'DashboardBA'])->name('staff.dashboard');
 
 Route::get('staff/detailirs', [BaController::class, 'DetailIrsBA'])->name('staff.irs.detail');
+
+Route::get('staff/presensi', [BaController::class, 'PresensiBA']);
+
+Route::get('staff/sksmhs', [BaController::class, 'SksMhsBA']);
+
+Route::get('staff/nilaimhs', [BaController::class, 'NilaiMhsBA']);
+
+Route::get('staff/detailnilaimhs', [BaController::class, 'DetailNilaiBA'])->name('staff.irs.detail');
 
 
 // Dosen

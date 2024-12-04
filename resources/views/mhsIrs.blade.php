@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', 'Dashboard')
+@section('title', 'Irs')
 
 @section('page')
     <div class="bg-gray-100 min-h-screen flex flex-col">
@@ -83,6 +83,10 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <a href="{{ route('mhs.downloadIrsPDF', ['nim' => $mahasiswa->nim, 'semester' => $semester]) }}"
+                                    class="ml-4 px-3 py-1 mt-10 bg-green-500 text-white rounded-md text-sm hover:bg-green-600">
+                                    Download PDF
+                                </a>
                             </div>
                         </div>
                     @empty
