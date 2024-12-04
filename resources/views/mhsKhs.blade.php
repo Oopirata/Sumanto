@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', 'Dashboard')
+@section('title', 'Khs')
 
 @section('page')
     <div class="bg-gray-100 min-h-screen flex flex-col">

@@ -19,44 +19,54 @@ class KaprodiController extends Controller
     {
         $user = Auth::user();
         $userr = Kaprodi::where('user_id', $user->id)->first();
-    
+
         // Ambil semua mahasiswa dengan IRS mereka
-        $mahasiswa = Mahasiswa::with('irs')->get(); // Gunakan with untuk eager loading
-        $irs = Irs::all();
-    
-        // Periksa apakah semua IRS memiliki status "Disetujui"
+        $mahasiswa = Mahasiswa::with('irs')->get(); // Use eager loading to get IRS
+        $irs = Irs::all();  // Get all IRS records for verification
+        
+        // Check if IRS status is approved
         $allApproved = $irs->groupBy('nim')->map(function ($group) {
             return $group->every(fn($item) => $item->status == 'Disetujui');
         });
-        
-        // Kirimkan data ke view
+
+        // Pass to the view
         return view('kaprodiIrs', compact('user', 'userr', 'mahasiswa', 'irs', 'allApproved'));
     }
+
     
     
 
     // Method untuk menyetujui IRS
-    public function updateAllStatus(Request $request, $mhs_id)
+    public function updateAllStatusToDisetujui(Request $request)
     {
-        // Validasi status yang dikirim
+        // Validasi nim
         $request->validate([
+            'nim' => 'required|exists:irs,nim', // Pastikan nim ada dalam tabel IRS
             'status' => 'required|in:Disetujui,Tidak Disetujui', // Status yang valid
         ]);
-
-        // Temukan IRS berdasarkan mhs_id
-        $irs = Irs::where('nim', $mhs_id)->first();
-
-        if ($irs) {
-            // Update status IRS yang relevan
-            $irs->update(['status' => $request->status]);
-
-            // Redirect kembali ke halaman verifikasi IRS
-            return redirect()->route('kaprodi.irs')->with('success', 'Status berhasil diubah!');
-        }
-        
-        // Jika tidak ditemukan IRS
-        return redirect()->route('kaprodi.irs')->with('error', 'IRS tidak ditemukan!');
+            
+        Irs::where('nim', $request->nim)->update(['status' => $request->status]);
+            
+        // Redirect kembali ke halaman verifikasi IRS
+        return redirect()->route('kaprodi.irs')->with('success', 'Seluruh status IRS telah diubah menjadi Disetujui!');
     }
 
+    // Method untuk menolak IRS
+    public function updateAllStatusToTidakDisetujui(Request $request)
+    {
+        // Validasi nim
+        $request->validate([
+            'nim' => 'required|exists:irs,nim', // Pastikan nim ada dalam tabel IRS
+            'status' => 'required|in:Ditolak', // Status yang valid
+        ]);
+        
+        // Update seluruh IRS yang memiliki nim yang sama dan status selain Ditolak
+        Irs::where('nim', $request->nim)
+            ->where('status', '!=', 'Ditolak')  // Hanya update yang statusnya bukan Ditolak
+            ->update(['status' => $request->status]);  // Update status menjadi Ditolak
+    
+        // Redirect kembali ke halaman verifikasi IRS   
+        return redirect()->route('kaprodi.irs')->with('success', 'Seluruh status IRS telah diubah menjadi Ditolak!');
+    }
     
 }
