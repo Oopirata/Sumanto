@@ -148,6 +148,22 @@
                                         </select>
                                     </div>
 
+                                    <!-- Kelas -->
+                                    <div>
+                                        <label for="kelas" class="block text-sm font-medium text-gray-700">Kelas</label>
+                                        <select id="kelas" name="kelas" required onchange="toggleKelasInput()" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">Pilih Kelas</option>
+                                            <option value="A">A</option>
+                                            <option value="B">B</option>
+                                            <option value="C">C</option>
+                                            <option value="D">D</option>
+                                            <option value="E">E</option>
+                                            <option value="other">Lainnya</option>
+                                        </select>
+
+                                        <input type="text" id="kelas_lainnya" name="kelas_lainnya" placeholder="Masukkan kelas lain" class="mt-2 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" style="display: none;">
+                                    </div>
+
                                     <!-- Ruang -->
                                     <div>
                                         <label for="ruangan" class="block text-sm font-medium text-gray-700">Ruang</label>
@@ -194,22 +210,6 @@
                                     <div>
                                         <label for="jam_selesai" class="block text-sm font-medium text-gray-700">Jam Selesai</label>
                                         <input type="time" id="jam_selesai" name="jam_selesai" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-
-                                    <!-- Kelas -->
-                                    <div>
-                                        <label for="kelas" class="block text-sm font-medium text-gray-700">Kelas</label>
-                                        <select id="kelas" name="kelas" required onchange="toggleKelasInput()" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                            <option value="">Pilih Kelas</option>
-                                            <option value="A">A</option>
-                                            <option value="B">B</option>
-                                            <option value="C">C</option>
-                                            <option value="D">D</option>
-                                            <option value="E">E</option>
-                                            <option value="other">Lainnya</option>
-                                        </select>
-
-                                        <input type="text" id="kelas_lainnya" name="kelas_lainnya" placeholder="Masukkan kelas lain" class="mt-2 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" style="display: none;">
                                     </div>
 
                                     <script>
@@ -300,6 +300,30 @@
                         </button>
                     </div>
 
+                    <script>
+                        // Ketika tombol Ajukan diklik
+                        document.getElementById('ajukanBtn').addEventListener('click', function() {
+                            // Panggil fungsi JavaScript untuk mengubah status jadwal
+                            submitAllSchedules();
+                        });
+                    
+                        function submitAllSchedules() {
+                            $.ajax({
+                                url: '/kaprodi/jadwal/ajukan', // Add leading slash for absolute path
+                                type: 'POST',
+                                data: {
+                                    _token: '{{ csrf_token() }}' // Add CSRF token
+                                },
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                error: function(error) {
+                                    console.log(error); // Log the error details
+                                    alert('Terjadi kesalahan saat mengajukan jadwal.');
+                                }
+                            });
+                        }
+                    </script>
             </div>
         </div>
     </div>

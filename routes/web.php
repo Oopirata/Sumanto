@@ -64,6 +64,8 @@ Route::get('kaprodi/jadwal', [JadwalController::class, 'index'])->name('kaprodi.
 
 Route::post('kaprodi/jadwal', [JadwalController::class, 'store'])->name('storeKaprodi.jadwal');
 
+Route::post('kaprodi/jadwal/ajukan', [JadwalController::class, 'updateAllStatus'])->name('kaprodi.allStatus');
+
 Route::post('kaprodi/jadwal/delete', [JadwalController::class, 'destroy'])->name('deleteKaprodi.jadwal');
 
 Route::get('kaprodi/dashboard', [MatakuliahController::class, 'showKaprodiDashboard'])->name('kaprodi.dashboard');

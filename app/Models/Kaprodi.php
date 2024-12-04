@@ -11,10 +11,15 @@ class Kaprodi extends Model
 
     protected $table = 'kaprodi'; // Nama tabel
 
-    protected $fillable = ['user_id', 'nip'];
+    protected $fillable = ['user_id', 'nip', 'nama', 'nama_prodi']; // Kolom yang dapat diisi
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function prodi()
+    {
+        return $this->belongsTo(Prodi::class, 'nama_prodi', 'nama_prodi');
     }
 }
