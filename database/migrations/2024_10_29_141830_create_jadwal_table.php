@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('jadwal', function (Blueprint $table) {
             $table->id();
             $table->string('hari')->nullable();
-            $table->string('jam_mulai')->nullable();
-            $table->string('jam_selesai')->nullable();
+            $table->time('jam_mulai')->nullable();
+            $table->time('jam_selesai')->nullable();
             $table->string('ruang')->nullable();
             $table->string('kode_mk');
             $table->string('nama_mk');

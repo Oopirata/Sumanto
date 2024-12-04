@@ -85,6 +85,7 @@ class UserSeeder extends Seeder
                 'roles' => ['Ketua Program Studi'],
                 'nip' => '199001012020077777',
                 'no_hp' => '082222222222',
+                'prodi' => 'Informatika',
                 'alamat' => 'Jl. Kaliurang No. 6'
             ],
             // Mahasiswa
@@ -200,7 +201,8 @@ class UserSeeder extends Seeder
                         DB::table('kaprodi')->insert([
                             'user_id' => $user->id,
                             'nama' => $user->name,
-                            'nip' => $userData['nip']
+                            'nip' => $userData['nip'],
+                            'nama_prodi' => $userData['prodi']
                         ]);
                         break;
 
