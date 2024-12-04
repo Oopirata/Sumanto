@@ -49,12 +49,16 @@
                                                 <td class="border px-4 py-2">{{ $entry->jadwal->kelas }}</td>
                                                 <td class="border px-4 py-2">{{ $entry->jadwal->sks }}</td>
                                                 <td class="border px-4 py-2">{{ $entry->jadwal->ruang }}</td>
-                                                <td class="border px-4 py-2 text-center"> <!-- Added text-center -->
+                                                <td class="border px-4 py-2 text-center">
                                                     @if ($entry->status == 'pending')
                                                         <span
                                                             class="inline-flex px-3 py-1 bg-yellow-200 text-yellow-800 rounded-full text-xs whitespace-nowrap">
-                                                            <!-- Updated classes -->
                                                             Menunggu Persetujuan
+                                                        </span>
+                                                    @elseif($entry->status == 'mengulang')
+                                                        <span
+                                                            class="inline-flex px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs whitespace-nowrap">
+                                                            Mengulang
                                                         </span>
                                                     @elseif($entry->status == 'approved')
                                                         <span
@@ -65,11 +69,6 @@
                                                         <span
                                                             class="inline-flex px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs whitespace-nowrap">
                                                             Wajib
-                                                        </span>
-                                                    @elseif($entry->status == 'pilihan')
-                                                        <span
-                                                            class="inline-flex px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs whitespace-nowrap">
-                                                            Pilihan
                                                         </span>
                                                     @else
                                                         <span
