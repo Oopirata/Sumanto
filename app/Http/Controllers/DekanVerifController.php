@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Kaprodi;
 use App\Models\Matakuliah;
 use App\Models\Ruangan;
+use App\Models\Prodi;
 use Illuminate\Support\Facades\DB;
 
 class DekanVerifController extends Controller
@@ -45,24 +46,42 @@ class DekanVerifController extends Controller
         return view('dekanVerifikasi', compact('dekan', 'user', 'ruang'));
     }
 
-    public function dekanJadwal()
+    public function dekanJadwal(Request $request)
     {
-
         $user = Auth::user();
-
         $dekan = \App\Models\Dekan::where('user_id', $user->id)->first();
-  
-
-        
-        $data = Jadwal::all();
-        // dd($data);
+    
+        $prodi = Prodi::all();
+    
+        // Get the selected program (prodi) from the request
+        $selectedProdi = $request->input('jurusan');
+    
+        // If a program is selected, filter the schedule data
+        if ($selectedProdi) {
+            $data = Jadwal::where('prodi', $selectedProdi)->get();
+        } else {
+            $data = Jadwal::all();
+        }
+    
         $mk = MataKuliah::all();
         $ruangan = Ruangan::all();
-
+    
         $allApproved = $data->every(fn($item) => $item->status == 'Disetujui');
     
-        return view('dekanJadwal', compact('data', 'user', 'mk', 'ruangan', 'dekan', 'allApproved'));
-
+        if ($request->ajax()) {
+            return response()->json($data);
+        }
+    
+        return view('dekanJadwal', compact(
+            'data',
+            'user',
+            'mk',
+            'ruangan',
+            'dekan',
+            'allApproved',
+            'prodi',
+            'selectedProdi'
+        ));
     }
 
     public function updateStatus(Request $request)
