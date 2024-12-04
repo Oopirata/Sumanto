@@ -57,15 +57,25 @@
                 @else
                     @foreach ($irsData as $semester => $matakuliahs)
                         <div x-data="{ open: false }" class="mb-4 border rounded-lg bg-[#F9FBFF]">
-                            <div class="flex justify-between items-center p-4 cursor-pointer" @click="open = !open">
-                                <div>
-                                    <h1 class="text-lg">Semester {{ $semester }}</h1>
-                                    <h1 class="text-sm text-gray-500">Jumlah SKS {{ $semesterSks[$semester] }}</h1>
+                            <div class="flex justify-between items-center p-4">
+                                <div class="flex items-center">
+                                    <div>
+                                        <h1 class="text-lg">Semester {{ $semester }}</h1>
+                                        <h1 class="text-sm text-gray-500">Jumlah SKS {{ $semesterSks[$semester] }}</h1>
+                                    </div>
+                                    <!-- Tambahkan tombol download di sini -->
+                                    <a href="{{ route('dosen.downloadIrsPDF', ['nim' => $mahasiswa->nim, 'semester' => $semester]) }}"
+                                        class="ml-4 px-3 py-1 bg-green-500 text-white rounded-md text-sm hover:bg-green-600">
+                                        Download PDF
+                                    </a>
                                 </div>
-                                <svg :class="{ 'rotate-180': open }" class="w-5 h-5 transition-transform" 
-                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                </svg>
+                                <div class="cursor-pointer" @click="open = !open">
+                                    <svg :class="{ 'rotate-180': open }" class="w-5 h-5 transition-transform" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
                             </div>
 
                             <div x-show="open" class="p-4">
@@ -93,10 +103,13 @@
                                                 <td class="border px-4 py-2">{{ $mk->ruang }}</td>
                                                 <td class="border px-4 py-2">{{ $mk->sifat }}</td>
                                                 <td class="border px-4 py-2">
-                                                    <span class="px-2 py-1 rounded 
-                                                        {{ $mk->status == 'Disetujui' ? 'bg-green-100 text-green-500' : 
-                                                           ($mk->status == 'Tidak Disetujui' ? 'bg-red-100 text-red-500' : 
-                                                           'bg-yellow-100 text-yellow-500') }}">
+                                                    <span
+                                                        class="px-2 py-1 rounded 
+                                                        {{ $mk->status == 'Disetujui'
+                                                            ? 'bg-green-100 text-green-500'
+                                                            : ($mk->status == 'Tidak Disetujui'
+                                                                ? 'bg-red-100 text-red-500'
+                                                                : 'bg-yellow-100 text-yellow-500') }}">
                                                         {{ $mk->status }}
                                                     </span>
                                                 </td>

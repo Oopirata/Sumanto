@@ -141,5 +141,7 @@ Route::get('/dosen/PengajuanNilai/detail', [DosenController::class, 'detailNilai
 
 Route::get('/dosen/PengajuanNilai/detail/inputNilai', [DosenController::class, 'inputNilaiPA']);
 
+Route::get('/dosen/downloadIrsPDF/{nim}/{semester}', [DosenController::class, 'downloadIrsPDF'])->name('dosen.downloadIrsPDF');
+
 
 

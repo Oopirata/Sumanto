@@ -8,6 +8,7 @@ use App\Models\Dosen;
 use App\Models\Jadwal;
 use App\Models\Irs;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DosenController extends Controller
 {
@@ -246,5 +247,37 @@ class DosenController extends Controller
         // $mahasiswa = Mahasiswa::with('irs')->findOrFail($id); // Ambil data mahasiswa beserta IRS-nya
 
         return view('paInputNilai', compact('dosens', 'dosen')); // Kirim data ke view
+    }
+
+
+
+    public function downloadIrsPDF($nim, $semester)
+    {
+        $mahasiswa = Mahasiswa::with('user')
+        ->where('nim', $nim)
+        ->firstOrFail();
+
+// Ambil data IRS hanya untuk semester yang dipilih
+$irsData = Irs::where('nim', $nim)
+->where('irs.semester', $semester)  // Tambahkan prefix 'irs.' untuk memperjelas
+->join('jadwal', 'irs.jadwal_id', '=', 'jadwal.id')
+->select(
+'irs.*',
+'jadwal.kode_mk',
+'jadwal.nama_mk',
+'jadwal.kelas',
+'jadwal.sks',
+'jadwal.ruang',
+'jadwal.sifat'
+)
+->orderBy('jadwal.kode_mk')
+->get();
+
+// Hitung total SKS
+$totalSks = $irsData->sum('sks');
+
+$pdf = PDF::loadView('unduhPdf', compact('mahasiswa', 'irsData', 'semester', 'totalSks'));
+
+return $pdf->download('IRS_'.$nim.'_Semester_'.$semester.'.pdf');
     }
 }
