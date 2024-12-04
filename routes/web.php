@@ -58,7 +58,7 @@ Route::post('/ruangan/{id_ruang}', [DekanVerifController::class, 'updateRuanganS
 
 
 // Route::get('dekan/jadwal', [DekanVerifController::class, 'verifJadwal'])->name('dekan.jadwal');
-
+    
 
 Route::get('kaprodi/jadwal', [JadwalController::class, 'index'])->name('kaprodi.jadwal');
 
@@ -74,12 +74,17 @@ Route::get('/kaprodi/mk', [MatakuliahController::class, 'index'])->name('matakul
 
 Route::post('/kaprodi/mk', [MatakuliahController::class, 'handleStore'])->name('store.jadwal');
 
-Route::post('kaprodimk/delete', [MatakuliahController::class, 'handleDelete'])->name('delete.jadwal');
+Route::post('kaprodi/mk/delete', [MatakuliahController::class, 'handleDelete'])->name('delete.jadwal');
+
+Route::post('kaprodi/mk/delete-dosen', [MatakuliahController::class, 'deleteDosen'])->name('deleteDosen');
 
 
 Route::get('kaprodi/irs', [KaprodiController::class, 'verifikasiIRS'])->name('kaprodi.irs');
 
-Route::post('kaprodi/irs/update/{mhs_id}', [KaprodiController::class, 'updateAllStatus'])->name('updateAllStatus');
+Route::post('kaprodi/irs/update/setuju/{nim}', [KaprodiController::class, 'updateAllStatusToDisetujui'])->name('updateAllStatusToDisetujui');
+
+Route::post('kaprodi/irs/update/tolak/{nim}', [KaprodiController::class, 'updateAllStatusToTidakDisetujui'])->name('updateAllStatusToTidakDisetujui');
+
 
 
 

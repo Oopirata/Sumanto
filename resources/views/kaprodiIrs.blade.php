@@ -18,17 +18,6 @@
 
                         <div>
                             <div class="flex">
-                                <div>
-                                    <x-strata></x-strata>
-                                </div>
-                                <div class="px-4"></div>
-                                <div>
-                                    <x-jurusan></x-jurusan>
-                                </div>
-                                <div class="px-4"></div>
-                                <div>
-                                    <x-semester></x-semester>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -42,58 +31,28 @@
                                 <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">No</th>
                                 <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">Nama</th>
                                 <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">NIM</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">Semester</th>
                                 <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">Status</th>
-                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($mahasiswa as $student)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $student->nama }}</td>
-                                    <td>{{ $student->nim }}</td>
-                                    <td>
-                                        @php
-                                            $status = $allApproved[$student->id] ?? false;
-                                            // Mengambil status IRS pertama jika ada
-                                            $irs = $student->irs->first();
-                                        @endphp
-                                        <span class="px-2 py-1 rounded {{ $status ? 'bg-green-100 text-green-500' : 'bg-red-100 text-red-500' }}">
-                                            {{ $status ? 'Disetujui' : 'Tidak Disetujui' }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        @if ($irs) <!-- Pastikan ada IRS -->
-                                            <form action="{{ route('updateAllStatus', $irs->nim) }}" method="POST" class="inline-block">
-                                                @csrf
-                                                @method('POST')
-                                                <button 
-                                                    type="submit" 
-                                                    name="status" 
-                                                    value="Disetujui" 
-                                                    class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md mr-2">
-                                                    Setuju
-                                                </button>
-                                            </form>
-
-                                            <form action="{{ route('updateAllStatus', $irs->nim) }}" method="POST" class="inline-block">
-                                                @csrf
-                                                @method('POST')
-                                                <button 
-                                                    type="submit" 
-                                                    name="status" 
-                                                    value="Tidak Disetujui" 
-                                                    class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md">
-                                                    Tidak Setuju
-                                                </button>
-                                            </form>
-                                        @else
-                                            <span>IRS tidak ditemukan</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach ($mahasiswa as $student)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $student->nama }}</td>
+                                        <td>{{ $student->nim }}</td>
+                                        <td>{{ $student->semester }}</td>
+                                        <td>
+                                            @php
+                                                $status = $allApproved[$student->nim] ?? false;
+                                            @endphp
+                                            <span class="px-2 py-1 rounded {{ $status ? 'bg-green-100 text-green-500' : 'bg-red-100 text-red-500' }}">
+                                                {{ $status ? 'Disetujui' : 'Tidak Disetujui' }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -110,8 +69,8 @@
             pageLength: 5,       // Set default number of rows per page
             lengthChange: false, // Hide the option to change number of rows per page
             columnDefs: [
-                { className: "dt-head-center", targets: [0, 1, 2, 3,4] },
-                { className: "dt-body-center", targets: [0, 1, 2, 3,4] }
+                { className: "dt-head-center", targets: [0, 1, 2, 3, 4 ] },
+                { className: "dt-body-center", targets: [0, 1, 2, 3, 4 ] }
             ],
             language: {
                 paginate: {

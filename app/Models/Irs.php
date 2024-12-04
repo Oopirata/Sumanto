@@ -23,6 +23,7 @@ class Irs extends Model
         return $this->belongsTo(Mahasiswa::class, 'nim', 'nim');
     }
 
+
     public function jadwal()
     {
         return $this->belongsTo(Jadwal::class, 'jadwal_id', 'id');
