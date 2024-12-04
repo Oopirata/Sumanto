@@ -103,14 +103,19 @@ class DekanVerifController extends Controller
     {
         // Validasi status yang dikirim
         $request->validate([
-            'status' => 'required|in:Disetujui,Tidak Disetujui', // Status yang valid
+            'status' => 'required|in:Disetujui,Tidak Disetujui',
+            'prodi' => 'required|exists:prodi,nama_prodi', // Memastikan prodi valid
         ]);
 
-        // Update status untuk semua jadwal
-        Jadwal::query()->update(['status' => $request->status]);
+        // Update status hanya untuk jadwal pada prodi yang dipilih
+        Jadwal::query()
+            ->where('prodi', $request->prodi)
+            ->update(['status' => $request->status]);
 
-        // Redirect kembali ke halaman jadwal
-        return redirect()->route('dekan.jadwal')->with('success', 'Status semua matakuliah berhasil diubah!');
+        // Redirect kembali ke halaman jadwal dengan parameter prodi
+        return redirect()
+            ->route('dekan.jadwal', ['jurusan' => $request->prodi])
+            ->with('success', "Status semua matakuliah untuk prodi {$request->prodi} berhasil diubah!");
     }
 
     public function updateRuanganStatus(Request $request, $id_ruang)

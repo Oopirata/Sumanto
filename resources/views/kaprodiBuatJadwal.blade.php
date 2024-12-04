@@ -94,6 +94,7 @@
                                                     @click="showModal = true; selectedSchedule = {{ json_encode($schedule) }}">
                                                 <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
                                                 <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>
+                                                <p class="text-xs font-normal">{{ $schedule['ruangan'] }}</p>
                                             </button>
                                         @endif
                                     @endforeach
