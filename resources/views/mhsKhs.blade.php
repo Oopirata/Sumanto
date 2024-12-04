@@ -57,7 +57,7 @@
                                     </div>
 
                                     <div class="bg-green-500 text-white font-bold py-2 px-6 rounded-lg mx-4">
-                                        <h1 class="text-2xl">{{ number_format($mahasiswa->IPS, 2) }}</h1>
+                                        <h1 class="text-2xl">{{ number_format($mahasiswa->IPK, 2) }}</h1>
                                         <h1>IP Kumulatif</h1>
                                     </div>
 

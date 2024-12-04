@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             DosenMatakuliahSeeder::class,
             IrsSeeder::class,
             KhsSeeder::class,
+            UpdateStudentGradesSeeder::class,
         ]);
     }
 }
