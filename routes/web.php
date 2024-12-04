@@ -108,6 +108,8 @@ Route::get('/mhs/status', [MhsDashboard::class, 'StatusMhs'])->name('mhs.status'
 
 Route::get('/mhs/transkrip', [MhsDashboard::class, 'TranskripMhs'])->name('mhs.transkrip');
 
+Route::get('/mhs/downloadIrsPDF/{nim}/{semester}', [IRSController::class, 'downloadIrsPDF'])->name('mhs.downloadIrsPDF');
+
 //BA
 
 Route::get('staff/irs', [BaController::class, 'IrsBA']);

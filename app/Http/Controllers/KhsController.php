@@ -72,4 +72,34 @@ class KhsController extends Controller
         // Download the PDF
         // return $pdf->download("KHS_Semester_{$semester}.pdf");
     }
+
+    public function downloadIrsPDF($nim, $semester)
+    {
+        $mahasiswa = Mahasiswa::with('user')
+        ->where('nim', $nim)
+        ->firstOrFail();
+
+        // Ambil data IRS hanya untuk semester yang dipilih
+        $irsData = Irs::where('nim', $nim)
+        ->where('irs.semester', $semester)  // Tambahkan prefix 'irs.' untuk memperjelas
+        ->join('jadwal', 'irs.jadwal_id', '=', 'jadwal.id')
+        ->select(
+        'irs.*',
+        'jadwal.kode_mk',
+        'jadwal.nama_mk',
+        'jadwal.kelas',
+        'jadwal.sks',
+        'jadwal.ruang',
+        'jadwal.sifat'
+        )
+        ->orderBy('jadwal.kode_mk')
+        ->get();
+
+        // Hitung total SKS
+        $totalSks = $irsData->sum('sks');
+
+        $pdf = PDF::loadView('unduhPdf', compact('mahasiswa', 'irsData', 'semester', 'totalSks'));
+
+        return $pdf->download('IRS_'.$nim.'_Semester_'.$semester.'.pdf');
+    }
 }
