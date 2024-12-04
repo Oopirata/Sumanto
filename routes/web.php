@@ -54,7 +54,7 @@ Route::post('/ruangan/{id_ruang}', [DekanVerifController::class, 'updateRuanganS
 
 
 // Route::get('dekan/jadwal', [DekanVerifController::class, 'verifJadwal'])->name('dekan.jadwal');
-    
+
 
 Route::get('kaprodi/jadwal', [JadwalController::class, 'index'])->name('kaprodi.jadwal');
 
@@ -108,6 +108,8 @@ Route::get('/mhs/transkrip', [MhsDashboard::class, 'TranskripMhs'])->name('mhs.t
 
 Route::get('/mhs/downloadIrsPDF/{nim}/{semester}', [IRSController::class, 'downloadIrsPDF'])->name('mhs.downloadIrsPDF');
 
+Route::delete('/mhs/BuatIrs/delete/{jadwal_id}', [BuatIRSController::class, 'deleteIrs'])->name('delete.selected.irs');
+
 //BA
 
 Route::get('staff/irs', [BaController::class, 'IrsBA']);
@@ -155,6 +157,3 @@ Route::get('/dosen/PengajuanNilai/detail', [DosenController::class, 'detailNilai
 Route::get('/dosen/PengajuanNilai/detail/inputNilai', [DosenController::class, 'inputNilaiPA']);
 
 Route::get('/dosen/downloadIrsPDF/{nim}/{semester}', [DosenController::class, 'downloadIrsPDF'])->name('dosen.downloadIrsPDF');
-
-
-

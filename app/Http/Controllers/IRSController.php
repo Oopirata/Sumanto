@@ -10,6 +10,7 @@ use App\Models\Dosen;
 use App\Models\Jadwal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class IRSController extends Controller
 {
@@ -33,8 +34,8 @@ class IRSController extends Controller
                 'irs.id',
                 'irs.nim',
                 'irs.jadwal_id',
-                'irs.status as status', // Mengambil status dari tabel irs
-                'jadwal.semester',
+                'irs.semester as irs_semester', // Use IRS semester, not jadwal semester
+                'irs.status',
                 'jadwal.sks',
                 'jadwal.kode_mk',
                 'jadwal.nama_mk',
@@ -42,17 +43,13 @@ class IRSController extends Controller
                 'jadwal.ruang',
                 'buat_irs.nama_dosen'
             )
-            ->orderBy('jadwal.semester')
+            ->orderBy('irs.semester') // Order by IRS semester
             ->get()
-            ->groupBy('semester');
-
-        // dd($irsData);
+            ->groupBy('irs_semester'); // Group by IRS semester
 
         $semesterSks = [];
         foreach ($irsData as $semester => $entries) {
-            $semesterSks[$semester] = $entries->sum(function ($entry) {
-                return $entry->sks;
-            });
+            $semesterSks[$semester] = $entries->sum('sks');
         }
 
         $dosenWali = Dosen::find($mahasiswa->dosen_wali_id);
@@ -148,30 +145,30 @@ class IRSController extends Controller
     public function downloadIrsPDF($nim, $semester)
     {
         $mahasiswa = Mahasiswa::with('user')
-        ->where('nim', $nim)
-        ->firstOrFail();
+            ->where('nim', $nim)
+            ->firstOrFail();
 
         // Ambil data IRS hanya untuk semester yang dipilih
         $irsData = Irs::where('nim', $nim)
-        ->where('irs.semester', $semester)  // Tambahkan prefix 'irs.' untuk memperjelas
-        ->join('jadwal', 'irs.jadwal_id', '=', 'jadwal.id')
-        ->select(
-        'irs.*',
-        'jadwal.kode_mk',
-        'jadwal.nama_mk',
-        'jadwal.kelas',
-        'jadwal.sks',
-        'jadwal.ruang',
-        'jadwal.sifat'
-        )
-        ->orderBy('jadwal.kode_mk')
-        ->get();
+            ->where('irs.semester', $semester)  // Tambahkan prefix 'irs.' untuk memperjelas
+            ->join('jadwal', 'irs.jadwal_id', '=', 'jadwal.id')
+            ->select(
+                'irs.*',
+                'jadwal.kode_mk',
+                'jadwal.nama_mk',
+                'jadwal.kelas',
+                'jadwal.sks',
+                'jadwal.ruang',
+                'jadwal.sifat'
+            )
+            ->orderBy('jadwal.kode_mk')
+            ->get();
 
         // Hitung total SKS
         $totalSks = $irsData->sum('sks');
 
         $pdf = PDF::loadView('unduhPdf', compact('mahasiswa', 'irsData', 'semester', 'totalSks'));
 
-        return $pdf->download('IRS_'.$nim.'_Semester_'.$semester.'.pdf');
+        return $pdf->download('IRS_' . $nim . '_Semester_' . $semester . '.pdf');
     }
 }
