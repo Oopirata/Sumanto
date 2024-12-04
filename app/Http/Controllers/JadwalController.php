@@ -20,7 +20,7 @@ class JadwalController extends Controller
         $data = Jadwal::all();
         // dd($data);
         $mk = MataKuliah::all();
-        $ruangan = Ruangan::all();
+        $ruangan = Ruangan::where('status', 'Disetujui')->get();
 
         
         return view('kaprodiBuatJadwal', compact('data', 'user', 'mk', 'ruangan', 'userr'));
