@@ -34,4 +34,10 @@ class Jadwal extends Model
         return $this->hasOne(BuatIRS::class, 'kode_mk', 'kode_mk')
             ->where('kelas', $this->kelas);
     }
+
+    public function irs()
+    {
+        return $this->hasMany(Irs::class);
+    }
+
 }

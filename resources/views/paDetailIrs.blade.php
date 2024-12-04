@@ -1,94 +1,89 @@
 @extends('main')
 
-@section('title', 'Dashboard')
+@section('title', 'Detail IRS')
 
 @section('page')
-    <div class="bg-gray-100 min-h-screen flex flex-col font-poppins">
-        <div class="flex overflow-hidden">
-            <x-side-bar-pa :dosen="$dosen" :dosens="$dosens"></x-side-bar-pa>
-            <div id="main-content" class="relative text-black ml-64 w-full h-full overflow-y-auto">
-                <x-nav-bar :dosen="$dosen" :dosens="$dosens"></x-nav-bar>
+   <div class="bg-gray-100 min-h-screen flex flex-col font-poppins">
+       <div class="flex overflow-hidden">
+           <x-side-bar-pa :dosen="$dosen" :dosens="$dosens"></x-side-bar-pa>
+           <div id="main-content" class="relative text-black ml-64 w-full h-full overflow-y-auto">
+               <x-nav-bar :dosen="$dosen" :dosens="$dosens"></x-nav-bar>
 
-                <!-- Main content -->
-                <div class="mx-8 rounded-2xl mt-4">
-                    <!-- User Information Section -->
-                    <div class="bg-white rounded-lg shadow p-8 mb-6">
-                        <!-- Home Button -->
-                        <div class="mx-8 mt-4">
-                            <button class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Home</button>
-                        </div>
-                        <div class="text-center">
-                            <h2 class="text-2xl font-semibold">IRS</h2>
-                        </div>
+               <!-- Main content -->
+               <div class="mx-8 rounded-2xl mt-4">
+                   <!-- User Information Section -->
+                   <div class="bg-white rounded-lg shadow p-8 mb-6">
+                       <!-- Home Button -->
+                       <div class="mx-8 mt-4">
+                           <a href="{{ route('DosenPengajuan.irs') }}" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg">Kembali</a>
+                       </div>
+                       <div class="text-center">
+                           <h2 class="text-2xl font-semibold">IRS</h2>
+                       </div>
 
-                        <!-- Status and Student Name Row -->
-                        <div class="flex justify-center items-center space-x-6 mt-2">
-                            <p id="status" class="bg-red-600 text-white font-semibold py-2 px-6 rounded-full">Belum Disetujui</p>
-                            <h3 class="text-xl">Bintang Syafrian Rizal - 24060122120031</h3>
-                        </div>
+                       <!-- Status and Student Name Row -->
+                       <div class="flex justify-center items-center space-x-6 mt-2">
+                           <h3 class="text-xl">{{ $mahasiswa->nama }} - {{ $mahasiswa->nim }}</h3>
+                       </div>
 
-                        <!-- Table Section -->
-                        <table class="w-full text-sm text-left text-gray-500 mt-6 border-collapse" style="border: 2px solid white;">
-                            <thead class="text-[#F9FBFF] bg-[#5932EA] text-md font-semibold" style="border-top: 4px solid white;">
-                                <tr>
-                                    <th class="px-4 py-3 text-center border border-white">No</th>
-                                    <th class="px-4 py-3 border border-white">Kode</th>
-                                    <th class="px-4 py-3 border border-white">Mata Kuliah</th>
-                                    <th class="px-4 py-3 text-center border border-white">Kelas</th>
-                                    <th class="px-4 py-3 text-center border border-white">SKS</th>
-                                    <th class="px-4 py-3 border border-white">Ruang</th>
-                                    <th class="px-4 py-3 border border-white">Status</th>
-                                    <th class="px-4 py-3 border border-white">Nama Dosen</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-gray-800">
-                                <!-- Example Row - Repeat these rows for each course -->
-                                <tr class="bg-gray-100 border-b">
-                                    <td class="px-4 py-4 text-center border border-gray-200">1</td>
-                                    <td class="px-4 py-4 border border-gray-200">PAIK102</td>
-                                    <td class="px-4 py-4 border border-gray-200">Dasar Pemrograman</td>
-                                    <td class="px-4 py-4 text-center border border-gray-200">D</td>
-                                    <td class="px-4 py-4 text-center border border-gray-200">3</td>
-                                    <td class="px-4 py-4 border border-gray-200">A204</td>
-                                    <td class="px-4 py-4 border border-gray-200">BARU</td>
-                                    <td class="px-4 py-4 border border-gray-200">Dr.Eng. Adi Wibowo, S.Si., M.Kom.<br>Khadijah, S.Kom., M.Cs.</td>
-                                </tr>
-                                <!-- Additional rows for each course should follow the same structure -->
-                            </tbody>
-                        </table>
+                       <!-- Table Section -->
+                       <div class="overflow-x-auto mt-6">
+                           <table class="w-full text-sm text-left text-gray-500 border-collapse border border-gray-200">
+                               <thead class="text-white bg-[#5932EA] font-semibold">
+                                   <tr>
+                                       <th class="px-4 py-3 text-center border border-white">No</th>
+                                       <th class="px-4 py-3 border border-white">Kode MK</th>
+                                       <th class="px-4 py-3 border border-white">Mata Kuliah</th>
+                                       <th class="px-4 py-3 text-center border border-white">Kelas</th>
+                                       <th class="px-4 py-3 text-center border border-white">SKS</th>
+                                       <th class="px-4 py-3 border border-white">Ruang</th>
+                                       <th class="px-4 py-3 text-center border border-white">Hari</th>
+                                       <th class="px-4 py-3 text-center border border-white">Jam</th>
+                                       <th class="px-4 py-3 border border-white">Status</th>
+                                   </tr>
+                               </thead>
+                               <tbody class="bg-white divide-y divide-gray-200">
+                                   @forelse($irsData as $index => $irs)
+                                       <tr class="hover:bg-gray-50">
+                                           <td class="px-4 py-3 text-center border border-gray-200">{{ $index + 1 }}</td>
+                                           <td class="px-4 py-3 border border-gray-200">{{ $irs->jadwal->kode_mk }}</td>
+                                           <td class="px-4 py-3 border border-gray-200">{{ $irs->jadwal->nama_mk }}</td>
+                                           <td class="px-4 py-3 text-center border border-gray-200">{{ $irs->jadwal->kelas }}</td>
+                                           <td class="px-4 py-3 text-center border border-gray-200">{{ $irs->jadwal->sks }}</td>
+                                           <td class="px-4 py-3 border border-gray-200">{{ $irs->jadwal->ruang }}</td>
+                                           <td class="px-4 py-3 text-center border border-gray-200">{{ $irs->jadwal->hari }}</td>
+                                           <td class="px-4 py-3 text-center border border-gray-200">
+                                               {{ $irs->jadwal->jam_mulai }} - {{ $irs->jadwal->jam_selesai }}
+                                           </td>
+                                           <td class="px-4 py-3 border border-gray-200">
+                                               <span class="px-2 py-1 rounded 
+                                                   {{ $irs->status == 'Disetujui' ? 'bg-green-100 text-green-500' : 
+                                                   ($irs->status == 'Tidak Disetujui' ? 'bg-red-100 text-red-500' : 
+                                                   'bg-yellow-100 text-yellow-500') }}">
+                                                   {{ $irs->status }}
+                                               </span>
+                                           </td>
+                                       </tr>
+                                   @empty
+                                       <tr>
+                                           <td colspan="9" class="px-4 py-3 text-center border border-gray-200">
+                                               Tidak ada data IRS
+                                           </td>
+                                       </tr>
+                                   @endforelse
+                               </tbody>
+                           </table>
+                       </div>
 
-                        <!-- Approval Buttons -->
-                        <div class="flex justify-end mt-6 space-x-4">
-                            <button class="bg-red-600 text-white font-bold py-2 px-8 rounded-lg" onclick="updateStatus('Tolak')">Tolak</button>
-                            <button class="bg-[#4BD37B] text-white font-bold py-2 px-8 rounded-lg" onclick="updateStatus('Setujui')">Setujui</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let currentStatus = 'Belum Disetujui';  // Track the current status
-
-        function updateStatus(action) {
-            const statusElement = document.getElementById('status');
-
-            if (action === 'Setujui') {
-                if (currentStatus === 'Belum Disetujui' || currentStatus === 'Ditolak') {
-                    statusElement.innerText = 'Disetujui';
-                    statusElement.classList.remove('bg-red-600', 'bg-red-600');
-                    statusElement.classList.add('bg-[#4BD37B]');
-                    currentStatus = 'Disetujui'; // Update the status to Disetujui
-                }
-            } else if (action === 'Tolak') {
-                if (currentStatus === 'Belum Disetujui' || currentStatus === 'Disetujui') {
-                    statusElement.innerText = 'Ditolak';
-                    statusElement.classList.remove('bg-red-600', 'bg-[#4BD37B]');
-                    statusElement.classList.add('bg-red-600');
-                    currentStatus = 'Ditolak'; // Update the status to Ditolak
-                }
-            }
-        }
-    </script>
+                       <!-- Total SKS Section -->
+                       <div class="mt-6 text-right">
+                           <p class="text-lg font-semibold">
+                               Total SKS: {{ $irsData->sum(function($irs) { return $irs->jadwal->sks; }) }}
+                           </p>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
 @endsection

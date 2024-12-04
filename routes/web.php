@@ -79,10 +79,12 @@ Route::post('kaprodi/mk/delete', [MatakuliahController::class, 'handleDelete'])-
 Route::post('kaprodi/mk/delete-dosen', [MatakuliahController::class, 'deleteDosen'])->name('deleteDosen');
 
 
-
 Route::get('kaprodi/irs', [KaprodiController::class, 'verifikasiIRS'])->name('kaprodi.irs');
 
-Route::post('kaprodi/irs/update/{mhs_id}', [KaprodiController::class, 'updateAllStatus'])->name('updateAllStatus');
+Route::post('kaprodi/irs/update/setuju/{nim}', [KaprodiController::class, 'updateAllStatusToDisetujui'])->name('updateAllStatusToDisetujui');
+
+Route::post('kaprodi/irs/update/tolak/{nim}', [KaprodiController::class, 'updateAllStatusToTidakDisetujui'])->name('updateAllStatusToTidakDisetujui');
+
 
 
 
@@ -138,22 +140,21 @@ Route::get('/dosen/dashboard', [DosenController::class, 'dashboardPA'])->name('d
 
 Route::get('/dosen/PengajuanIrs', [DosenController::class, 'pengajuanIrsPA'])->name('DosenPengajuan.irs');
 
-Route::post('dosen/irs/update/{mhs_id}', [DosenController::class, 'updateStatusIrs'])->name('updateStatusIrs');
+Route::post('dosen/irs/update/{nim}', [DosenController::class, 'updateStatusIrs'])->name('updateStatusIrs');
 
-Route::get('/dosen/irs/detail', [DosenController::class, 'detailIrsPA']);
+Route::get('/dosen/irs/detail/{nim}', [DosenController::class, 'detailIrsPA'])->name('Dosen.DetailIrs');
 
 Route::get('/dosen/Perwalian', [DosenController::class, 'perwalianPA'])->name('Dosen.perwalian');
 
-Route::get('/dosen/Perwalian/detail/{id}', [DosenController::class, 'detailPerwalianPA'])->name('DosenPerwalian.detail');
+Route::get('/dosen/detailPerwalian/{nim}', [DosenController::class, 'detailPerwalian'])->name('dosen.detailPerwalian');
 
-Route::get('/dosen/PengajuanNilai', function () {
-    return view('paPengajuanNilai');
-});
+Route::get('/dosen/PengajuanNilai', [DosenController::class, 'pengajuanNilaiPA']);
 
-Route::get('/dosen/DetailNilai', function () {
-    return view('paDetailNilai');
-});
+Route::get('/dosen/PengajuanNilai/detail', [DosenController::class, 'detailNilaiPA']);
 
-Route::get('/dosen/InputNilai', function () {
-    return view('paInputNilai');
-});
+Route::get('/dosen/PengajuanNilai/detail/inputNilai', [DosenController::class, 'inputNilaiPA']);
+
+Route::get('/dosen/downloadIrsPDF/{nim}/{semester}', [DosenController::class, 'downloadIrsPDF'])->name('dosen.downloadIrsPDF');
+
+
+
