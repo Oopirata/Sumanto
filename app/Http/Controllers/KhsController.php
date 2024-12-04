@@ -61,47 +61,34 @@ class KhsController extends Controller
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
 
-        // Fetch the data for the specified semester
+        // Fetch the KHS data for the specified semester
         $khsData = Khs::join('matakuliah', 'khs.kode_mk', '=', 'matakuliah.kode_mk')
             ->where('khs.nim', $mahasiswa->nim)
             ->where('khs.semester', $semester)
-            ->select('khs.*', 'matakuliah.nama_mk as nama_mk', 'matakuliah.sks')
+            ->select('khs.*', 'matakuliah.nama_mk', 'matakuliah.sks')
+            ->orderBy('matakuliah.kode_mk')
             ->get();
 
-        // Generate PDF (using a library like Dompdf or Snappy)
-        // $pdf = \PDF::loadView('khs-pdf', ['khsData' => $khsData, 'semester' => $semester]);
+        // Calculate total SKS
+        $totalSks = $khsData->sum('sks');
 
-        // Download the PDF
-        // return $pdf->download("KHS_Semester_{$semester}.pdf");
-    }
+        // Calculate IPS
+        $ips = $khsData->average(function ($item) {
+            return match ($item->nilai) {
+                'A' => 4.0,
+                'A-' => 3.7,
+                'B+' => 3.3,
+                'B' => 3.0,
+                'B-' => 2.7,
+                'C+' => 2.3,
+                'C' => 2.0,
+                'D' => 1.0,
+                default => 0,
+            };
+        });
 
-    public function downloadIrsPDF($nim, $semester)
-    {
-        $mahasiswa = Mahasiswa::with('user')
-            ->where('nim', $nim)
-            ->firstOrFail();
+        $pdf = PDF::loadView('khsDownloadPdf', compact('mahasiswa', 'khsData', 'semester', 'totalSks', 'ips'));
 
-        // Ambil data IRS hanya untuk semester yang dipilih
-        $irsData = Irs::where('nim', $nim)
-            ->where('irs.semester', $semester)  // Tambahkan prefix 'irs.' untuk memperjelas
-            ->join('jadwal', 'irs.jadwal_id', '=', 'jadwal.id')
-            ->select(
-                'irs.*',
-                'jadwal.kode_mk',
-                'jadwal.nama_mk',
-                'jadwal.kelas',
-                'jadwal.sks',
-                'jadwal.ruang',
-                'jadwal.sifat'
-            )
-            ->orderBy('jadwal.kode_mk')
-            ->get();
-
-        // Hitung total SKS
-        $totalSks = $irsData->sum('sks');
-
-        $pdf = PDF::loadView('unduhPdf', compact('mahasiswa', 'irsData', 'semester', 'totalSks'));
-
-        return $pdf->download('IRS_' . $nim . '_Semester_' . $semester . '.pdf');
+        return $pdf->download('KHS_' . $mahasiswa->nim . '_Semester_' . $semester . '.pdf');
     }
 }

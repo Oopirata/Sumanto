@@ -82,10 +82,18 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <a href="{{ route('mhs.downloadIrsPDF', ['nim' => $mahasiswa->nim, 'semester' => $semester]) }}"
-                                    class="ml-4 px-3 py-1 mt-10 bg-green-500 text-white rounded-md text-sm hover:bg-green-600">
-                                    Download PDF
-                                </a>
+                                @php
+                                    $allApproved = $entries->every(function ($entry) {
+                                        return $entry->status === 'approved' || $entry->status === 'wajib';
+                                    });
+                                @endphp
+
+                                @if ($allApproved)
+                                    <a href="{{ route('mhs.downloadIrsPDF', ['nim' => $mahasiswa->nim, 'semester' => $semester]) }}"
+                                        class="ml-4 px-3 py-1 mt-10 bg-green-500 text-white rounded-md text-sm hover:bg-green-600">
+                                        Download PDF
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     @empty
