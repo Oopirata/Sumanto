@@ -113,6 +113,7 @@
                                                     @click="showModal = true; selectedSchedule = {{ json_encode($schedule) }}">
                                                 <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
                                                 <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>
+                                                <p class="text-xs font-normal">{{ $schedule['ruangan'] }}</p>
                                             </button>
                                         @endif
                                     @endforeach
@@ -153,6 +154,7 @@
                     <form action="{{ route('updateAllStatusDekan') }}" method="POST" class="inline">
                         @csrf
                         <input type="hidden" name="status" value="Disetujui">
+                        <input type="hidden" name="prodi" value="{{ $selectedProdi }}">
                         <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-all">
                             Setuju
                         </button>
@@ -162,6 +164,7 @@
                     <form action="{{ route('updateAllStatusDekan') }}" method="POST" class="inline">
                         @csrf
                         <input type="hidden" name="status" value="Tidak Disetujui">
+                        <input type="hidden" name="prodi" value="{{ $selectedProdi }}">
                         <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-all">
                             Tidak Disetui
                         </button>
@@ -177,7 +180,7 @@
     const jurusanSelect = document.getElementById('jurusan');
     jurusanSelect.addEventListener('change', () => {
         const selectedProdi = jurusanSelect.value;
-        fetchScheduleData(selectedProdi);
+        window.location.href = `{{ route('dekan.jadwal') }}?jurusan=${selectedProdi}`;
     });
 
     // Function to fetch the schedule data based on the selected program
@@ -244,6 +247,7 @@
                 scheduleButton.innerHTML = `
                     <p class="text-xs font-normal mb-px">${schedule.nama_mk}</p>
                     <p class="text-xs font-semibold">${schedule.jam_mulai} - ${schedule.jam_selesai}</p>
+                    <p class="text-xs font-normal">${schedule.ruang}</p>
                 `;
 
                 // Add click event for modal
