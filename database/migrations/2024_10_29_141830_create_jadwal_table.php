@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('kode_mk');
             $table->string('nama_mk');
             $table->integer('sks');
-            $table->string('semester');
+            $table->integer('semester');
             $table->string('kelas')->nullable();
             $table->string('kapasitas')->nullable();
             $table->string('status');

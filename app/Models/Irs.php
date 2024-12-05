@@ -14,6 +14,7 @@ class Irs extends Model
         'nim',
         'jadwal_id',
         'semester',
+        'prioritas',
         'total_sks',
         'status',
     ];
