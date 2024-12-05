@@ -153,6 +153,7 @@ class UserSeeder extends Seeder
                 'roles' => ['Mahasiswa'],
                 'nim' => '24060122120031',
                 'semester' => 5,
+                'prodi' => 'Kimia',
                 'angkatan' => '2022',
                 'no_hp' => '081234567893',
                 'dosen_wali_nip' => '197304011998021001'  // Reference to Dr. Aris's NIP
@@ -162,6 +163,7 @@ class UserSeeder extends Seeder
                 'roles' => ['Mahasiswa'],
                 'nim' => '24060122120039',
                 'semester' => 5,
+                'prodi' => 'Fisika',
                 'angkatan' => '2022',
                 'no_hp' => '08182738291',
                 'dosen_wali_nip' => '198607232019031007'  // Reference to Mr. Sandy's NIP
@@ -171,6 +173,7 @@ class UserSeeder extends Seeder
                 'roles' => ['Mahasiswa'],
                 'nim' => '24060122140127',
                 'semester' => 5,
+                'prodi' => 'Biologi',
                 'angkatan' => '2022',
                 'no_hp' => '081234567894',
                 'dosen_wali_nip' => '196511071992031003'  // Reference to Drs. Eko's NIP
@@ -180,6 +183,7 @@ class UserSeeder extends Seeder
                 'roles' => ['Mahasiswa'],
                 'nim' => '24060122120015',
                 'semester' => 5,
+                'prodi' => 'Matematika',
                 'angkatan' => '2022',
                 'no_hp' => '081234567895',
                 'dosen_wali_nip' => '198607232019031007'  // Reference to Mr. Sandy's NIP
@@ -189,6 +193,7 @@ class UserSeeder extends Seeder
                 'roles' => ['Mahasiswa'],
                 'nim' => '24060122140119',
                 'semester' => 5,
+                'prodi' => 'Statistika',
                 'angkatan' => '2022',
                 'no_hp' => '081234567665',
                 'dosen_wali_nip' => '198607232019031007'  // Reference to Mr. Sandy's NIP
@@ -225,7 +230,7 @@ class UserSeeder extends Seeder
                             'nim' => $userData['nim'],
                             'semester' => $userData['semester'],
                             'fakultas' => 'Fakultas Sains dan Matematika',
-                            'prodi' => 'Informatika',
+                            'prodi' => $userData['prodi'],
                             'angkatan' => $userData['angkatan'],
                             'no_hp' => $userData['no_hp'],
                             'IPK' => 0.00,  // Initial value
