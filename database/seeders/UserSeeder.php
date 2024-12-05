@@ -127,6 +127,7 @@ class UserSeeder extends Seeder
                 'angkatan' => '2024',
                 'no_hp' => '081234567896',
                 'alamat' => 'Jl. Madasel No. 4',
+                'prodi' => 'Informatika',
                 'dosen_wali_nip' => '197304011998021001'  // Reference to Dr. Aris's NIP
             ],
 
