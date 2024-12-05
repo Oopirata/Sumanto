@@ -26,14 +26,15 @@
                         <!-- Jurusan dan Semester -->
                         <div class="px-4 bg-white"></div>
                         <div class="text-center">
-                        
-                                <select id="jurusan" name="jurusan" class="bg-blue-700 text-white rounded-lg text-sm px-4 py-2.5 mr-9 dark:bg-gray-700 dark:text-gray-200 focus:ring-4 focus:ring-blue-300 focus:outline-none">
-                                    <option value="" disabled selected>Jurusan</option>
-                                    <option value="jurusan1">Informatika</option>
-                                    <option value="jurusan2">Kimia</option>
-                                    <option value="jurusan3">Fisika</option>
-                                </select>
-                            </div>
+                            <select id="jurusan" name="jurusan" class="bg-blue-700 text-white rounded-lg text-sm px-4 py-2.5 mr-9 dark:bg-gray-700 dark:text-gray-200 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+                                <option value="">Pilih Jurusan</option>
+                                @foreach ($prodi as $p)
+                                    <option value="{{ $p->nama_prodi }}" {{ $p->nama_prodi == $selectedProdi ? 'selected' : '' }}>
+                                        {{ $p->nama_prodi }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="px-4 bg-white"></div>
 
                     </div>
@@ -112,6 +113,7 @@
                                                     @click="showModal = true; selectedSchedule = {{ json_encode($schedule) }}">
                                                 <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
                                                 <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>
+                                                <p class="text-xs font-normal">{{ $schedule['ruangan'] }}</p>
                                             </button>
                                         @endif
                                     @endforeach
@@ -152,6 +154,7 @@
                     <form action="{{ route('updateAllStatusDekan') }}" method="POST" class="inline">
                         @csrf
                         <input type="hidden" name="status" value="Disetujui">
+                        <input type="hidden" name="prodi" value="{{ $selectedProdi }}">
                         <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded transition-all">
                             Setuju
                         </button>
@@ -161,6 +164,7 @@
                     <form action="{{ route('updateAllStatusDekan') }}" method="POST" class="inline">
                         @csrf
                         <input type="hidden" name="status" value="Tidak Disetujui">
+                        <input type="hidden" name="prodi" value="{{ $selectedProdi }}">
                         <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-all">
                             Tidak Disetui
                         </button>
@@ -171,4 +175,118 @@
         </div>
     </div>
 </div>
+<script>
+    // Add an event listener to the jurusan dropdown
+    const jurusanSelect = document.getElementById('jurusan');
+    jurusanSelect.addEventListener('change', () => {
+        const selectedProdi = jurusanSelect.value;
+        window.location.href = `{{ route('dekan.jadwal') }}?jurusan=${selectedProdi}`;
+    });
+
+    // Function to fetch the schedule data based on the selected program
+    function fetchScheduleData(prodi) {
+        fetch(`{{ route('dekan.jadwal') }}?jurusan=${prodi}`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            updateScheduleData(data);
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Function to update the schedule data in the template
+    function updateScheduleData(schedules) {
+        // Clear existing schedule items first
+        const timeSlots = document.querySelectorAll('.grid-cols-8 > div:not(:first-child)');
+        timeSlots.forEach(slot => {
+            // Keep the time labels (first column)
+            if (!slot.textContent.includes(':00')) {
+                slot.innerHTML = '';
+            }
+        });
+
+        // Process and display new schedules
+        schedules.forEach(schedule => {
+            const startHour = parseInt(schedule.jam_mulai.split(':')[0]);
+            const day = getDayIndex(schedule.hari);
+            
+            // Find the correct cell based on time and day
+            const rowIndex = startHour - 7; // Assuming schedule starts from 7:00
+            const cellSelector = `.grid-cols-8:nth-child(${rowIndex + 2}) > div:nth-child(${day + 2})`;
+            const cell = document.querySelector(cellSelector);
+            
+            if (cell) {
+                // Determine color class based on kelas
+                let colorClass = '';
+                switch (schedule.kelas) {
+                    case 'A':
+                        colorClass = 'bg-blue-50 border-blue-600 text-blue-600';
+                        break;
+                    case 'B':
+                        colorClass = 'bg-red-50 border-red-600 text-red-600';
+                        break;
+                    case 'C':
+                        colorClass = 'bg-green-50 border-green-600 text-green-600';
+                        break;
+                    case 'D':
+                        colorClass = 'bg-purple-50 border-purple-600 text-purple-600';
+                        break;
+                    default:
+                        colorClass = 'bg-gray-50 border-gray-600 text-gray-600';
+                        break;
+                }
+
+                // Create schedule button
+                const scheduleButton = document.createElement('button');
+                scheduleButton.className = `rounded p-1.5 border-l-2 ${colorClass} w-full text-left`;
+                scheduleButton.innerHTML = `
+                    <p class="text-xs font-normal mb-px">${schedule.nama_mk}</p>
+                    <p class="text-xs font-semibold">${schedule.jam_mulai} - ${schedule.jam_selesai}</p>
+                    <p class="text-xs font-normal">${schedule.ruang}</p>
+                `;
+
+                // Add click event for modal
+                scheduleButton.addEventListener('click', () => {
+                    const modal = document.querySelector('[x-data]').__x.$data;
+                    modal.showModal = true;
+                    modal.selectedSchedule = {
+                        title: schedule.nama_mk,
+                        kelas: schedule.kelas,
+                        start: schedule.jam_mulai,
+                        end: schedule.jam_selesai,
+                        ruangan: schedule.ruang,
+                        jenis: schedule.status
+                    };
+                });
+
+                cell.appendChild(scheduleButton);
+            }
+        });
+    }
+
+    // Helper function to convert day name to index
+    function getDayIndex(dayName) {
+        const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+        return days.indexOf(dayName);
+    }
+
+    // Update approval status display
+    function updateApprovalStatus(allApproved) {
+        const statusContainer = document.querySelector('.flex.items-center span');
+        if (statusContainer) {
+            if (allApproved) {
+                statusContainer.className = 'ml-4 px-4 py-2 bg-green-500 text-white rounded-full';
+                statusContainer.textContent = 'Disetujui';
+            } else {
+                statusContainer.className = 'ml-4 px-4 py-2 bg-red-500 text-white rounded-full';
+                statusContainer.textContent = 'Tidak Disetujui';
+            }
+        }
+    }
+</script>
 @endsection

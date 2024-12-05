@@ -105,9 +105,21 @@ class AuthController extends Controller
     }
 
     // Logout
-    public function logout()
+    public function logout(Request $request)
     {
+        // Clear the user's selected role from session
+        Session::forget('active_role');
+        
+        // Logout the user
         Auth::logout();
+        
+        // Invalidate the session
+        $request->session()->invalidate();
+        
+        // Regenerate the session token
+        $request->session()->regenerateToken();
+        
+        // Redirect to login page
         return redirect('/login');
     }
 }

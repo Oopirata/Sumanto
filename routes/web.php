@@ -17,20 +17,16 @@ use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Route for displaying the login page
-Route::get('/', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/', [AuthController::class, 'showLogin']);
 
-// Route for handling login process
-Route::get('/', function () {
-    return view('login');
-})->name('login');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
-
 // Route for logout
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 // Routes for role selection
 Route::middleware(['auth'])->group(function () {
+
     // Route to display the role selection page
     Route::get('/select-role', [AuthController::class, 'selectRolePage'])->name('selectRole');
 
@@ -58,11 +54,13 @@ Route::post('/ruangan/{id_ruang}', [DekanVerifController::class, 'updateRuanganS
 
 
 // Route::get('dekan/jadwal', [DekanVerifController::class, 'verifJadwal'])->name('dekan.jadwal');
-    
+
 
 Route::get('kaprodi/jadwal', [JadwalController::class, 'index'])->name('kaprodi.jadwal');
 
 Route::post('kaprodi/jadwal', [JadwalController::class, 'store'])->name('storeKaprodi.jadwal');
+
+Route::post('kaprodi/jadwal/ajukan', [JadwalController::class, 'updateAllStatus'])->name('kaprodi.allStatus');
 
 Route::post('kaprodi/jadwal/delete', [JadwalController::class, 'destroy'])->name('deleteKaprodi.jadwal');
 
@@ -109,6 +107,8 @@ Route::get('/mhs/status', [MhsDashboard::class, 'StatusMhs'])->name('mhs.status'
 Route::get('/mhs/transkrip', [MhsDashboard::class, 'TranskripMhs'])->name('mhs.transkrip');
 
 Route::get('/mhs/downloadIrsPDF/{nim}/{semester}', [IRSController::class, 'downloadIrsPDF'])->name('mhs.downloadIrsPDF');
+
+Route::delete('/mhs/BuatIrs/delete/{jadwal_id}', [BuatIRSController::class, 'deleteIrs'])->name('delete.selected.irs');
 
 //BA
 
@@ -157,6 +157,3 @@ Route::get('/dosen/PengajuanNilai/detail', [DosenController::class, 'detailNilai
 Route::get('/dosen/PengajuanNilai/detail/inputNilai', [DosenController::class, 'inputNilaiPA']);
 
 Route::get('/dosen/downloadIrsPDF/{nim}/{semester}', [DosenController::class, 'downloadIrsPDF'])->name('dosen.downloadIrsPDF');
-
-
-
