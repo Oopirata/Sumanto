@@ -179,12 +179,9 @@
                                                     <div class="flex items-center space-x-2"
                                                         style="grid-row: span {{ $duration }};"
                                                         :class="[
-                                                            selectedSchedules.some(s => s
-                                                                .kode_mk === '{{ $schedule['kode_mk'] }}') &&
-                                                            !selectedSchedules.some(s => s.id ===
-                                                                {{ $schedule['id'] }}) ? 'opacity-50' : '',
-                                                            {{ in_array($schedule['id'], $existingIrs) ? 'true' : 'false' }} ?
-                                                            'opacity-50' : ''
+                                                            selectedSchedules.some(s => s.kode_mk === '{{ $schedule['kode_mk'] }}') &&
+                                                            !selectedSchedules.some(s => s.id === {{ $schedule['id'] }}) ? 'opacity-50' : '',
+                                                            in_array($schedule['id'], $existingIrs) ? 'opacity-50' : ''
                                                         ]">
                                                         <div class="flex items-center">
                                                             <input type="checkbox" class="w-4 h-4"
