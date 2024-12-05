@@ -103,6 +103,18 @@ class MataKuliahSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            //Matakuliah semester 2
+            [
+                'kode_mk' => 'AP3232',
+                'nama_mk' => 'Algoritma Pemrograman',
+                'sks' => 1,
+                'semester' => '2',
+                'status' => 'Wajib',
+                'deskripsi' => 'alpro',
+                'kapasitas' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
             //Matakuliah semester 3
             [
                 'kode_mk' => 'PAIK6301',
@@ -245,6 +257,18 @@ class MataKuliahSeeder extends Seeder
                 'status' => 'Wajib',
                 'deskripsi' => 'Seiring dengan semakin banyaknya berbagai aplikasi di berbagai domain (misalnya bioinformatics, computer vision, robotics, dan lain-lain) maka kita akan menyaksikan semakin banyak pula dijumpai data yang kompleks,  sehingga diperlukan sebuah cara untuk dapat menyajikan informasi dari data-data tersebut secara lebih efektif dan efisien. Bidang machine learning menawarkan beberapa teknik untuk (otomatis) menyimpulkan pola yang berguna dalam data, dan membuat prediksi dari data tersebut. Teknik-teknik yang akan dipelajari dalam mata kuliah ini terfokus ke dalam tiga metode, yakni supervised learning, unsupervised learning, dan reinforcement learning. Pada mata kuliah ini juga akan dijelaskan bagaimana teknik evaluasi untuk menilai kinerja dari ketiga metode tersebut. Kajian mengenai teknik untuk mengatasi permasalahan curse of  dimensionality serta ensemble learning menjadi bahasan akhir dari mata kuliah machine learning.',
                 'kapasitas' => 300,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            //Matakuliah Semester 7
+            [
+                'kode_mk' => 'KKN111',
+                'nama_mk' => 'KKN',
+                'sks' => 1,
+                'semester' => '7',
+                'status' => 'Wajib',
+                'deskripsi' => 'kkk',
+                'kapasitas' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
