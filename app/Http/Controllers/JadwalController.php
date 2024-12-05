@@ -94,6 +94,8 @@ class JadwalController extends Controller
             );
         }
 
+        // dd($request->all());
+
         DB::table('jadwal')->insert([
             'hari' => $request->hari,
             'jam_mulai' => $request->jam_mulai,
