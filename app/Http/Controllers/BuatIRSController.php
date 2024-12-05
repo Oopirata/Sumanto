@@ -8,6 +8,7 @@ use App\Models\Matakuliah;
 use App\Models\Mahasiswa;
 use App\Models\Dosen;
 use Illuminate\Support\Facades\DB;
+use App\Models\Khs;
 use Illuminate\Http\Request;
 use App\Models\Irs;
 
@@ -120,12 +121,66 @@ class BuatIRSController extends Controller
 
             foreach ($selectedSchedules as $schedule) {
 
+                $jadwal = Jadwal::find($schedule['id']);
+
+                if ($jadwal) {
+                    $matakuliah = Matakuliah::where('kode_mk', $jadwal->kode_mk)->first();
+                    $nilaiKhs = Khs::where('nim', $mhsId->nim)
+                        ->where('kode_mk', $jadwal->kode_mk)
+                        ->first();
+                }
+
+                $smtMahasiswa = $mhsId->semester;
+                $smtMatakuliah = $matakuliah->semester;
+                $nilaiSebelumnya = $nilaiKhs ? $nilaiKhs->nilai : 'S';
+
+                // Hitung prioritas
+                if($smtMahasiswa > $smtMatakuliah){
+                    if($nilaiSebelumnya == 'D' || $nilaiSebelumnya == 'E'){
+                        $prioritas = 3;
+                    }else if($nilaiSebelumnya == 'A'|| $nilaiSebelumnya == 'C' || $nilaiSebelumnya == 'B'){
+                        $prioritas = 2;
+                    }else{
+                        $prioritas = 4;
+                    }
+                }else if($smtMahasiswa == $smtMatakuliah){
+                    $prioritas = 5;
+                }else{
+                    $prioritas = 1;
+                }
+
+                // Ambil semua pendaftar untuk jadwal ini dan urutkan berdasarkan prioritas
+                $row_index = Irs::select(DB::raw('ROW_NUMBER() OVER (ORDER BY prioritas DESC, created_at ASC) AS row_index, nim'))
+                    ->where('jadwal_id', $jadwal->id)
+                    ->where('semester', $currentSemester)
+                    ->get();
+
+                // Tambahkan pendaftar baru ke daftar untuk perhitungan posisi
+                $position = $row_index->count() + 1;
+
+                // Jika kapasitas sudah penuh, cek apakah prioritas pendaftar baru lebih tinggi
+                if ($row_index->count() >= $jadwal->kapasitas) {
+                    // Ambil mahasiswa dengan prioritas terendah
+                    $lowestPriority = Irs::where('jadwal_id', $jadwal->id)
+                        ->where('semester', $currentSemester)
+                        ->orderBy('prioritas', 'ASC')
+                        ->orderBy('created_at', 'DESC')
+                        ->first();
+
+                    // Jika prioritas pendaftar baru lebih tinggi, hapus yang prioritasnya terendah
+                    if ($prioritas > $lowestPriority->prioritas) {
+                        $lowestPriority->delete();
+                    } else {
+                        // Jika prioritas lebih rendah atau sama, skip pendaftaran
+                        continue;
+                    }
+                }
+
                 $existingIrs = Irs::where('nim', $mhsId->nim)
                     ->where('jadwal_id', $schedule['id'])
                     ->where('semester', $currentSemester)
                     ->first();
 
-                $jadwal = Jadwal::find($schedule['id']);
                 if (!$existingIrs) {
                     if ($jadwal) {
                         // Check if this course has been taken before
@@ -146,6 +201,7 @@ class BuatIRSController extends Controller
                             'nim' => $mhsId->nim,
                             'jadwal_id' => $jadwal->id,
                             'semester' => $currentSemester,
+                            'prioritas' => $prioritas,
                             'status' => $status
                         ]);
                     }
