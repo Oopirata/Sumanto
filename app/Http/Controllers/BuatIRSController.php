@@ -23,19 +23,27 @@ class BuatIRSController extends Controller
             $sksLimit = $this->calculateSksLimit($mahasiswa->IPS);
             $currentSemester = $mahasiswa->semester;
 
+            // Ensure semester is within valid range (1-8)
+            $currentSemester = max(1, min(8, $currentSemester));
+
             // Determine if the current semester is odd or even
             $isOddSemester = $currentSemester % 2 !== 0;
 
             // Get all relevant semesters (same parity as current semester)
             $relevantSemesters = [];
-            for ($i = $currentSemester; $i > 0; $i--) {
+            for ($i = 1; $i <= 8; $i++) {
+                // Check if current iteration semester matches the parity (odd/even) of student's semester
                 if (($i % 2 !== 0) === $isOddSemester) {
                     $relevantSemesters[] = $i;
                 }
             }
 
-            // Fetch courses for relevant semesters
-            $jadwals = Jadwal::whereIn('semester', $relevantSemesters)->get();
+            // Query untuk jadwal
+            $jadwals = DB::table('jadwal')
+                ->whereIn('semester', $relevantSemesters)
+                ->where('prodi', $mahasiswa->prodi)
+                ->orderBy('semester')
+                ->get();
 
             // Get just the IDs for checking in the view
             $existingIrs = Irs::where('nim', $mahasiswa->nim)
@@ -85,7 +93,6 @@ class BuatIRSController extends Controller
         ));
     }
 
-
     public function store(Request $request)
     {
         try {
@@ -120,7 +127,6 @@ class BuatIRSController extends Controller
             }
 
             foreach ($selectedSchedules as $schedule) {
-
                 $jadwal = Jadwal::find($schedule['id']);
 
                 if ($jadwal) {
@@ -135,45 +141,42 @@ class BuatIRSController extends Controller
                 $nilaiSebelumnya = $nilaiKhs ? $nilaiKhs->nilai : 'S';
 
                 // Hitung prioritas
-                if($smtMahasiswa > $smtMatakuliah){
-                    if($nilaiSebelumnya == 'D' || $nilaiSebelumnya == 'E'){
+                if ($smtMahasiswa > $smtMatakuliah) {
+                    if ($nilaiSebelumnya == 'D' || $nilaiSebelumnya == 'E') {
                         $prioritas = 3;
-                    }else if($nilaiSebelumnya == 'A'|| $nilaiSebelumnya == 'C' || $nilaiSebelumnya == 'B'){
+                    } else if ($nilaiSebelumnya == 'A' || $nilaiSebelumnya == 'C' || $nilaiSebelumnya == 'B') {
                         $prioritas = 2;
-                    }else{
+                    } else {
                         $prioritas = 4;
                     }
-                }else if($smtMahasiswa == $smtMatakuliah){
+                } else if ($smtMahasiswa == $smtMatakuliah) {
                     $prioritas = 5;
-                }else{
+                } else {
                     $prioritas = 1;
                 }
 
                 // Ambil semua pendaftar untuk jadwal ini dan urutkan berdasarkan prioritas
-                $row_index = Irs::select(DB::raw('ROW_NUMBER() OVER (ORDER BY prioritas DESC, created_at ASC) AS row_index, nim'))
-                    ->where('jadwal_id', $jadwal->id)
-                    ->where('semester', $currentSemester)
+                $existingRegistrations = Irs::where('jadwal_id', $jadwal->id)
+                    ->orderBy('prioritas', 'DESC')
+                    ->orderBy('created_at', 'ASC')
                     ->get();
 
-                // Tambahkan pendaftar baru ke daftar untuk perhitungan posisi
-                $position = $row_index->count() + 1;
+                // dd($existingRegistrations);
 
-                // Jika kapasitas sudah penuh, cek apakah prioritas pendaftar baru lebih tinggi
-                if ($row_index->count() >= $jadwal->kapasitas) {
-                    // Ambil mahasiswa dengan prioritas terendah
-                    $lowestPriority = Irs::where('jadwal_id', $jadwal->id)
-                        ->where('semester', $currentSemester)
-                        ->orderBy('prioritas', 'ASC')
-                        ->orderBy('created_at', 'DESC')
+                // Jika jumlah pendaftar sudah mencapai atau melebihi kapasitas
+                if ($existingRegistrations->count() >= $jadwal->kapasitas) {
+                    // Cari entri dengan prioritas terendah
+                    $lowestPriorityEntry = $existingRegistrations
+                        ->sortBy('prioritas')
                         ->first();
 
-                    // Jika prioritas pendaftar baru lebih tinggi, hapus yang prioritasnya terendah
-                    if ($prioritas > $lowestPriority->prioritas) {
-                        $lowestPriority->delete();
-                    } else {
-                        // Jika prioritas lebih rendah atau sama, skip pendaftaran
+                    // Jika prioritas pendaftar baru lebih rendah atau sama, skip
+                    if ($prioritas <= $lowestPriorityEntry->prioritas) {
                         continue;
                     }
+
+                    // Hapus entri dengan prioritas terendah
+                    Irs::where('id', $lowestPriorityEntry->id)->delete();
                 }
 
                 $existingIrs = Irs::where('nim', $mhsId->nim)
@@ -185,15 +188,13 @@ class BuatIRSController extends Controller
                     if ($jadwal) {
                         // Check if this course has been taken before
                         $previousIrs = Irs::where('nim', $mhsId->nim)
-                            ->where('jadwal_id', '!=', $jadwal->id) // Different class/schedule
+                            ->where('jadwal_id', '!=', $jadwal->id)
                             ->whereHas('jadwal', function ($query) use ($jadwal) {
-                                $query->where('kode_mk', $jadwal->kode_mk); // Same course code
+                                $query->where('kode_mk', $jadwal->kode_mk);
                             })
                             ->first();
 
                         // Always set initial status as pending
-                        // The status will be updated to 'mengulang' by dosen/PA during verification
-                        // if they confirm it's a repeated course
                         $status = 'pending';
 
                         // Store with current semester
@@ -243,7 +244,7 @@ class BuatIRSController extends Controller
             // Delete the IRS entry
             $deleted = Irs::where('nim', $mhsId->nim)
                 ->where('jadwal_id', $jadwal_id)
-                ->where('semester', $mhsId->semester)  // Make sure we're deleting from current semester
+                ->where('semester', $mhsId->semester)
                 ->delete();
 
             if (!$deleted) {
