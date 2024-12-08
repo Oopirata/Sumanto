@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('nim');
             $table->unsignedBigInteger('jadwal_id');
             $table->string('semester');
+            $table->integer('prioritas')->default(0);
             $table->string('status')->default('pending');
 
             //fk

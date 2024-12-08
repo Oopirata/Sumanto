@@ -49,13 +49,13 @@
                 </button>
                 <div x-show="open" class="mt-2 pl-6">
                     <div class="flex items-center my-5">
-                        <a href="/mhs/BuatIrs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Presensi Mahasiswa</a>
+                        <a href="/staff/presensi" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Presensi Mahasiswa</a>
                     </div>
                     <div class="flex items-center my-5">
-                        <a href="/mhs/irs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">SKS Mahasiswa</a>
+                        <a href="/staff/sksmhs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">SKS Mahasiswa</a>
                     </div>
                     <div class="flex items-center my-5">
-                        <a href="/mhs/khs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Nilai Mahasiswa</a>
+                        <a href="/staff/nilaimhs" class="ml-2 text-sm text-gray-600 hover:text-blue-600 transition-colors">Nilai Mahasiswa</a>
                     </div>
                 </div>
             </div>

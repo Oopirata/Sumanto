@@ -35,38 +35,4 @@ class KaprodiController extends Controller
 
     
     
-
-    // Method untuk menyetujui IRS
-    public function updateAllStatusToDisetujui(Request $request)
-    {
-        // Validasi nim
-        $request->validate([
-            'nim' => 'required|exists:irs,nim', // Pastikan nim ada dalam tabel IRS
-            'status' => 'required|in:Disetujui,Tidak Disetujui', // Status yang valid
-        ]);
-            
-        Irs::where('nim', $request->nim)->update(['status' => $request->status]);
-            
-        // Redirect kembali ke halaman verifikasi IRS
-        return redirect()->route('kaprodi.irs')->with('success', 'Seluruh status IRS telah diubah menjadi Disetujui!');
-    }
-
-    // Method untuk menolak IRS
-    public function updateAllStatusToTidakDisetujui(Request $request)
-    {
-        // Validasi nim
-        $request->validate([
-            'nim' => 'required|exists:irs,nim', // Pastikan nim ada dalam tabel IRS
-            'status' => 'required|in:Ditolak', // Status yang valid
-        ]);
-        
-        // Update seluruh IRS yang memiliki nim yang sama dan status selain Ditolak
-        Irs::where('nim', $request->nim)
-            ->where('status', '!=', 'Ditolak')  // Hanya update yang statusnya bukan Ditolak
-            ->update(['status' => $request->status]);  // Update status menjadi Ditolak
-    
-        // Redirect kembali ke halaman verifikasi IRS   
-        return redirect()->route('kaprodi.irs')->with('success', 'Seluruh status IRS telah diubah menjadi Ditolak!');
-    }
-    
 }

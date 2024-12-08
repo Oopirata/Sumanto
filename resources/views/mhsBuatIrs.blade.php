@@ -35,10 +35,14 @@
                 <div x-data="{
                     showModal: false,
                     selectedSchedule: null,
-                    selectedSchedules: [],
+                    selectedSchedules: {{ $existingIrsEntries->isEmpty() ? '[]' : $existingIrsEntries->toJson() }},
                     sksLimit: {{ $sksLimit }},
-                    currentTotalSks: 0,
-                    notification: { show: false, type: '', message: '' },
+                    currentTotalSks: {{ $existingIrsEntries->sum('sks') ?? 0 }},
+                    notification: {
+                        show: false,
+                        type: '',
+                        message: ''
+                    },
                 
                     checkSksLimit() {
                         this.currentTotalSks = this.selectedSchedules.reduce((total, schedule) => total + parseInt(schedule.sks), 0);
@@ -352,26 +356,48 @@
                                                     <td class="border px-4 py-2 text-center">
                                                         <button
                                                             @click.prevent="
-                                                            Swal.fire({
-                                                                title: 'هل ستحذفه؟',
-                                                                text: 'You won\'t be able to revert this!',
-                                                                icon: 'warning',
-                                                                showCancelButton: true,
-                                                                confirmButtonColor: '#3085d6',
-                                                                cancelButtonColor: '#d33',
-                                                                confirmButtonText: 'نعم، احذف'
-                                                            }).then((result) => {
-                                                                if (result.isConfirmed) {
-                                                                    selectedSchedules.splice(index, 1);
+                                                        Swal.fire({
+                                                            title: 'Konfirmasi Hapus',
+                                                            text: 'Apakah anda yakin ingin menghapus mata kuliah ini?',
+                                                            icon: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#3085d6',
+                                                            cancelButtonColor: '#d33',
+                                                            confirmButtonText: 'Ya, Hapus',
+                                                            cancelButtonText: 'Batal'
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                // Send delete request
+                                                                fetch(`/mhs/BuatIrs/delete/${schedule.id}`, {
+                                                                    method: 'DELETE',
+                                                                    headers: {
+                                                                        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
+                                                                        'Accept': 'application/json'
+                                                                    }
+                                                                })
+                                                                .then(response => response.json())
+                                                                .then(data => {
+                                                                    if (data.success) {
+                                                                        selectedSchedules.splice(index, 1);
+                                                                        Swal.fire(
+                                                                            'Terhapus!',
+                                                                            'Mata kuliah berhasil dihapus dari pilihan.',
+                                                                            'success'
+                                                                        );
+                                                                    } else {
+                                                                        throw new Error(data.message);
+                                                                    }
+                                                                })
+                                                                .catch(error => {
                                                                     Swal.fire(
-                                                                        'Deleted!',
-                                                                        'Your file has been deleted.',
-                                                                        'success'
+                                                                        'Error!',
+                                                                        error.message || 'Terjadi kesalahan saat menghapus mata kuliah.',
+                                                                        'error'
                                                                     );
-                                                                }
-                                                            })"
+                                                                });
+                                                            }
+                                                        })"
                                                             class="text-red-600 hover:text-red-800">
-                                                            <!-- Trash Icon SVG -->
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
                                                                 viewBox="0 0 20 20" fill="currentColor">
                                                                 <path
@@ -411,7 +437,12 @@
                                             class="text-blue-600"></span>
                                     </div>
                                     <div>
-                                        <button class="bg-blue-700 text-white px-3 py-1.5 rounded-md">Simpan</button>
+                                        <button
+                                            class="bg-blue-700 text-white px-3 py-1.5 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+                                            x-bind:disabled="selectedSchedules.length === 0"
+                                            x-show="selectedSchedules.length > 0">
+                                            Simpan
+                                        </button>
                                     </div>
 
                                 </div>

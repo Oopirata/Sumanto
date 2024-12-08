@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Irs;
 use App\Models\Khs;
 use App\Models\Mahasiswa;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KhsController extends Controller
 {
@@ -59,17 +61,34 @@ class KhsController extends Controller
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
 
-        // Fetch the data for the specified semester
+        // Fetch the KHS data for the specified semester
         $khsData = Khs::join('matakuliah', 'khs.kode_mk', '=', 'matakuliah.kode_mk')
             ->where('khs.nim', $mahasiswa->nim)
             ->where('khs.semester', $semester)
-            ->select('khs.*', 'matakuliah.nama_mk as nama_mk', 'matakuliah.sks')
+            ->select('khs.*', 'matakuliah.nama_mk', 'matakuliah.sks')
+            ->orderBy('matakuliah.kode_mk')
             ->get();
 
-        // Generate PDF (using a library like Dompdf or Snappy)
-        // $pdf = \PDF::loadView('khs-pdf', ['khsData' => $khsData, 'semester' => $semester]);
+        // Calculate total SKS
+        $totalSks = $khsData->sum('sks');
 
-        // Download the PDF
-        // return $pdf->download("KHS_Semester_{$semester}.pdf");
+        // Calculate IPS
+        $ips = $khsData->average(function ($item) {
+            return match ($item->nilai) {
+                'A' => 4.0,
+                'A-' => 3.7,
+                'B+' => 3.3,
+                'B' => 3.0,
+                'B-' => 2.7,
+                'C+' => 2.3,
+                'C' => 2.0,
+                'D' => 1.0,
+                default => 0,
+            };
+        });
+
+        $pdf = PDF::loadView('khsDownloadPdf', compact('mahasiswa', 'khsData', 'semester', 'totalSks', 'ips'));
+
+        return $pdf->download('KHS_' . $mahasiswa->nim . '_Semester_' . $semester . '.pdf');
     }
 }
