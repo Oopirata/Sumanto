@@ -166,7 +166,7 @@
                         <input type="hidden" name="status" value="Tidak Disetujui">
                         <input type="hidden" name="prodi" value="{{ $selectedProdi }}">
                         <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-all">
-                            Tidak Disetui
+                            Tidak Disetujui
                         </button>
                     </form>
                 </div>
