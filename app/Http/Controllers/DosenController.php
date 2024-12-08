@@ -9,6 +9,7 @@ use App\Models\Jadwal;
 use App\Models\Irs;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 class DosenController extends Controller
 {
@@ -86,32 +87,50 @@ class DosenController extends Controller
      */
     public function updateStatusIrs(Request $request, $nim)
     {
-        // Validasi input status
-        $request->validate([
-            'status' => 'required|in:Disetujui,Tidak Disetujui,pending',
-        ]);
+        try {
+            DB::beginTransaction();
 
-        // Ambil semester aktif dari mahasiswa
-        $mahasiswa = Mahasiswa::where('nim', $nim)->first();
-        $semesterAktif = $mahasiswa->semester;
+            $mahasiswa = Mahasiswa::where('nim', $nim)->firstOrFail();
+            $semesterAktif = $mahasiswa->semester;
 
-        // Update IRS berdasarkan NIM dan semester aktif
-        $affectedRows = Irs::where('nim', $nim)
-            ->where('semester', $semesterAktif) // Hanya update IRS semester aktif
-            ->whereIn('status', ['pending', 'Disetujui', 'Tidak Disetujui'])
-            ->update(['status' => $request->status]);
+            if ($request->has('action')) {
+                // Handle bulk actions (approve all or reject all)
+                if ($request->action === 'reject') {
+                    // Reject all pending IRS entries
+                    Irs::where('nim', $nim)
+                        ->where('semester', $semesterAktif)
+                        ->where('status', 'pending')
+                        ->update(['status' => 'rejected']);
+                } elseif ($request->action === 'approve') {
+                    // Update each IRS entry with its specified status
+                    foreach ($request->status as $irsId => $status) {
+                        Irs::where('id', $irsId)
+                            ->where('nim', $nim)
+                            ->where('semester', $semesterAktif)
+                            ->update(['status' => $status]);
+                    }
+                }
+            } elseif ($request->has('status')) {
+                // Handle individual status updates from the list view
+                if ($request->status === 'pending') {
+                    // Reset status to pending
+                    Irs::where('nim', $nim)
+                        ->where('semester', $semesterAktif)
+                        ->update(['status' => 'pending']);
+                }
+            }
 
-        if ($affectedRows > 0) {
+            DB::commit();
             return redirect()
                 ->route('DosenPengajuan.irs')
                 ->with('success', 'Status IRS berhasil diperbarui!');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()
+                ->route('DosenPengajuan.irs')
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-
-        return redirect()
-            ->route('DosenPengajuan.irs')
-            ->with('error', 'IRS tidak ditemukan untuk mahasiswa tersebut!');
     }
-
     public function detailIrsPA($nim)
     {
         try {
@@ -254,30 +273,30 @@ class DosenController extends Controller
     public function downloadIrsPDF($nim, $semester)
     {
         $mahasiswa = Mahasiswa::with('user')
-        ->where('nim', $nim)
-        ->firstOrFail();
+            ->where('nim', $nim)
+            ->firstOrFail();
 
-// Ambil data IRS hanya untuk semester yang dipilih
-$irsData = Irs::where('nim', $nim)
-->where('irs.semester', $semester)  // Tambahkan prefix 'irs.' untuk memperjelas
-->join('jadwal', 'irs.jadwal_id', '=', 'jadwal.id')
-->select(
-'irs.*',
-'jadwal.kode_mk',
-'jadwal.nama_mk',
-'jadwal.kelas',
-'jadwal.sks',
-'jadwal.ruang',
-'jadwal.sifat'
-)
-->orderBy('jadwal.kode_mk')
-->get();
+        // Ambil data IRS hanya untuk semester yang dipilih
+        $irsData = Irs::where('nim', $nim)
+            ->where('irs.semester', $semester)  // Tambahkan prefix 'irs.' untuk memperjelas
+            ->join('jadwal', 'irs.jadwal_id', '=', 'jadwal.id')
+            ->select(
+                'irs.*',
+                'jadwal.kode_mk',
+                'jadwal.nama_mk',
+                'jadwal.kelas',
+                'jadwal.sks',
+                'jadwal.ruang',
+                'jadwal.sifat'
+            )
+            ->orderBy('jadwal.kode_mk')
+            ->get();
 
-// Hitung total SKS
-$totalSks = $irsData->sum('sks');
+        // Hitung total SKS
+        $totalSks = $irsData->sum('sks');
 
-$pdf = PDF::loadView('unduhPdf', compact('mahasiswa', 'irsData', 'semester', 'totalSks'));
+        $pdf = PDF::loadView('unduhPdf', compact('mahasiswa', 'irsData', 'semester', 'totalSks'));
 
-return $pdf->download('IRS_'.$nim.'_Semester_'.$semester.'.pdf');
+        return $pdf->download('IRS_' . $nim . '_Semester_' . $semester . '.pdf');
     }
 }
