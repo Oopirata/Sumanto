@@ -75,7 +75,7 @@
                                                 name="status" 
                                                 value="Disetujui" 
                                                 class="px-4 py-2 rounded-md mr-2 
-                                                    {{ $ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui' ? 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60' : 'bg-green-500 text-white hover:bg-green-600' }}" 
+                                                    {{ $ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui' ? 'bg-green-800 text-black cursor-not-allowed opacity-60' : 'bg-green-500 text-white hover:bg-green-600' }}" 
                                                 @if($ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui') disabled @endif>
                                                 Setuju
                                             </button>
@@ -86,13 +86,12 @@
                                                 name="status" 
                                                 value="Tidak Disetujui" 
                                                 class="px-4 py-2 rounded-md 
-                                                    {{ $ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui' ? 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60' : 'bg-red-500 text-white hover:bg-red-600' }}" 
+                                                    {{ $ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui' ? 'bg-red-800 text-black cursor-not-allowed opacity-60' : 'bg-red-500 text-white hover:bg-red-600' }}" 
                                                 @if($ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui') disabled @endif>
                                                 Tidak Setuju
                                             </button>
                                         </div>
                                     </form>
-
                                 </td>
                             </tr>
                         @endforeach
