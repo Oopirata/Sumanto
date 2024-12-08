@@ -112,23 +112,14 @@ class RuanganController extends Controller
         return redirect()->back()->with('success', 'Status ruangan berhasil diperbarui');
     }
 
-    public function verifRuangan(Request $request, $id_ruang)
+    public function verifRuangan (Request $request)
     {
-        try {
-            $user = Auth::user();
-            
-            // Update status ruangan spesifik berdasarkan id_ruang
-            DB::table('ruangan')
-                ->where('id_ruang', $id_ruang)
-                ->where('status', '!=', $request->status) // Hanya update jika status berbeda
-                ->update([
-                    'status' => $request->status,
-                    'updated_at' => now()
-                ]);
-    
-            return redirect()->back()->with('success', 'Status ruangan berhasil diperbarui');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui status ruangan');
-        }
+        $user = Auth::user();
+        // dd($user->prodi);
+        DB::table('ruangan')
+            ->where('prodi', $user->prodi)
+            ->update(['status' => 'Disetujui']);
+
+        return redirect()->back()->with('success', 'Status ruangan berhasil diperbarui');
     }
 }

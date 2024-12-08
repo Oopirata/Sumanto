@@ -114,6 +114,7 @@
                                                 <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
                                                 <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>
                                                 <p class="text-xs font-normal">{{ $schedule['ruangan'] }}</p>
+                                                <p class="text-xs font-normal">{{ $schedule['kelas'] }}</p>
                                             </button>
                                         @endif
                                     @endforeach
@@ -166,7 +167,7 @@
                         <input type="hidden" name="status" value="Tidak Disetujui">
                         <input type="hidden" name="prodi" value="{{ $selectedProdi }}">
                         <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition-all">
-                            Tidak Disetui
+                            Tidak Disetujui
                         </button>
                     </form>
                 </div>
