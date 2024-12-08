@@ -644,6 +644,25 @@ class JadwalSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
+            //Jadwal Semester 2
+            [
+                'hari' => 'Sabtu',
+                'jam_mulai' => '07:00',
+                'jam_selesai' => '08:40',
+                'ruang' => 'E103',
+                'kode_mk' => 'AP3232',
+                'nama_mk' => 'Algoritma Pemrograman',
+                'sks' => 1,
+                'semester' => 2,
+                'kelas' => 'A',
+                'kapasitas' => 2,
+                'status' => 'Disetujui',
+                'prodi' => 'Informatika',
+                'sifat' => 'Wajib',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
             //Jadwal Semester 3
             [
                 'hari' => 'Senin',
@@ -1626,6 +1645,25 @@ class JadwalSeeder extends Seeder
                 'semester' => 5,
                 'kelas' => 'D',
                 'kapasitas' => 50,
+                'status' => 'Disetujui',
+                'prodi' => 'Informatika',
+                'sifat' => 'Wajib',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            //Jadwal Semester 7
+            [
+                'hari' => 'Sabtu',
+                'jam_mulai' => '09:00',
+                'jam_selesai' => '09:40',
+                'ruang' => 'E103',
+                'kode_mk' => 'KKN111',
+                'nama_mk' => 'KKN',
+                'sks' => 1,
+                'semester' => 7,
+                'kelas' => 'A',
+                'kapasitas' => 2,
                 'status' => 'Disetujui',
                 'prodi' => 'Informatika',
                 'sifat' => 'Wajib',

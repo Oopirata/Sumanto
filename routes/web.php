@@ -120,6 +120,8 @@ Route::delete('staff/ruangan/{id_ruang}', [RuanganController::class, 'destroy'])
 
 Route::post('staff/ruangan/store', [RuanganController::class, 'store'])->name('store.ruangan');
 
+Route::post('dekan/ruangan/verif', [RuanganController::class, 'verifRuangan'])->name('verif.ruangan');
+
 Route::delete('/staff/ruangan/keterangan/{id_ruang}', [RuanganController::class, 'update'])->name('ruangan.update');
 
 Route::post('staff/ruangan/kapasitas/{id_ruang}', [RuanganController::class, 'updateKapasitas'])->name('ruangan.updateKapasitas');

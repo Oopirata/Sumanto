@@ -61,7 +61,7 @@ class RuanganController extends Controller
             'nama' => 'Ruangan Kuliah' . $request->id_ruang,
             'kapasitas' => $request->kapasitas,
             'lokasi' => $request->lokasi,
-            'status' => 'Free',
+            'status' => 'Pending',
             'keterangan' => 'Tidak Tersedia',
             'created_at' => now(),
             'updated_at' => now()
@@ -108,6 +108,17 @@ class RuanganController extends Controller
         DB::table('ruangan')
             ->where('id_ruang', $id_ruang)
             ->update($updateData);
+
+        return redirect()->back()->with('success', 'Status ruangan berhasil diperbarui');
+    }
+
+    public function verifRuangan (Request $request)
+    {
+        $user = Auth::user();
+        // dd($user->prodi);
+        DB::table('ruangan')
+            ->where('prodi', $user->prodi)
+            ->update(['status' => 'Disetujui']);
 
         return redirect()->back()->with('success', 'Status ruangan berhasil diperbarui');
     }
