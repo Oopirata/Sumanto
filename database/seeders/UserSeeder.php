@@ -154,7 +154,7 @@ class UserSeeder extends Seeder
                 'roles' => ['Mahasiswa'],
                 'nim' => '24060122120031',
                 'semester' => 5,
-                'prodi' => 'Kimia',
+                'prodi' => 'Informatika',
                 'angkatan' => '2022',
                 'no_hp' => '081234567893',
                 'dosen_wali_nip' => '197304011998021001'  // Reference to Dr. Aris's NIP
