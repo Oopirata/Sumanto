@@ -92,7 +92,7 @@
             <img src="https://via.placeholder.com/40" alt="Profile Image" class="rounded-full h-10 w-10">
             <div class="ml-4">
                 <p class="text-sm font-medium">{{ $mahasiswa->nama }}</p>
-                <p class="text-xs text-gray-600">{{ $mahasiswa->nim }} - Informatika S1</p>
+                <p class="text-xs text-gray-600">{{ $mahasiswa->nim }} - {{ $mahasiswa->prodi }}</p>
             </div>
         </div>
     </aside>
