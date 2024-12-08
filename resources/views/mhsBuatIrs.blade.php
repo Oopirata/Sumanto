@@ -248,7 +248,6 @@
                                                                             day: '{{ $schedule['day'] }}',
                                                                             kode_mk: '{{ $schedule['kode_mk'] }}',
                                                                             sks: {{ $schedule['sks'] }},
-                                                                            {{-- semester: {{ $schedule['semester'] }}, --}}
                                                                             kapasitas: {{ $schedule['kapasitas'] }},
                                                                             start: '{{ $schedule['start'] }}',
                                                                             end: '{{ $schedule['end'] }}',
@@ -419,7 +418,6 @@
                                         <input type="hidden" :name="'day[' + index + ']'" :value="schedule.day">
                                         <input type="hidden" :name="'kode_mk[' + index + ']'" :value="schedule.kode_mk">
                                         <input type="hidden" :name="'sks[' + index + ']'" :value="schedule.sks">
-                                        {{-- <input type="hidden" :name="'semester[' + index + ']'" :value="schedule.semester"> --}}
                                         <input type="hidden" :name="'kapasitas[' + index + ']'"
                                             :value="schedule.kapasitas">
                                         <input type="hidden" :name="'start[' + index + ']'" :value="schedule.start">
