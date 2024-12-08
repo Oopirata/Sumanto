@@ -152,6 +152,7 @@
                                                         'kode_mk' => $jadwal->kode_mk,
                                                         'sks' => $jadwal->sks,
                                                         'kapasitas' => $jadwal->kapasitas,
+                                                        'semester' => $jadwal->semester,
                                                         'start' => $jadwal->jam_mulai,
                                                         'end' => $jadwal->jam_selesai,
                                                         'title' => $jadwal->nama_mk,
@@ -288,6 +289,8 @@
                                                                 {{ $schedule['kelas'] }}</p>
                                                             <p class="text-xs font-normal mb-px">SKS :
                                                                 {{ $schedule['sks'] }}</p>
+                                                            <p class="text-xs font-normal mb-px">Semester :
+                                                                {{ $schedule['semester'] }}</p>
                                                             <p class="text-xs font-normal mb-px">Kapasitas :
                                                                 {{ $schedule['kapasitas'] }}</p>
                                                             <p class="text-xs font-semibold">{{ $schedule['start'] }} -
