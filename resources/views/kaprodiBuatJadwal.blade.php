@@ -234,7 +234,9 @@
 
                                     <!-- Submit Button -->
                                     <div>
-                                        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Simpan</button>
+                                        <button id="simpanBtn" type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                            Simpan
+                                        </button>
                                     </div>
                                 </form>
 
@@ -300,31 +302,6 @@
                         </div>
                     </div>
 
-                    <script>
-                        function confirmDelete() {
-                            Swal.fire({
-                                title: 'Konfirmasi Penghapusan',
-                                text: "Apakah Anda yakin ingin menghapus jadwal ini?",
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#d33',
-                                cancelButtonColor: '#3085d6',
-                                confirmButtonText: 'Ya, hapus!',
-                                cancelButtonText: 'Batal'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    // Tambahkan kode untuk menghapus jadwal di sini
-                                    Swal.fire(
-                                        'Terhapus!',
-                                        'Jadwal Anda telah dihapus.',
-                                        'success'
-                                    );
-                                    showModal = false; // Tutup modal setelah dihapus
-                                }
-                            });
-                        }
-                    </script>
-
                     <!-- Tombol Ajukan -->
                     <div class="fixed bottom-6 right-6">
                         <button id="ajukanBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg shadow-lg">
@@ -375,7 +352,9 @@
 
 <script>
     // Ketika tombol Ajukan diklik
-    document.getElementById('ajukanBtn').addEventListener('click', function() {
+    $('form[action="{{ route('storeKaprodi.jadwal') }}"]').submit(function(e) {
+        e.preventDefault();
+        const form = this;
         Swal.fire({
             title: 'Konfirmasi Pengajuan',
             text: "Apakah Anda yakin ingin mengajukan jadwal ini?",
@@ -387,15 +366,24 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire(
-                    'Terkirim!',
-                    'Jadwal Anda telah diajukan.',
-                    'success'
-                );
+                form.submit();
                 // Tambahkan kode untuk melanjutkan pengajuan (misalnya, submit form, redirect, dll)
             }
         });
     });
+
+    @if(session('sweetAlert'))
+            document.addEventListener('DOMContentLoaded', function() {
+                const alert = @json(session('sweetAlert'));
+                Swal.fire({
+                    title: alert.title,
+                    text: alert.text,
+                    icon: alert.icon,
+                    confirmButtonColor: '#028391',
+                    confirmButtonText: 'OK'
+                });
+            });
+        @endif
 </script>
 
 @endsection
