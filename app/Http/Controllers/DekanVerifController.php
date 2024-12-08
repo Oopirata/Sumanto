@@ -29,21 +29,27 @@ class DekanVerifController extends Controller
         $user = Auth::user();
         $dekan = \App\Models\Dekan::where('user_id', $user->id)->first();
         
-        // Base query untuk ruangan dengan status Diajukan
-        $ruang = Ruangan::where('status', 'Diajukan');
-    
-        // Jika ada jurusan yang dipilih
-        if ($request->jurusan) {
-            $ruang = $ruang->where('prodi', $request->jurusan);
+        // Get all prodi/jurusan for dropdown
+        $prodi = Prodi::all();
+        
+        // Get selected prodi from request
+        $selectedProdi = $request->jurusan;
+        
+        // Base query for rooms with status 'Diajukan'
+        $query = Ruangan::where('status', 'Diajukan');
+        
+        // Filter by prodi if selected
+        if ($selectedProdi) {
+            $query->where('prodi', $selectedProdi);
         }
-    
-        $ruang = $ruang->get();
+        
+        $ruang = $query->get();
         
         if ($request->ajax()) {
             return response()->json(['ruang' => $ruang]);
         }
         
-        return view('dekanVerifikasi', compact('dekan', 'user', 'ruang'));
+        return view('dekanVerifikasi', compact('dekan', 'user', 'ruang', 'prodi', 'selectedProdi'));
     }
 
     public function dekanJadwal(Request $request)

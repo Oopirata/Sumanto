@@ -20,10 +20,12 @@
                         <div class="flex justify-between">
                             <div class="text-center">         
                                 <select id="jurusan" name="jurusan" class="bg-blue-700 text-white rounded-lg text-sm px-4 py-2.5 mr-9 dark:bg-gray-700 dark:text-gray-200 focus:ring-4 focus:ring-blue-300 focus:outline-none">
-                                    <option value="" disabled selected>Jurusan</option>
-                                    <option value="jurusan1">Informatika</option>
-                                    <option value="jurusan2">Kimia</option>
-                                    <option value="jurusan3">Fisika</option>
+                                    <option value="">Pilih Jurusan</option>
+                                    @foreach ($prodi as $p)
+                                        <option value="{{ $p->nama_prodi }}" {{ $p->nama_prodi == $selectedProdi ? 'selected' : '' }}>
+                                            {{ $p->nama_prodi }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="px-4 bg-white"></div>
@@ -99,7 +101,7 @@
 
 <script>
 $(document).ready(function() {
-    // Inisialisasi DataTable
+    // Initialize DataTable
     var table = $('#tabelVeri').DataTable({
         layout: {
             topStart: null,
@@ -112,31 +114,48 @@ $(document).ready(function() {
         ]
     });
 
-    // Event listener untuk perubahan dropdown
+    // Handle department dropdown change
     $('#jurusan').on('change', function() {
         var selectedJurusan = $(this).val();
         
-        // Custom filter function
-        $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
-            // Jika tidak ada jurusan yang dipilih, tampilkan semua data
-            if (!selectedJurusan || selectedJurusan === "") {
-                return true;
+        // Make AJAX request to get filtered data
+        $.ajax({
+            url: window.location.href,
+            type: 'GET',
+            data: {
+                jurusan: selectedJurusan
+            },
+            success: function(response) {
+                // Clear existing table data
+                table.clear();
+                
+                // Add new data
+                response.ruang.forEach(function(ruangan) {
+                    table.row.add([
+                        ruangan.id_ruang,
+                        ruangan.nama,
+                        ruangan.kapasitas,
+                        ruangan.lokasi,
+                        `<span class="px-2 py-1 rounded ${ruangan.keterangan == 'Tersedia' ? 'bg-green-100 text-green-500' : 'bg-red-100 text-red-500'}">${ruangan.keterangan}</span>`,
+                        `<span class="px-2 py-1 rounded ${ruangan.status == 'Disetujui' ? 'bg-green-100 text-green-500' : (ruangan.status == 'Diproses' ? 'bg-yellow-100 text-yellow-500' : 'bg-red-100 text-red-500')}">${ruangan.status}</span>`,
+                        `<form action="/verif/ruangan/${ruangan.id_ruang}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="flex items-center">
+                                <button type="submit" name="status" value="Disetujui" class="px-4 py-2 bg-green-500 text-white rounded-md mr-2">Setuju</button>
+                                <button type="submit" name="status" value="Tidak Disetujui" class="px-4 py-2 bg-red-500 text-white rounded-md">Tidak Setuju</button>
+                            </div>
+                        </form>`
+                    ]);
+                });
+                
+                // Redraw the table
+                table.draw();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
             }
-
-            // Data jurusan ada di kolom yang mana? 
-            // Asumsikan ada kolom tersembunyi atau data attribute yang menyimpan jurusan
-            // Sesuaikan index sesuai dengan struktur tabel Anda
-            var rowJurusan = data[7]; // Ganti dengan index kolom jurusan yang sesuai
-
-            // Return true jika jurusan pada baris sama dengan jurusan yang dipilih
-            return rowJurusan === selectedJurusan;
         });
-
-        // Refresh tabel untuk menerapkan filter
-        table.draw();
-
-        // Hapus custom filter setelah digunakan
-        $.fn.dataTable.ext.search.pop();
     });
 });
 </script>
