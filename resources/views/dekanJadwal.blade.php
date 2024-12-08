@@ -114,6 +114,7 @@
                                                 <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
                                                 <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>
                                                 <p class="text-xs font-normal">{{ $schedule['ruangan'] }}</p>
+                                                <p class="text-xs font-normal">{{ $schedule['kelas'] }}</p>
                                             </button>
                                         @endif
                                     @endforeach
