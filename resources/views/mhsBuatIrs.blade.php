@@ -22,6 +22,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="mt-4 p-4 mx-8 bg-white rounded-lg">
                     <p class="text-blue-800 ml-4">
                         IPS Anda Semester Lalu : <span class="font-semibold">{{ number_format($mahasiswa->IPS, 2) }}</span>
@@ -150,8 +151,8 @@
                                                         'day' => $jadwal->hari,
                                                         'kode_mk' => $jadwal->kode_mk,
                                                         'sks' => $jadwal->sks,
-                                                        'semester' => $jadwal->semester,
                                                         'kapasitas' => $jadwal->kapasitas,
+                                                        'semester' => $jadwal->semester,
                                                         'start' => $jadwal->jam_mulai,
                                                         'end' => $jadwal->jam_selesai,
                                                         'title' => $jadwal->nama_mk,
@@ -179,9 +180,12 @@
                                                     <div class="flex items-center space-x-2"
                                                         style="grid-row: span {{ $duration }};"
                                                         :class="[
-                                                            selectedSchedules.some(s => s.kode_mk === '{{ $schedule['kode_mk'] }}') &&
-                                                            !selectedSchedules.some(s => s.id === {{ $schedule['id'] }}) ? 'opacity-50' : '',
-                                                            in_array($schedule['id'], $existingIrs) ? 'opacity-50' : ''
+                                                            selectedSchedules.some(s => s
+                                                                .kode_mk === '{{ $schedule['kode_mk'] }}') &&
+                                                            !selectedSchedules.some(s => s.id ===
+                                                                {{ $schedule['id'] }}) ? 'opacity-50' : '',
+                                                            {{ in_array($schedule['id'], $existingIrs) ? 'true' : 'false' }} ?
+                                                            'opacity-50' : ''
                                                         ]">
                                                         <div class="flex items-center">
                                                             <input type="checkbox" class="w-4 h-4"
@@ -242,7 +246,7 @@
                                                                             return;
                                                                         }
 
-                                                                        {{-- // Tambahkan jadwal jika semua pengecekan berhasil --}}
+                                                                        // Tambahkan jadwal jika semua pengecekan berhasil
                                                                         selectedSchedules.push({
                                                                             id: {{ $schedule['id'] }},
                                                                             day: '{{ $schedule['day'] }}',
@@ -285,10 +289,10 @@
                                                                 {{ $schedule['kelas'] }}</p>
                                                             <p class="text-xs font-normal mb-px">SKS :
                                                                 {{ $schedule['sks'] }}</p>
-                                                            <p class="text-xs font-normal mb-px">Semester :
-                                                                {{ $schedule['semester'] }}</p>
                                                             <p class="text-xs font-normal mb-px">Kapasitas :
                                                                 {{ $schedule['kapasitas'] }}</p>
+                                                            <p class="text-xs font-normal mb-px">Semester :
+                                                                    {{ $schedule['semester'] }}</p>
                                                             <p class="text-xs font-semibold">{{ $schedule['start'] }} -
                                                                 {{ $schedule['end'] }}</p>
                                                         </div>

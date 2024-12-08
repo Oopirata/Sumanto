@@ -193,8 +193,8 @@ class UserSeeder extends Seeder
                 'name' => 'Raka Maulana Yusuf',
                 'roles' => ['Mahasiswa'],
                 'nim' => '24060122140119',
-                'semester' => 5,
-                'prodi' => 'Statistika',
+                'semester' => 7,
+                'prodi' => 'Informatika',
                 'angkatan' => '2022',
                 'no_hp' => '081234567665',
                 'dosen_wali_nip' => '198607232019031007'  // Reference to Mr. Sandy's NIP
