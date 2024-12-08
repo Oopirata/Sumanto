@@ -57,42 +57,49 @@
                                             // Ambil IRS mahasiswa untuk semester terakhir
                                             $irs = $student->irs->where('semester', 5)->first(); // Contoh semester 5
                                             $status = $irs ? $irs->status : 'Tidak Ada Data';
+
+                                            // Convert status for display
+                                            $displayStatus = match ($status) {
+                                                'baru', 'mengulang' => 'Disetujui',
+                                                'rejected' => 'Ditolak',
+                                                'pending' => 'Menunggu Persetujuan',
+                                                default => 'Tidak Ada Data',
+                                            };
+
+                                            // Set appropriate color class
+                                            $statusClass = match ($status) {
+                                                'baru', 'mengulang' => 'bg-green-100 text-green-500',
+                                                'rejected' => 'bg-red-100 text-red-500',
+                                                'pending' => 'bg-yellow-100 text-yellow-500',
+                                                default => 'bg-gray-100 text-gray-500',
+                                            };
                                         @endphp
-                                        <span
-                                            class="px-2 py-1 rounded {{ $status == 'Disetujui' ? 'bg-green-100 text-green-500' : ($status == 'Tidak Disetujui' ? 'bg-red-100 text-red-500' : 'bg-yellow-100 text-yellow-500') }}">
-                                            {{ $status }}
+                                        <span class="px-2 py-1 rounded {{ $statusClass }}">
+                                            {{ $displayStatus }}
                                         </span>
                                     </td>
+                                    <!-- In paPengajuanIrs.blade.php -->
                                     <td class="px-6 py-4">
                                         @if ($student->latest_irs)
-                                            <!-- Tombol untuk memperbarui status IRS -->
-                                            <form action="{{ route('updateStatusIrs', $student->nim) }}" method="POST"
-                                                class="inline-block">
-                                                @csrf
-                                                @method('POST')
-                                                @if ($student->latest_irs->status == 'pending')
-                                                    <!-- Tombol untuk status pending -->
-                                                    <button type="submit" name="status" value="Disetujui"
-                                                        class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md mr-2">
-                                                        Setuju
-                                                    </button>
-                                                    <button type="submit" name="status" value="Tidak Disetujui"
-                                                        class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md">
-                                                        Tidak Setuju
-                                                    </button>
-                                                @else
-                                                    <!-- Tombol untuk status yang sudah disetujui/tidak disetujui -->
+                                            @if ($student->latest_irs->status == 'pending')
+                                                <a href="{{ route('Dosen.DetailIrs', $student->nim) }}"
+                                                    class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md">
+                                                    Review IRS
+                                                </a>
+                                            @else
+                                                <form action="{{ route('updateStatusIrs', $student->nim) }}" method="POST"
+                                                    class="inline-block">
+                                                    @csrf
+                                                    @method('POST')
                                                     <button type="submit" name="status" value="pending"
                                                         class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-md">
                                                         Batalkan
                                                     </button>
-                                                @endif
-                                            </form>
+                                                </form>
+                                            @endif
 
-                                            <!-- Tombol Detail -->
-                                            
                                             <a href="{{ route('Dosen.DetailIrs', $student->nim) }}"
-                                                class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md ml-2 inline-block">
+                                                class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md ml-2 inline-block">
                                                 Detail
                                             </a>
                                         @else
