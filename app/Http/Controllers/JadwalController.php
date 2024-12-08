@@ -30,9 +30,11 @@ class JadwalController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         $request->validate([
             'kode_mk' => 'required|exists:matakuliah,kode_mk',
             'ruangan' => 'required|exists:ruangan,id',
+            'kapasitas' => 'required|numeric|min:1',
             'sifat' => 'required',
             'hari' => 'required',
             'jam_mulai' => 'required',
@@ -106,7 +108,7 @@ class JadwalController extends Controller
             'sks' => $matakuliah->sks,
             'semester' => $matakuliah->semester,
             'kelas' => $request->kelas,
-            'kapasitas' => $ruangan->kapasitas,
+            'kapasitas' => $request->kapasitas,
             'status' => 'Belum Disetujui',
             'prodi' => $kaprodi->nama_prodi,
             'sifat' => $request->sifat,
