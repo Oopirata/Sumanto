@@ -19,9 +19,6 @@
                         <div class="flex justify-between">
                             
                             <div class="px-4 bg-white"></div>
-                            <div>
-                                <x-semester></x-semester>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -95,6 +92,7 @@
                                                 <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
                                                 <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>
                                                 <p class="text-xs font-normal">{{ $schedule['ruangan'] }}</p>
+                                                <p class="text-xs font-normal">{{ $schedule['kelas'] }}</p>
                                             </button>
                                         @endif
                                     @endforeach
@@ -117,7 +115,7 @@
                             </svg>
                             Jadwal
                         </button>
-                    </div>
+                    </div>  
 
                     <!-- drawer component -->
                     <div id="drawer-right-example" class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label">

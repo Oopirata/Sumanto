@@ -59,7 +59,11 @@ class JadwalController extends Controller
             ->exists();
 
         if ($jadwalExists) {
-            return redirect()->back()->with('error', 'Mata kuliah dengan kelas ini sudah ada.');
+            return redirect()->back()->with('sweetAlert', [
+                'title' => 'Error!',
+                'text' => 'Jadwal Sudah Ada.',
+                'icon' => 'error'
+            ]);
         }
 
         // Check for room conflicts
@@ -89,11 +93,11 @@ class JadwalController extends Controller
 
         if ($conflictingSchedule) {
             $conflictType = $conflictingSchedule->ruang == $request->ruangan ? 'ruangan' : 'kelas';
-            return redirect()->back()->with('error', 
-                "Terjadi bentrok jadwal: $conflictType sudah digunakan untuk mata kuliah " . 
-                $conflictingSchedule->nama_mk . ' (' . $conflictingSchedule->jam_mulai . 
-                ' - ' . $conflictingSchedule->jam_selesai . ')'
-            );
+            return redirect()->back()->with('sweetAlert', [
+                'title' => 'Error!',
+                'text' => 'Jadwal Bentrok.',
+                'icon' => 'error'
+            ]);
         }
 
         // dd($request->all());
@@ -114,7 +118,11 @@ class JadwalController extends Controller
             'sifat' => $request->sifat,
         ]);
 
-        return redirect()->back()->with('success', 'Jadwal berhasil disimpan');
+        return redirect()->back()->with('sweetAlert', [
+            'title' => 'Berhasil!',
+            'text' => 'Jadwal berhasil ditambahkan.',
+            'icon' => 'success'
+        ]);
     }
 
     public function destroy(Request $request)
@@ -128,7 +136,11 @@ class JadwalController extends Controller
         // Cari jadwal berdasarkan jadwal_id yang dikirim dari form
         DB::table('jadwal')->where('id', $request->id)->delete();
         
-        return redirect()->back()->with('success', 'Jadwal berhasil dihapus');
+        return redirect()->back()->with('sweetAlert', [
+            'title' => 'Berhasil!',
+            'text' => 'Jadwal berhasil dihapus.',
+            'icon' => 'success'
+        ]);
     }
 
     // Dalam JadwalController.php
