@@ -35,8 +35,8 @@ class DekanVerifController extends Controller
         // Get selected prodi from request
         $selectedProdi = $request->jurusan;
         
-        // Base query for rooms with status 'Diajukan'
-        $query = Ruangan::where('status', 'Diajukan');
+        // Base query for rooms with multiple statuses
+        $query = Ruangan::whereIn('status', ['Diajukan', 'Disetujui', 'Tidak Disetujui']);
         
         // Filter by prodi if selected
         if ($selectedProdi) {

@@ -25,6 +25,9 @@
                                     <option value="Informatika">Informatika</option>
                                     <option value="Kimia">Kimia</option>
                                     <option value="Fisika">Fisika</option>
+                                    <option value="Fisika">Biologi</option>
+                                    <option value="Fisika">Matematika</option>
+                                    <option value="Fisika">Statistika</option>
                                 </select>
                             </div>
 
