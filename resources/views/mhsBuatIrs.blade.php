@@ -22,7 +22,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="mt-4 p-4 mx-8 bg-white rounded-lg">
                     <p class="text-blue-800 ml-4">
                         IPS Anda Semester Lalu : <span class="font-semibold">{{ number_format($mahasiswa->IPS, 2) }}</span>
@@ -151,6 +150,7 @@
                                                         'day' => $jadwal->hari,
                                                         'kode_mk' => $jadwal->kode_mk,
                                                         'sks' => $jadwal->sks,
+                                                        'semester' => $jadwal->semester,
                                                         'kapasitas' => $jadwal->kapasitas,
                                                         'start' => $jadwal->jam_mulai,
                                                         'end' => $jadwal->jam_selesai,
@@ -242,12 +242,13 @@
                                                                             return;
                                                                         }
 
-                                                                        // Tambahkan jadwal jika semua pengecekan berhasil
+                                                                        {{-- // Tambahkan jadwal jika semua pengecekan berhasil --}}
                                                                         selectedSchedules.push({
                                                                             id: {{ $schedule['id'] }},
                                                                             day: '{{ $schedule['day'] }}',
                                                                             kode_mk: '{{ $schedule['kode_mk'] }}',
                                                                             sks: {{ $schedule['sks'] }},
+                                                                            {{-- semester: {{ $schedule['semester'] }}, --}}
                                                                             kapasitas: {{ $schedule['kapasitas'] }},
                                                                             start: '{{ $schedule['start'] }}',
                                                                             end: '{{ $schedule['end'] }}',
@@ -285,6 +286,8 @@
                                                                 {{ $schedule['kelas'] }}</p>
                                                             <p class="text-xs font-normal mb-px">SKS :
                                                                 {{ $schedule['sks'] }}</p>
+                                                            <p class="text-xs font-normal mb-px">Semester :
+                                                                {{ $schedule['semester'] }}</p>
                                                             <p class="text-xs font-normal mb-px">Kapasitas :
                                                                 {{ $schedule['kapasitas'] }}</p>
                                                             <p class="text-xs font-semibold">{{ $schedule['start'] }} -
@@ -416,6 +419,7 @@
                                         <input type="hidden" :name="'day[' + index + ']'" :value="schedule.day">
                                         <input type="hidden" :name="'kode_mk[' + index + ']'" :value="schedule.kode_mk">
                                         <input type="hidden" :name="'sks[' + index + ']'" :value="schedule.sks">
+                                        {{-- <input type="hidden" :name="'semester[' + index + ']'" :value="schedule.semester"> --}}
                                         <input type="hidden" :name="'kapasitas[' + index + ']'"
                                             :value="schedule.kapasitas">
                                         <input type="hidden" :name="'start[' + index + ']'" :value="schedule.start">

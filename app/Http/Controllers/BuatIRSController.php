@@ -15,75 +15,77 @@ use App\Models\Irs;
 class BuatIRSController extends Controller
 {
     public function tampil_jadwal()
-    {
-        $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
+{
+    $user = Auth::user();
+    $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
 
-        if ($mahasiswa) {
-            $sksLimit = $this->calculateSksLimit($mahasiswa->IPS);
-            $currentSemester = $mahasiswa->semester;
+    if ($mahasiswa) {
+        $sksLimit = $this->calculateSksLimit($mahasiswa->IPS);
+        $currentSemester = $mahasiswa->semester;
 
-            // Determine if the current semester is odd or even
-            $isOddSemester = $currentSemester % 2 !== 0;
+        // Determine if the current semester is odd or even
+        $isOddSemester = $currentSemester % 2 !== 0;
 
-            // Get all relevant semesters (same parity as current semester)
-            $relevantSemesters = [];
-            for ($i = $currentSemester; $i > 0; $i--) {
-                if (($i % 2 !== 0) === $isOddSemester) {
-                    $relevantSemesters[] = $i;
-                }
-            }
+        // Define max semester according to real university regulations
+        $maxSemester = 14; // Batas maksimal masa studi S1 adalah 14 semester (7 tahun)
 
-            // Fetch courses for relevant semesters
-            $jadwals = Jadwal::whereIn('semester', $relevantSemesters)->get();
+        // Get all semesters with the same parity up to max semester
+        $relevantSemesters = range(
+            $isOddSemester ? 1 : 2,
+            $maxSemester,
+            $isOddSemester ? 2 : 2
+        );
 
-            // Get just the IDs for checking in the view
-            $existingIrs = Irs::where('nim', $mahasiswa->nim)
-                ->where('semester', $mahasiswa->semester)
-                ->pluck('jadwal_id')
-                ->toArray();
+        // Fetch courses for relevant semesters
+        $jadwals = Jadwal::whereIn('semester', $relevantSemesters)->get();
 
-            // Get full IRS entries with jadwal details
-            $existingIrsEntries = Irs::where('nim', $mahasiswa->nim)
-                ->where('semester', $mahasiswa->semester)
-                ->with('jadwal')
-                ->get()
-                ->map(function ($irs) {
-                    return [
-                        'id' => $irs->jadwal->id,
-                        'day' => $irs->jadwal->hari,
-                        'kode_mk' => $irs->jadwal->kode_mk,
-                        'sks' => $irs->jadwal->sks,
-                        'semester' => $irs->jadwal->semester,
-                        'kapasitas' => $irs->jadwal->kapasitas,
-                        'start' => $irs->jadwal->jam_mulai,
-                        'end' => $irs->jadwal->jam_selesai,
-                        'title' => $irs->jadwal->nama_mk,
-                        'kelas' => $irs->jadwal->kelas,
-                        'ruangan' => $irs->jadwal->ruang,
-                        'jenis' => $irs->jadwal->status
-                    ];
-                });
+        // Get just the IDs for checking in the view
+        $existingIrs = Irs::where('nim', $mahasiswa->nim)
+            ->whereIn('semester', $relevantSemesters)
+            ->pluck('jadwal_id')
+            ->toArray();
 
-            $dosenWali = Dosen::find($mahasiswa->dosen_wali_id);
-        } else {
-            $jadwals = collect();
-            $dosenWali = null;
-            $sksLimit = 0;
-            $existingIrs = [];
-            $existingIrsEntries = collect();
-        }
+        // Get full IRS entries with jadwal details
+        $existingIrsEntries = Irs::where('nim', $mahasiswa->nim)
+            ->whereIn('semester', $relevantSemesters)
+            ->with('jadwal')
+            ->get()
+            ->map(function ($irs) {
+                return [
+                    'id' => $irs->jadwal->id,
+                    'day' => $irs->jadwal->hari,
+                    'kode_mk' => $irs->jadwal->kode_mk,
+                    'sks' => $irs->jadwal->sks,
+                    'semester' => $irs->jadwal->semester,
+                    'kapasitas' => $irs->jadwal->kapasitas,
+                    'start' => $irs->jadwal->jam_mulai,
+                    'end' => $irs->jadwal->jam_selesai,
+                    'title' => $irs->jadwal->nama_mk,
+                    'kelas' => $irs->jadwal->kelas,
+                    'ruangan' => $irs->jadwal->ruang,
+                    'jenis' => $irs->jadwal->status
+                ];
+            });
 
-        return view('mhsBuatIrs', compact(
-            'user',
-            'jadwals',
-            'mahasiswa',
-            'dosenWali',
-            'sksLimit',
-            'existingIrs',
-            'existingIrsEntries'
-        ));
+        $dosenWali = Dosen::find($mahasiswa->dosen_wali_id);
+    } else {
+        $jadwals = collect();
+        $dosenWali = null;
+        $sksLimit = 0;
+        $existingIrs = [];
+        $existingIrsEntries = collect();
     }
+
+    return view('mhsBuatIrs', compact(
+        'user',
+        'jadwals',
+        'mahasiswa',
+        'dosenWali',
+        'sksLimit',
+        'existingIrs',
+        'existingIrsEntries'
+    ));
+}
 
 
     public function store(Request $request)
