@@ -66,29 +66,33 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <form action="{{ route('verif.ruangan', $ruangan->id_ruang) }}" method="POST">
+                                    <form action="{{ route('DekanRuangan.update', $ruangan->id_ruang) }}" method="POST">
                                         @csrf
-                                        @method('PUT') <!-- Pastikan ini -->
                                         <div class="flex items-center">
-                                            <!-- Tombol Setuju -->
+                                            <!-- Tombol "Setuju" -->
                                             <button 
                                                 type="submit" 
                                                 name="status" 
                                                 value="Disetujui" 
-                                                class="px-4 py-2 bg-green-500 text-white rounded-md mr-2">
+                                                class="px-4 py-2 rounded-md mr-2 
+                                                    {{ $ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui' ? 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60' : 'bg-green-500 text-white hover:bg-green-600' }}" 
+                                                @if($ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui') disabled @endif>
                                                 Setuju
                                             </button>
-
-                                            <!-- Tombol Tidak Setuju -->
+                                            
+                                            <!-- Tombol "Tidak Setuju" -->
                                             <button 
                                                 type="submit" 
                                                 name="status" 
                                                 value="Tidak Disetujui" 
-                                                class="px-4 py-2 bg-red-500 text-white rounded-md">
+                                                class="px-4 py-2 rounded-md 
+                                                    {{ $ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui' ? 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60' : 'bg-red-500 text-white hover:bg-red-600' }}" 
+                                                @if($ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui') disabled @endif>
                                                 Tidak Setuju
                                             </button>
                                         </div>
                                     </form>
+
                                 </td>
                             </tr>
                         @endforeach
