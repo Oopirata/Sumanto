@@ -111,6 +111,24 @@ class BuatIRSController extends Controller
             $selectedSchedules = $request->input('selectedSchedules');
             $currentSemester = $mhsId->semester;
 
+            // Validate that all selected courses are from valid semesters
+            foreach ($selectedSchedules as $schedule) {
+                $jadwal = Jadwal::find($schedule['id']);
+                if (!$jadwal) {
+                    throw new \Exception('Jadwal tidak ditemukan');
+                }
+
+                // Get the semester parity (odd/even)
+                $isOddCurrentSemester = $currentSemester % 2 !== 0;
+                $isOddJadwalSemester = $jadwal->semester % 2 !== 0;
+
+                // Check if the jadwal semester matches the current semester's parity
+                if ($isOddCurrentSemester !== $isOddJadwalSemester) {
+                    throw new \Exception("Mata kuliah hanya dapat diambil pada semester " .
+                        ($isOddCurrentSemester ? "ganjil" : "genap"));
+                }
+            }
+
             // Calculate total SKS
             $totalSks = 0;
             foreach ($selectedSchedules as $schedule) {
@@ -129,15 +147,17 @@ class BuatIRSController extends Controller
             foreach ($selectedSchedules as $schedule) {
                 $jadwal = Jadwal::find($schedule['id']);
 
-                if ($jadwal) {
-                    $matakuliah = Matakuliah::where('kode_mk', $jadwal->kode_mk)->first();
-                    $nilaiKhs = Khs::where('nim', $mhsId->nim)
-                        ->where('kode_mk', $jadwal->kode_mk)
-                        ->first();
+                if (!$jadwal) {
+                    continue;
                 }
 
+                $matakuliah = Matakuliah::where('kode_mk', $jadwal->kode_mk)->first();
+                $nilaiKhs = Khs::where('nim', $mhsId->nim)
+                    ->where('kode_mk', $jadwal->kode_mk)
+                    ->first();
+
                 $smtMahasiswa = $mhsId->semester;
-                $smtMatakuliah = $matakuliah->semester;
+                $smtMatakuliah = $matakuliah ? $matakuliah->semester : $jadwal->semester;
                 $nilaiSebelumnya = $nilaiKhs ? $nilaiKhs->nilai : 'S';
 
                 // Hitung prioritas
@@ -155,57 +175,39 @@ class BuatIRSController extends Controller
                     $prioritas = 1;
                 }
 
-                // Ambil semua pendaftar untuk jadwal ini dan urutkan berdasarkan prioritas
-                $existingRegistrations = Irs::where('jadwal_id', $jadwal->id)
-                    ->orderBy('prioritas', 'DESC')
-                    ->orderBy('created_at', 'ASC')
-                    ->get();
-
-                // dd($existingRegistrations);
-
-                // Jika jumlah pendaftar sudah mencapai atau melebihi kapasitas
-                if ($existingRegistrations->count() >= $jadwal->kapasitas) {
-                    // Cari entri dengan prioritas terendah
-                    $lowestPriorityEntry = $existingRegistrations
-                        ->sortBy('prioritas')
-                        ->first();
-
-                    // Jika prioritas pendaftar baru lebih rendah atau sama, skip
-                    if ($prioritas <= $lowestPriorityEntry->prioritas) {
-                        continue;
-                    }
-
-                    // Hapus entri dengan prioritas terendah
-                    Irs::where('id', $lowestPriorityEntry->id)->delete();
-                }
-
+                // Check existing IRS entry
                 $existingIrs = Irs::where('nim', $mhsId->nim)
                     ->where('jadwal_id', $schedule['id'])
                     ->where('semester', $currentSemester)
                     ->first();
 
                 if (!$existingIrs) {
-                    if ($jadwal) {
-                        // Check if this course has been taken before
-                        $previousIrs = Irs::where('nim', $mhsId->nim)
-                            ->where('jadwal_id', '!=', $jadwal->id)
-                            ->whereHas('jadwal', function ($query) use ($jadwal) {
-                                $query->where('kode_mk', $jadwal->kode_mk);
-                            })
+                    // Check kapasitas and priority
+                    $existingRegistrations = Irs::where('jadwal_id', $jadwal->id)
+                        ->orderBy('prioritas', 'DESC')
+                        ->orderBy('created_at', 'ASC')
+                        ->get();
+
+                    if ($existingRegistrations->count() >= $jadwal->kapasitas) {
+                        $lowestPriorityEntry = $existingRegistrations
+                            ->sortBy('prioritas')
                             ->first();
 
-                        // Always set initial status as pending
-                        $status = 'pending';
+                        if ($prioritas <= $lowestPriorityEntry->prioritas) {
+                            continue;
+                        }
 
-                        // Store with current semester
-                        Irs::create([
-                            'nim' => $mhsId->nim,
-                            'jadwal_id' => $jadwal->id,
-                            'semester' => $currentSemester,
-                            'prioritas' => $prioritas,
-                            'status' => $status
-                        ]);
+                        Irs::where('id', $lowestPriorityEntry->id)->delete();
                     }
+
+                    // Create new IRS entry
+                    Irs::create([
+                        'nim' => $mhsId->nim,
+                        'jadwal_id' => $jadwal->id,
+                        'semester' => $currentSemester,
+                        'prioritas' => $prioritas,
+                        'status' => 'pending'
+                    ]);
                 }
             }
 
