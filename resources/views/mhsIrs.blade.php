@@ -65,10 +65,10 @@
                                                             class="inline-flex px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs whitespace-nowrap">
                                                             Disetujui
                                                         </span>
-                                                    @elseif($entry->status == 'wajib')
+                                                    @elseif($entry->status == 'baru')
                                                         <span
                                                             class="inline-flex px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs whitespace-nowrap">
-                                                            Wajib
+                                                            Baru
                                                         </span>
                                                     @else
                                                         <span
@@ -84,7 +84,7 @@
                                 </table>
                                 @php
                                     $allApproved = $entries->every(function ($entry) {
-                                        return $entry->status === 'approved' || $entry->status === 'wajib';
+                                        return $entry->status === 'approved' || $entry->status === 'baru';
                                     });
                                 @endphp
 
