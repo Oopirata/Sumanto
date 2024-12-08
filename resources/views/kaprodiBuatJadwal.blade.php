@@ -12,7 +12,7 @@
             <div class="p-8 mt-6 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm">
                 <div class="flex justify-between items-center">
                     <div>
-                        <h1 class="text-black font-bold items-center">Jadwal</h1>
+                        <h1 class="text-black font-bold items-center text-xl">Jadwal</h1>
                     </div>
                     
                     <div>
@@ -87,7 +87,7 @@
                                                 }
                                             @endphp
 
-                                            <button class="rounded p-1.5 border-l-2 {{ $colorClass }} w-full text-left" 
+                                            <button class="rounded p-1.5 border-l-2 {{ $colorClass }} w-full text-left mt-6" 
                                                     @click="showModal = true; selectedSchedule = {{ json_encode($schedule) }}">
                                                 <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
                                                 <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>

@@ -9,7 +9,7 @@
         <x-side-bar-kaprodi :userr="$userr"></x-side-bar-kaprodi>
         <div id="main-content" class=" relative text-black font-poppins w-full h-full overflow-y-auto">
             <x-nav-bar :user="$user" :userr="$userr"></x-nav-bar>
-            <div class="p-10 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm 2xl:col-span-2 sm:p-6 dark:bg-white">
+            <div class="p-10 mx-8 bg-white border border-gray-200 rounded-3xl shadow-sm 2xl:col-span-2 sm:p-6 dark:bg-white mt-8">
                 <div class="grid grid-cols-3 text-center">
                     <div class="justify-center px-20">
                         <h1 class="font-bold pb-4">Pengajuan IRS</h1>
