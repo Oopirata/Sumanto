@@ -17,7 +17,7 @@ class JadwalController extends Controller
         $user = Auth::user();
         $userr = Kaprodi::where('user_id', $user->id)->first();
 
-        $data = Jadwal::all();
+        $data = Jadwal::where('prodi', $userr->nama_prodi)->get();
         // dd($data);
         $mk = MataKuliah::all();
         $ruangan = Ruangan::where('status', 'Disetujui')->get();

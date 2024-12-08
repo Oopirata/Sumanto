@@ -52,7 +52,6 @@ Route::get('dekan/ruangan', [DekanVerifController::class, 'dekanRuangan'])->name
 
 Route::post('/ruangan/{id_ruang}', [DekanVerifController::class, 'updateRuanganStatus'])->name('DekanRuangan.update');
 
-
 // Route::get('dekan/jadwal', [DekanVerifController::class, 'verifJadwal'])->name('dekan.jadwal');
 
 
