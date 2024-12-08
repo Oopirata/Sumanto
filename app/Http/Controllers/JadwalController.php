@@ -30,7 +30,6 @@ class JadwalController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'kode_mk' => 'required|exists:matakuliah,kode_mk',
             'ruangan' => 'required|exists:ruangan,id',
@@ -41,23 +40,23 @@ class JadwalController extends Controller
             'jam_selesai' => 'required|after:jam_mulai',
             'kelas' => 'required',
         ]);
-
+    
         $user = Auth::user();
         $kaprodi = Kaprodi::where('user_id', $user->id)->first();
-
+    
         if (!$kaprodi) {
             return redirect()->back()->with('error', 'Data Kaprodi tidak ditemukan.');
         }
-
+    
         $matakuliah = Matakuliah::where('kode_mk', $request->kode_mk)->first();
         $ruangan = Ruangan::where('id', $request->ruangan)->first();
-
+    
         // Check for duplicate schedule
         $jadwalExists = DB::table('jadwal')
             ->where('kode_mk', $request->kode_mk)
             ->where('kelas', $request->kelas)
             ->exists();
-
+    
         if ($jadwalExists) {
             return redirect()->back()->with('sweetAlert', [
                 'title' => 'Error!',
@@ -65,47 +64,34 @@ class JadwalController extends Controller
                 'icon' => 'error'
             ]);
         }
-
-        // Check for room conflicts
+    
+        // Standardisasi format waktu
+        $jamMulai = $request->jam_mulai . ':00';
+        $jamSelesai = $request->jam_selesai . ':00';
+    
+        // Check for room conflicts - PERBAIKAN: menggunakan id_ruang yang benar
         $conflictingSchedule = DB::table('jadwal')
             ->where('hari', $request->hari)
-            ->where(function ($query) use ($request) {
-                // Konflik waktu
-                $query->where(function ($q) use ($request) {
-                    $q->where('jam_mulai', '<=', $request->jam_mulai)
-                    ->where('jam_selesai', '>', $request->jam_mulai);
-                })
-                ->orWhere(function ($q) use ($request) {
-                    $q->where('jam_mulai', '<', $request->jam_selesai)
-                    ->where('jam_selesai', '>=', $request->jam_selesai);
-                })
-                ->orWhere(function ($q) use ($request) {
-                    $q->where('jam_mulai', '>=', $request->jam_mulai)
-                    ->where('jam_selesai', '<=', $request->jam_selesai);
-                });
-            })
-            ->where(function ($query) use ($request) {
-                // Konflik ruangan ATAU kelas yang sama
-                $query->where('ruang', $request->ruangan)
-                    ->orWhere('kelas', $request->kelas);
+            ->where('ruang', $ruangan->id_ruang)  // Menggunakan id_ruang bukan ID
+            ->where(function ($query) use ($jamMulai, $jamSelesai) {
+                $query->where('jam_selesai', '>', $jamMulai)
+                      ->where('jam_mulai', '<', $jamSelesai);
             })
             ->first();
-
+    
         if ($conflictingSchedule) {
-            $conflictType = $conflictingSchedule->ruang == $request->ruangan ? 'ruangan' : 'kelas';
             return redirect()->back()->with('sweetAlert', [
                 'title' => 'Error!',
-                'text' => 'Jadwal Bentrok.',
+                'text' => "Jadwal Bentrok dengan mata kuliah {$conflictingSchedule->nama_mk} ({$conflictingSchedule->jam_mulai} - {$conflictingSchedule->jam_selesai})",
                 'icon' => 'error'
             ]);
         }
-
-        // dd($request->all());
-
+    
+        // PERBAIKAN: Menggunakan format waktu yang sudah distandarisasi
         DB::table('jadwal')->insert([
             'hari' => $request->hari,
-            'jam_mulai' => $request->jam_mulai,
-            'jam_selesai' => $request->jam_selesai,
+            'jam_mulai' => $jamMulai,        // Menggunakan format yang distandarisasi
+            'jam_selesai' => $jamSelesai,    // Menggunakan format yang distandarisasi
             'ruang' => $ruangan->id_ruang,
             'kode_mk' => $request->kode_mk,
             'nama_mk' => $matakuliah->nama_mk,
@@ -117,7 +103,7 @@ class JadwalController extends Controller
             'prodi' => $kaprodi->nama_prodi,
             'sifat' => $request->sifat,
         ]);
-
+    
         return redirect()->back()->with('sweetAlert', [
             'title' => 'Berhasil!',
             'text' => 'Jadwal berhasil ditambahkan.',
