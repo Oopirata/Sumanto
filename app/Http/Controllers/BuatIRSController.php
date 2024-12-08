@@ -26,8 +26,8 @@ class BuatIRSController extends Controller
             // Ensure semester is within valid range (1-8)
             $currentSemester = max(1, min(8, $currentSemester));
 
-        // Determine if the current semester is odd or even
-        $isOddSemester = $currentSemester % 2 !== 0;
+            // Determine if the current semester is odd or even
+            $isOddSemester = $currentSemester % 2 !== 0;
 
             // Get all relevant semesters (same parity as current semester)
             $relevantSemesters = [];
