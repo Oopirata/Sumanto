@@ -260,13 +260,40 @@
                                         <button @click="showModal = false" class="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded">
                                             Tutup
                                         </button>
-                                        <form action="{{ route('deleteKaprodi.jadwal') }}" method="POST">
+                                        <form action="{{ route('deleteKaprodi.jadwal') }}" method="POST" class="delete-form">
                                             @csrf
                                             <input type="hidden" name="id" :value="selectedSchedule.id">
                                             <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">
                                                 Hapus
                                             </button>
                                         </form>
+
+                                        <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            const deleteForms = document.querySelectorAll('.delete-form');
+                                            
+                                            deleteForms.forEach(form => {
+                                                form.addEventListener('submit', function(e) {
+                                                    e.preventDefault();
+                                                    
+                                                    Swal.fire({
+                                                        title: 'Konfirmasi Penghapusan',
+                                                        text: "Apakah Anda yakin ingin menghapus jadwal ini?",
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonColor: '#d33',
+                                                        cancelButtonColor: '#3085d6',
+                                                        confirmButtonText: 'Ya, hapus!',
+                                                        cancelButtonText: 'Batal'
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            form.submit();
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        });
+                                        </script>
                                     </div>
                                 </div>
                             </div>
@@ -314,17 +341,29 @@
                     
                         function submitAllSchedules() {
                             $.ajax({
-                                url: '/kaprodi/jadwal/ajukan', // Add leading slash for absolute path
+                                url: '/kaprodi/jadwal/ajukan',
                                 type: 'POST',
                                 data: {
-                                    _token: '{{ csrf_token() }}' // Add CSRF token
+                                    _token: '{{ csrf_token() }}'
                                 },
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 },
+                                success: function(response) {
+                                    Swal.fire({
+                                        title: 'Berhasil!',
+                                        text: 'Jadwal berhasil diajukan.',
+                                        icon: 'success'
+                                    }).then(() => {
+                                        location.reload(); // Reload halaman setelah berhasil
+                                    });
+                                },
                                 error: function(error) {
-                                    console.log(error); // Log the error details
-                                    alert('Terjadi kesalahan saat mengajukan jadwal.');
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: 'Terjadi kesalahan saat mengajukan jadwal.',
+                                        icon: 'error'
+                                    });
                                 }
                             });
                         }
