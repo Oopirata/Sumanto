@@ -55,10 +55,10 @@
                                                             class="inline-flex px-3 py-1 bg-yellow-200 text-yellow-800 rounded-full text-xs whitespace-nowrap">
                                                             Menunggu Persetujuan
                                                         </span>
-                                                    @elseif($entry->status == 'mengulang')
+                                                    @elseif($entry->status == 'perbaikan')
                                                         <span
                                                             class="inline-flex px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs whitespace-nowrap">
-                                                            Mengulang
+                                                            Perbaikan
                                                         </span>
                                                     @elseif($entry->status == 'approved')
                                                         <span
@@ -70,10 +70,15 @@
                                                             class="inline-flex px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs whitespace-nowrap">
                                                             Baru
                                                         </span>
-                                                    @else
+                                                    @elseif($entry->status == 'rejected')
                                                         <span
                                                             class="inline-flex px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs whitespace-nowrap">
                                                             Ditolak
+                                                        </span>
+                                                    @else
+                                                        <span
+                                                            class="inline-flex px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-xs whitespace-nowrap">
+                                                            Tidak Ada Data
                                                         </span>
                                                     @endif
                                                 </td>
