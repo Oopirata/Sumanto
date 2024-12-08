@@ -64,7 +64,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <form action="{{ route('ruangan.update', $ruangan->id_ruang) }}" method="POST">
+                                    <form action="{{ route('verif.ruangan', $ruangan->id_ruang) }}" method="POST">
                                         @csrf
                                         @method('PUT') <!-- Pastikan ini -->
                                         <div class="flex items-center">
@@ -98,18 +98,46 @@
 </div>
 
 <script>
-    $(document).ready( function () {
-        $('#tabelVeri').DataTable({
-            layout: {
-                topStart: null,
-                topEnd: null,
-                bottomStart: null,
-            },
-            columnDefs: [
-                { className: "dt-head-center", targets: [0,1,2,3,4,5,6] },
-                { className: "dt-body-center", targets: [0,1,2,3,4,5,6] }
-            ]
-        });
+$(document).ready(function() {
+    // Inisialisasi DataTable
+    var table = $('#tabelVeri').DataTable({
+        layout: {
+            topStart: null,
+            topEnd: null,
+            bottomStart: null,
+        },
+        columnDefs: [
+            { className: "dt-head-center", targets: [0,1,2,3,4,5,6] },
+            { className: "dt-body-center", targets: [0,1,2,3,4,5,6] }
+        ]
     });
+
+    // Event listener untuk perubahan dropdown
+    $('#jurusan').on('change', function() {
+        var selectedJurusan = $(this).val();
+        
+        // Custom filter function
+        $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+            // Jika tidak ada jurusan yang dipilih, tampilkan semua data
+            if (!selectedJurusan || selectedJurusan === "") {
+                return true;
+            }
+
+            // Data jurusan ada di kolom yang mana? 
+            // Asumsikan ada kolom tersembunyi atau data attribute yang menyimpan jurusan
+            // Sesuaikan index sesuai dengan struktur tabel Anda
+            var rowJurusan = data[7]; // Ganti dengan index kolom jurusan yang sesuai
+
+            // Return true jika jurusan pada baris sama dengan jurusan yang dipilih
+            return rowJurusan === selectedJurusan;
+        });
+
+        // Refresh tabel untuk menerapkan filter
+        table.draw();
+
+        // Hapus custom filter setelah digunakan
+        $.fn.dataTable.ext.search.pop();
+    });
+});
 </script>
 @endsection

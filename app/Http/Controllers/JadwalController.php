@@ -30,7 +30,7 @@ class JadwalController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $request->validate([
             'kode_mk' => 'required|exists:matakuliah,kode_mk',
             'ruangan' => 'required|exists:ruangan,id',
@@ -139,8 +139,5 @@ class JadwalController extends Controller
             ->update(['status' => 'Diajukan']);
 
         return response()->json(['message' => 'Semua jadwal berhasil diajukan.']);
-    }
-
-
-    
+    }   
 }

@@ -111,4 +111,15 @@ class RuanganController extends Controller
 
         return redirect()->back()->with('success', 'Status ruangan berhasil diperbarui');
     }
+
+    public function verifRuangan (Request $request)
+    {
+        $user = Auth::user();
+        // dd($user->prodi);
+        DB::table('ruangan')
+            ->where('prodi', $user->prodi)
+            ->update(['status' => 'Disetujui']);
+
+        return redirect()->back()->with('success', 'Status ruangan berhasil diperbarui');
+    }
 }
