@@ -61,7 +61,7 @@ class RuanganController extends Controller
             'nama' => 'Ruangan Kuliah' . $request->id_ruang,
             'kapasitas' => $request->kapasitas,
             'lokasi' => $request->lokasi,
-            'status' => 'Free',
+            'status' => 'Pending',
             'keterangan' => 'Tidak Tersedia',
             'created_at' => now(),
             'updated_at' => now()
