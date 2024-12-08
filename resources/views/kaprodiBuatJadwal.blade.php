@@ -19,9 +19,6 @@
                         <div class="flex justify-between">
                             
                             <div class="px-4 bg-white"></div>
-                            <div>
-                                <x-semester></x-semester>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -95,6 +92,7 @@
                                                 <p class="text-xs font-normal mb-px">{{ $schedule['title'] }}</p>
                                                 <p class="text-xs font-semibold">{{ $schedule['start'] }} - {{ $schedule['end'] }}</p>
                                                 <p class="text-xs font-normal">{{ $schedule['ruangan'] }}</p>
+                                                <p class="text-xs font-normal">{{ $schedule['kelas'] }}</p>
                                             </button>
                                         @endif
                                     @endforeach
@@ -117,7 +115,7 @@
                             </svg>
                             Jadwal
                         </button>
-                    </div>
+                    </div>  
 
                     <!-- drawer component -->
                     <div id="drawer-right-example" class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label">
@@ -236,9 +234,7 @@
 
                                     <!-- Submit Button -->
                                     <div>
-                                        <button id="simpanBtn" type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                            Simpan
-                                        </button>
+                                        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Simpan</button>
                                     </div>
                                 </form>
 
@@ -276,6 +272,31 @@
                             </div>
                         </div>
                     </div>
+
+                    <script>
+                        function confirmDelete() {
+                            Swal.fire({
+                                title: 'Konfirmasi Penghapusan',
+                                text: "Apakah Anda yakin ingin menghapus jadwal ini?",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#d33',
+                                cancelButtonColor: '#3085d6',
+                                confirmButtonText: 'Ya, hapus!',
+                                cancelButtonText: 'Batal'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Tambahkan kode untuk menghapus jadwal di sini
+                                    Swal.fire(
+                                        'Terhapus!',
+                                        'Jadwal Anda telah dihapus.',
+                                        'success'
+                                    );
+                                    showModal = false; // Tutup modal setelah dihapus
+                                }
+                            });
+                        }
+                    </script>
 
                     <!-- Tombol Ajukan -->
                     <div class="fixed bottom-6 right-6">
@@ -315,9 +336,7 @@
 
 <script>
     // Ketika tombol Ajukan diklik
-    $('form[action="{{ route('storeKaprodi.jadwal') }}"]').submit(function(e) {
-        e.preventDefault();
-        const form = this;
+    document.getElementById('ajukanBtn').addEventListener('click', function() {
         Swal.fire({
             title: 'Konfirmasi Pengajuan',
             text: "Apakah Anda yakin ingin mengajukan jadwal ini?",
@@ -329,23 +348,15 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                form.submit();
+                Swal.fire(
+                    'Terkirim!',
+                    'Jadwal Anda telah diajukan.',
+                    'success'
+                );
+                // Tambahkan kode untuk melanjutkan pengajuan (misalnya, submit form, redirect, dll)
             }
         });
     });
-
-    @if(session('sweetAlert'))
-            document.addEventListener('DOMContentLoaded', function() {
-                const alert = @json(session('sweetAlert'));
-                Swal.fire({
-                    title: alert.title,
-                    text: alert.text,
-                    icon: alert.icon,
-                    confirmButtonColor: '#028391',
-                    confirmButtonText: 'OK'
-                });
-            });
-        @endif
 </script>
 
 @endsection

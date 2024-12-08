@@ -58,6 +58,37 @@ class KhsSeeder extends Seeder
                 'semester' => 1,
                 'nilai' => 'A',
             ],
+            //Semester 2
+            [
+                'nim' => '24060122120031',
+                'kode_mk' => 'PAIK6202',
+                'semester' => 2,
+                'nilai' => 'A',
+            ],
+            [
+                'nim' => '24060122120031',
+                'kode_mk' => 'PAIK6204',
+                'semester' => 2,
+                'nilai' => 'A',
+            ],
+            [
+                'nim' => '24060122120031',
+                'kode_mk' => 'PAIK6203',
+                'semester' => 2,
+                'nilai' => 'B',
+            ],
+            [
+                'nim' => '24060122120031',
+                'kode_mk' => 'PAIK6201',
+                'semester' => 2,
+                'nilai' => 'C',
+            ],
+            [
+                'nim' => '24060122120031',
+                'kode_mk' => 'UUW00006',
+                'semester' => 2,
+                'nilai' => 'A',
+            ],
             //Semester 3
             [
                 'nim' => '24060122120031',
@@ -93,6 +124,43 @@ class KhsSeeder extends Seeder
                 'nim' => '24060122120031',
                 'kode_mk' => 'PAIK6306',
                 'semester' => 3,
+                'nilai' => 'A',
+            ],
+            //Semester 4
+            [
+                'nim' => '24060122120031',
+                'kode_mk' => 'PAIK6401',
+                'semester' => 4,
+                'nilai' => 'A',
+            ],
+            [
+                'nim' => '24060122120031',
+                'kode_mk' => 'PAIK6402',
+                'semester' => 4,
+                'nilai' => 'A',
+            ],
+            [
+                'nim' => '24060122120031',
+                'kode_mk' => 'PAIK6403',
+                'semester' => 4,
+                'nilai' => 'A',
+            ],
+            [
+                'nim' => '24060122120031',
+                'kode_mk' => 'PAIK6404',
+                'semester' => 4,
+                'nilai' => 'A',
+            ],
+            [
+                'nim' => '24060122120031',
+                'kode_mk' => 'PAIK6405',
+                'semester' => 4,
+                'nilai' => 'A',
+            ],
+            [
+                'nim' => '24060122120031',
+                'kode_mk' => 'PAIK6406',
+                'semester' => 4,
                 'nilai' => 'A',
             ],
         ];
