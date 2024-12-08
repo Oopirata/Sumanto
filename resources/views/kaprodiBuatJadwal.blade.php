@@ -19,9 +19,6 @@
                         <div class="flex justify-between">
                             
                             <div class="px-4 bg-white"></div>
-                            <div>
-                                <x-semester></x-semester>
-                            </div>
                         </div>
                     </div>
                 </div>
