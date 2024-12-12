@@ -32,7 +32,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             // Fetch the user with roles
             $user = User::with('roles')->find(Auth::id());
-
+            // dd($user);
             // Check if the user has any roles
             if ($user->roles->isEmpty()) {
                 return response()->json(['error' => 'User has no roles assigned'], 404);

@@ -218,12 +218,6 @@
                                         </select>
                                     </div>
 
-                                    <!-- Kapasitas -->
-                                    <div>
-                                        <label for="kapasitas" class="block text-sm font-medium text-gray-700">Kapasitas</label>
-                                        <input type="number" id="kapasitas" name="kapasitas" required min="1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-
                                     <!-- Sifat -->
                                     <div>
                                         <label for="sifat" class="block text-sm font-medium text-gray-700">Sifat</label>
