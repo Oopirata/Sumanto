@@ -22,8 +22,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '1',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah Dasar Pemrograman merupakan seri pertama kelompok pengembangan perangkat lunak dengan fokus pada paradigma fungsional yang dilengkapi dengan notasi fungsional.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -33,8 +32,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '1',
                 'status' => 'Wajib',
                 'deskripsi' => 'Logika Informatika merupakan sebuah mata kuliah sebagai dasar bagi matakuliah lain seperti Sistem Cerdas, dengan harapan mahasiswa mempunyai konsep berpikir komputasi (Computational thinking) dalam memecahkan sebuah masalah. Mata kuliah ini berisi konsep dasar Proporsional Logic dan First Order Logic, Validitaa, Invaliditas, Inference Rule, Pohon Semantik, Logical Ekuivalen serta pembentukan normal form dan resolusi baik PL maupu FOL.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -44,8 +42,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '1',
                 'status' => 'Wajib',
                 'deskripsi' => 'Struktur Diskrit merupakan materi dasar dalam Ilmu Komputer. Mata kuliah ini akan membekali mahasiswa tentang teori-teori dan konsep dasar dalam melakukan komputasi, selain itu materi ini juga akan melatih mahasiswa untuk berfikir secara analitis dan logis. Mata kuliah Struktur Diskrit ini berisi beberapa materi dasar komputasi yang meliputi teori himpunan, fungsi, matematika kombinatorik, teori graph dan pohon serta beberapa penerapannya dalam komputasi.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -55,8 +52,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '1',
                 'status' => 'Wajib',
                 'deskripsi' => 'Memahami konsep kalkulus untuk menyelesaikan persoalan dengan berpikir analitis.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -66,8 +62,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '1',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini menjadi dasar pada bidang kajian infrastruktur sistem yang mengenalkan sistem digital sebagai dasar membangun sistem komputer, hingga pembahasan tentang gambaran dasar teknologi informasi mencakup sistem operasi, internet, dan web.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -77,8 +72,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '1',
                 'status' => 'Wajib',
                 'deskripsi' => 'Bahasa Inggris sebagai bahasa internasional perlu dikuasai mahasiswa terutama untuk mempelajari materi kuliah dan literatur berbahasa Inggris. Dalam kuliah ini, mahasiswa belajar materi uji bahasa Inggris sebagai bahasa asing yang meliputi aspek mendengar, menganalisis struktur, membaca, dan menulis paragraf dalam bahasa Inggris. Aspek berbicara dipelajari secara terpadu dengan aspek - aspek lain.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -88,8 +82,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '1',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mahasiswa belajar untuk menganalisis masalah kontekstual kewarganegaraan, mengembangkan sikap positif, dan menampilkan perilaku mendukung yang berkaitan dengan semangat kebangsaan, cinta tanah air, demokrasi berkeadaban dan kesadaran hukum.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -99,8 +92,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '1',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini bertujuan untuk meningkatkan kemampuan berbahasa Indonesia mahasiswa agar mampu berkomunikasi secara efektif dan efisien dalam kehidupan sehari-hari dan di lingkungan akademik.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             //Matakuliah semester 2
@@ -111,8 +103,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '2',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah Algoritma Pemrograman merupakan seri kedua kelompok pengembangan perangkat lunak dengan fokus pada paradigma algoritma yang dilengkapi dengan notasi algoritma.',
-                'kapasitas' => 50,
-                'created_at' => now(),
+                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -122,8 +113,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '2',
                 'status' => 'Wajib',
                 'deskripsi' => 'Aljabar Linier merupakan mata kuliah yang membahas tentang konsep dasar aljabar linier, matriks, determinan, sistem persamaan linier, ruang vektor, transformasi linier, nilai dan vektor eigen, dan aplikasi aljabar linier dalam ilmu komputer.',
-                'kapasitas' => 50,
-                'created_at' => now(),
+                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -133,8 +123,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '2',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini membahas tentang konsep dasar organisasi dan arsitektur komputer, sistem bilangan, logika digital, gerbang logika, rangkaian kombinasional, rangkaian sekuen, memori, input/output, dan prosesor.',
-                'kapasitas' => 50,
-                'created_at' => now(),
+                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -144,8 +133,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '2',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini membahas tentang konsep dasar matematika, fungsi, limit, turunan, integral, dan aplikasi matematika dalam ilmu komputer.',
-                'kapasitas' => 50,
-                'created_at' => now(),
+                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -155,8 +143,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '2',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini membahas tentang konsep dasar Internet of Things (IoT), arsitektur IoT, protokol komunikasi IoT, aplikasi IoT, dan keamanan IoT.',
-                'kapasitas' => 50,
-                'created_at' => now(),
+                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             //Matakuliah semester 3
@@ -167,8 +154,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '3',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah Struktur Data merupakan seri kedua kelompok pengembangan perangkat lunak dengan fokus pada paradigma struktur data yang dilengkapi dengan notasi struktur data.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -178,8 +164,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '3',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini membahas tentang metode numerik yang digunakan dalam menyelesaikan permasalahan matematika yang tidak dapat diselesaikan secara analitik. Metode numerik ini meliputi metode interpolasi, metode aproksimasi, metode integrasi, metode diferensiasi, metode persamaan diferensial biasa, metode persamaan diferensial parsial, dan metode optimasi.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -189,8 +174,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '3',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini membahas tentang konsep dasar sistem operasi, manajemen proses.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -200,8 +184,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '3',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini membahas tentang konsep dasar interaksi manusia dan komputer, prinsip-prinsip desain antarmuka, evaluasi antarmuka, dan teknik-teknik desain antarmuka.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -211,8 +194,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '3',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini membahas tentang konsep dasar basis data, model data, model relasional, normalisasi, bahasa SQL, dan teknik-teknik desain basis data.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -222,8 +204,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '3',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini membahas tentang konsep dasar statistika, pengertian data, pengertian statistika, pengertian populasi dan sampel, pengertian variabel, pengertian data kualitatif dan kuantitatif, pengertian data deret waktu, pengertian data cross section, pengertian data time series, pengertian data panel, pengertian data stasioner, pengertian data',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             //Matakuliah semester 4
@@ -234,8 +215,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '4',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah Pemrograman Berorientasi Objek merupakan seri ketiga kelompok pengembangan perangkat lunak dengan fokus pada paradigma objek yang dilengkapi dengan notasi objek.',
-                'kapasitas' => 50,
-                'created_at' => now(),
+                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -245,8 +225,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '4',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini membahas tentang konsep dasar manajemen basis data yang meliputi manajemen data, manajemen transaksi, manajemen penyimpanan, manajemen keamanan, manajemen pemulihan, dan manajemen distribusi.',
-                'kapasitas' => 50,
-                'created_at' => now(),
+                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -256,8 +235,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '4',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini membahas tentang konsep dasar sistem cerdas, logika fuzzy, jaringan saraf tiruan, algoritma genetika, dan aplikasi sistem cerdas.',
-                'kapasitas' => 50,
-                'created_at' => now(),
+                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -267,8 +245,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '4',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini membahas tentang konsep dasar grafika dan komputasi visual, grafika 2D, grafika 3D, dan aplikasi grafika dan komputasi visual.',
-                'kapasitas' => 50,
-                'created_at' => now(),
+                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -278,8 +255,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '4',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini membahas tentang konsep dasar jaringan komputer, model OSI, model TCP/IP, protokol jaringan, teknik routing',
-                'kapasitas' => 50,
-                'created_at' => now(),
+                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -289,8 +265,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '4',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah ini membahas tentang konsep dasar rekayasa perangkat lunak, siklus hidup perangkat lunak, manajemen proyek perangkat lunak, analisis kebutuhan, perancangan perangkat lunak, implementasi perangkat lunak, pengujian perangkat lunak, dan pemeliharaan perangkat lunak.',
-                'kapasitas' => 50,
-                'created_at' => now(),
+                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             //Matakuliah semester 5
@@ -301,8 +276,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '5',
                 'status' => 'Wajib',
                 'deskripsi' => 'Secara umum mata kuliah ini berisi tentang Pembangunan SI dalam lingkup organisasi dan cara berbisnis yang sebuah organisasi, dan cara berinteraksi dengan lingkungannya dengan dukungan teknologi informasi. Beberapa jenis infrastruktur dan aplikasi yang mendukung organisasi di dalam menjalankan bisnis serta berinteraksi dengan lingkungannya antara lain adalah business intelligence.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -312,8 +286,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '5',
                 'status' => 'Wajib',
                 'deskripsi' => 'Kewirausahaan adalah kemampuan kreatif dan inovatif yang dijadikan dasar, kiat, dan sumber daya untuk mencari peluang menuju sukses. Melalui proses kreatif dan inovatif akan tercipta sesuatu yang baru dan berbeda yang dapat dijadikan nilai tambah untuk mencapai keunggulan bersaing.  Mata kuliah Kewirausahaan dirancang membekali mahasiswa agar dapat mempunyai pengetahuan, jiwa kewirausahaan, dan mampu melakukan simulasi kewirausahaan. Melalui kuliah ini kepada mahasiswa akan diberikan pengetahuan serta pemahaman tentang pentingnya karakter dan semangat Kewirausahaan, mengkomunikasikan ide dan pemikirannya kepada orang lain, dan mampu secara mandiri atau bersama-sama menciptakan produk jasa maupun layanan yang mempunyai potensi untuk dijual.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -323,8 +296,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '5',
                 'status' => 'Wajib',
                 'deskripsi' => 'Definisi perangkat lunak skala besar; berbagai masalah dalam pengembangan perangkat lunak skala besar dan solusinya; abstraksi; SW Pattern; code generator; pengenalan berbagai platform, framework, dan tools; konfigurasi P/L (konsep, tools, practices...); dilengkapi dengan studi kasus berupa proyek pembangunan P/L skala besar dengan mempraktekkan semua teori yang telah diberikan, atau berupa reverse engineering suatu perangkat lunak skala besar untuk mendapatkan modelnya.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -334,8 +306,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '5',
                 'status' => 'Wajib',
                 'deskripsi' => 'Kuliah keamanan jaringan mempelajari bagaimana jika suatu sistem saling terhubung dengan jaringan. Ancaman apa saja yang dapat muncul dalam suatu jaringan. Selain itu juga disinggung bagaimana menganalisa  keamanan suatu jaringan serta menerapkan tindakan pencegahan maupun penanganan terhadap terjadinya suatu serangan  1 2 3',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -345,8 +316,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '5',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah Pengembangan Berbasis Platform merupakan seri kelima kelompok pemrograman, yaitu setelah Pemrograman Berorientasi Objek. Pada semester V, mahasiswa belajar pemrograman Web dan aplikasi mobile. Mahasiswa belajar paradigma scripting *script sampai bahasa PHP/ASP dipadukan dengan penerapan basis data dan aplikasi pengembangan web mutakhir. Mahasiswa juga belajar membuat aplikasi mobile sederhana. Selain itu mahasiswa dikenalkan pada platform lain yaitu game dan industrial. Pemrograman aplikatif ini menjadi modal untuk pengerjaan proyek perangkat lunak maupun praktik kerja lapangan.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -356,8 +326,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '5',
                 'status' => 'Wajib',
                 'deskripsi' => 'Mata kuliah Kualitas Komputasi Tersebar dan Pararel menyajikan konsep dan penerapan Komputasi Tersebar dan Pararel',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
@@ -367,8 +336,7 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '5',
                 'status' => 'Wajib',
                 'deskripsi' => 'Seiring dengan semakin banyaknya berbagai aplikasi di berbagai domain (misalnya bioinformatics, computer vision, robotics, dan lain-lain) maka kita akan menyaksikan semakin banyak pula dijumpai data yang kompleks,  sehingga diperlukan sebuah cara untuk dapat menyajikan informasi dari data-data tersebut secara lebih efektif dan efisien. Bidang machine learning menawarkan beberapa teknik untuk (otomatis) menyimpulkan pola yang berguna dalam data, dan membuat prediksi dari data tersebut. Teknik-teknik yang akan dipelajari dalam mata kuliah ini terfokus ke dalam tiga metode, yakni supervised learning, unsupervised learning, dan reinforcement learning. Pada mata kuliah ini juga akan dijelaskan bagaimana teknik evaluasi untuk menilai kinerja dari ketiga metode tersebut. Kajian mengenai teknik untuk mengatasi permasalahan curse of  dimensionality serta ensemble learning menjadi bahasan akhir dari mata kuliah machine learning.',
-                'kapasitas' => 300,
-                'created_at' => now(),
+                  'created_at' => now(),
                 'updated_at' => now(),
             ],
             //Matakuliah Semester 7
@@ -379,7 +347,6 @@ class MataKuliahSeeder extends Seeder
                 'semester' => '7',
                 'status' => 'Wajib',
                 'deskripsi' => 'kkk',
-                'kapasitas' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

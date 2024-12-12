@@ -19,7 +19,6 @@ return new class extends Migration
             $table->integer('semester');
             $table->string('status');
             $table->text('deskripsi')->nullable();
-            $table->integer('kapasitas');
             $table->timestamps();
         });
     }

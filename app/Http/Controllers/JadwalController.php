@@ -49,7 +49,6 @@ class JadwalController extends Controller
         $request->validate([
             'kode_mk' => 'required|exists:matakuliah,kode_mk',
             'ruangan' => 'required|exists:ruangan,id',
-            'kapasitas' => 'required|numeric|min:1',
             'sifat' => 'required',
             'hari' => 'required',
             'jam_mulai' => 'required|date_format:H:i',
@@ -131,7 +130,7 @@ class JadwalController extends Controller
             'sks' => $matakuliah->sks,
             'semester' => $matakuliah->semester,
             'kelas' => $request->kelas,
-            'kapasitas' => $request->kapasitas,
+            'kapasitas' => $ruangan->kapasitas,
             'status' => 'Belum Disetujui',
             'prodi' => $kaprodi->nama_prodi,
             'sifat' => $request->sifat,
