@@ -78,32 +78,32 @@
                                             {{ $displayStatus }}
                                         </span>
                                     </td>
-                                    <!-- In paPengajuanIrs.blade.php -->
                                     <td class="px-6 py-4">
-                                        @if ($student->latest_irs)
-                                            @if ($student->latest_irs->status == 'pending')
-                                                <a href="{{ route('Dosen.DetailIrs', $student->nim) }}"
-                                                    class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md">
-                                                    Review IRS
-                                                </a>
+                                        @if ($status !== 'Tidak Ada Data')
+                                            @if ($student->latest_irs)
+                                                @if ($student->latest_irs->status == 'pending')
+                                                    <a href="{{ route('Dosen.DetailIrs', $student->nim) }}"
+                                                        class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md">
+                                                        Review IRS
+                                                    </a>
+                                                @else
+                                                    <form action="{{ route('updateStatusIrs', $student->nim) }}"
+                                                        method="POST" class="inline-block">
+                                                        @csrf
+                                                        @method('POST')
+                                                        <button type="submit" name="status" value="pending"
+                                                            class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-md">
+                                                            Batalkan
+                                                        </button>
+                                                    </form>
+                                                    <a href="{{ route('Dosen.DetailIrs', $student->nim) }}"
+                                                        class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md ml-2 inline-block">
+                                                        Detail
+                                                    </a>
+                                                @endif
                                             @else
-                                                <form action="{{ route('updateStatusIrs', $student->nim) }}" method="POST"
-                                                    class="inline-block">
-                                                    @csrf
-                                                    @method('POST')
-                                                    <button type="submit" name="status" value="pending"
-                                                        class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-md">
-                                                        Batalkan
-                                                    </button>
-                                                </form>
+                                                <span>IRS tidak ditemukan</span>
                                             @endif
-
-                                            <a href="{{ route('Dosen.DetailIrs', $student->nim) }}"
-                                                class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md ml-2 inline-block">
-                                                Detail
-                                            </a>
-                                        @else
-                                            <span>IRS tidak ditemukan</span>
                                         @endif
                                     </td>
                                 </tr>
