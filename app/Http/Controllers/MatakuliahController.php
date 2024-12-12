@@ -141,9 +141,8 @@ class MatakuliahController extends Controller
         $request->validate([
             'kode_mk' => 'required|string|unique:matakuliah,kode_mk', // validasi untuk kode mata kuliah
             'nama_mk' => 'required|string', // validasi untuk nama mata kuliah
-            'sks' => 'required|integer', // validasi untuk sks
-            'semester' => 'required|string', // validasi untuk semester
-            'kapasitas' => 'required|integer', // validasi untuk kapasitas
+            'semester' => 'required|integer|between:1,8', // validasi untuk semester
+            'sks' => 'required|integer|between:1,6', // validasi untuk sks
             'deskripsi' => 'nullable|string', // validasi untuk deskripsi
             'status' => 'required|string', // validasi untuk status
         ]);
@@ -163,7 +162,6 @@ class MatakuliahController extends Controller
                 'semester' => $request->semester,
                 'status' => $request->status,
                 'deskripsi' => $request->deskripsi,
-                'kapasitas' => $request->kapasitas,
                 'created_at' => now(), // Tambahkan jika tabel memiliki timestamps
                 'updated_at' => now()  // Tambahkan jika tabel memiliki timestamps
             ]);
