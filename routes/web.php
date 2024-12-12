@@ -72,7 +72,7 @@ Route::middleware(['auth', 'role:Ketua Program Studi'])->group(function () {
     Route::post('kaprodi/irs/update/tolak/{nim}', [KaprodiController::class, 'updateAllStatusToTidakDisetujui'])->name('updateAllStatusToTidakDisetujui');
 });
 
-Route::middleware(['auth', 'role:ekan'])->group(function () {
+Route::middleware(['auth', 'role:Dekan'])->group(function () {
     // Dekan (Dean) Routes
     Route::get('dekan/dashboard', [DekanVerifController::class, 'dekanDashboard'])->name('dekan.dashboard');
     Route::get('dekan/jadwal', [DekanVerifController::class, 'dekanJadwal'])->name('dekan.jadwal');

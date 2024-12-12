@@ -20,7 +20,9 @@ class RuanganSeeder extends Seeder
                 'kapasitas' => 40,
                 'lokasi' => 'Gedung A',
                 'status' => 'Disetujui',
-                'keterangan' => 'Terpakai'
+                'keterangan' => 'Terpakai',
+                'prodi' => 'Informatika'
+
             ],
             [
                 'id_ruang' => 'E101',
@@ -28,7 +30,8 @@ class RuanganSeeder extends Seeder
                 'kapasitas' => 50,
                 'lokasi' => 'Gedung E',
                 'status' => 'Disetujui',
-                'keterangan' => 'Terpakai'
+                'keterangan' => 'Terpakai',
+                'prodi' => 'Informatika'
             ],
             [
                 'id_ruang' => 'E102',
@@ -36,7 +39,8 @@ class RuanganSeeder extends Seeder
                 'kapasitas' => 50,
                 'lokasi' => 'Gedung E',
                 'status' => 'Disetujui',
-                'keterangan' => 'Terpakai'
+                'keterangan' => 'Terpakai',
+                'prodi' => 'Informatika'
             ],
             [
                 'id_ruang' => 'E103',
@@ -44,7 +48,8 @@ class RuanganSeeder extends Seeder
                 'kapasitas' => 50,
                 'lokasi' => 'Gedung E',
                 'status' => 'Disetujui',
-                'keterangan' => 'Terpakai'
+                'keterangan' => 'Terpakai',
+                'prodi' => 'Informatika'
             ],
             [
                 'id_ruang' => 'K101',
