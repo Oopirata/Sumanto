@@ -75,7 +75,7 @@
                                                 name="status" 
                                                 value="Disetujui" 
                                                 class="px-4 py-2 rounded-md mr-2 
-                                                    {{ $ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui' ? 'bg-green-800 text-black cursor-not-allowed opacity-60' : 'bg-green-500 text-white hover:bg-green-600' }}" 
+                                                    {{ $ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui' ? 'bg-green-800 text-white cursor-not-allowed opacity-60' : 'bg-green-500 text-white hover:bg-green-600' }}" 
                                                 @if($ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui') disabled @endif>
                                                 Setuju
                                             </button>
@@ -86,7 +86,7 @@
                                                 name="status" 
                                                 value="Tidak Disetujui" 
                                                 class="px-4 py-2 rounded-md 
-                                                    {{ $ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui' ? 'bg-red-800 text-black cursor-not-allowed opacity-60' : 'bg-red-500 text-white hover:bg-red-600' }}" 
+                                                    {{ $ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui' ? 'bg-red-800 text-white cursor-not-allowed opacity-60' : 'bg-red-500 text-white hover:bg-red-600' }}" 
                                                 @if($ruangan->status === 'Disetujui' || $ruangan->status === 'Tidak Disetujui') disabled @endif>
                                                 Tidak Setuju
                                             </button>
@@ -134,26 +134,30 @@ $(document).ready(function() {
                 
                 // Add new data
                 response.ruang.forEach(function(ruangan) {
+                    // Determine the disabled state based on the 'status'
+                    const isDisabled = ruangan.status === 'Disetujui' || ruangan.status === 'Tidak Disetujui';
+                    
+                    // Create the row data dynamically
                     table.row.add([
                         ruangan.id_ruang,
                         ruangan.nama,
                         ruangan.kapasitas,
                         ruangan.lokasi,
-                        `<span class="px-2 py-1 rounded ${ruangan.keterangan == 'Tersedia' ? 'bg-green-100 text-green-500' : 'bg-red-100 text-red-500'}">${ruangan.keterangan}</span>`,
-                        `<span class="px-2 py-1 rounded ${ruangan.status == 'Disetujui' ? 'bg-green-100 text-green-500' : (ruangan.status == 'Diproses' ? 'bg-yellow-100 text-yellow-500' : 'bg-red-100 text-red-500')}">${ruangan.status}</span>`,
-                        `<form action="/verif/ruangan/${ruangan.id_ruang}" method="POST">
+                        `<span class="px-2 py-1 rounded ${ruangan.keterangan === 'Tersedia' ? 'bg-green-100 text-green-500' : 'bg-red-100 text-red-500'}">${ruangan.keterangan}</span>`,
+                        `<span class="px-2 py-1 rounded ${ruangan.status === 'Disetujui' ? 'bg-green-100 text-green-500' : (ruangan.status === 'Diproses' ? 'bg-yellow-100 text-yellow-500' : 'bg-red-100 text-red-500')}">${ruangan.status}</span>`,
+                        `<form action="{{ route('DekanRuangan.update', $ruangan->id_ruang) }}" method="POST">
                             @csrf
-                            @method('PUT')
                             <div class="flex items-center">
-                                <button type="submit" name="status" value="Disetujui" class="px-4 py-2 bg-green-500 text-white rounded-md mr-2">Setuju</button>
-                                <button type="submit" name="status" value="Tidak Disetujui" class="px-4 py-2 bg-red-500 text-white rounded-md">Tidak Setuju</button>
+                                <button type="submit" name="status" value="Disetujui" class="px-4 py-2 bg-green-500 text-white rounded-md mr-2 ${isDisabled ? 'cursor-not-allowed opacity-60' : ''}" ${isDisabled ? 'disabled' : ''}>Setuju</button>
+                                <button type="submit" name="status" value="Tidak Disetujui" class="px-4 py-2 bg-red-500 text-white rounded-md ${isDisabled ? 'cursor-not-allowed opacity-60' : ''}" ${isDisabled ? 'disabled' : ''}>Tidak Setuju</button>
                             </div>
                         </form>`
                     ]);
                 });
-                
+
                 // Redraw the table
                 table.draw();
+
             },
             error: function(xhr, status, error) {
                 console.error('Error:', error);
