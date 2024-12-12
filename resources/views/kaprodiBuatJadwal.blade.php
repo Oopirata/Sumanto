@@ -139,13 +139,57 @@
                                     <!-- Nama Mata Kuliah -->
                                     <div>
                                         <label for="kode_mk" class="block text-sm font-medium text-gray-700">Nama Mata Kuliah</label>
-                                        <select id="kode_mk" name="kode_mk" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                            <option value="">Pilih Mata Kuliah</option>
-                                            @foreach($mk as $jadwal)
-                                                <option value="{{ $jadwal->kode_mk }}">{{ $jadwal->nama_mk }}</option>
-                                            @endforeach
-                                        </select>
+                                            <select id="kode_mk" name="kode_mk" required onchange="calculateEndTime()" 
+                                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                                <option value="">Pilih Mata Kuliah</option>
+                                                @foreach($mk as $jadwal)
+                                                    <option value="{{ $jadwal->kode_mk }}" data-sks="{{ $jadwal->sks }}">
+                                                        {{ $jadwal->nama_mk }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+
                                     </div>
+
+                                    <script>
+                                        function calculateEndTime() {
+                                            const kodeMkSelect = document.getElementById('kode_mk');
+                                            const selectedOption = kodeMkSelect.options[kodeMkSelect.selectedIndex];
+                                            const sks = parseInt(selectedOption.getAttribute('data-sks'), 10);
+
+                                            const jamMulaiInput = document.getElementById('jam_mulai');
+                                            const jamSelesaiInput = document.getElementById('jam_selesai');
+
+                                            const jamMulai = jamMulaiInput.value;
+
+                                            if (jamMulai && sks) {
+                                                // Pisahkan jam dan menit dari input waktu
+                                                const [hours, minutes] = jamMulai.split(':').map(Number);
+
+                                                // Buat objek Date untuk waktu mulai
+                                                const startTime = new Date();
+                                                startTime.setHours(hours, minutes, 0);
+
+                                                // Hitung durasi berdasarkan SKS (50 menit per SKS)
+                                                const durationMinutes = sks * 50;
+                                                startTime.setMinutes(startTime.getMinutes() + durationMinutes);
+
+                                                // Format waktu selesai menjadi HH:mm
+                                                const endTime = startTime.toTimeString().slice(0, 5);
+                                                jamSelesaiInput.value = endTime;
+                                            } else {
+                                                jamSelesaiInput.value = '';
+                                            }
+                                        }
+
+                                        // Update jam selesai saat jam mulai berubah
+                                        document.getElementById('jam_mulai').addEventListener('input', calculateEndTime);
+
+                                        window.onload = calculateEndTime;
+
+                                    </script>
+
+
 
                                     <!-- Kelas -->
                                     <div>
@@ -174,12 +218,6 @@
                                         </select>
                                     </div>
 
-                                    <!-- Kapasitas -->
-                                    <div>
-                                        <label for="kapasitas" class="block text-sm font-medium text-gray-700">Kapasitas</label>
-                                        <input type="number" id="kapasitas" name="kapasitas" required min="1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-
                                     <!-- Sifat -->
                                     <div>
                                         <label for="sifat" class="block text-sm font-medium text-gray-700">Sifat</label>
@@ -205,17 +243,49 @@
                                         </select>
                                     </div>
 
-                                    <!-- Jam Mulai -->
                                     <div>
                                         <label for="jam_mulai" class="block text-sm font-medium text-gray-700">Jam Mulai</label>
-                                        <input type="time" id="jam_mulai" name="jam_mulai" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="time" id="jam_mulai" name="jam_mulai" required 
+                                            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                                     </div>
 
-                                    <!-- Jam Selesai -->
                                     <div>
                                         <label for="jam_selesai" class="block text-sm font-medium text-gray-700">Jam Selesai</label>
-                                        <input type="time" id="jam_selesai" name="jam_selesai" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="time" id="jam_selesai" name="jam_selesai" readonly 
+                                            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                                     </div>
+
+                                    <script>
+                                        // Event listener untuk menangani input pada jam_mulai
+                                        document.getElementById('jam_mulai').addEventListener('input', function() {
+                                            const jamMulai = this.value;  // Ambil waktu jam mulai
+                                            const sksSelect = document.getElementById('kode_mk');
+                                            const selectedOption = sksSelect.options[sksSelect.selectedIndex];
+                                            const sks = parseInt(selectedOption.getAttribute('data-sks'), 10);  // Ambil jumlah SKS dari mata kuliah
+
+                                            // Cek apakah jam mulai dan SKS sudah ada
+                                            if (jamMulai && sks) {
+                                                // Pisahkan jam dan menit dari input waktu
+                                                const [hours, minutes] = jamMulai.split(':').map(Number);
+
+                                                // Buat objek Date untuk waktu mulai
+                                                const startTime = new Date();
+                                                startTime.setHours(hours, minutes, 0);
+
+                                                // Hitung durasi berdasarkan SKS (50 menit per SKS)
+                                                const durationMinutes = sks * 50;
+                                                startTime.setMinutes(startTime.getMinutes() + durationMinutes);
+
+                                                // Format waktu selesai menjadi HH:mm
+                                                const endTime = startTime.toTimeString().slice(0, 5);
+
+                                                // Update jam selesai dengan waktu yang dihitung
+                                                document.getElementById('jam_selesai').value = endTime;
+                                            }
+                                        });
+                                    </script>
+
+
 
                                     <script>
                                         function toggleKelasInput() {

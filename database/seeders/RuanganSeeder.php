@@ -19,32 +19,36 @@ class RuanganSeeder extends Seeder
                 'nama' => 'Ruang Kuliah A303',
                 'kapasitas' => 40,
                 'lokasi' => 'Gedung A',
-                'status' => 'Pending',
-                'keterangan' => 'Tidak Tersedia'
+                'status' => 'Disetujui',
+                'keterangan' => 'Terpakai',
+                'prodi' => 'Informatika'
             ],
             [
                 'id_ruang' => 'E101',
                 'nama' => 'Ruang Kuliah E101',
                 'kapasitas' => 50,
                 'lokasi' => 'Gedung E',
-                'status' => 'Pending',
-                'keterangan' => 'Tidak Tersedia'
+                'status' => 'Disetujui',
+                'keterangan' => 'Terpakai',
+                'prodi' => 'Informatika'
             ],
             [
                 'id_ruang' => 'E102',
                 'nama' => 'Ruang Kuliah E102',
                 'kapasitas' => 50,
                 'lokasi' => 'Gedung E',
-                'status' => 'Pending',
-                'keterangan' => 'Tidak Tersedia'
+                'status' => 'Disetujui',
+                'keterangan' => 'Terpakai',
+                'prodi' => 'Informatika'
             ],
             [
                 'id_ruang' => 'E103',
                 'nama' => 'Ruang Kuliah E103',
                 'kapasitas' => 50,
                 'lokasi' => 'Gedung E',
-                'status' => 'Pending',
-                'keterangan' => 'Tidak Tersedia'
+                'status' => 'Disetujui',
+                'keterangan' => 'Terpakai',
+                'prodi' => 'Informatika'
             ],
             [
                 'id_ruang' => 'K101',
@@ -52,7 +56,8 @@ class RuanganSeeder extends Seeder
                 'kapasitas' => 45,
                 'lokasi' => 'Gedung K',
                 'status' => 'Pending',
-                'keterangan' => 'Tidak Tersedia'
+                'keterangan' => 'Tidak Tersedia',
+                'prodi' => null
             ],
             [
                 'id_ruang' => 'K102',
@@ -60,7 +65,8 @@ class RuanganSeeder extends Seeder
                 'kapasitas' => 45,
                 'lokasi' => 'Gedung K',
                 'status' => 'Pending',
-                'keterangan' => 'Tidak Tersedia'
+                'keterangan' => 'Tidak Tersedia',
+                'prodi' => null
             ],
             [
                 'id_ruang' => 'K202',
@@ -68,7 +74,8 @@ class RuanganSeeder extends Seeder
                 'kapasitas' => 45,
                 'lokasi' => 'Gedung K',
                 'status' => 'Pending',
-                'keterangan' => 'Tidak Tersedia'
+                'keterangan' => 'Tidak Tersedia',
+                'prodi' => null
             ],
         ]);
     }
