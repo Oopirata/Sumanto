@@ -44,7 +44,7 @@ class BuatIRSController extends Controller
             ->where('prodi', $mahasiswa->prodi)
             ->where('status', 'disetujui') // Filter status di sini
             ->orderBy('semester')
-            ->get();
+            ->get()
 
             // Get just the IDs for checking in the view
             $existingIrs = Irs::where('nim', $mahasiswa->nim)
