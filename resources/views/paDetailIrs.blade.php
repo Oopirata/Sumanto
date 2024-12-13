@@ -11,7 +11,6 @@
 
                 <!-- Main content -->
                 <div class="mx-8 rounded-2xl mt-4">
-                    <!-- User Information Section -->
                     <div class="bg-white rounded-lg shadow p-8 mb-6">
                         <!-- Home Button -->
                         <div class="mx-8 mt-4">
@@ -22,7 +21,7 @@
                             <h2 class="text-2xl font-semibold">IRS</h2>
                         </div>
 
-                        <!-- Status and Student Name Row -->
+                        <!-- Student Name -->
                         <div class="flex justify-center items-center space-x-6 mt-2">
                             <h3 class="text-xl">{{ $mahasiswa->nama }} - {{ $mahasiswa->nim }}</h3>
                         </div>
@@ -34,8 +33,7 @@
 
                             <!-- Table Section -->
                             <div class="overflow-x-auto mt-6">
-                                <table
-                                    class="w-full text-sm text-left text-gray-500 border-collapse border border-gray-200">
+                                <table class="w-full text-sm text-left text-gray-500 border-collapse border border-gray-200">
                                     <thead class="text-white bg-[#5932EA] font-semibold">
                                         <tr>
                                             <th class="px-4 py-3 text-center border border-white">No</th>
@@ -52,41 +50,30 @@
                                     <tbody class="bg-white divide-y divide-gray-200">
                                         @forelse($irsData as $index => $irs)
                                             <tr class="hover:bg-gray-50">
-                                                <td class="px-4 py-3 text-center border border-gray-200">{{ $index + 1 }}
-                                                </td>
-                                                <td class="px-4 py-3 border border-gray-200">{{ $irs->jadwal->kode_mk }}
-                                                </td>
-                                                <td class="px-4 py-3 border border-gray-200">{{ $irs->jadwal->nama_mk }}
-                                                </td>
-                                                <td class="px-4 py-3 text-center border border-gray-200">
-                                                    {{ $irs->jadwal->kelas }}</td>
-                                                <td class="px-4 py-3 text-center border border-gray-200">
-                                                    {{ $irs->jadwal->sks }}</td>
+                                                <td class="px-4 py-3 text-center border border-gray-200">{{ $index + 1 }}</td>
+                                                <td class="px-4 py-3 border border-gray-200">{{ $irs->jadwal->kode_mk }}</td>
+                                                <td class="px-4 py-3 border border-gray-200">{{ $irs->jadwal->nama_mk }}</td>
+                                                <td class="px-4 py-3 text-center border border-gray-200">{{ $irs->jadwal->kelas }}</td>
+                                                <td class="px-4 py-3 text-center border border-gray-200">{{ $irs->jadwal->sks }}</td>
                                                 <td class="px-4 py-3 border border-gray-200">{{ $irs->jadwal->ruang }}</td>
-                                                <td class="px-4 py-3 text-center border border-gray-200">
-                                                    {{ $irs->jadwal->hari }}</td>
+                                                <td class="px-4 py-3 text-center border border-gray-200">{{ $irs->jadwal->hari }}</td>
                                                 <td class="px-4 py-3 text-center border border-gray-200">
                                                     {{ $irs->jadwal->jam_mulai }} - {{ $irs->jadwal->jam_selesai }}
                                                 </td>
                                                 <td class="px-4 py-3 border border-gray-200">
-                                                    @if ($irs->status == 'pending')
-                                                        <select name="status[{{ $irs->id }}]"
-                                                            class="rounded-md border px-2 py-1 w-full">
-                                                            <option value="baru">Baru</option>
-                                                            <option value="perbaikan">Perbaikan</option>
-                                                        </select>
-                                                    @else
-                                                        <span
-                                                            class="px-2 py-1 rounded 
-                                                            {{ match ($irs->status) {
-                                                                'baru' => 'bg-green-100 text-green-500',
-                                                                'perbaikan' => 'bg-yellow-100 text-yellow-500',
-                                                                'rejected' => 'bg-red-100 text-red-500',
-                                                                default => 'bg-yellow-100 text-yellow-500',
-                                                            } }}">
-                                                            {{ $irs->status }}
-                                                        </span>
-                                                    @endif
+                                                    <span class="px-2 py-1 rounded 
+                                                        {{ match ($irs->status) {
+                                                            'baru' => 'bg-green-100 text-green-500',
+                                                            'perbaikan' => 'bg-yellow-100 text-yellow-500',
+                                                            'rejected' => 'bg-red-100 text-red-500',
+                                                            'pending' => 'bg-blue-100 text-blue-500',
+                                                            default => 'bg-gray-100 text-gray-500',
+                                                        } }}">
+                                                        {{ ucfirst($irs->status) }}
+                                                        @if($irs->status === 'pending')
+                                                            {{ $irs->isRetake ? '(Mengulang)' : '(Baru)' }}
+                                                        @endif
+                                                    </span>
                                                 </td>
                                             </tr>
                                         @empty

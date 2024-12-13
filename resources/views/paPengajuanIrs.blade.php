@@ -60,7 +60,8 @@
 
                                             // Convert status for display
                                             $displayStatus = match ($status) {
-                                                'baru', 'mengulang' => 'Disetujui',
+                                                'baru' => 'Disetujui',
+                                                'perbaikan' => 'Disetujui',
                                                 'rejected' => 'Ditolak',
                                                 'pending' => 'Menunggu Persetujuan',
                                                 default => 'Tidak Ada Data',
@@ -68,7 +69,7 @@
 
                                             // Set appropriate color class
                                             $statusClass = match ($status) {
-                                                'baru', 'mengulang' => 'bg-green-100 text-green-500',
+                                                'baru', 'perbaikan' => 'bg-green-100 text-green-500',
                                                 'rejected' => 'bg-red-100 text-red-500',
                                                 'pending' => 'bg-yellow-100 text-yellow-500',
                                                 default => 'bg-gray-100 text-gray-500',
