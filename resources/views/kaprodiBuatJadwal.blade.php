@@ -218,16 +218,6 @@
                                         </select>
                                     </div>
 
-                                    <!-- Sifat -->
-                                    <div>
-                                        <label for="sifat" class="block text-sm font-medium text-gray-700">Sifat</label>
-                                        <select id="sifat" name="sifat" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                            <option value="">Pilih Sifat</option>
-                                            <option value="Wajib">Wajib</option>
-                                            <option value="Pilihan">Pilihan</option>
-                                        </select>
-                                    </div>
-
                                     <!-- Hari -->
                                     <div>
                                         <label for="hari" class="block text-sm font-medium text-gray-700">Hari</label>
