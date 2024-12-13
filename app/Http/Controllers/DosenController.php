@@ -93,31 +93,38 @@ class DosenController extends Controller
             $mahasiswa = Mahasiswa::where('nim', $nim)->firstOrFail();
             $semesterAktif = $mahasiswa->semester;
 
+            // Get all previous courses taken by the student from all semesters
+            $previousCourses = Irs::where('nim', $nim)
+                ->where('semester', '<', $semesterAktif)
+                ->with('jadwal')
+                ->get()
+                ->pluck('jadwal.kode_mk')
+                ->toArray();
+
             if ($request->has('action')) {
-                // Handle bulk actions (approve all or reject all)
+                $irsEntries = Irs::where('nim', $nim)
+                    ->where('semester', $semesterAktif)
+                    ->where('status', 'pending')
+                    ->with('jadwal')
+                    ->get();
+
                 if ($request->action === 'reject') {
                     // Reject all pending IRS entries
-                    Irs::where('nim', $nim)
-                        ->where('semester', $semesterAktif)
-                        ->where('status', 'pending')
-                        ->update(['status' => 'rejected']);
+                    foreach ($irsEntries as $irs) {
+                        $irs->update(['status' => 'rejected']);
+                    }
                 } elseif ($request->action === 'approve') {
-                    // Update each IRS entry with its specified status
-                    foreach ($request->status as $irsId => $status) {
-                        Irs::where('id', $irsId)
-                            ->where('nim', $nim)
-                            ->where('semester', $semesterAktif)
-                            ->update(['status' => $status]);
+                    // Approve entries and set status based on course history
+                    foreach ($irsEntries as $irs) {
+                        $status = in_array($irs->jadwal->kode_mk, $previousCourses) ? 'perbaikan' : 'baru';
+                        $irs->update(['status' => $status]);
                     }
                 }
-            } elseif ($request->has('status')) {
-                // Handle individual status updates from the list view
-                if ($request->status === 'pending') {
-                    // Reset status to pending
-                    Irs::where('nim', $nim)
-                        ->where('semester', $semesterAktif)
-                        ->update(['status' => 'pending']);
-                }
+            } elseif ($request->has('status') && $request->status === 'pending') {
+                // Reset status to pending for all entries in current semester
+                Irs::where('nim', $nim)
+                    ->where('semester', $semesterAktif)
+                    ->update(['status' => 'pending']);
             }
 
             DB::commit();
@@ -131,29 +138,37 @@ class DosenController extends Controller
                 ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
+
     public function detailIrsPA($nim)
     {
         try {
             $dosens = Auth::user();
             $dosen = Dosen::where('user_id', $dosens->id)->first();
 
-            // Ambil data mahasiswa
+            // Get mahasiswa data
             $mahasiswa = Mahasiswa::where('nim', $nim)->firstOrFail();
 
-            // Ambil data IRS dengan jadwal untuk semester aktif mahasiswa
+            // Get previous courses from all semesters
+            $previousCourses = Irs::where('nim', $nim)
+                ->where('semester', '<', $mahasiswa->semester)
+                ->with('jadwal')
+                ->get()
+                ->pluck('jadwal.kode_mk')
+                ->toArray();
+
+            // Get current semester IRS data
             $irsData = Irs::where('nim', $nim)
                 ->where('semester', $mahasiswa->semester)
-                ->with('jadwal') // Load jadwal relationship
+                ->with('jadwal')
                 ->get();
 
-            // Debug jika diperlukan
-            // dd($irsData->toArray());
+            // Add isRetake information to each IRS entry
+            $irsData->each(function ($irs) use ($previousCourses) {
+                $irs->isRetake = in_array($irs->jadwal->kode_mk, $previousCourses);
+            });
 
             return view('paDetailIrs', compact('dosens', 'dosen', 'mahasiswa', 'irsData'));
         } catch (\Exception $e) {
-            // // Log error untuk debugging
-            // \Log::error($e->getMessage());
-
             return redirect()
                 ->route('DosenPengajuan.irs')
                 ->with('error', 'Terjadi kesalahan saat memuat data IRS');

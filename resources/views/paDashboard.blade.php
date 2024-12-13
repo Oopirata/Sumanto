@@ -42,16 +42,17 @@
                     <!-- Schedule Section -->
                     <div class="bg-white rounded-lg shadow p-8">
                         <h1 class="text-lg font-semibold mb-4">Jadwal Hari Ini</h1>
+                        <!-- Header row -->
                         <div class="grid grid-cols-4 divide-x divide-black text-center bg-gray-100 font-bold py-2">
                             <div>Mata Kuliah</div>
                             <div>Jam</div>
                             <div>Ruang</div>
                             <div>Kelas</div>
                         </div>
-                        <!-- Jadwal List -->
+                        <!-- Content rows -->
                         <div class="divide-y">
                             @forelse ($jadwals as $jadwal)
-                                <div class="grid grid-cols-5 py-2">
+                                <div class="grid grid-cols-4 py-2"> <!-- Changed from grid-cols-5 to grid-cols-4 -->
                                     <div class="text-center">{{ $jadwal->nama_mk }}</div>
                                     <div class="text-center">
                                         {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} -
