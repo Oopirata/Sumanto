@@ -9,6 +9,7 @@ use App\Models\Kaprodi;
 use App\Models\Matakuliah;
 use App\Models\Ruangan;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class JadwalController extends Controller
 {
@@ -30,14 +31,27 @@ class JadwalController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi waktu
+        $jamMulai = $request->jam_mulai;
+
+        // Waktu minimal dan maksimal
+        $minTime = '07:00';
+        $maxTime = '18:30';
+
+        if ($jamMulai < $minTime || $jamMulai > $maxTime) {
+            return redirect()->back()->with('sweetAlert', [
+                'title' => 'Error!',
+                'text' => 'Jam mulai harus antara 07:00 dan 18:30.',
+                'icon' => 'error'
+            ]);
+        }
+
         $request->validate([
             'kode_mk' => 'required|exists:matakuliah,kode_mk',
             'ruangan' => 'required|exists:ruangan,id',
-            'kapasitas' => 'required|numeric|min:1',
-            'sifat' => 'required',
             'hari' => 'required',
-            'jam_mulai' => 'required',
-            'jam_selesai' => 'required|after:jam_mulai',
+            'jam_mulai' => 'required|date_format:H:i',
+            'jam_selesai' => 'nullable|date_format:H:i|after:jam_mulai',
             'kelas' => 'required',
         ]);
     
@@ -50,6 +64,23 @@ class JadwalController extends Controller
     
         $matakuliah = Matakuliah::where('kode_mk', $request->kode_mk)->first();
         $ruangan = Ruangan::where('id', $request->ruangan)->first();
+
+        if (!$matakuliah || !$request->jam_mulai) {
+            return redirect()->back()->with('error', 'Data mata kuliah atau waktu mulai tidak valid.');
+        }
+
+                // Ambil jumlah SKS
+        $sks = $matakuliah->sks;
+
+        // Perhitungan durasi berdasarkan SKS
+        $durationMinutes = $sks * 50;
+    
+        // Perhitungan durasi berdasarkan SKS
+        $durationMinutes = $matakuliah->sks * 50;
+    
+        // Konversi jam_mulai ke format waktu menggunakan Carbon
+        $jamMulai = Carbon::createFromFormat('H:i', $request->jam_mulai);
+        $jamSelesai = $jamMulai->copy()->addMinutes($durationMinutes);
     
         // Check for duplicate schedule
         $jadwalExists = DB::table('jadwal')
@@ -98,10 +129,10 @@ class JadwalController extends Controller
             'sks' => $matakuliah->sks,
             'semester' => $matakuliah->semester,
             'kelas' => $request->kelas,
-            'kapasitas' => $request->kapasitas,
+            'kapasitas' => $ruangan->kapasitas,
             'status' => 'Belum Disetujui',
             'prodi' => $kaprodi->nama_prodi,
-            'sifat' => $request->sifat,
+            'sifat' => $matakuliah->status,
         ]);
     
         return redirect()->back()->with('sweetAlert', [
@@ -109,7 +140,9 @@ class JadwalController extends Controller
             'text' => 'Jadwal berhasil ditambahkan.',
             'icon' => 'success'
         ]);
+        
     }
+    
 
     public function destroy(Request $request)
     {

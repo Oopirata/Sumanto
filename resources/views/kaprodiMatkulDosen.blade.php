@@ -64,7 +64,7 @@
                                 <!-- Semester -->
                                 <div class="mb-4">
                                     <label for="semester" class="block text-sm font-medium text-gray-700">Semester</label>
-                                    <input type="text" id="semester" name="semester" required
+                                    <input type="number" id="semester" name="semester" min="1" max="8" required
                                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 </div>
 
@@ -91,13 +91,6 @@
                                     <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
                                     <textarea id="deskripsi" name="deskripsi" rows="3"
                                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
-                                </div>
-
-                                <!-- Kapasitas -->
-                                <div class="mb-4">
-                                    <label for="kapasitas" class="block text-sm font-medium text-gray-700">Kapasitas</label>
-                                    <input type="number" id="kapasitas" name="kapasitas" min="1" required
-                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 </div>
 
                                 <!-- Submit Button -->
