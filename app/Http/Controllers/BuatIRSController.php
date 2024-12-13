@@ -40,10 +40,11 @@ class BuatIRSController extends Controller
 
             // Query untuk jadwal
             $jadwals = DB::table('jadwal')
-                ->whereIn('semester', $relevantSemesters)
-                ->where('prodi', $mahasiswa->prodi)
-                ->orderBy('semester')
-                ->get();
+            ->whereIn('semester', $relevantSemesters)
+            ->where('prodi', $mahasiswa->prodi)
+            ->where('status', 'disetujui') // Filter status di sini
+            ->orderBy('semester')
+            ->get();
 
             // Get just the IDs for checking in the view
             $existingIrs = Irs::where('nim', $mahasiswa->nim)
