@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Matakuliah;
 use App\Models\Dosen;
 use App\Models\Kaprodi;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -152,7 +153,10 @@ class MatakuliahController extends Controller
             $exist = Matakuliah::where('kode_mk', $request->kode_mk)->first();
 
             if ($exist) {
-                return redirect()->back()->with('error', 'Mata Kuliah dengan kode ini sudah ada.');
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Matakuliah ini sudah ada.",
+                ]);
             }
 
             DB::table('matakuliah')->insert([
