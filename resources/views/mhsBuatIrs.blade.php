@@ -14,7 +14,13 @@
                         <div class="flex items-center space-x-10">
                             <h1 class="text-black font-bold text-2xl">Buat IRS</h1>
                             <div id="real-time-clock" class="text-2xl font-semibold text-black"></div>
-                            <div class="text-green-600 text-2xl font-semibold">Saatnya Isi IRS!!!</div>
+                            @if ($mahasiswa->akses !== 'yes')
+                                <div class="text-red-600 text-2xl font-semibold">Anda sudah mengajukan IRS</div>
+                            @elseif ($period === 'closed')
+                                <div class="text-red-600 text-2xl font-semibold">Waktu Pengisian IRS Telah Ditutup</div>
+                            @else 
+                                <div class="text-green-600 text-2xl font-semibold">Saatnya Isi IRS!!!</div>
+                            @endif
                         </div>
                         <div class="flex items-center space-x-10">
                             <h1 class="bg-[#000CB0] px-8 py-2 text-white rounded-3xl">Semester {{ $mahasiswa->semester }}
@@ -184,14 +190,14 @@
                                                                 .kode_mk === '{{ $schedule['kode_mk'] }}') &&
                                                             !selectedSchedules.some(s => s.id ===
                                                                 {{ $schedule['id'] }}) ? 'opacity-50' : '',
-                                                            {{ in_array($schedule['id'], $existingIrs) ? 'true' : 'false' }} ?
+                                                            {{ $period !== 'edit_period' || $mahasiswa->akses !== 'yes' || in_array($schedule['id'], $existingIrs) ? 'true' : 'false' }} ?
                                                             'opacity-50' : ''
                                                         ]">
                                                         <div class="flex items-center">
-                                                            <input type="checkbox" class="w-4 h-4"
-                                                                :checked="selectedSchedules.some(s => s.id ===
-                                                                    {{ $schedule['id'] }})"
-                                                                :disabled="{{ in_array($schedule['id'], $existingIrs) ? 'true' : 'false' }}"
+                                                            <input type="checkbox" 
+                                                                class="w-4 h-4"
+                                                                :checked="selectedSchedules.some(s => s.id === {{ $schedule['id'] }})"
+                                                                :disabled="{{ $period !== 'edit_period' || $mahasiswa->akses !== 'yes' || in_array($schedule['id'], $existingIrs) ? 'true' : 'false' }}"
                                                                 @change="
                                                                     if ($event.target.checked) {
                                                                         {{-- // Cek jika SKS sudah mencapai atau akan melebihi batas --}}
@@ -440,14 +446,33 @@
                                             class="text-blue-600"></span>
                                     </div>
                                     <div>
-                                        <button
-                                            class="bg-blue-700 text-white px-3 py-1.5 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-                                            x-bind:disabled="selectedSchedules.length === 0"
-                                            x-show="selectedSchedules.length > 0">
-                                            Simpan
-                                        </button>
+                                        @if($period === 'edit_period')
+                                            @if($mahasiswa->akses === 'yes')
+                                                <button
+                                                    class="bg-blue-700 text-white px-3 py-1.5 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+                                                    x-bind:disabled="selectedSchedules.length === 0"
+                                                    x-show="selectedSchedules.length > 0">
+                                                    Simpan
+                                                </button>
+                                            @else
+                                                <form method="POST" action="{{ route('store.irs') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="value" value="batal">
+                                                    <button type="submit" class="bg-red-700 text-white px-3 py-1.5 rounded-md">
+                                                        Batalkan
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        @elseif($period === 'cancel_period')
+                                        <form method="POST" action="{{ route('store.irs') }}">
+                                            @csrf
+                                            <input type="hidden" name="value" value="batalbanget">
+                                            <button type="submit" class="bg-red-700 text-white px-3 py-1.5 rounded-md">
+                                                Batalkan
+                                            </button>
+                                        </form>
+                                        @endif
                                     </div>
-
                                 </div>
                             </form>
                         </div>

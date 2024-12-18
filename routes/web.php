@@ -79,7 +79,7 @@ Route::middleware(['auth', 'role:Dekan'])->group(function () {
     Route::post('dekan/jadwal', [DekanVerifController::class, 'updateStatus'])->name('updateStatus');
     Route::post('/dekan/jadwal/update-all-status', [DekanVerifController::class, 'updateAllStatusDekan'])->name('updateAllStatusDekan');
     Route::get('dekan/ruangan', [DekanVerifController::class, 'dekanRuangan'])->name('dekan.ruangan');
-    Route::post('/ruangan/{id_ruang}', [DekanVerifController::class, 'updateRuanganStatus'])->name('DekanRuangan.update');
+    Route::post('dekan/ruangan/{id_ruang}', [DekanVerifController::class, 'updateRuanganStatus'])->name('DekanRuangan.update');
 });
 
 Route::middleware(['auth', 'role:Bagian Akademik'])->group(function () {
