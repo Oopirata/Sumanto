@@ -36,6 +36,7 @@ return new class extends Migration
             $table->string('no_hp');
             $table->float('IPK', 2)->nullable();
             $table->float('IPS', 2)->nullable();
+            $table->string('akses')->default('yes');
             $table->unsignedBigInteger('dosen_wali_id');
 
             $table->foreign('dosen_wali_id')->references('id')->on('dosen')->onDelete('cascade');
