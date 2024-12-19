@@ -10,12 +10,29 @@ use App\Models\Irs;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DosenController extends Controller
 {
     /**
      * Dashboard Pembimbing Akademik (PA)
      */
+    private function checkIRSPeriod()
+    {
+        $irsOpenDate = Carbon::parse(env('OPEN_IRS'));
+        $now = Carbon::now();
+        
+        $twoWeeksAfter = $irsOpenDate->copy()->addWeeks(2);
+        $fourWeeksAfter = $irsOpenDate->copy()->addWeeks(4);
+        
+        if ($now->lessThanOrEqualTo($twoWeeksAfter)) {
+            return 'edit_period'; // Periode 2 minggu pertama
+        } elseif ($now->lessThanOrEqualTo($fourWeeksAfter)) {
+            return 'cancel_period'; // Periode pembatalan (minggu 3-4)
+        } else {
+            return 'closed'; // Setelah 4 minggu
+        }
+    }
     public function dashboardPA()
     {
         $dosens = Auth::user();
@@ -89,6 +106,7 @@ class DosenController extends Controller
     {
         try {
             DB::beginTransaction();
+            $period = $this->checkIRSPeriod();
 
             $mahasiswa = Mahasiswa::where('nim', $nim)->firstOrFail();
             $semesterAktif = $mahasiswa->semester;
@@ -125,6 +143,10 @@ class DosenController extends Controller
                 Irs::where('nim', $nim)
                     ->where('semester', $semesterAktif)
                     ->update(['status' => 'pending']);
+
+                if ($period === 'edit_period') {
+                    DB::table('mahasiswa')->where('nim', $nim)->update(['akses' => 'yes']);
+                }
             }
 
             DB::commit();

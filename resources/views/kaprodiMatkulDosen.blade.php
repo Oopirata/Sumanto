@@ -390,5 +390,18 @@
             ]
         });
     });
+
+    @if(session('sweetAlert'))
+            document.addEventListener('DOMContentLoaded', function() {
+                const alert = @json(session('sweetAlert'));
+                Swal.fire({
+                    title: alert.title,
+                    text: alert.text,
+                    icon: alert.icon,
+                    confirmButtonColor: '#028391',
+                    confirmButtonText: 'OK'
+                });
+            });
+        @endif
 </script>
 @endsection

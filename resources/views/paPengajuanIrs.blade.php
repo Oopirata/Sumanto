@@ -64,6 +64,7 @@
                                                 'perbaikan' => 'Disetujui',
                                                 'rejected' => 'Ditolak',
                                                 'pending' => 'Menunggu Persetujuan',
+                                                'Pembatalan' => 'Mengajukan Pembatalan',
                                                 default => 'Tidak Ada Data',
                                             };
 
@@ -72,6 +73,7 @@
                                                 'baru', 'perbaikan' => 'bg-green-100 text-green-500',
                                                 'rejected' => 'bg-red-100 text-red-500',
                                                 'pending' => 'bg-yellow-100 text-yellow-500',
+                                                'Pembatalan' => 'bg-red-100 text-red-500',
                                                 default => 'bg-gray-100 text-gray-500',
                                             };
                                         @endphp
