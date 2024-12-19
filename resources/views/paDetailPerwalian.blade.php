@@ -6,10 +6,7 @@
     <div class="bg-gray-100 min-h-screen flex">
         <x-side-bar-pa :dosen="$dosen" :dosens="$dosens"></x-side-bar-pa>
         <div id="main-content" class="relative text-black ml-64 font-poppins w-full">
-            <div class="sticky top-0">
-                <x-nav-bar :dosen="$dosen" :dosens="$dosens"></x-nav-bar>
-            </div>
-
+            <x-nav-bar :dosen="$dosen" :dosens="$dosens"></x-nav-bar>
             <div class="mx-8 rounded-2xl mt-4 bg-white shadow p-8 mb-6">
                 <!-- Header dengan Tombol Kembali -->
                 <div class="mb-6">
