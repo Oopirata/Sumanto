@@ -14,10 +14,10 @@
                         <div class="flex items-center space-x-10">
                             <h1 class="text-black font-bold text-2xl">Buat IRS</h1>
                             <div id="real-time-clock" class="text-2xl font-semibold text-black"></div>
-                            @if ($mahasiswa->akses !== 'yes')
-                                <div class="text-red-600 text-2xl font-semibold">Anda sudah mengajukan IRS</div>
-                            @elseif ($period === 'closed')
+                            @if ($period === 'closed')
                                 <div class="text-red-600 text-2xl font-semibold">Waktu Pengisian IRS Telah Ditutup</div>
+                            @elseif ($mahasiswa->akses === 'no')
+                                <div class="text-red-600 text-2xl font-semibold">Anda sudah mengajukan IRS</div>
                             @else 
                                 <div class="text-green-600 text-2xl font-semibold">Saatnya Isi IRS!!!</div>
                             @endif

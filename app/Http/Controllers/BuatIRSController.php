@@ -42,14 +42,14 @@ class BuatIRSController extends Controller
         }
 
         $period = $this->checkIRSPeriod();
-        
-        // Update akses based on period
-        if ($period === 'cancel_period' && $mahasiswa->akses !== 'cuma_batal') {
-            $mahasiswa->update(['akses' => 'cuma_batal']);
-        } elseif ($period === 'closed') {
-            $mahasiswa->update(['akses' => 'no']);
-            return view('irsClosedParah', ['mahasiswa' => $mahasiswa, 'user' => $user]);
-        }
+        // dd($period);
+        // // Update akses based on period
+        // if ($period === 'cancel_period' && $mahasiswa->akses !== 'cuma_batal') {
+        //     $mahasiswa->update(['akses' => 'cuma_batal']);
+        // } elseif ($period === 'closed') {
+        //     $mahasiswa->update(['akses' => 'no']);
+        //     return view('irsClosedParah', ['mahasiswa' => $mahasiswa, 'user' => $user]);
+        // }
 
         if ($mahasiswa) {
             $sksLimit = $this->calculateSksLimit($mahasiswa->IPS);
@@ -144,9 +144,9 @@ class BuatIRSController extends Controller
                 throw new \Exception('Periode IRS telah berakhir');
             }
             
-            if ($period === 'cancel_period' && $mhsId->akses !== 'cuma_batal') {
-                throw new \Exception('Anda hanya dapat membatalkan IRS pada periode ini');
-            }
+            // if ($period === 'cancel_period' && $mhsId->akses !== 'cuma_batal') {
+            //     throw new \Exception('Anda hanya dapat membatalkan IRS pada periode ini');
+            // }
     
             $statusIrs = Irs::where('nim', $mhsId->nim)
                 ->where('semester', $mhsId->semester)
